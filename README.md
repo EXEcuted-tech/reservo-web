@@ -22,11 +22,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 1. Clone the project in any local directory you like
 Example using the git CLI
 ```
-git clone https://github.com/[Name of Project].git
+git clone https://github.com/EXEcuted-tech/reservo-web.git
 ```
 2. CD into the root folder
 ```
-cd [Name of Project]
+cd reservo-web
 ```
 3. Install dependencies
 ```
@@ -148,7 +148,7 @@ $ git push
 
 ```
 4. Send the pull review link of the new changes you added to the project. The format should look like the link bellow:
-`https://github.com/[Name of Project]pull/12`
+`https://github.com/EXEcuted-tech/reservo-web/pull/12`
 
 ## Find a bug?
 
