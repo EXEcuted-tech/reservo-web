@@ -94,7 +94,6 @@ npm run dev
 3. `src\pages` - Pages of the website
 4. `src\constants` - Global variables  
 5. `src\common` -  Where common utils, style, and colors are compiled and accessed
-6. `src\modules\*` - Where each team setups up their specific functionalities. This is where most of the developer work is done.
 ```
 Example for #6:
 src
