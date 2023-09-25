@@ -5,6 +5,7 @@ const AccountsListPage = () => {
     return (
         <div className={`bg-[#F9F2EA] h-[80vh]`}>
             accounts list
+            testing 123
         </div>
     )
 }
