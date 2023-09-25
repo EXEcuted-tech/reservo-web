@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        poppins: ['Poppins', 'sans'],
+        'poppins': ['Poppins','sans-serif'],
       },
       keyframes: {
         'slide-down': {
