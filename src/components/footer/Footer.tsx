@@ -9,7 +9,7 @@ const Footer = () => {
         <div className='ml-[3%]'>
             <b className='font-extrabold text-[1.4em]'>Contact Us</b>
             <p className='text-[1.1em] mt-[-3%]'>+639175618159</p>
-            <p className='text-[1.1em] mt-[-3%]'>reservo-teamexecuted@gmail.com</p>
+            <p className='text-[1.1em] mt-[-3%]'>reservo-executed@gmail.com</p>
         </div>
         <div className='ml-[5%]'>
             <b className='font-extrabold text-[1.4em]'>Address</b>
@@ -22,7 +22,7 @@ const Footer = () => {
             <p className='text-[1.1em] mt-[-3%]'>Sat - 8:00 AM - 5:00 PM</p>
         </div>
 
-        <div className='flex items-center ml-[6%] mr-[9%]'>
+        <div className='flex items-center ml-[6%] mr-[6%]'>
             <FaTwitter className='text-[3em] mr-[15%]'/>
             <FaFacebookF className='text-[2em] mr-[15%]'/>
             <FaInstagram className='text-[3em] mr-[10%]'/>
