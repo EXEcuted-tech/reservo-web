@@ -3,7 +3,7 @@ import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import UserLayout from './components/layout/UserLayout'
 import MerchantLayout from './components/layout/MerchantLayout';
 import AdminLayout from './components/layout/AdminLayout';
-
+import PackageManager from './pages/merchant/package/packageManager.tsx';
 import ChoicePage from './pages/user/eateryChoices/choicePage.tsx';
 
 function App() {
@@ -16,6 +16,7 @@ function App() {
             {/* Insert your page here */}
           </Route>
           <Route element={<MerchantLayout />}>
+            <Route path="/packagemanager" element ={<PackageManager/>}/>
             {/* Insert your page here */}            
           </Route>
           <Route element={<AdminLayout />}>
