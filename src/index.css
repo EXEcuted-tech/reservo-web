@@ -8,6 +8,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.bg-login {
+  background-image: url('/src/assets/background-pattern.png');
+}
+
 .bg-footer {
   background-image: url('/src/assets/rectangle.png');
   background-size: cover;
