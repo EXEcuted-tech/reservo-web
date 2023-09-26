@@ -1,5 +1,5 @@
 import React,{useState } from 'react'
-import logo from '../../assets/temp-logo.png'
+import logo from '../../assets/temp-logo-2.png'
 import {BiSolidUserCircle} from 'react-icons/bi'
 import {AiOutlineDown} from 'react-icons/ai'
 import {RiLoginCircleFill} from 'react-icons/ri'
@@ -9,8 +9,8 @@ const UserHeader = () => {
 
   return (
     <div className='font-poppins flex bg-white text-white h-[6rem]'>
-        <div className='w-[63%]'>
-          <img src={logo} alt='Reservo Logo' className='ml-[5%] my-[1%] w-[15%]'/>
+        <div className='w-[63%] flex items-center'>
+          <img src={logo} alt='Reservo Logo' className='ml-[5%] w-[15%]'/>
         </div>
         <div className='w-[30%] flex items-center'>
           <nav>
