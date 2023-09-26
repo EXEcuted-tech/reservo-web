@@ -39,6 +39,9 @@ function App() {
             {/* Insert your page here */}
           </Route>
           <Route element={<MerchantLayout />}>
+            <Route path="/merchdash" element={<MerchDashboard />}/>
+            <Route path="/reservationlist" element={<ReserveList />}/>
+            <Route path="/packagemanager" element={<PackageManager />}/>
             {/* Insert your page here */}            
           </Route>
           <Route element={<AdminLayout />}>

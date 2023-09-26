@@ -13,10 +13,10 @@ interface DetailsModalProps {
   const DetailsModal: React.FC<DetailsModalProps> = ({ onClose }) => {
     return (
     <div className=''>
-    <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh]'>
+    <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh] rounded-xl'>
     <div className='flex justify-center align-center my-20'>
-        <div className="w-[75vw] h-[70vh] bg-white p-10">
-            <button onClick={onClose} className='flex justify-self-end items-center text-3xl'><AiFillCloseCircle className='mx-2'/></button>
+        <div className="w-[75vw] h-[70vh] bg-white p-10 rounded-xl">
+            <button onClick={onClose} className='flex items-center text-3xl'><AiFillCloseCircle className='mx-2'/></button>
         </div>
 
     </div>

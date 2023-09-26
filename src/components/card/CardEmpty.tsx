@@ -3,7 +3,7 @@ import colors from '../../common/colors'
 import { FaIcons } from 'react-icons/fa'
 import { AiFillDownCircle } from "react-icons/ai";
 import { HiOutlineMagnifyingGlass, HiMiniPencilSquare } from "react-icons/hi2";
-import "./card.css"
+import "../../assets/css/card.css"
 import { GoPlusCircle } from "react-icons/go";
 
 
