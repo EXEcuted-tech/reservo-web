@@ -33,7 +33,7 @@ function App() {
 
           {/* Layouts */}
           <Route element={<UserLayout />}>
-            <Route path="/landing" element={<LandingPage />} />
+            <Route path="/" element={<LandingPage />} />
             <Route path="/about" element={<AboutUsPage />} />
             <Route path="/eaterychoice" element={<ChoicePage />} />
             {/* Insert your page here */}
