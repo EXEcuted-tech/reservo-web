@@ -20,7 +20,7 @@ interface EditDetailsModalProps {
 
     return (
     <div className=''>
-    <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh] rounded-xl'>
+    <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh] backdrop-blur-sm'>
     <div className='flex justify-center align-center my-20'>
         <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl">
             <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'> {/*this is the header for the modal*/}
@@ -30,11 +30,11 @@ interface EditDetailsModalProps {
             <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
             <div>
             <div className='h-[40vh] '>
-                <p><b>Package Name: </b><input type="text" placeholder={packageName} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input></p>
-                <p><b>Total Price: </b> <input type="text" placeholder={price} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input></p>
+                <p><b>Package Name: </b><input type="text" value={packageName} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input></p>
+                <p><b>Total Price: </b> <input type="text" value={price} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input></p>
                 <p><b>Available From: </b></p>
                 <p><b>Expiry Date: </b></p>
-                <p><b>Tags: </b> <input type="text" placeholder={tags} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input>
+                <p><b>Tags: </b> <input type="text" value={tags} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input>
                 
                 </p>
                 <p><b>Visibility: </b>
@@ -43,15 +43,13 @@ interface EditDetailsModalProps {
                         <option value="Hidden">Hidden</option>
                     </select>
                     </p>
-                <p><b>Description: </b></p><p>{description}</p>
+                <p><b>Description: </b></p>
+                <textarea className="w-[80%] h-[25%] overflow-y-auto">
+                    {description}</textarea>
             </div>
             <div className='my-4'>
                     <p><b>Items: </b>
-                    <ul className='list-disc'>
-                    {items.map((tag, index) => (
-                                            <li key={index} className=''>{tag}</li>
-                                        ))}
-                    </ul>
+                    <input type="text" value={items} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input>
                     </p>
                 </div>
             </div>
@@ -60,7 +58,7 @@ interface EditDetailsModalProps {
             </div>
             <div className='flex justify-end items-center h-[5vh]'>{/*This is the footer*/}
                 <button className='w-[5vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center'><AiFillDelete/>Delete</button>
-                <button className='w-[5vw] h-[4vh] bg-[#efb953] mx-5 rounded-md flex items-center justify-center'><HiMiniPencilSquare/>Edit</button>
+                <button className='w-[5vw] h-[4vh] bg-[#7dc72d] mx-5 rounded-md flex items-center justify-center'><HiMiniPencilSquare/>Save</button>
 
             </div>
         </div>

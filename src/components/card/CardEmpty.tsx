@@ -7,20 +7,23 @@ import "../../assets/css/card.css"
 import { GoPlusCircle } from "react-icons/go";
 
 
-interface prop {
-    packageName: string;
-    price: string;
-    description: string;
+interface CardEmpty {
+    onClick: ()=>null;
 }
 
-const Card =() => {
+
+
+const CardEmpty =({onClick}) => {
+    
+
     return (
-        <div className='Card CardEmpty flex flex-wrap content-center mx-5 my-5 hover:bg-[#FFFFFF] duration-500 cursor-pointer'>
-            <div className='w-[18vw] flex justify-center'>
-            <button className='text-5xl hover:bg-[#FFFFFF] rounded-full duration-500'><GoPlusCircle/></button>
-            </div>
+        
+        <div className='Card CardEmpty flex flex-wrap content-center mx-5 my-5 hover:bg-[#FFFFFF] duration-500 cursor-pointer ' onClick={onClick}>
+            <button className='w-[18vw] flex justify-center'>
+            <p className='text-5xl hover:bg-[#FFFFFF] rounded-full duration-500'><GoPlusCircle/></p>
+            </button>
             </div>
     )
 }
 
-export default Card
+export default CardEmpty

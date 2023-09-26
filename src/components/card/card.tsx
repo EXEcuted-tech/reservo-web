@@ -29,6 +29,9 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   };
 
   const openEditModal = ()=>{
+    if (isModalOpen){
+        closeModal();
+    }
     setIsEditModalOpen(true);
   };
 
@@ -52,7 +55,7 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
                 <p className="text-xl my-5 text-center font-bold">PHP {price}</p>
                 <div className="mx-10 flex space-x-5 items-center">
                 <button className='CardButton flex DetailsButton w-1/2 items-center justify-center' onClick={openModal}><HiOutlineMagnifyingGlass/>Details</button>
-                {isModalOpen && <DetailsModal onClose={closeModal} packageID={packageID} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items}/>}
+                {isModalOpen && <DetailsModal onClose={closeModal} openEditModal={openEditModal} packageID={packageID} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items}/>}
                 <button className='CardButton flex EditButton w-1/2 items-center justify-center' onClick={openEditModal}><HiMiniPencilSquare/>Edit</button>
                 {isEditModalOpen && <EditDetailsModal onClose={closeEditModal} packageID={packageID} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items}/>}
                 </div>

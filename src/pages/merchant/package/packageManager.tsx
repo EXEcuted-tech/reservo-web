@@ -4,8 +4,25 @@ import { FaIcons } from 'react-icons/fa'
 import { AiFillDownCircle } from "react-icons/ai";
 import Card from "../../../components/card/card.tsx";
 import CardEmpty from "../../../components/card/CardEmpty.tsx"
+import { useState } from 'react';
+import CreatePackageModal from '../../../components/package-modal/CreatePackageModal.tsx';
+
 
 const PackageManager = () => {
+    const [isCreatePackageModalOpen, setIsCreatePackageModalOpen] = useState(false);
+
+    // Function to open the modal when the empty card is clicked
+    const openCreatePackageModal = () => {
+      setIsCreatePackageModalOpen(true);
+    };
+  
+    // Function to close the modal
+    const closeCreatePackageModal = () => {
+      setIsCreatePackageModalOpen(false);
+    };
+
+
+
     return (
 <div className={`bg-[#FFFFFF] h-[100vh] w-[85vw] font-poppins overflow-y-auto`}>
     <div className="SortFilterSubheader flex mb-4 text-lg bg-[#f0e5d8]">
@@ -68,7 +85,8 @@ const PackageManager = () => {
     <div className='PublishedPackages ps-20 my-10'>
         <p className={`text-3xl mx-20 my-3 font-bold`}>Unpublished Packages</p>
         <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl  ">
-            <CardEmpty/>
+        <CardEmpty onClick={openCreatePackageModal} />
+        {isCreatePackageModalOpen && <CreatePackageModal onClose={closeCreatePackageModal}/>}
             <Card
                 packageID='10381'
                 packageName='Mega Lechon Kawali'
