@@ -34,7 +34,7 @@ npm install
 ```
 4. Run the project
 ```
-npm run dev
+npm start
 ```
 **Bellow are some more detals about NPM scripts and commands**
 
@@ -80,7 +80,7 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 ## Commands To Run During Develompemnt
 1. Start your local front-end serve
 ```
-npm run dev
+npm start
 
 ```
 2. Make sure to that your XAMPP with the imported database and mySQL server is running as well
