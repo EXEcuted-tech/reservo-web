@@ -55,3 +55,11 @@
 .EditButton{
     background-color: #ff8e4f;
 }
+
+.detailsClose:hover{
+    color: rgb(50, 50, 50);
+}
+
+.detailsClose{
+    transition: 0.3s;
+}

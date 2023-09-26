@@ -31,21 +31,33 @@ const PackageManager = () => {
         <p className={`text-3xl mx-20 my-3 font-bold`}>Published Packages</p>
         <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl  ">
             <Card
+                packageID='10379'
                 packageName='Lechon Kawali'
                 description='A lechon kawali served hot 1kg good for four people.'
                 price='360.00'
+                tags={["Best-Seller", "Popular"]}
+                visibility='Visible'
+                items={["Lechon 1KG"]}
             />
 
             <Card
+                packageID='10379'
                 packageName='Lechon Kawali'
                 description='A lechon kawali served hot 1kg good for four people.'
                 price='360.00'
+                tags={["Best-Seller", "Popular"]}
+                visibility='Visible'
+                items={[]}
             />
 
             <Card
-                packageName='Lechon Kawali'
-                description='A lechon kawali served hot 1kg good for four people.'
-                price='360.00'
+                packageID='10289'
+                packageName='Combo Meal'
+                description='A bang for the buck meal'
+                price = '190.00'
+                tags={["Best-Seller", "Popular"]}
+                visibility='Visible'
+                items={["1pc Rice, 1pc Chicken, 16oz Drink"]}
             />
 
 
@@ -58,21 +70,33 @@ const PackageManager = () => {
         <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl  ">
             <CardEmpty/>
             <Card
-                packageName='Lechon Kawali'
-                description='A lechon kawali served hot 1kg good for four people.'
-                price='360.00'
+                packageID='10381'
+                packageName='Mega Lechon Kawali'
+                description='A lechon kawali served hot 5kg good for 7 people.'
+                price='849.00'
+                tags={["Best-Seller", "Popular"]}
+                visibility='Hidden'
+                items={["5Kg Lechon, 1.5L Coke"]}
             />
 
             <Card
-                packageName='Lechon Kawali'
-                description='A lechon kawali served hot 1kg good for four people.'
-                price='360.00'
+                packageID='10380'
+                packageName='Lechon Belly'
+                description='A lechon belly good for five people.'
+                price='450.00'
+                tags={["Best-Seller", "Popular"]}
+                visibility='Hidden'
+                items={["2KG Lechon Belly"]}
             />
 
             <Card
-                packageName='Lechon Kawali'
-                description='A lechon kawali served hot 1kg good for four people.'
-                price='360.00'
+                packageID='102921'
+                packageName='Shanghai'
+                description='Shanghai served good for four people.'
+                price='200.00'
+                tags={["Best-Seller", "Popular"]}
+                visibility='Hidden'
+                items={["8pcs Shanghai"]}
             />
 
 

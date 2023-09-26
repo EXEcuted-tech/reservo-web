@@ -5,20 +5,35 @@ import { AiFillDownCircle } from "react-icons/ai";
 import { HiOutlineMagnifyingGlass, HiMiniPencilSquare } from "react-icons/hi2";
 import "../../assets/css/card.css"
 import DetailsModal from '../package-modal/DetailsModal';
+import EditDetailsModal from '../package-modal/EditDetailsModal';
+
 
 
 interface prop {
+    packageID: string;
     packageName: string;
     price: string;
     description: string;
+    tags: string[];
+    visibility: string;
+    items: string[];
 }
 
-const Card: React.FC<prop>=({packageName, price, description}) => {
+const Card: React.FC<prop>=({packageID, packageName, price, description, tags, visibility, items}) => {
 const [isModalOpen, setIsModalOpen] = useState(false);
+const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   // Function to open the modal
   const openModal = () => {
     setIsModalOpen(true);
+  };
+
+  const openEditModal = ()=>{
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModal = ()=>{
+    setIsEditModalOpen(false);
   };
 
   // Function to close the modal
@@ -37,8 +52,9 @@ const [isModalOpen, setIsModalOpen] = useState(false);
                 <p className="text-xl my-5 text-center font-bold">PHP {price}</p>
                 <div className="mx-10 flex space-x-5 items-center">
                 <button className='CardButton flex DetailsButton w-1/2 items-center justify-center' onClick={openModal}><HiOutlineMagnifyingGlass/>Details</button>
-                {isModalOpen && <DetailsModal onClose={closeModal} />}
-                <button className='CardButton flex EditButton w-1/2 items-center justify-center'><HiMiniPencilSquare/>Edit</button>
+                {isModalOpen && <DetailsModal onClose={closeModal} packageID={packageID} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items}/>}
+                <button className='CardButton flex EditButton w-1/2 items-center justify-center' onClick={openEditModal}><HiMiniPencilSquare/>Edit</button>
+                {isEditModalOpen && <EditDetailsModal onClose={closeEditModal} packageID={packageID} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items}/>}
                 </div>
                 </div>
                 </div>
