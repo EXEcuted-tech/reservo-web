@@ -12,6 +12,10 @@
     padding: 0.1rem 0.1rem 0.1rem 0.1rem;
 
 }
+.blur-transition {
+    backdrop-filter: blur(0); /* Initial blur value */
+    transition: backdrop-filter 0.3s ease-in-out; /* Adjust the transition duration and easing as needed */
+  }
 
 .CardEmpty{
     width: 18vw;

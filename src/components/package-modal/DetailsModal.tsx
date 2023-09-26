@@ -7,7 +7,7 @@ import { BsDot } from "react-icons/bs";
 
 interface DetailsModalProps {
     onClose: () => void;
-    openEditModal:()=>void;
+    openEditModal: ()=>void;
     packageID: string;
     packageName: string;
     description: string;
@@ -19,9 +19,13 @@ interface DetailsModalProps {
 
   
   const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, openEditModal, packageID, packageName, description, price, tags, visibility, items }) => {
+      function removeItem(index: any): void {
+          throw new Error('Function not implemented.');
+      }
+
     return (
     <div>
-    <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh] backdrop-blur-sm'>
+    <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh] backdrop-blur-sm animate-zoom-in'>
     <div className='flex justify-center align-center my-20'>
         <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl">
             <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'> {/*this is the header for the modal*/}
@@ -38,6 +42,7 @@ interface DetailsModalProps {
                 <p><b>Tags: </b>{tags.map((tag, index) => (
                                             <span key={index}>{tag}{index < tags.length - 1 ? ', ' : ''}</span>
                                         ))}
+                                        
                 
                 </p>
                 <p><b>Visibility: </b>{visibility}</p>
@@ -49,6 +54,7 @@ interface DetailsModalProps {
                     {items.map((tag, index) => (
                                             <li key={index} className=''>{tag}</li>
                                         ))}
+                                    
                     </ul>
                     </p>
                 </div>

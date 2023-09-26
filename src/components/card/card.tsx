@@ -23,6 +23,7 @@ const Card: React.FC<prop>=({packageID, packageName, price, description, tags, v
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
+
   // Function to open the modal
   const openModal = () => {
     setIsModalOpen(true);
@@ -55,7 +56,9 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
                 <p className="text-xl my-5 text-center font-bold">PHP {price}</p>
                 <div className="mx-10 flex space-x-5 items-center">
                 <button className='CardButton flex DetailsButton w-1/2 items-center justify-center' onClick={openModal}><HiOutlineMagnifyingGlass/>Details</button>
-                {isModalOpen && <DetailsModal onClose={closeModal} openEditModal={openEditModal} packageID={packageID} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items}/>}
+                {isModalOpen && <DetailsModal onClose={closeModal} packageID={packageID} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items} openEditModal={function (): void {
+                throw new Error('Function not implemented.');
+              } }/>}
                 <button className='CardButton flex EditButton w-1/2 items-center justify-center' onClick={openEditModal}><HiMiniPencilSquare/>Edit</button>
                 {isEditModalOpen && <EditDetailsModal onClose={closeEditModal} packageID={packageID} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items}/>}
                 </div>

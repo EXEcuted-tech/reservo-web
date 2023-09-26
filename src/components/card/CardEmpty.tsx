@@ -13,8 +13,7 @@ interface CardEmpty {
 
 
 
-const CardEmpty =({onClick}) => {
-    
+const CardEmpty: React.FC<CardEmpty>=({onClick}) => {
 
     return (
         

@@ -5,7 +5,7 @@ import { HiOutlineMagnifyingGlass, HiMiniPencilSquare } from "react-icons/hi2";
 import "../../assets/css/card.css"
 import { IoAddCircleSharp } from "react-icons/io5";
 import { IoMdAddCircleOutline } from "react-icons/io";
-import { useState } from 'react'
+import { useState, useEffect} from 'react'
 
 interface CreatePackageModal{
     onClose: ()=>void;
@@ -16,6 +16,11 @@ interface CreatePackageModal{
     const [isCreatePackageModalOpen, setIsCreatePackageModalOpen] = useState(false);
     const [itemName, setItemName] = useState('');
     const [items, setItems] = useState<string[]>([]);
+
+    useEffect(() => {
+      // This effect will run whenever `items` changes
+      console.log(items);
+    }, [items]); 
     
     const closeCreatePackageModal = () => {
         setIsCreatePackageModalOpen(false);
@@ -24,15 +29,16 @@ interface CreatePackageModal{
 
     const addItem = () => {
     if (itemName.trim() !== '') {
-        setItems((prevItems) => [...prevItems, itemName]);
+        setItems((prevItems)=> [...prevItems, itemName]);
         setItemName('');
     }
     };
 
 
+
     return (
     <div className=''>
-    <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh] backdrop-blur-sm'>
+    <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh] backdrop-blur-sm animate-zoom-in'>
     <div className='flex justify-center align-center my-20'>
         <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl">
             <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'> {/*this is the header for the modal*/}
@@ -41,7 +47,7 @@ interface CreatePackageModal{
             </div>
             <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
             <div>
-            <div className='h-[40vh] '>
+            <div className='h-[40vh]'>
                 <p><b>Package Name: </b><input type="text" className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input></p>
                 <p><b>Total Price: </b> <input type="text" className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input></p>
                 <p><b>Available From: </b> <input type="date" className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input></p>
@@ -68,12 +74,12 @@ interface CreatePackageModal{
         
           <b>Items: </b>
           <div className='overflow-y-auto h-[8vh]'>
-          <ul>
-          {items.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-        </div>
+            <ul>
+              {items.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
+          </div>
         <div className='flex flex-row item'>
         <button
             onClick={addItem}
