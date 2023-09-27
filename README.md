@@ -34,7 +34,7 @@ npm install
 ```
 4. Run the project
 ```
-npm run dev
+npm start
 ```
 **Bellow are some more detals about NPM scripts and commands**
 
@@ -80,7 +80,7 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 ## Commands To Run During Develompemnt
 1. Start your local front-end serve
 ```
-npm run dev
+npm start
 
 ```
 2. Make sure to that your XAMPP with the imported database and mySQL server is running as well
@@ -158,3 +158,20 @@ If you found an issue or would like to submit and imporvement to this project, p
 This project is in its initial stages and currently there are no issues found.
 
 Thank you for choosing the Reservo. If you have any questions or need support, please contact our [Support Team](https://www.facebook.com/juan.deage.1). We hope you find our platform valuable for your reservation needs!
+
+## Database Setup
+# Guide to install Full DB of reservo
+1. Import the "initialize.sql" THIS IS A MUST.
+2. Import the ff in the EXACT ORDER:
+    - account.sql
+    - feedback.sql
+    - merchant_sched.sql
+    - merchant.sql
+    - inventory.sql
+    - package.sql
+    - payment.sql
+    - reservation.sql
+    - payment_alter.sql
+
+# To install specific DB just do the same step but only stop to where you needed
+* (e.g) To import merchant you need to import initialize, account, feedback, merchant_sched, and lastly merchant.
