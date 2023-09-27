@@ -2,10 +2,10 @@ import React from 'react'
 
 const AccountList = () => {
   return (
-    <div className='font-poppins shadow-2xl mx-5 my-5 p-5 rounded-lg w-fit h-screen'>
+    <div className='font-medium font-poppins shadow-2xl mx-5 my-5 p-5 rounded-lg w-fit h-[96vh]'>
 
       <label htmlFor="filterList" className='text-slate-600'>Filter by: </label>
-      <select name="filterList" id="filtersList" className='rounded-lg border border-black m-4 mr-80 py-1 px-5'>
+      <select id="filtersList" className='rounded-lg border border-black m-4 mr-80 py-1 px-5'>
         <option value="allAccounts">All Accounts</option>
         <option value="none">None</option>
       </select>
@@ -81,7 +81,7 @@ const AccountList = () => {
           </tbody>
         </table>
         <div className='text-slate-500 font-semibold text-right'>
-          <p>Accounts as of September 27, 2023</p>
+          <span className='align-text-bottom'>Accounts as of September 27, 2023</span>
         </div>
       </div>
     </div>
