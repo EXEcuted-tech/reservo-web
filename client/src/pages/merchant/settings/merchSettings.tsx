@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 
-import Header from "./header";
 import GeneralSettings from './generalSettings';
 import AdvancedSettings from './advancedSettings';
 
@@ -13,8 +12,6 @@ const MerchSettings = () => {
 
     return (
         <>
-            
-
             <div className="bg-[#F3F3F3] h-full w-full">
  
                 <div style={{fontFamily: 'Poppins, sans-serif'}} className="flex ml-10 mr-10">
@@ -43,13 +40,5 @@ const MerchSettings = () => {
 }
 
 
-
-import React from 'react'
-
-const MerchSettings = () => {
-  return (
-    <div>M</div>
-  )
-}
 
 export default MerchSettings
