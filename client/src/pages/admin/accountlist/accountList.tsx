@@ -8,7 +8,6 @@ const AccountList = () => {
       <MerchAdHeader icon={RiUserFill} title='Account List' />
       <div className='font-medium font-poppins shadow-2xl mx-5 my-5 p-5 rounded-lg h-[87vh]'>
 
-
       <label htmlFor="filterList" className='text-slate-600'>Filter by: </label>
       <select id="filtersList" className='rounded-lg border border-black m-4 mr-80 py-1 px-5'>
         <option value="allAccounts">All Accounts</option>
