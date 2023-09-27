@@ -1,0 +1,5 @@
+/*REQUIRED BY ALL SQLs */
+
+CREATE DATABASE reservo;
+
+
