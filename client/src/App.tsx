@@ -18,15 +18,12 @@ import MerchDashboard from './pages/merchant/dashboard/dashBoard';
 import AdminDashboard from './pages/admin/dashboard/dashBoard';
 import MerchantReview from './pages/admin/review/merchantReview';
 import AccountList from './pages/admin/accountlist/accountList';
-<<<<<<< HEAD:src/App.tsx
 import ReservationManager from './pages/merchant/reservationManager/reservationManager';
 import MerchantCalendar from './pages/merchant/reservationManager/merchantCalendar';
-=======
 import MerchSettings from './pages/merchant/settings/merchSettings';
 import FeedbackList from './pages/merchant/feedbackList/feedbackList';
 import UserAccProfile from './pages/user/accountsProfile/userAccProfile';
 import ForgetPassword from './pages/forgetPassword';
->>>>>>> main:client/src/App.tsx
 
 function App() {
   return (
@@ -53,13 +50,10 @@ function App() {
             <Route path="/reservationlist" element={<ReserveList />}/>
             <Route path="/feedbacklist" element={<FeedbackList />}/>
             <Route path="/packagemanager" element={<PackageManager />}/>
-<<<<<<< HEAD:src/App.tsx
             <Route path="/reservationManager" element={<ReservationManager />}/>
             <Route path="/merchantCalendar" element={<MerchantCalendar />}/>
             {/* Insert your page here */}            
-=======
             <Route path="/merchsettings" element={<MerchSettings />}/>          
->>>>>>> main:client/src/App.tsx
           </Route>
           <Route element={<AdminLayout />}>
             <Route path="/admindash" element={<AdminDashboard />}/>
