@@ -3,7 +3,9 @@ import {RiDashboard3Line} from 'react-icons/ri'
 import {IoCalendarSharp} from 'react-icons/io5'
 import {GiJuggler} from 'react-icons/gi'
 import {AiFillCloseCircle} from 'react-icons/ai'
+import {MdGroups2} from 'react-icons/md'
 import Chart from 'react-google-charts'
+import MerchAdHeader from '../../../components/headers/MerchAdHeader'
 
 const LineData = [
   ['x', 'Bookings'],
@@ -43,23 +45,11 @@ const MerchDashboard = () => {
   return (
     <div className='flex-col'>
       {/* Header Section */}
-      <div className='flex bg-green-600 items-center h-[10vh] align-items text-center'>
-            <div className='w-[40%] pl-[4%]'>
-              <h1 className='flex items-center text-[2.5em] w-[100%] font-bold'><RiDashboard3Line className='text-[2em]'/>Dashboard</h1>
-            </div>
-            <div className='w-[60%] flex text-[1.5em]'>
-                <div className='w-12 h-12 bg-orange-600 text-xl text-white rounded-[50%] ml-auto pt-[1%]'>
-                  <p>KK</p>
-                </div>
-                <div className='flex items-center mr-[10%] ml-[1%]'>
-                  <p>Manager</p>
-                </div>
-            </div> 
-        </div>
+        <MerchAdHeader icon={RiDashboard3Line} title="Dashboard"/>
         {/* Welcome Section */}
-        <div className='bg-yellow-100 h-[30vh] flex'>
+        <div className='bg-[#F3F3F3] h-[30vh] flex'>
            <div className='w-[60%] p-[1%] text-center'>
-              <div className='align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-r from-[#912D2C] to-black'>
+              <div className='align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-b from-[#EC0000] to-black'>
                 <h1 className='text-[1.8em] text-white'>
                   Welcome, Kathea Marie!
                 </h1>
@@ -83,7 +73,7 @@ const MerchDashboard = () => {
                     <p className='text-white text-[1.2em] mt-[-13%]'>TODAY'S TABLE</p>
                   </div>
                   <div className='w-[30%] pt-[10%] text-center'>
-                      <IoCalendarSharp className='text-white text-[4em]'/>
+                      <MdGroups2 className='text-white text-[4em]'/>
                   </div>
                 </div>
                 <div className='bg-[#660605] rounded-bl-2xl flex'>
@@ -108,8 +98,8 @@ const MerchDashboard = () => {
             </div> 
         </div>
         {/* Graph Section */}
-        <div className='bg-red-200 h-[30vh] flex p-[1%]'>
-           <div className='align-center text-center p-[1%] w-[100%] rounded-3xl bg-slate-500'>
+        <div className='bg-[#F3F3F3] h-[30vh] flex p-[1%]'>
+           <div className='align-center text-center w-[100%] rounded-3xl bg-[#F0E5D8]'>
             <Chart
           width={'100%'}
           height={'100%'}
@@ -122,8 +112,35 @@ const MerchDashboard = () => {
            </div>
         </div>
         {/* Reservation Section */}
-        <div className='bg-blue-200 h-[30vh] flex'>
-           
+        <div className='bg-[#F3F3F3] h-[30vh] flex'>
+            <div className='w-[75%] m-[1%] text-center bg-white rounded-3xl flex-col pt-0 p-[1%]'>
+              <div className='text-left border-b-2 border-black'>
+                <p className='font-bold text-[1.5em]'>Recent Reservation <br/></p>
+              </div>
+              <table className='flex-col w-[100%] text-left bg-white rounded-3xl'>
+              <tr>
+                <th>Client Name</th>
+                <th>Event</th>
+                <th>Date</th>
+                <th>Time</th>
+              </tr>
+              <tr className='border-t-2 border-black'>
+                {/* Input Data from Database here */}
+              </tr>
+              </table> 
+            </div>
+            <div className='w-[35%] m-[1%] text-center bg-white rounded-3xl px-[1%]'>
+              <table className='flex-col w-[100%] text-center bg-white rounded-3xl'>
+                <tr className='border-b-2 border-black text-[1.5em]'>
+                  <th>Time In</th>
+                  <th>Time Out</th>
+                </tr>
+                <tr>
+                  <td className='h-[100%] border-black border-r-2'>Time In</td>
+                  <td className='h-[100%]'>Time Out</td>
+                </tr>
+              </table>
+            </div> 
         </div>
     </div>
   )
