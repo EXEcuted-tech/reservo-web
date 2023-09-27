@@ -18,7 +18,7 @@ import MerchDashboard from './pages/merchant/dashboard/dashBoard';
 import AdminDashboard from './pages/admin/dashboard/dashBoard';
 import MerchantReview from './pages/admin/review/merchantReview';
 import AccountList from './pages/admin/accountlist/accountList';
-
+import MerchSettings from './pages/merchant/settings/merchSettings';
 function App() {
   return (
     <div>
@@ -42,6 +42,7 @@ function App() {
             <Route path="/merchdash" element={<MerchDashboard />}/>
             <Route path="/reservationlist" element={<ReserveList />}/>
             <Route path="/packagemanager" element={<PackageManager />}/>
+            <Route path="/merchsettings" element={<MerchSettings />}/>
             {/* Insert your page here */}            
           </Route>
           <Route element={<AdminLayout />}>
