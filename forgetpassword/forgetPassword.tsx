@@ -1,7 +1,7 @@
 import React from 'react';
 import usersign from '../forgetpassword/usersign.png';
 import background from '../forgetpassword/background-pattern.png'
-import {BiLock, BiEnvelope} from 'react-icons/bi'
+import { FaLock, FaEnvelope } from 'react-icons/fa';
 
 const ForgetPassword = () => {
     return (
@@ -19,16 +19,16 @@ const ForgetPassword = () => {
                 </div>
                 <div className='bg-[white] h-full pt-[120px] px-[70px] rounded-tr-[20px] rounded-br-[20px]'>
                     {/* <img src={padlock} alt="Padlock" className='h-[100px] w-[120px] relative left-[140px]' /> */}
-                    <BiLock className='h-[100px] w-[120px] relative left-[140px]'/>
+                    <FaLock className='h-[100px] w-[120px] relative left-[140px]'/>
                     <h1 className='text-[25px] text-center mt-[5px] mb-[15px]'>Forget Password?</h1>
                     <p className='text-center'>No worries! Enter your email, and we'll send a reset link to your inbox.</p>
                     <div className='flex items-center mt-[15px]'>
                         {/* <img src={email} alt="" className='h-[30px] w-[30px]' /> */}
-                        <BiEnvelope className='h-[30px] w-[30px]'/>
+                        <FaEnvelope className='h-[30px] w-[30px]'/>
                         <p>Email Address</p>
                     </div>
                     <input type="email" name="" className="w-full bg-[lightgray] h-10 rounded-[10px]" />
-                    <button type="submit" className='bg-[rgb(221,40,3)] text-[white] font-[bold] w-[180px] float-right mt-2.5 p-2.5 rounded-[20px]'>Reset Password</button>
+                    <button type="submit" className='bg-[rgb(221,40,3)] text-[white] w-[180px] float-right mt-2.5 p-2.5 rounded-[20px]'>Reset Password</button>
                 </div>
             </div>
         </div>
