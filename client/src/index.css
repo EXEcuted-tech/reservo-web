@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.bg-login {
+  background-image: url('/src/assets/background-pattern.png');
+}
+
+.bg-footer {
+  background-image: url('/src/assets/rectangle.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height:10vh;
+  /* position: relative;
+  bottom:0; */
+}
