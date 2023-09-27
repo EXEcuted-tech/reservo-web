@@ -14,7 +14,7 @@ const ForgetPassword = () => {
                     <p className='text-[white] text-center text-lg'>Enter your email address and retrieve your account.</p>
                     <div className='mt-[25px]'>
                         <p className='text-[white] font-medium text-xl text-center mt-11'>Already have an existing account?</p>
-                        <button type="button" className='bg-[white] w-9/12 text-[rgb(221,40,3)] font-[750] text-xl relative p-[5px] rounded-[30px] left-[43px]'>Log In</button>
+                        <button type="button" className='bg-[white] w-[75%] h-[50px] text-[rgb(221,40,3)] font-[750] text-xl relative p-[5px] rounded-[30px] left-[40px]'>Log In</button>
                     </div>
                 </div>
                 <div className='bg-[white] h-full pt-[120px] px-[70px] rounded-tr-[20px] rounded-br-[20px]'>
