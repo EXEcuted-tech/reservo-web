@@ -7,7 +7,7 @@ import {RiTimeFill} from 'react-icons/ri'
 const AboutUsPage = () => {
   return (
     
-      <div className='font-poppins relative flex flex-row justify-between bg-black bg-opacity-40'>
+      <div className='h-[80vh] font-poppins relative flex flex-row justify-between bg-black bg-opacity-40'>
         <img src={background} alt='About Us Background' className='h-full w-full object-cover bg-no-repreat bg-cover absolute mix-blend-overlay'/>
         <div className='w-4/5 px-40 py-20'>
           <div className='border-b-4 pb-6'>

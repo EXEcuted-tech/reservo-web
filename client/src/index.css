@@ -8,6 +8,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.bg-login {
+  background-image: url('/src/assets/background-pattern.png');
+}
+
 .bg-footer {
   background-image: url('/src/assets/rectangle.png');
   background-size: cover;
@@ -15,4 +19,17 @@ body {
   height:10vh;
   /* position: relative;
   bottom:0; */
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #000;
+  cursor: pointer;
 }
