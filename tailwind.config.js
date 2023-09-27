@@ -19,7 +19,7 @@ module.exports = {
         },
         'zoom-in': {
           '0%': {
-            opacity: '0',
+            opacity: '1',
             transform: 'scale(1)',
           },
           '50%': {
@@ -33,7 +33,7 @@ module.exports = {
         },
         'zoom-in-end': {
           '0%': {
-            opacity: '0',
+            opacity: '1',
             transform: 'scale(1)',
           },
           '100%': {
