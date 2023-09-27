@@ -40,7 +40,7 @@ const AdminSide = () => {
                       <MdRateReview className='mr-[4%] text-[1.5em]'/> Merchant Manager</li>
               </ul>
           </div>
-          <div className='fixed bottom-[5%] ml-[1.8%] w-full'
+          <div className='fixed bottom-[5%] ml-[1.8%] w-[15%]'
               onClick={()=>{navigate('/logout')}}>
               <p className='flex items-center text-[1.3em] text-white hover:text-[#D9D9D9] hover:cursor-pointer'><FiLogOut className='mr-[1%] text-[1.5em]'/> Log Out</p>
           </div>
