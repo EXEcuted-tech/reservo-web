@@ -4,12 +4,16 @@ import { FaIcons } from 'react-icons/fa'
 import { AiFillDownCircle } from "react-icons/ai";
 import Card from "../../../components/card/card.tsx";
 import CardEmpty from "../../../components/card/CardEmpty.tsx"
+import MerchAdHeader from '../../../components/headers/MerchAdHeader.tsx';
+import { BiPackage } from "react-icons/bi";
 import { useState } from 'react';
 import CreatePackageModal from '../../../components/package-modal/CreatePackageModal.tsx';
 
 
 const PackageManager = () => {
     const [isCreatePackageModalOpen, setIsCreatePackageModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Function to open the modal when the empty card is clicked
     const openCreatePackageModal = () => {
@@ -24,7 +28,8 @@ const PackageManager = () => {
 
 
     return (
-<div className={`bg-[#FFFFFF] h-[100vh] w-[85vw] font-poppins overflow-y-auto`}>
+<div className={`bg-[#FFFFFF] h-[100vh] w-[80vw] font-poppins overflow-y-auto`}>
+    <MerchAdHeader icon={BiPackage} title={'Package Manager'}/>
     <div className="SortFilterSubheader flex mb-4 text-lg bg-[#f0e5d8]">
         <div className="flex align-middle w-3/6 items-center mx-32 ps-8 h-20">
         <label htmlFor="filterDropdown" className={`font-bold mx-2 w-[4vw]`}>Sort By: </label>

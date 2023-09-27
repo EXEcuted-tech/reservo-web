@@ -8,7 +8,7 @@ import { GoPlusCircle } from "react-icons/go";
 
 
 interface CardEmpty {
-    onClick: ()=>null;
+    onClick: ()=>void;
 }
 
 

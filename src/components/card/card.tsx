@@ -30,7 +30,7 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   };
 
   const openEditModal = ()=>{
-    if (isModalOpen){
+    if (isModalOpen == true){
         closeModal();
     }
     setIsEditModalOpen(true);
@@ -59,7 +59,7 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
                 {isModalOpen && <DetailsModal onClose={closeModal} packageID={packageID} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items} openEditModal={function (): void {
                 throw new Error('Function not implemented.');
               } }/>}
-                <button className='CardButton flex EditButton w-1/2 items-center justify-center' onClick={openEditModal}><HiMiniPencilSquare/>Edit</button>
+                <button className='CardButton flex EditButton w-1/2 items-center justify-center' onClick={openEditModal} ><HiMiniPencilSquare/>Edit</button>
                 {isEditModalOpen && <EditDetailsModal onClose={closeEditModal} packageID={packageID} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items}/>}
                 </div>
                 </div>

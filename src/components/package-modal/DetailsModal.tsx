@@ -1,9 +1,10 @@
 import colors from '../../common/colors'
-import React from 'react'
+import React, {useState} from 'react'
 import {AiFillCloseCircle, AiFillDelete} from "react-icons/ai"
 import { HiOutlineMagnifyingGlass, HiMiniPencilSquare } from "react-icons/hi2";
 import "../../assets/css/card.css"
 import { BsDot } from "react-icons/bs";
+import EditDetailsModal from './EditDetailsModal';
 
 interface DetailsModalProps {
     onClose: () => void;
@@ -18,14 +19,26 @@ interface DetailsModalProps {
   }
 
   
-  const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, openEditModal, packageID, packageName, description, price, tags, visibility, items }) => {
-      function removeItem(index: any): void {
-          throw new Error('Function not implemented.');
-      }
+  const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, packageName, description, price, tags, visibility, items }) => {
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const closeModal = () => {
+        setIsModalOpen(false);
+      };
+    
+    const openEditModal = ()=>{
+        closeModal();
+        setIsEditModalOpen(true);
+      };
+    
+      const closeEditModal = ()=>{
+        setIsEditModalOpen(false);
+      };
+
 
     return (
     <div>
-    <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh] backdrop-blur-sm animate-zoom-in'>
+    <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh] backdrop-blur-sm animate-zoom-in overflow-hidden'>
     <div className='flex justify-center align-center my-20'>
         <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl">
             <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'> {/*this is the header for the modal*/}
@@ -65,6 +78,7 @@ interface DetailsModalProps {
             <div className='flex justify-end items-center h-[5vh]'>{/*This is the footer*/}
                 <button className='w-[5vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center'><AiFillDelete/>Delete</button>
                 <button className='w-[5vw] h-[4vh] bg-[#efb953] mx-5 rounded-md flex items-center justify-center' onClick={openEditModal}><HiMiniPencilSquare/>Edit</button>
+                {isEditModalOpen && <EditDetailsModal onClose={closeEditModal} packageID={packageID} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items}/>}
 
             </div>
         </div>

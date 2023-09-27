@@ -87,7 +87,6 @@ interface CreatePackageModal{
             <IoMdAddCircleOutline/>Add Item
           </button><input
             type="text"
-            placeholder="Separate by commas (,)"
             value={itemName}
             onChange={(e) => setItemName(e.target.value)}
             className="h-[4vh] border-solid border-[#000000] border-2 rounded-md mx-4">
