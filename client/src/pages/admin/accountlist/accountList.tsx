@@ -32,7 +32,7 @@ const AccountList = () => {
           </thead>
           <tbody className='text-center'>
             <tr>
-              <td className='text-md px-10 py-3'>1</td>
+              <td className='text-md px-12 py-3'>1</td>
               <td className='text-md px-12 py-3'>Franz Casimir Ondiano</td>
               <td className='text-md px-12 py-3'>franzcasimir.ondiano@gmail.com</td>
               <td className='text-md px-12 py-3'>09478517200</td>
