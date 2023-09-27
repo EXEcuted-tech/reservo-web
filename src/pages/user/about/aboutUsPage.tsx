@@ -6,9 +6,8 @@ import {RiTimeFill} from 'react-icons/ri'
 
 const AboutUsPage = () => {
   return (
-    <div>
-
-      <div className='relative flex flex-row justify-between bg-black bg-opacity-40'>
+    
+      <div className='font-poppins relative flex flex-row justify-between bg-black bg-opacity-40'>
         <img src={background} alt='About Us Background' className='h-full w-full object-cover bg-no-repreat bg-cover absolute mix-blend-overlay'/>
         <div className='w-4/5 px-40 py-20'>
           <div className='border-b-4 pb-6'>
@@ -18,9 +17,8 @@ const AboutUsPage = () => {
             <p className='italic text-white text-5xl'>Quisque sit amet elit tempor, pretium.</p>
           </div>
           <div className='pt-8'>
-          <p className='text-white font-light text-justify text-2xl'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at sollicitudin lectus. Donec in lacinia erat, ut porttitor diam. Sed mauris nulla, lacinia sed placerat accumsan, viverra vel magna. Etiam vulputate lorem eget ligula vulputate dignissim. Curabitur molestie est sem, vel facilisis nunc lacinia quis. Fusce a nibh volutpat, congue turpis tempus, sollicitudin nulla.</p>
+            <p className='text-white font-light text-justify text-2xl'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at sollicitudin lectus. Donec in lacinia erat, ut porttitor diam. Sed mauris nulla, lacinia sed placerat accumsan, viverra vel magna. Etiam vulputate lorem eget ligula vulputate dignissim. Curabitur molestie est sem, vel facilisis nunc lacinia quis. Fusce a nibh volutpat, congue turpis tempus, sollicitudin nulla.</p>
           </div>
-          
         </div>
 
         <div className='bg-black bg-opacity-70 rounded-l-3xl py-[6vh] px-[5vh] my-32'>
@@ -71,8 +69,6 @@ const AboutUsPage = () => {
         </div>
       </div>
 
-    </div>
-    
   )
 }
 
