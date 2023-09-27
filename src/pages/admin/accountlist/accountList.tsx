@@ -87,8 +87,10 @@ const AccountList = () => {
         </table>
         {/* <div className='text-slate-500 font-semibold text-right mt-[480px] mr-[20px] text-xl'>
           <span className='align-text-bottom'>Accounts as of September 27, 2023</span>
+
+          absolute bottom-[-500px] right-[20px]
         </div> */}
-        <div className='text-slate-500 font-semibold absolute bottom-[-500px] right-[20px] text-xl'>
+        <div className='text-slate-500 font-semibold fixed bottom-[50px] right-[80px] text-xl'>
           <span className='align-text-bottom'>Accounts as of September 27, 2023</span>
         </div>
       </div>
