@@ -3,12 +3,15 @@ import Rating from '@mui/material/Rating';
 import {GrLocation} from 'react-icons/gr'
 import {AiOutlineFolderView} from 'react-icons/ai'
 import {BsBookFill} from 'react-icons/bs'
+import { useNavigate } from 'react-router-dom';
 
 const MerchCard: React.FC<MerchCardProps> = (props) => {
 
-    useEffect(() => {
-        console.log("PROPS: ",props);
-      }, []); 
+    const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("PROPS: ",props);
+  }, []); 
 
   return (
     <div className='flex h-[25vh]'>
@@ -52,11 +55,13 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                 </div>
                 <div className='flex justify-end mt-[9%] mr-[2%] w-[100%]'>
                     <button className='flex items-center text-white bg-[#FF8A00] mr-[5%] px-[3%] py-[1.5%] rounded-2xl
-                        hover:bg-[#FFD8AA] hover:text-black font-medium'>
+                        hover:bg-[#FFD8AA] hover:text-black font-medium'
+                        onClick={()=>{navigate('/eaterychoice/view')}}>
                         <AiOutlineFolderView className='text-[1.6em]'/>View More
                     </button>
                     <button className='w-[35%] flex items-center text-black bg-[#F4D147] px-[3%] py-[1.5%] rounded-2xl
-                        hover:bg-[#FFB800] font-medium'>
+                        hover:bg-[#FFB800] font-medium'
+                        onClick={()=>{navigate('/eaterychoice/book')}}>
                         <BsBookFill className='text-[1em] mr-[2%]'/>Book Now
                     </button>
                 </div>
