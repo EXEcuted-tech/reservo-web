@@ -15,7 +15,7 @@ const AccountList = () => {
         <option value="none">None</option>
       </select>
 
-      <label htmlFor="searchBar" className='ml-[530px]'>Search: </label>
+      <label htmlFor="searchBar" className='ml-[600px]'>Search: </label>
       <input type="text" placeholder='Input name or email' id='searchBar' className='rounded-lg border border-slate-500 px-3 py-1'/>
 
       <div className='relative flex flex-col'>
@@ -85,7 +85,10 @@ const AccountList = () => {
             </tr>
           </tbody>
         </table>
-        <div className='text-slate-500 font-semibold text-right'>
+        {/* <div className='text-slate-500 font-semibold text-right mt-[480px] mr-[20px] text-xl'>
+          <span className='align-text-bottom'>Accounts as of September 27, 2023</span>
+        </div> */}
+        <div className='text-slate-500 font-semibold absolute bottom-[-500px] right-[20px] text-xl'>
           <span className='align-text-bottom'>Accounts as of September 27, 2023</span>
         </div>
       </div>
