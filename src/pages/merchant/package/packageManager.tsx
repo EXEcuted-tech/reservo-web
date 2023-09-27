@@ -2,7 +2,7 @@ import React from 'react'
 
 const PackageManager = () => {
   return (
-    <div>P</div>
+    <div>Pe</div>
   )
 }
 
