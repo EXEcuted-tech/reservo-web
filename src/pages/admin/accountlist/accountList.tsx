@@ -6,7 +6,7 @@ const AccountList = () => {
   return (
     <div className='w-[100%]'>
       <MerchAdHeader icon={RiUserFill} title='Account List' />
-      <div className='font-medium font-poppins shadow-2xl mx-5 my-5 p-5 rounded-lg w-fit h-[87vh]'>
+      <div className='font-medium font-poppins shadow-2xl mx-5 my-5 p-5 rounded-lg h-[87vh]'>
 
 
       <label htmlFor="filterList" className='text-slate-600'>Filter by: </label>
