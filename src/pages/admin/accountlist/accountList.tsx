@@ -1,8 +1,13 @@
 import React from 'react'
+import MerchAdHeader from '../../../components/headers/MerchAdHeader'
+import { RiUserFill } from 'react-icons/ri';
 
 const AccountList = () => {
   return (
-    <div className='font-medium font-poppins shadow-2xl mx-5 my-5 p-5 rounded-lg w-fit h-[96vh]'>
+    <div className='w-[100%]'>
+      <MerchAdHeader icon={RiUserFill} title='Account List' />
+      <div className='font-medium font-poppins shadow-2xl mx-5 my-5 p-5 rounded-lg w-fit h-[87vh]'>
+
 
       <label htmlFor="filterList" className='text-slate-600'>Filter by: </label>
       <select id="filtersList" className='rounded-lg border border-black m-4 mr-80 py-1 px-5'>
@@ -10,20 +15,20 @@ const AccountList = () => {
         <option value="none">None</option>
       </select>
 
-      <label htmlFor="searchBar" className='ml-80'>Search: </label>
+      <label htmlFor="searchBar" className='ml-[530px]'>Search: </label>
       <input type="text" placeholder='Input name or email' id='searchBar' className='rounded-lg border border-slate-500 px-3 py-1'/>
-      
+
       <div className='relative flex flex-col'>
         <table className='table-auto'>
           <thead className='border-black border-y'>
             <tr>
-              <th className='px-5'>Account Name</th>
-              <th className='px-5'>ID</th>
-              <th className='px-5'>E-mail Address</th>
-              <th className='px-5'>Contact Number</th>
-              <th className='px-5'>Type</th>
-              <th className='px-5'>Status</th>
-              <th className='px-5'>Manage</th>
+              <th className='mx-5 py-3'>ID</th>
+              <th className='mx-5 py-3'>Account Name</th>
+              <th className='mx-5 py-3'>E-mail Address</th>
+              <th className='mx-5 py-3'>Contact Number</th>
+              <th className='mx-5 py-3'>Type</th>
+              <th className='mx-5 py-3'>Status</th>
+              <th className='mx-5 py-3'>Manage</th>
             </tr>
           </thead>
           <tbody className='text-center'>
@@ -83,6 +88,7 @@ const AccountList = () => {
         <div className='text-slate-500 font-semibold text-right'>
           <span className='align-text-bottom'>Accounts as of September 27, 2023</span>
         </div>
+      </div>
       </div>
     </div>
   )
