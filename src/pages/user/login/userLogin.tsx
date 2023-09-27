@@ -1,6 +1,7 @@
 import React, { FormEvent, useEffect, useState } from 'react'
 
  import { RiReservedFill } from 'react-icons/ri'; 
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -9,6 +10,7 @@ const UserLogin = () => {
     const [invalid , setInvalid] = useState(false);
     const [uName , setUser] = useState('');
     const [pass , setPass] = useState('');
+    const Navigate = useNavigate();
 
 
 
@@ -22,7 +24,7 @@ const UserLogin = () => {
             // backend here
             if(uName === '19103296@usc.edu.ph'){
                 if(pass === '123'){
-                    alert('you are logged in');
+                    Navigate('/');
                 }
                 else{
                     setInvalid(true);
