@@ -1,7 +1,7 @@
 import React, { FormEvent,useState } from 'react'
 
  import { RiReservedFill } from 'react-icons/ri'; 
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -61,7 +61,8 @@ const UserLogin = () => {
 
                 <div className="footHeader flex flex-col ">
                     <span className='capitalize text-[18px] font-bold text-white'>are you admin?</span>
-                    <a href="/adlogin" className='bg-white font-semibold text-center p-[0.7rem] rounded-full m-[1rem] text-[#DD2803]'>Admin page</a>
+                    <Link to={'/adlogin'} className='bg-white font-semibold text-center p-[0.7rem] rounded-full m-[1rem] text-[#DD2803]'>Admin page</Link>
+                    {/* <a href="/adlogin" className='bg-white font-semibold text-center p-[0.7rem] rounded-full m-[1rem] text-[#DD2803]'>Admin page</a> */}
                 </div>
             </div>
             {/* LOGIN INPUT AREA */}
@@ -84,7 +85,7 @@ const UserLogin = () => {
                         </div>
                     </div>
                     <div className="frgt text-right text-[12px] mb-[2rem]">
-                        <a href="http://" target="_blank" rel="noopener noreferrer">Forgot Password?</a>
+                        <Link to={'/uslogin'}>Forgot Password?</Link>
                     </div>
                     <div className="buttons flex flex-col items-center space-y-5">
                         <button type='submit' onClick={submitHandler} className='bg-[#DD2803] text-white p-[0.5em] w-[50%] rounded-full hover:bg-red'>Sign in</button>
