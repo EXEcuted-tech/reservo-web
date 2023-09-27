@@ -4,6 +4,8 @@ import padlock from '../forgetpassword/padlock.png';
 import email from '../forgetpassword/email.png'
 import background from '../forgetpassword/background-pattern.png'
 
+// NOBODY TOUCHES THIS TSX FILE CUZ I HAVE FIX THE ICON OF THIS PAGE
+
 const ForgetPassword = () => {
     return (
         <div className="font-poppins">
