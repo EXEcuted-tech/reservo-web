@@ -1,22 +1,18 @@
 import React from 'react'
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
 import {RiDashboard3Line} from 'react-icons/ri'
-import {IoCalendarSharp} from 'react-icons/io5'
-import {GiJuggler} from 'react-icons/gi'
-import {AiFillCloseCircle} from 'react-icons/ai'
-import {MdGroups2} from 'react-icons/md'
 import Chart from 'react-google-charts'
 
 const LineData = [
-  ['x', 'Bookings'],
-  [0, 0,],
-  [1, 10],
-  [2, 23],
-  [3, 17],
-  [4, 18],
-  [5, 9],
-  [6, 11],
-  [7, 27],
+  ['x', 'Merchants', 'Users'],
+  [0, 0, 0],
+  [1, 10, 4],
+  [2, 23, 7],
+  [3, 17, 19],
+  [4, 18, 1],
+  [5, 9, 20],
+  [6, 11, 25],
+  [7, 27, 12],
 ]
 const LineChartOptions = {
   chart: {
@@ -35,7 +31,7 @@ const LineChartOptions = {
     }
   },
   backgroundColor: 'transparent',
-  colors:['#660605'],
+  colors:['#660605', '#EC0000'],
   titleTextStyle: {
 
   }
@@ -57,8 +53,19 @@ const AdminDashboard = () => {
               </div>
             </div>
             <div className='w-[65%] p-[1%] text-center'>
-              <div className='p-[0.5%] h-[100%] rounded-3xl bg-[#660605] grid-cols-2 grid-rows-2 grid gap-1'>
-                
+              <div className='p-[3%] h-[100%] rounded-3xl bg-gradient-to-t from-[#660605] to-[#7e0806] grid-cols-2 grid-rows-2 gap-1 flex'>
+                <div className='w-[33%]'>
+                <p className='text-white mt-[-5%] text-[8em] font-bold flex-col'>35</p>
+                    <p className='text-white text-[2em] flex-col mt-[-10%]'>Merchants</p>
+                </div>
+                <div className='w-[33%]'>
+                <p className='text-white mt-[-5%] text-[8em] font-bold flex-col'>100</p>
+                    <p className='text-white text-[2em] flex-col mt-[-10%]'>Users</p>
+                </div>
+                <div className='w-[33%]'>
+                <p className='text-white mt-[-5%] text-[8em] font-bold flex-col'>120</p>
+                    <p className='text-white text-[2em] flex-col mt-[-10%]'>Active</p>
+                </div>
               </div>
             </div> 
         </div>
@@ -80,12 +87,13 @@ const AdminDashboard = () => {
         <div className='bg-[#F3F3F3] h-[30vh] flex'>
             <div className='w-[75%] m-[1%] text-center bg-white rounded-3xl flex-col pt-0 p-[1%]'>
               <div className='text-left border-b-2 border-black'>
-                <p className='font-bold text-[1.5em]'>Recent Reservation <br/></p>
+                <p className='font-bold text-[1.5em]'>Recent Sign Ups<br/></p>
               </div>
               <table className='flex-col w-[100%] text-left bg-white rounded-3xl'>
               <tr>
-                <th>Client Name</th>
-                <th>Event</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>User Type</th>
                 <th>Date</th>
                 <th>Time</th>
               </tr>
