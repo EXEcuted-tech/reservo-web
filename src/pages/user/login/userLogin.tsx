@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 
  import { RiReservedFill } from 'react-icons/ri'; 
 
@@ -6,9 +6,35 @@ import React, { useState } from 'react'
 
 const UserLogin = () => {
 
-    const [uValid , setUserValid] = useState();
+    const [invalid , setInvalid] = useState(false);
     const [uName , setUser] = useState('');
     const [pass , setPass] = useState('');
+
+
+
+    const submitHandler = (event:FormEvent) =>{
+        event.preventDefault();
+
+        if(uName === '' || pass === ''){
+            setInvalid(true);
+        }
+        else{
+            // backend here
+            if(uName === '19103296@usc.edu.ph'){
+                if(pass === '123'){
+                    alert('you are logged in');
+                }
+                else{
+                    setInvalid(true);
+                }
+            }
+            else{
+                setInvalid(true);
+            }
+        }
+    }
+    
+
 
 
   return (
@@ -35,26 +61,29 @@ const UserLogin = () => {
                 </div>
             </div>
             {/* LOGIN INPUT AREA */}
-            <div className="right flex flex-col h-[100%] w-[100%] pt-[3rem] bg-white items-center">
-                <div className="TitleHeader h-[20%]">
-                    <span className='text-[32px] capitalize font-bold'>Login to your Account</span>
+            <div className="right flex flex-col h-[100%] w-[100%] pt-[3rem] space-y-100 bg-white items-center">
+                <div className="TitleHeader h-[20%] text-center">
+                    <span className='text-[28px] capitalize font-bold'>Login to your Account</span>
+                    <div className="invalid p-[5px] ">
+                        <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>invalid User or Password please Try again</span>
+                    </div>
                 </div>
                 <form className='formBox w-[60%] flex flex-col'>
                     <div className="inputs">
                         <div className="I-Box flex flex-col space-y-2 mb-[5px]">
                             <label htmlFor="email" className='font-thin'>Email:</label>
-                            <input type="email" className='bg-[#F3F3F3] border-solid border-2 h-[2.5rem] rounded-lg' name="email" id="Email" value={uName} onChange={(e) =>{setUser(e.target.value)}}/>
+                            <input type="email" className='bg-[#F3F3F3] border-solid border-2 h-[2.5rem] rounded-lg' name="email" id="Email" value={uName} onChange={(e) =>{setUser(e.target.value)}} required/>
                         </div>
                         <div className="I-Box flex flex-col space-y-2 mb-[10px]">
-                            <label htmlFor="email" className='font-thin'>Password:</label>
-                            <input type="password" className='bg-[#F3F3F3] border-solid border-2 h-[2.5rem] rounded-lg ' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}}/>
+                            <label htmlFor="pass" className='font-thin'>Password:</label>
+                            <input type="password" className='bg-[#F3F3F3] border-solid border-2 h-[2.5rem] rounded-lg ' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}} required/>
                         </div>
                     </div>
                     <div className="frgt text-right text-[12px] mb-[2rem]">
                         <a href="http://" target="_blank" rel="noopener noreferrer">Forgot Password?</a>
                     </div>
                     <div className="buttons flex flex-col items-center space-y-5">
-                        <button type='submit' className='bg-[#DD2803] text-white p-[0.5em] w-[50%] rounded-full'>Sign in</button>
+                        <button type='submit' onClick={submitHandler} className='bg-[#DD2803] text-white p-[0.5em] w-[50%] rounded-full hover:bg-red'>Sign in</button>
                         <button type='submit' className='text-[#DD2803] p-[0.5em] font-bold w-[50%] rounded-full border-solid border-2 border-[#DD2803]'>Log in as Guest</button>
                     </div>
                 </form>

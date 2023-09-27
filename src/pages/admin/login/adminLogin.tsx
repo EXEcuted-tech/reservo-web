@@ -33,22 +33,25 @@ const AdminLogin = () => {
                 </div>
             </div>
             {/* LOGIN INPUT AREA */}
-            <div className="right flex flex-col h-[100%] w-[100%] pt-[3rem] bg-[#660605] text-white items-center">
-                <div className="TitleHeader h-[20%]">
-                    <span className='text-[32px] capitalize font-bold'>Login to your Account</span>
+            <div className="right flex flex-col h-[100%] w-[100%] pt-[3rem] bg-[#660605] items-center">
+                <div className="TitleHeader h-[20%] text-center">
+                    <span className='text-[28px] capitalize font-bold text-white '>Login to your Account</span>
+                    <div className="invalid p-[5px]">
+                    <span className='text-[#FF2D2D] hidden'>invalid User or Password please Try again</span>
+                </div>
                 </div>
                 <form className='formBox w-[60%] flex flex-col'>
                     <div className="inputs">
                         <div className="I-Box flex flex-col space-y-2 mb-[5px]">
-                            <label htmlFor="email" className='font-thin'>Email:</label>
-                            <input type="email" className='bg-[#F3F3F3] border-solid border-2 h-[2.5rem] rounded-lg' name="email" id="Email" value={uName} onChange={(e) =>{setUser(e.target.value)}}/>
+                            <label htmlFor="email" className='font-thin text-white '>Email:</label>
+                            <input type="email" className='pl-[0.5rem] bg-[#F3F3F3] border-solid border-2 h-[2.5rem] rounded-lg' name="email" id="Email" value={uName} onChange={(e) =>{setUser(e.target.value)}}/>
                         </div>
                         <div className="I-Box flex flex-col space-y-2 mb-[10px]">
-                            <label htmlFor="email" className='font-thin'>Password:</label>
-                            <input type="password" className='bg-[#F3F3F3] border-solid border-2 h-[2.5rem] rounded-lg ' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}}/>
+                            <label htmlFor="email" className='font-thin text-white '>Password:</label>
+                            <input type="password" className='pl-[0.5rem] bg-[#F3F3F3] border-solid border-2 h-[2.5rem] rounded-lg ' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}}/>
                         </div>
                     </div>
-                    <div className="frgt text-right text-[12px] mb-[2rem]">
+                    <div className="frgt text-right text-[12px] mb-[2rem] text-white ">
                         <a href="#" target="_blank" rel="noopener noreferrer">Forgot Password?</a>
                     </div>
                     <div className="buttons flex flex-col items-center space-y-5">
