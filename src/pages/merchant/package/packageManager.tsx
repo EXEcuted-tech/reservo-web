@@ -28,9 +28,10 @@ const PackageManager = () => {
 
 
     return (
-<div className={`bg-[#FFFFFF] h-[100vh] w-[80vw] font-poppins overflow-y-auto`}>
+<div className={`bg-[#FFFFFF] h-[100vh] font-poppins overflow-y-auto overflow-x-hidden`}>
+    <div className="w-[80vw]">
     <MerchAdHeader icon={BiPackage} title={'Package Manager'}/>
-    <div className="SortFilterSubheader flex mb-4 text-lg bg-[#f0e5d8]">
+    <div className="SortFilterSubheader flex mb-4 text-lg bg-[#f0e5d8] w-[85vw]">
         <div className="flex align-middle w-3/6 items-center mx-32 ps-8 h-20">
         <label htmlFor="filterDropdown" className={`font-bold mx-2 w-[4vw]`}>Sort By: </label>
                     <select id="sortDropdown" name="sortDropdown" className={`bg-transparent rounded-md h-10 w-[20vw]  hover:bg-white transition duration-150 ease-out hover:ease-in`}>
@@ -124,6 +125,7 @@ const PackageManager = () => {
 
 
         </div>
+    </div>
     </div>
 </div>
     )
