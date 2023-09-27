@@ -3,7 +3,7 @@ const router = express.Router();
 const createReserveValidator=require('../validations/reserveValidator')
 const {createReserve,getReserve}=require('../controllers/reserveController')
 
-router.post('/api',createReserveValidator,createReserve);
-router.get('/api',getReserve);
+router.post('/create',createReserveValidator,createReserve);
+router.get('/retrieve',getReserve);
 
 module.exports = router;
