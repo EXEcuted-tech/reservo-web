@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from 'react'
+import React, { FormEvent,useState } from 'react'
 
  import { RiReservedFill } from 'react-icons/ri'; 
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +12,9 @@ const UserLogin = () => {
     const [pass , setPass] = useState('');
     const Navigate = useNavigate();
 
-
+    const guestHandler = () =>{
+        Navigate('/');
+    }
 
     const submitHandler = (event:FormEvent) =>{
         event.preventDefault();
@@ -86,7 +88,7 @@ const UserLogin = () => {
                     </div>
                     <div className="buttons flex flex-col items-center space-y-5">
                         <button type='submit' onClick={submitHandler} className='bg-[#DD2803] text-white p-[0.5em] w-[50%] rounded-full hover:bg-red'>Sign in</button>
-                        <button type='submit' className='text-[#DD2803] p-[0.5em] font-bold w-[50%] rounded-full border-solid border-2 border-[#DD2803]'>Log in as Guest</button>
+                        <button type='submit' onClick={guestHandler} className='text-[#DD2803] p-[0.5em] font-bold w-[50%] rounded-full border-solid border-2 border-[#DD2803]'>Log in as Guest</button>
                     </div>
                 </form>
            </div>

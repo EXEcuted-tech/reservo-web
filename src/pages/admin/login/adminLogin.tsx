@@ -1,12 +1,37 @@
-import React, { useState } from 'react'
+import React, { FormEvent,useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 
 import { RiReservedFill } from 'react-icons/ri'; 
 
 const AdminLogin = () => {
-  const [uValid , setUserValid] = useState();
+  const [invalid , setInvalid] = useState(false);
     const [uName , setUser] = useState('');
     const [pass , setPass] = useState('');
+
+    const Navigate = useNavigate();
+
+    const submitHandler = (event:FormEvent) =>{
+        event.preventDefault();
+
+        if(uName === '' || pass === ''){
+            setInvalid(true);
+        }
+        else{
+            // backend here
+            if(uName === '19103296@usc.edu.ph'){
+                if(pass === '123'){
+                    Navigate('/');
+                }
+                else{
+                    setInvalid(true);
+                }
+            }
+            else{
+                setInvalid(true);
+            }
+        }
+    }
 
 
   return (
@@ -37,10 +62,10 @@ const AdminLogin = () => {
                 <div className="TitleHeader h-[20%] text-center">
                     <span className='text-[28px] capitalize font-bold text-white '>Login to your Account</span>
                     <div className="invalid p-[5px]">
-                    <span className='text-[#FF2D2D] hidden'>invalid User or Password please Try again</span>
+                    <span className={(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>invalid User or Password please Try again</span>
                 </div>
                 </div>
-                <form className='formBox w-[60%] flex flex-col'>
+                <form className='formBox w-[60%] flex flex-col' >
                     <div className="inputs">
                         <div className="I-Box flex flex-col space-y-2 mb-[5px]">
                             <label htmlFor="email" className='font-thin text-white '>Email:</label>
@@ -55,7 +80,7 @@ const AdminLogin = () => {
                         <a href="#" target="_blank" rel="noopener noreferrer">Forgot Password?</a>
                     </div>
                     <div className="buttons flex flex-col items-center space-y-5">
-                        <button type='submit' className='bg-white text-[#DD2803] p-[0.5em] w-[50%] rounded-full'>Sign in</button>
+                        <button type='submit' onClick={submitHandler} className='bg-white text-[#DD2803] p-[0.5em] w-[50%] rounded-full'>Sign in</button>
                     </div>
                 </form>
            </div>
