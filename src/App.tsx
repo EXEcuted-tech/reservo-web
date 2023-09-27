@@ -18,6 +18,8 @@ import MerchDashboard from './pages/merchant/dashboard/dashBoard';
 import AdminDashboard from './pages/admin/dashboard/dashBoard';
 import MerchantReview from './pages/admin/review/merchantReview';
 import AccountList from './pages/admin/accountlist/accountList';
+import MerchSettings from './pages/merchant/settings/merchSettings';
+import FeedbackList from './pages/merchant/feedbackList/feedbackList';
 
 function App() {
   return (
@@ -42,7 +44,9 @@ function App() {
           <Route element={<MerchantLayout />}>
             <Route path="/merchdash" element={<MerchDashboard />}/>
             <Route path="/reservationlist" element={<ReserveList />}/>
+            <Route path="/feedbacklist" element={<FeedbackList />}/>
             <Route path="/packagemanager" element={<PackageManager />}/>
+            <Route path="/merchsettings" element={<MerchSettings />}/>
             {/* Insert your page here */}            
           </Route>
           <Route element={<AdminLayout />}>
