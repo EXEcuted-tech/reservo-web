@@ -6,7 +6,7 @@ USE reservo;
 */
 
 CREATE TABLE `feedback` (
-  `feedback_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `feedback_id` bigint(20) NOT NULL,
   `account_id` bigint(20) NOT NULL,
   `rating_value` int(11) NOT NULL,
   `comment` longtext DEFAULT NULL

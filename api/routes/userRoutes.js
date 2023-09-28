@@ -1,11 +1,10 @@
 const express=require('express');
 const router = express.Router();
-const signUpValidator =require('../validations/userValidator')
-const {signUp,authenticate}=require('../controllers/userController')
+const authenticateValidator =require('../validations/authenticationValidator')
+const {updateUser,retrieveAll,retrieveByParams}=require('../controllers/userController')
 
-router.post('/signup',signUpValidator,signUp);
-router.post('/login',signUpValidator,authenticate);
-router.get('/retrieve',authenticate);
-router.get('/retrieveByParams',authenticate);
+router.post('/edit',authenticateValidator,updateUser);
+router.post('/retrieve',retrieveByParams);
+router.get('/retrieve_all',retrieveAll);
 
 module.exports = router;
