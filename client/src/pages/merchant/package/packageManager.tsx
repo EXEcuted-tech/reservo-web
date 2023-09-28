@@ -61,6 +61,7 @@ const PackageManager = () => {
                 tags={["Best-Seller", "Popular"]}
                 visibility='Visible'
                 items={["Lechon 1KG"]}
+                oneButton={false}
             />
 
             <Card
@@ -71,6 +72,7 @@ const PackageManager = () => {
                 tags={["Best-Seller", "Popular"]}
                 visibility='Visible'
                 items={[]}
+                oneButton={false}
             />
 
             <Card
@@ -81,6 +83,7 @@ const PackageManager = () => {
                 tags={["Best-Seller", "Popular"]}
                 visibility='Visible'
                 items={["1pc Rice, 1pc Chicken, 16oz Drink"]}
+                oneButton={false}
             />
 
 
@@ -101,6 +104,7 @@ const PackageManager = () => {
                 tags={["Best-Seller", "Popular"]}
                 visibility='Hidden'
                 items={["5Kg Lechon, 1.5L Coke"]}
+                oneButton={false}
             />
 
             <Card
@@ -111,6 +115,7 @@ const PackageManager = () => {
                 tags={["Best-Seller", "Popular"]}
                 visibility='Hidden'
                 items={["2KG Lechon Belly"]}
+                oneButton={false}
             />
 
             <Card
@@ -121,6 +126,7 @@ const PackageManager = () => {
                 tags={["Best-Seller", "Popular"]}
                 visibility='Hidden'
                 items={["8pcs Shanghai"]}
+                oneButton={false}
             />
 
 
