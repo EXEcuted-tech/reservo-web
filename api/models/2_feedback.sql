@@ -6,7 +6,7 @@ USE reservo;
 */
 
 CREATE TABLE `feedback` (
-  `feedback_id` bigint(20) NOT NULL,
+  `feedback_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `account_id` bigint(20) NOT NULL,
   `rating_value` int(11) NOT NULL,
   `comment` longtext DEFAULT NULL
@@ -14,7 +14,8 @@ CREATE TABLE `feedback` (
 
 
 ALTER TABLE `feedback`
-  ADD PRIMARY KEY (`feedback_id`);
+  ADD PRIMARY KEY (`feedback_id`),
+  MODIFY COLUMN `feedback_id` BIGINT AUTO_INCREMENT;
 
 ALTER TABLE `feedback`
   ADD CONSTRAINT `account_idfk_1` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`);

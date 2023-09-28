@@ -9,7 +9,7 @@ USE reservo;
  > reservation.sql
 */
 CREATE TABLE `payment` (
-  `payment_id` bigint(20) NOT NULL,
+  `payment_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `reservation_id` bigint(20) NOT NULL,
   `total_expense` decimal(10,2) NOT NULL,
   `balance` decimal(10,2) NOT NULL,
@@ -19,3 +19,4 @@ CREATE TABLE `payment` (
 
 ALTER TABLE `payment`
   ADD PRIMARY KEY (`payment_id`);
+  MODIFY COLUMN `payment_id` BIGINT AUTO_INCREMENT;

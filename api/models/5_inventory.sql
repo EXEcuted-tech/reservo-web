@@ -6,7 +6,7 @@ USE reservo;
 */
 
 CREATE TABLE `inventory` (
-  `inventory_id` bigint(20) NOT NULL,
+  `inventory_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `no_of_tables` int(11) NOT NULL,
   `no_of_chairs` int(11) NOT NULL,
   `no_of_plates` int(11) NOT NULL,
@@ -19,7 +19,8 @@ CREATE TABLE `inventory` (
 
 ALTER TABLE `inventory`
   ADD PRIMARY KEY (`inventory_id`),
-  ADD KEY `merchant_id` (`merchant_id`);
+  ADD KEY `merchant_id` (`merchant_id`),
+  MODIFY COLUMN `inventory_id` BIGINT AUTO_INCREMENT;
 
   ALTER TABLE `inventory`
   ADD CONSTRAINT `inventory_ibfk_1` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`merchant_id`);

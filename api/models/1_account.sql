@@ -12,4 +12,5 @@ CREATE TABLE `account` (
 
 
 ALTER TABLE `account`
-  ADD PRIMARY KEY (`account_id`);
+  ADD PRIMARY KEY (`account_id`),
+  MODIFY COLUMN `account_id` BIGINT AUTO_INCREMENT;
