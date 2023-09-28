@@ -1,14 +1,21 @@
 const express = require('express');
 const db = require('./index'); 
 
-const signUp = (req,res)=>{
+const updateUser = (req,res)=>{
     res.json({
         success:true,
-        data: req.body,
+        data:[{id:1,text:'Testing Purposes Only'}]
     })
 }
 
-const authenticate = (req,res)=>{
+const retrieveAll = (req,res)=>{
+    res.json({
+        success:true,
+        data:[{id:1,text:'Testing Purposes Only'}]
+    })
+}
+
+const retrieveByParams = (req,res)=>{
     res.json({
         success:true,
         data:[{id:1,text:'Testing Purposes Only'}]
@@ -16,6 +23,7 @@ const authenticate = (req,res)=>{
 }
 
 module.exports = {
-    signUp,
-    authenticate,
+    updateUser,
+    retrieveAll,
+    retrieveByParams,
 }

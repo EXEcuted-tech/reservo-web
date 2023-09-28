@@ -1,4 +1,4 @@
-const createUserValidator = (req,res,next)=>{
+const createInventoryValidator = (req,res,next)=>{
     if(!req.body.text){
         return res.json({
             success:false,
@@ -7,4 +7,4 @@ const createUserValidator = (req,res,next)=>{
     }
 }
 
-module.exports = createUserValidator;
+module.exports = createInventoryValidator;

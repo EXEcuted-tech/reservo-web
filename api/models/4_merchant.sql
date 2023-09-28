@@ -4,12 +4,14 @@ USE reservo;
 */
 
 CREATE TABLE `merchant` (
-  `merchant_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `merchant_id` bigint(20) NOT NULL,
   `merchant_name` varchar(30) NOT NULL,
   `email_address` varchar(60) NOT NULL,
+  `logo` varchar(255) DEFAULT NULL,
   `contact_number` varchar(11) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
   `settings` varchar(255) DEFAULT NULL,
-  `sched_id` bigint(20) NOT NULL
+  `sched_id` bigint(20) DEFAULT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 ALTER TABLE `merchant`

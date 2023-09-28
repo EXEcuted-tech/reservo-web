@@ -1,14 +1,14 @@
 const express = require('express');
 const db = require('./index'); 
 
-const createReserve = (req,res)=>{
+const createPayment = (req,res)=>{
     res.json({
         success:true,
         data: req.body,
     })
 }
 
-const updateReserve = (req,res)=>{
+const updatePayment = (req,res)=>{
     res.json({
         success:true,
         data:[{id:1,text:'Testing Purposes Only'}]
@@ -29,14 +29,14 @@ const retrieveByParams = (req,res)=>{
     })
 }
 
-const deleteReserve = (req,res)=>{
+const deletePayment = (req,res)=>{
 
 }
 
 module.exports = {
-    createReserve,
-    updateReserve,
+    createPayment,
+    updatePayment,
     retrieveAll,
     retrieveByParams,
-    deleteReserve,
+    deletePayment,
 }

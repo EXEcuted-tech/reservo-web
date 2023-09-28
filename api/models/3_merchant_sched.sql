@@ -9,5 +9,5 @@ CREATE TABLE `merchant_sched` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 ALTER TABLE `merchant_sched`
-  ADD PRIMARY KEY (`sched_id`);
+  ADD PRIMARY KEY (`sched_id`),
   MODIFY COLUMN `sched_id` BIGINT AUTO_INCREMENT;
