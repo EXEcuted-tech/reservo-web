@@ -49,7 +49,9 @@ function App() {
           </Route>
           <Route element={<MerchantLayout />}>
             <Route path="/merchdash" element={<MerchDashboard />}/>
-            <Route path="/reservationlist" element={<ReserveList />}/>
+            <Route path="/reservationlist/all" element={<ReserveList />}/>
+            <Route path="/reservationlist/upcoming" element={<ReserveList />}/>
+            <Route path="/reservationlist/finished" element={<ReserveList />}/>
             {/* <Route path="/feedbacklist" element={<FeedbackList />}/> */}
             <Route path="/packagemanager" element={<PackageManager />}/>
             <Route path="/merchsettings" element={<MerchSettings />}/>           
