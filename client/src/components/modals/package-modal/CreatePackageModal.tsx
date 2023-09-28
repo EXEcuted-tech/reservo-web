@@ -1,8 +1,8 @@
-import colors from '../../common/colors'
+import colors from '../../../common/colors'
 import React from 'react'
 import {AiFillCloseCircle, AiFillDelete} from "react-icons/ai"
 import { HiOutlineMagnifyingGlass, HiMiniPencilSquare } from "react-icons/hi2";
-import "../../assets/css/card.css"
+import "../../../assets/css/card.css"
 import { IoAddCircleSharp } from "react-icons/io5";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { useState, useEffect} from 'react'

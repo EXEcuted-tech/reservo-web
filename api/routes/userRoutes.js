@@ -1,7 +1,7 @@
 const express=require('express');
 const router = express.Router();
-const signUpValidator =require('../validations/accountValidator')
-const {signUp,authenticate}=require('../controllers/accountController')
+const signUpValidator =require('../validations/userValidator')
+const {signUp,authenticate}=require('../controllers/userController')
 
 router.post('/signup',signUpValidator,signUp);
 router.post('/login',signUpValidator,authenticate);
