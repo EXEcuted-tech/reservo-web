@@ -34,7 +34,7 @@ function App() {
           <Route path="/adlogin" element={<AdminLogin/>} />
           <Route path="/usregister" element={<UserSignUp/>} />
           <Route path="/merchregister" element={<MerchSignUp/>} />
-          {/* <Route path="/forgpass" element={<ForgetPassword/>} /> */}
+          <Route path="/forgpass" element={<ForgetPassword/>} />
           <Route path="/logout" element={<LogoutPage/>} />
 
           {/* Layouts */}
