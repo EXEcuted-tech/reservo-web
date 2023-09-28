@@ -8,7 +8,7 @@ import {IoMdLock} from "react-icons/io";
 import {FaEnvelope} from "react-icons/fa";
 import background from '../../../assets/background-pattern.png';
 import guykey from '../../../assets/usersign.png';
-import "../../../assets/css/user-signup.css"
+
 
 const SignupPage = () => {
   return (
@@ -21,13 +21,13 @@ const SignupPage = () => {
         <div className='w-[35%] bg-[#e72a2a] float-left text-center shadow-[12px_23px_10px_-4px_gray] pt-[70px] pb-[78px] px-10 rounded-[7px_0px_0px_7px]'>
           <img className='max-w-[40%] h-auto ml-[32%]' src={guykey} />
           {/* Welcome Sign */}
-          <div className='m-2.5 p-0 border-y-2 border-y-[white] border-solid'>
-            <h2 className='block text-[1.7em] m-[5.45%] text-[white]  '>Sign Up to<br/> Reservo!</h2>
+          <div className='m-2.5 p-0 border-y-2 border-y-[white] border-solid  font-bold font-poppins'>
+            <h2 className='block text-[1.7em] m-[5.45%] text-[white]'>Sign Up to<br/> Reservo!</h2>
           </div>
-          <p>Access more features by <br/>signing up now!</p>
-          <div className='font-poppins mt-[53px]'>
-            <h3 className=' mb-0'>Already have an</h3>
-            <h3 className=' mb-2'>existing account?</h3>
+          <p className=''>Access more features by <br/>signing up now!</p>
+          <div className='mt-[53px] font-bold font-poppins'>
+            <h3 className=' mb-0 text-[1.17em]'>Already have an</h3>
+            <h3 className=' mb-2 text-[1.17em]'>existing account?</h3>
 
             <a className='no-underline inline-block text-[#e72a2a] border text-lg relative cursor-pointer font-[bold] 
                           w-[190px] px-6 py-[11px] bg-white
@@ -38,7 +38,7 @@ const SignupPage = () => {
         </div>
         {/* Right Box */}
         <div className='w-[65%] float-left bg-[white] shadow-[4px_15px_10px_4px_gray] pt-[38px] pb-[50px] px-[100px] rounded-[0px_7px_7px_0px]'>
-          <h2 className='text-center text-[25px]'>Create Your Account</h2>
+          <h2 className='text-center text-[25px] font-bold font-poppins'>Create Your Account</h2>
           <div className='mt-2.5'>
             <BsFillPersonFill className='float-left text-[21px]'  />
             <label className='float-left ml-[2px]'>Username</label>
