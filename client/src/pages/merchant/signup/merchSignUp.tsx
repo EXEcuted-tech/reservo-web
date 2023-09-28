@@ -2,9 +2,8 @@ import React from 'react'
 import colors from '../../../common/colors'
 import { BsFillPersonFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
-import { BsFillTelephoneFill, BsBriefcaseFill, BsPersonAdd, BsFillImageFill } from "react-icons/bs";
+import { BsFillTelephoneFill, BsBriefcaseFill, BsPersonAdd, BsFillImageFill, BsFillPersonVcardFill } from "react-icons/bs";
 import { BiSolidLockAlt } from "react-icons/bi";
-import { FcBusinessman } from "react-icons/fc";
 import background from '../../../assets/background-pattern.png';
 import guykey from '../../../assets/usersign.png';
 
@@ -53,7 +52,7 @@ const MerchSignUp = () => {
                   <input type="text" className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 <div className='mt-2.5'>
-                  <FcBusinessman className='float-left text-[17px]'/>
+                  <BsFillPersonVcardFill className='float-left text-[19px]'/>
                   <label className='float-left ml-[4px]'>Position</label>
                   <input type="text" className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>

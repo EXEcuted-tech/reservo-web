@@ -1,7 +1,5 @@
 const express = require('express');
-const db = require('../index'); 
-const mysql = require('mysql');
-const { pool } = require('fork-ts-checker-webpack-plugin');
+const db = require('../a_db'); 
 
 const createAccount = async (req, res) => {
     try {

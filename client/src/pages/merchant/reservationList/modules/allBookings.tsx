@@ -1,7 +1,8 @@
 import React from 'react'
 import ReserveCard from './reserveCard'
 
-const AllBookings = () => {
+const AllBookings: React.FC<ReserveProps> = (props) => {
+  const openModal = props;
   const bookings1:ReserveCardProps[] = [
     {
       reserveId: 1,
@@ -12,7 +13,7 @@ const AllBookings = () => {
       status: "Ongoing",
     },
     {
-      reserveId: 1,
+      reserveId: 2,
       organizerName: "Angelou Sereno",
       clientName: "Jeremiah Juinio",
       eventSize: 5,
@@ -31,7 +32,7 @@ const AllBookings = () => {
       status: "Finished",
     },
     {
-      reserveId: 1,
+      reserveId: 2,
       organizerName: "Franz Ondiano",
       clientName: "Jeremiah Juinio",
       eventSize: 5,
@@ -41,7 +42,13 @@ const AllBookings = () => {
   ]
   return (
     <div>
-      {/* <ReserveCard props={bookings1}/> */}
+      <div className='font-poppins mx-[3%] mt-[3%]'>
+        <ReserveCard 
+          bookings={bookings1} openModal={openModal} />
+      </div>
+      <div className='font-poppins mx-[3%] mt-[3%]'>
+        <ReserveCard bookings={bookings2} openModal={openModal}/>
+      </div>
     </div>
   )
 }
