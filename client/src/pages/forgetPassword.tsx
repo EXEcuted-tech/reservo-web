@@ -9,8 +9,8 @@ const ForgetPassword = () => {
     return (
         <div className="font-poppins">
             <img className='absolute h-screen w-full' src={background} alt='background'/>
-            <div className='w-[65.5%] h-[85%] absolute -translate-x-2/4 -translate-y-2/4 flex items-center shadow-[0_0_10px_black,0_0_15px_rgba(0,0,0,0.5)] rounded-[20px] left-2/4 top-2/4'>
-                <div className='w-[48%] h-full bg-[rgb(221,40,3)] flex flex-col items-center p-[80px] rounded-tl-[20px] rounded-bl-[20px]'>
+            <div className='w-[53%] h-[65%] absolute -translate-x-2/4 -translate-y-2/4 flex items-center shadow-[0_0_10px_black,0_0_15px_rgba(0,0,0,0.5)] rounded-[20px] left-2/4 top-2/4'>
+                <div className='w-[35%] h-full bg-[rgb(221,40,3)] flex flex-col items-center p-[80px] rounded-tl-[20px] rounded-bl-[20px]'>
                     <img src={usersign} alt="User Sign" className='h-[110px] w-[110px] mt-[20px]' />
                     <h1 className='text-[white] font-[750] text-center text-4xl w-[95%] mt-2.5 mb-5 px-10 py-2.5 border-y-2 border-y-[white] border-solid'>Forgot Password</h1>
                     <p className='text-[white] text-center text-lg'>Enter your email address and retrieve your account.</p>

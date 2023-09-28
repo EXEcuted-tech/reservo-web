@@ -6,11 +6,12 @@ import {RiTimeFill} from 'react-icons/ri'
 
 const AboutUsPage = () => {
   return (
-    
-      <div className='h-[80vh] font-poppins relative flex flex-row justify-between bg-black bg-opacity-40'>
-        <img src={background} alt='About Us Background' className='h-full w-full object-cover bg-no-repreat bg-cover absolute mix-blend-overlay'/>
-        <div className='w-4/5 px-40 py-20'>
-          <div className='border-b-4 pb-6'>
+    <div className='h-[80vh]'>
+      <div className='font-poppins relative flex flex-row justify-between bg-black bg-opacity-40 h-[100%]'>
+        <img src={background} alt='About Us Background' className='h-full w-full object-cover bg-no-repreat bg-cover absolute z-100'/>
+        <div className='h-full w-full bg-no-repreat bg-cover absolute z-999 bg-[rgba(0,0,0,0.45)]'/>
+        <div className='w-4/5 px-40 py-20 z-0'>
+          <div className='border-b-4 pb-6 '>
             <h1 className='font-extrabold text-white text-8xl pb-3'>Cater.</h1>
             <h1 className='font-extrabold text-white text-8xl pb-3'>Connect.</h1>
             <h1 className='font-extrabold text-white text-8xl pb-3'>Celebrate.</h1>
@@ -21,7 +22,7 @@ const AboutUsPage = () => {
           </div>
         </div>
 
-        <div className='bg-black bg-opacity-70 rounded-l-3xl py-[6vh] px-[5vh] my-32'>
+        <div className='bg-black bg-opacity-70 rounded-l-3xl py-[15%] px-[5vh] z-0 h-[60%] flex items-center self-center'>
           <table>
             <tbody>
               <tr>
@@ -67,6 +68,7 @@ const AboutUsPage = () => {
             </tbody>
           </table>
         </div>
+      </div>
       </div>
 
   )

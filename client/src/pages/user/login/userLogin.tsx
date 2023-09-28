@@ -39,8 +39,6 @@ const UserLogin = () => {
     }
     
 
-
-
   return (
     <div className="page font-poppins bg-cover bg-login flex w-screen h-screen justify-center items-center">
         <div className="loginBox flex overflow-hidden bg-[grey] w-[50rem] h-[30rem] rounded-lg shadow-xl">

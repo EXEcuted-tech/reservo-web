@@ -10,6 +10,7 @@ import {FiLogOut} from 'react-icons/fi'
 const MerchantSide = () => {
   const [showMore,setShowMore] = useState(false)
   const [urlPart, setUrlPart] = useState('');
+  const [urlSecPart,setUrlSecPart] = useState('')
 
   const navigate = useNavigate();
   
@@ -17,6 +18,10 @@ const MerchantSide = () => {
     const pathParts = window.location.pathname.split('/');
     if (pathParts.length >= 2) {
       setUrlPart(pathParts[1]);
+    }
+
+    if (pathParts.length >= 3) {
+      setUrlSecPart(pathParts[2]);
     }
   }, [window.location.pathname]);
 
@@ -41,13 +46,19 @@ const MerchantSide = () => {
                 <li className={`flex items-center text-[1.4em] hover:cursor-pointer  ${urlPart !== 'reservationlist' && showMore===false
                 ? 'mb-[11%] hover:mb-[3%] hover:bg-[#660605] hover:px-[3%] hover:py-[4%] hover:ml-[-3%] hover:rounded-xl hover:animate-small-fade-in-down ' 
                 : 'bg-[#660605] rounded-xl px-[3%] py-[4%] hover:mb-[0] ml-[-3%]'}`}
-                    onClick={()=>{handleMenuItemClick('/reservationlist',false)}}>
+                    onClick={()=>{handleMenuItemClick('/reservationlist/all',false)}}>
                     <IoCalendar className='mr-[4%] text-[1.5em]'/> Reservations List</li>
                 { showMore || urlPart==='reservationlist'  &&
                    <ul className='text-white ml-[15%] mr-[5%] text-[1.2em] bg-[#912D2C] pl-[10%] py-[5%] rounded-b-2xl'>
-                    <li className='my-[5%] hover:cursor-pointer hover:bg-[#660605] hover:ml-[-15%] hover:pl-[15%] hover:py-[1%]'>All Bookings</li>
-                    <li className='mb-[5%] hover:cursor-pointer hover:bg-[#660605] hover:ml-[-15%] hover:pl-[15%] hover:py-[1%]'>Upcoming</li>
-                    <li className='mb-[5%] hover:cursor-pointer hover:bg-[#660605] hover:ml-[-15%] hover:pl-[15%] hover:py-[1%]'>Finished</li>
+                    <li className={`my-[5%] hover:cursor-pointer hover:bg-[#660605] hover:ml-[-15%] hover:pl-[15%] hover:py-[1%]
+                        ${ urlSecPart ==='all' ? 'bg-[#660605] ml-[-15%] pl-[15%]': ''}`}
+                        onClick={()=>{navigate('/reservationlist/all')}}>All Bookings</li>
+                    <li className={`mb-[5%] hover:cursor-pointer hover:bg-[#660605] hover:ml-[-15%] hover:pl-[15%] hover:py-[1%]
+                       ${ urlSecPart ==='upcoming' ? 'bg-[#660605] ml-[-15%] pl-[15%]': ''}`}
+                       onClick={()=>{navigate('/reservationlist/upcoming')}}>Upcoming</li>
+                    <li className={`mb-[5%] hover:cursor-pointer hover:bg-[#660605] hover:ml-[-15%] hover:pl-[15%] hover:py-[1%]
+                      ${ urlSecPart ==='finished' ? 'bg-[#660605] ml-[-15%] pl-[15%]': ''}`}
+                       onClick={()=>{navigate('/reservationlist/finished')}}>Finished</li>
                    </ul>
                 }
                 <li className={`flex items-center text-[1.4em] mb-[11%] hover:bg-[#660605] hover:px-[3%] hover:py-[4%] hover:ml-[-3%] hover:rounded-xl 

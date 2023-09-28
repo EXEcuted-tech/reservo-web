@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Card from '../../../components/card/card'
 import Rating from '@mui/material/Rating';
 import {GrLocation} from 'react-icons/gr'
@@ -6,11 +6,33 @@ import {AiOutlineFolderView, AiFillStar, AiOutlineArrowLeft} from 'react-icons/a
 import {BsBookFill} from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom';
 import CommentSec from './commentSec';
+import RatingModal from '../../../components/modals/ratingModal/RatingModal';
 
 
 /*Insertan panig back end para ma fully functional*/
 
-const MerchDeets = () => {
+const MerchDeets = () =>{
+    const [openRatingMod,setOpenRatingMod]= useState(false);
+    return (
+        <div>
+            
+            {openRatingMod && 
+            <>
+                <div className='fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,0.5)] opacity-0.5 z-100'></div>
+                <RatingModal setOpenRatingMod={setOpenRatingMod} openRatingMod={openRatingMod}/>
+            </>
+            }
+            <MerchDeetsBack setOpenRatingMod={setOpenRatingMod} openRatingMod={openRatingMod}/>
+        </div>
+    )
+}
+
+
+  
+
+const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
+    const { setOpenRatingMod, openRatingMod} = props;
+    const navigate = useNavigate();
     const data=   {
         merchId: 1,
         picture: 'https://i.imgur.com/ht36TyH.jpg',
@@ -50,12 +72,16 @@ const MerchDeets = () => {
         },
       ];
 
+  const navigateBack = () =>{
+    
+  }
+
   return (
-    <div className={`font-poppins bg-[#F9F2EA] h-[100%]`}>
+    <div className={`animate-slide-right font-poppins bg-[#F9F2EA] h-[100%] ${openRatingMod ? 'z-[-10]' : 'z-1'}`}>
        <div className='text-[#DD2803] ml-[2%]'>
          <h1 className='text-[2.5em] py-[1%] font-bold flex items-center'>
             <AiOutlineArrowLeft className='text-black mr-[1%] hover:text-[#DD2803]'
-            />
+            onClick={()=>{navigate('/eaterychoice')}}/>
             Merchant Details
         </h1>
        </div>
@@ -74,7 +100,7 @@ const MerchDeets = () => {
                 {/* Left Side */}
                     <div>
                         <div className='flex mt-[0.5%]'>
-                            <Rating value={data.rating} readOnly />
+                            <Rating className={`${openRatingMod ? 'z-[-1]' : 'z-1'}`} value={data.rating} readOnly />
                             <p className='ml-[1%]'>({data.reviewCount} Reviews)</p>
                         </div>
                         <div className='flex items-center mt-[1%] text-[1.1em]'>
@@ -100,11 +126,13 @@ const MerchDeets = () => {
 
                     <div className='flex flex-col relative justify-start mt-[-2.5%] mr-[2%] ml-[22%] w-[100%]'>
                         <button className='w-[100%] flex items-center justify-center text-black bg-[#F4D147] mb-[4%] px-[3%] 
-                            py-[4%] rounded-3xl hover:bg-[#FFB800] font-medium text-[1.3em]'>
+                            py-[4%] rounded-3xl hover:bg-[#FFB800] font-medium text-[1.3em]'
+                            onClick={()=>{navigate('/eaterychoice/book')}}>
                             <BsBookFill className='text-center text-[1em] mr-[2%]'/>Book Now
                         </button>
                         <button className='w-[100%] flex items-center justify-center text-white bg-[#FF8A00] px-[3%] py-[4%] rounded-3xl
-                            hover:bg-[#FFD8AA] hover:text-black font-medium text-[1.3em]'>
+                            hover:bg-[#FFD8AA] hover:text-black font-medium text-[1.3em]'
+                            onClick={()=>{setOpenRatingMod(true)}}>
                             <AiFillStar className='text-[1.5em]'/>Rate Here
                         </button>
                     </div>
@@ -164,15 +192,12 @@ const MerchDeets = () => {
                 <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Average Rating:</span>4.5</p>
                 <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Total Reviews:</span>5,021 Total</p>
                 {reviewData.map((review,index)=>(
-                    <div>
+                    <div className={`my-[1%] ${openRatingMod ? 'opacity-0.5 z-[-1]' : 'z-1'}`}>
                         <CommentSec key={index} {...review}/>
                     </div>
                 ))}
            </div>   
         </div>        
-
-
-       
     </div>
   )
 }
