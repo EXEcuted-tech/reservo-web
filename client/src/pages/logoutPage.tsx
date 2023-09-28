@@ -21,22 +21,21 @@ const LogoutPage = () => {
       </div>
       {/* <img src={Background} alt='wavy-pattern' className='object-cover h-[88vh] w-full absolute mix-blend-overlay bg-no-repeat' /> */}
       
-      <div className='flex flex-row justify-even pt-20 place-items-center'>
+      <div className='flex flex-row justify-even pt-20 place-items-center bg-[url("../assets/background-pattern.png")]'>
         <div>
-          <h1 className='font-extrabold text-9xl ml-10 text-red-700'>You have been logged out.</h1>
-          <p className='font-semibold text-4xl ml-10 mt-[50px]'>Thank you for using Reservo.<br/> To access the page, please log in again.</p>
-          <a href='/uslogin'><button>Return to Login Page</button></a>
+          <h1 className='font-extrabold text-9xl ml-20 text-red-700'>You have been logged out.</h1>
+          <p className='font-semibold text-4xl ml-20 mt-[50px]'>Thank you for using Reservo.<br/> To access the page, please log in again.</p>
+          <a href='/uslogin'>
+            <button className='bg-red-700 rounded-full text-white text-4xl font-semibold py-3 px-6 mt-7 ml-20'>
+              Return to Login Page
+            </button>
+          </a>
         </div>
 
         <div>
           <img src={PeopleWaving} alt="people-waving" className='w-[900px] mr-[500px]'/>
         </div>
       </div>
-
-      {/* <div>
-        RIGHT
-      </div> */}
-
     </div>
   )
 }
