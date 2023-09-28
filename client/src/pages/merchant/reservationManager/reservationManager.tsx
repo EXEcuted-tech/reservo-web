@@ -47,7 +47,6 @@ const ReservationManager = () => {
     const newField = { label: data?.label ?? "", type: data?.type ?? "", value: "" };
 
     setFieldList((currentList) => [...currentList, newField]);
-    setData(null);
   };
 
   const handleRemove = (fieldIndex: number) => {
