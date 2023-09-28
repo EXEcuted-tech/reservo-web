@@ -9,7 +9,16 @@ const LogoutPage = () => {
         <RiReservedFill className='fill-red-600 text-[80px] my-[10px] ml-[50px]' />
       </div>
       <img src={Background} alt='wavy-pattern' className='object-cover h-[88vh] w-full absolute mix-blend-overlay bg-no-repeat' />
-      FUCKING BULLSHIT
+      
+      <div className='flex justify-around'>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Porro iste nemo aperiam fugiat ullam tenetur accusamus quis doloremque eveniet atque quod animi vero expedita voluptatum eius, rem provident corrupti harum.</p>
+        <p>dasdas</p>
+      </div>
+
+      {/* <div>
+        RIGHT
+      </div> */}
+
     </div>
   )
 }
