@@ -22,7 +22,7 @@ const AboutUsPage = () => {
           </div>
         </div>
 
-        <div className='bg-black bg-opacity-70 rounded-l-3xl py-[6vh] px-[5vh] my-32 z-0'>
+        <div className='bg-black bg-opacity-70 rounded-l-3xl py-[15%] px-[5vh] z-0 h-[60%] flex items-center self-center'>
           <table>
             <tbody>
               <tr>
