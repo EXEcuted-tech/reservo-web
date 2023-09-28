@@ -33,3 +33,10 @@ body {
   border-top: 5px solid #000;
   cursor: pointer;
 }
+
+.bg-logout {
+  background-image: url('/src/assets/background-pattern.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 88.5vh;
+}
