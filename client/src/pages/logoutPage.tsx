@@ -1,19 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-
-import Background from '../assets/background-pattern.png'
 import {RiReservedFill} from 'react-icons/ri'
 import PeopleWaving from '../assets/wave.png'
-
-// module.exports = {
-//   theme: {
-//     extend: {
-//       backgroundImage: {
-//         'bg-image': "url('../assets/background-pattern.png')",
-//       }
-//     }
-//   }
-// };
 
 const LogoutPage = () => {
   return (
