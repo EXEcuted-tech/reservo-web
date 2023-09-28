@@ -24,7 +24,6 @@ const createAccount = async (req, res) => {
                 });
             }
 
-            db.end();
         });
     } catch (error) {
         res.status(500).json({
@@ -39,16 +38,18 @@ const login = (req,res)=>{
         const { account_email, password} = req.body;
 
         // Use a parameterized query to prevent SQL injection
-        const sql = "SELECT email_address, passwd FROM account WHERE email_address = ?";
+        const sql = "SELECT * FROM account WHERE email_address = ?";
         const values = [account_email];
-        db.query(sql, values, (err, result) => {
-            if (!err && result.length === 1){
-                const hash = result[0].passwd;
+        db.query(sql, values, (err, dbresult) => {
+            if (!err && dbresult.length === 1){
+                const hash = dbresult[0].passwd;
             bcrypt.compare(password,hash).then(function(result) {
                 if (result == true){
                     res.json({
                         success: true,
                         message: "Retrieved",
+                        userID: dbresult[0].account_id,
+                        user: dbresult[0].account_name,
                     });
                 }else{
                     res.json({
@@ -58,7 +59,6 @@ const login = (req,res)=>{
                 }
             });
                 
-                db.end();
         }else{
             console.log(err);
         }

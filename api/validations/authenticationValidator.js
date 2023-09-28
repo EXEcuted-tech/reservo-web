@@ -57,8 +57,6 @@ const authenticationValidator = (req,res,next)=>{
 }
 
 const loginValidator = (req, res, next) => {
-    console.log('loginValidator middleware is running');
-    console.log('Request body:', req.body);
     if (!req.body.account_email) {
         return res.status(400).json({
             success: false,
@@ -70,6 +68,13 @@ const loginValidator = (req, res, next) => {
         return res.status(400).json({
             success: false,
             error: { text: ['Password is required'] },
+        });
+    }
+
+    if (req.body.password.length < 8){
+        return res.status(400).json({
+            success: false,
+            error: { text: ['Password is too short'] },
         });
     }
 
