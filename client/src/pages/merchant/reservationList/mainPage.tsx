@@ -14,7 +14,10 @@ const ReserveList = () => {
 
   const [urlPart, setUrlPart] = useState('');
   const [normalView,setNormalView] = useState(true);
-  const [calendarView,setCalendarView] = useState(false);;
+  const [calendarView,setCalendarView] = useState(false);
+
+  const [openModalView,setOpenModalView] = useState(false);
+  const [openModalEdit,setOpenModalEdit] = useState(false);
 
   useEffect(() => {
     const pathParts = window.location.pathname.split('/');
@@ -60,9 +63,15 @@ const ReserveList = () => {
         {normalView 
         ?
           <div>
-            {urlPart=='all' && <AllBookings/>}
-            {urlPart=='upcoming' && <UpcomingList/>}
-            {urlPart=='finished' && <CompleteList/>}
+            {urlPart=='all' && <AllBookings 
+                                setOpenModalView={setOpenModalView}
+                                setOpenModalEdit={setOpenModalEdit}/>}
+            {urlPart=='upcoming' && <UpcomingList
+                                setOpenModalView={setOpenModalView}
+                                setOpenModalEdit={setOpenModalEdit}/>}
+            {urlPart=='finished' && <CompleteList
+                                setOpenModalView={setOpenModalView}
+                                setOpenModalEdit={setOpenModalEdit}/>}
           </div>
         : 
           <div>
