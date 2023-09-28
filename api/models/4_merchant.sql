@@ -4,7 +4,7 @@ USE reservo;
 */
 
 CREATE TABLE `merchant` (
-  `merchant_id` bigint(20) NOT NULL,
+  `merchant_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `merchant_name` varchar(30) NOT NULL,
   `email_address` varchar(60) NOT NULL,
   `contact_number` varchar(11) NOT NULL,
@@ -14,7 +14,8 @@ CREATE TABLE `merchant` (
 
 ALTER TABLE `merchant`
   ADD PRIMARY KEY (`merchant_id`),
-  ADD KEY `sched_id` (`sched_id`);
+  ADD KEY `sched_id` (`sched_id`),
+  MODIFY COLUMN `merchant_id` BIGINT AUTO_INCREMENT;
 
 
 ALTER TABLE `merchant`

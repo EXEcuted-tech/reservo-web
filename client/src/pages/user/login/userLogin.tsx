@@ -1,6 +1,8 @@
 import React, { FormEvent,useState } from 'react'
 
- import { RiReservedFill } from 'react-icons/ri'; 
+import background from '../../../assets/background-pattern.png'
+
+import { RiReservedFill } from 'react-icons/ri'; 
 import { Link, useNavigate } from 'react-router-dom';
 
 
@@ -39,11 +41,16 @@ const UserLogin = () => {
     }
     
 
+
+
   return (
-    <div className="page font-poppins bg-cover bg-login flex w-screen h-screen justify-center items-center">
-        <div className="loginBox flex overflow-hidden bg-[grey] w-[50rem] h-[30rem] rounded-lg shadow-xl">
-            <div className="left bg-[#DD2803] w-[50%] flex flex-col items-center justify-center pl-[2.8rem] pr-[2.8rem]">
-                <div className="imgBox "> 
+    <div className='content-center w-[full] h-[full] overflow-hidden font-poppins'>
+      {/* Background Picture */}
+      <img className='absolute h-screen w-full' src={background} />
+      <div className='absolute overflow-hidden shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 text-align w-[980px] -translate-x-2/4 -translate-y-2/4 bg-blue'>
+        {/* Left Box */}
+        <div className="leftBox flex flex-col justify-center w-[35%] h-[83vh] bg-[#DD2803] float-left text-center pt-[70px] pb-[78px] px-10">
+                <div className="imgBox flex justify-center"> 
                     <RiReservedFill size={60} color='white'/>
                 </div>
                <div className="headline pb-[2rem]">
@@ -60,14 +67,12 @@ const UserLogin = () => {
                 <div className="footHeader flex flex-col ">
                     <span className='capitalize text-[18px] font-bold text-white'>are you admin?</span>
                     <Link to={'/adlogin'} className='bg-white font-semibold text-center p-[0.7rem] rounded-full m-[1rem] text-[#DD2803]'>Admin page</Link>
-                    {/* <a href="/adlogin" className='bg-white font-semibold text-center p-[0.7rem] rounded-full m-[1rem] text-[#DD2803]'>Admin page</a> */}
                 </div>
             </div>
-            {/* LOGIN INPUT AREA */}
-            <div className="right flex flex-col h-[100%] w-[100%] pt-[3rem] space-y-100 bg-white items-center">
-                <div className="TitleHeader h-[20%] text-center">
-                    <span className='text-[28px] capitalize font-bold'>Login to your Account</span>
-                    <div className="invalid p-[5px] ">
+            <div className="right w-[65%] h-[83vh] float-left bg-white shadow-[4px_15px_10px_4px_gray] rounded-[0px_7px_7px_0px] flex flex-col justify-center items-center">
+                <div className="TitleHeader h-[20%] space-y-5 text-center">
+                    <span className='text-[28px] capitalize font-bold '>Login to your Account</span>
+                    <div className="invalid p-[5px]">
                         <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>invalid User or Password please Try again</span>
                     </div>
                 </div>
@@ -83,15 +88,20 @@ const UserLogin = () => {
                         </div>
                     </div>
                     <div className="frgt text-right text-[12px] mb-[2rem]">
-                        <Link to={'/uslogin'}>Forgot Password?</Link>
+                        <Link to={'/forgpass'}>Forgot Password?</Link>
                     </div>
                     <div className="buttons flex flex-col items-center space-y-5">
-                        <button type='submit' onClick={submitHandler} className='bg-[#DD2803] text-white p-[0.5em] w-[50%] rounded-full hover:bg-red'>Sign in</button>
-                        <button type='submit' onClick={guestHandler} className='text-[#DD2803] p-[0.5em] font-bold w-[50%] rounded-full border-solid border-2 border-[#DD2803]'>Log in as Guest</button>
+                        <button type='submit' onClick={submitHandler} className='button bg-[#DD2803] text-white p-[0.5em] w-[50%] rounded-full hover:bg-red'>Sign in</button>
+                        <button type='submit' onClick={guestHandler} className='button text-[#DD2803] p-[0.5em] font-bold w-[50%] rounded-full border-solid border-2 border-[#DD2803]'>Log in as Guest</button>
+                        <div className="signBox">
+                            <span className='capitalize'>need an account ?</span>
+                            <Link to={'/usRegister'} className='link text-[#DD2803] font-bold pl-1'>Sign Up</Link>
+                        </div>    
                     </div>
                 </form>
            </div>
-        </div>
+
+      </div>
     </div>
   )
 }
