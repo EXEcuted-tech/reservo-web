@@ -1,4 +1,4 @@
-const authenticateValidator = (req,res,next)=>{
+const authenticationValidator = (req,res,next)=>{
     if(!req.body.text){
         return res.json({
             success:false,
@@ -7,4 +7,4 @@ const authenticateValidator = (req,res,next)=>{
     }
 }
 
-module.exports = authenticateValidator;
+module.exports = authenticationValidator;
