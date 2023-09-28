@@ -6,7 +6,7 @@ USE reservo;
 */
 
 CREATE TABLE `inventory` (
-  `inventory_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `inventory_id` bigint(20) NOT NULL,
   `no_of_tables` int(11) NOT NULL,
   `no_of_chairs` int(11) NOT NULL,
   `no_of_plates` int(11) NOT NULL,

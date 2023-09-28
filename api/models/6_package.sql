@@ -4,7 +4,7 @@
 */
 USE reservo;
 CREATE TABLE `package` (
-  `package_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `package_id` bigint(20) NOT NULL,
   `package_name` varchar(255) NOT NULL,
   `package_desc` text NOT NULL,
   `package_date_availability_start` date NOT NULL,
