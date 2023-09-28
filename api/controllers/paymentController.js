@@ -1,5 +1,5 @@
 const express = require('express');
-const db = require('./a_db'); 
+const db = require('../a_db'); 
 
 const createPayment = (req,res)=>{
     res.json({

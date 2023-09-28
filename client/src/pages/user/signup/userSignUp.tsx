@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import colors from '../../../common/colors'
 import { BsFillPersonFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
@@ -9,6 +9,11 @@ import guykey from '../../../assets/usersign.png';
 
 
 const SignupPage = () => {
+  const [account_email, setaccount_email]= useState("");
+  const [account_username, setaccount_username]= useState("");
+  const [account_password, setaccount_password]= useState("");
+  const [contact_number, setcontact_number]= useState("");
+  const [account_type, setaccount_type]= useState(1);
   return (
 
     <div className='content-center overflow-hidden font-poppins'>
