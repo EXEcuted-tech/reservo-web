@@ -9,7 +9,6 @@ const LogoutPage = () => {
       <div className='h-[10vh] w-full border-b-8 border-red-600'>
         <RiReservedFill className='fill-red-600 text-[80px] my-[10px] ml-[50px]' />
       </div>
-      {/* <img src={Background} alt='wavy-pattern' className='object-cover h-[88vh] w-full absolute mix-blend-overlay bg-no-repeat' /> */}
       
       <div className='flex flex-row justify-even place-items-center bg-logout'>
         <div className='flex flex-col'>
