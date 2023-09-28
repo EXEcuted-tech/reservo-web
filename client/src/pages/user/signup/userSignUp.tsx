@@ -4,6 +4,8 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { BiSolidLockAlt } from "react-icons/bi";
+import {IoMdLock} from "react-icons/io";
+import {FaEnvelope} from "react-icons/fa";
 import background from '../../../assets/background-pattern.png';
 import guykey from '../../../assets/usersign.png';
 import "../../../assets/css/user-signup.css"
