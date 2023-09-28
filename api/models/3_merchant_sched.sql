@@ -10,3 +10,4 @@ CREATE TABLE `merchant_sched` (
 
 ALTER TABLE `merchant_sched`
   ADD PRIMARY KEY (`sched_id`);
+  MODIFY COLUMN `sched_id` BIGINT AUTO_INCREMENT;
