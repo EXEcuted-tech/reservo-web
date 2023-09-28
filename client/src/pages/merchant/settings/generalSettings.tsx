@@ -3,6 +3,7 @@ import {IoLocation} from 'react-icons/io5'
 import {PiBinoculars} from 'react-icons/pi'
 import {MdPhone} from 'react-icons/md'
 import colors from '../../../common/colors'
+import jjlogo from "../../../assets/jjlogo.png"
 
 export default function GeneralSettings() {
     const HandleSubmit = () => {
@@ -17,8 +18,14 @@ export default function GeneralSettings() {
                 </div>
                 
                 <form className="mt-2 mr-5 ml-5" onSubmit={HandleSubmit}> 
-                        <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-medium text-black" style={{ lineHeight: '3.0rem' }}>
+                    <div className="m-2 flex flex-row ">
+                        <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
+                                Business Logo
+                            </label>
+                                <img src={jjlogo} className="ml-5"></img>
+                        </div>
+                        <div className="m-2 flex flex-row ">
+                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Business Name
                             </label>
                             <input
@@ -31,7 +38,7 @@ export default function GeneralSettings() {
                             />
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-medium text-black" style={{ lineHeight: '3.0rem' }}>
+                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Branch Name
                             </label>
                             <input
@@ -44,7 +51,7 @@ export default function GeneralSettings() {
                             />
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-medium text-black" style={{ lineHeight: '3.0rem' }}>
+                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Description
                             </label>
                             <textarea
@@ -73,7 +80,7 @@ export default function GeneralSettings() {
                 </div>
                 <form className="mt-2 mr-5 ml-5" onSubmit={HandleSubmit}> 
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-medium text-black" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
                                 Country
                             </label>
                             <select
@@ -89,7 +96,7 @@ export default function GeneralSettings() {
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-medium text-black" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
                                 Region
                             </label>
                             <select
@@ -105,7 +112,7 @@ export default function GeneralSettings() {
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-medium text-black" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
                                 Province
                             </label>
                             <select
@@ -121,7 +128,7 @@ export default function GeneralSettings() {
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-medium text-black" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
                                 Municipality
                             </label>
                             <select
@@ -137,7 +144,7 @@ export default function GeneralSettings() {
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-medium text-black" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
                                 Barangay
                             </label>
                             <select
@@ -170,7 +177,7 @@ export default function GeneralSettings() {
                 </div>
                 <form className="mt-2 mr-5 ml-5" onSubmit={HandleSubmit}> 
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-medium text-black" style={{ lineHeight: '3.0rem' }}>
+                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Contact Number
                             </label>
                             <input
@@ -183,7 +190,7 @@ export default function GeneralSettings() {
                             />
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-medium text-black" style={{ lineHeight: '3.0rem' }}>
+                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Email Address
                             </label>
                             <input
