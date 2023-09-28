@@ -1,5 +1,5 @@
 const express = require('express');
-const db = require('./index'); 
+const db = require('../index'); 
 
 const createPackage = (req,res)=>{
     res.json({
