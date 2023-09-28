@@ -36,11 +36,13 @@ const AdminLogin = () => {
 
 
   return (
-    <div className="font-poppins">
-            <img className='absolute h-screen w-full' src={background} alt='background'/>
-            <div className='w-[65.5%] h-[85%] absolute bg-white overflow-hidden -translate-x-2/4 -translate-y-2/4 flex items-center shadow-[0_0_10px_black,0_0_15px_rgba(0,0,0,0.5)] rounded-[20px] left-2/4 top-2/4'>
-            <div className="left bg-white w-[50%] h-[100%] flex flex-col items-center justify-center pl-[2.8rem] pr-[2.8rem]">
-                <div className="imgBox "> 
+    <div className='content-center w-[full] h-[full] overflow-hidden font-poppins'>
+      {/* Background Picture */}
+      <img className='absolute h-screen w-full' src={background} />
+      <div className='absolute overflow-hidden shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 text-align w-[1000px] -translate-x-2/4 -translate-y-2/4 bg-blue'>
+        {/* Left Box */}
+            <div className="leftBox z-1 flex flex-col justify-center w-[35%] h-[83vh] bg-white float-left text-center pt-[70px] pb-[78px] px-10">
+                <div className="imgBox flex justify-center"> 
                     <RiReservedFill size={60} color='#660605'/>
                 </div>
                <div className="headline pb-[2rem]">
@@ -59,9 +61,9 @@ const AdminLogin = () => {
                     <Link to={'/uslogin'} className='bg-[#660605] font-semibold text-center p-[0.7rem] rounded-full m-[1rem] text-white'>User page</Link>
                 </div>
             </div>
-            <div className="right flex flex-col h-[100%] w-[100%] pt-[3rem] bg-[#660605] items-center">
-                <div className="TitleHeader h-[20%] text-center">
-                    <span className='text-[28px] capitalize font-bold text-white '>Login to your Account</span>
+            <div className="right w-[65%] h-[83vh] float-left pt-[2rem] bg-[#660605] rounded-[0px_7px_7px_0px] flex flex-col items-center">
+                <div className="TitleHeader h-[20%] space-y-5 text-center">
+                    <span className='text-[28px] capitalize font-bold text-white'>Login to your Account</span>
                     <div className="invalid p-[5px]">
                     <span className={(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>invalid User or Password please Try again</span>
                 </div>

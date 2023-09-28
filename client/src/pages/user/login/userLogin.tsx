@@ -41,12 +41,16 @@ const UserLogin = () => {
     }
     
 
+
+
   return (
-    <div className="font-poppins">
-            <img className='absolute h-screen w-full' src={background} alt='background'/>
-            <div className='w-[65.5%] h-[85%] overflow-hidden absolute bg-white -translate-x-2/4 -translate-y-2/4 flex items-center shadow-[0_0_10px_black,0_0_15px_rgba(0,0,0,0.5)] rounded-[20px] left-2/4 top-2/4'>
-            <div className="left bg-[#DD2803] w-[48%] h-full flex flex-col items-center justify-center pl-[2.8rem] pr-[2.8rem]">
-                <div className="imgBox "> 
+    <div className='content-center w-[full] h-[full] overflow-hidden font-poppins'>
+      {/* Background Picture */}
+      <img className='absolute h-screen w-full' src={background} />
+      <div className='absolute overflow-hidden shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 text-align w-[1000px] -translate-x-2/4 -translate-y-2/4 bg-blue'>
+        {/* Left Box */}
+        <div className="leftBox flex flex-col justify-center w-[35%] h-[83vh] bg-[#DD2803] float-left text-center pt-[70px] pb-[78px] px-10">
+                <div className="imgBox flex justify-center"> 
                     <RiReservedFill size={60} color='white'/>
                 </div>
                <div className="headline pb-[2rem]">
@@ -62,13 +66,13 @@ const UserLogin = () => {
 
                 <div className="footHeader flex flex-col ">
                     <span className='capitalize text-[18px] font-bold text-white'>are you admin?</span>
-                    <Link to={'/adlogin'} className='linker bg-white font-semibold text-center p-[0.7rem] rounded-full m-[1rem] text-[#DD2803]'>Admin page</Link>
+                    <Link to={'/adlogin'} className='bg-white font-semibold text-center p-[0.7rem] rounded-full m-[1rem] text-[#DD2803]'>Admin page</Link>
                 </div>
             </div>
-            <div className="right flex flex-col h-[100%] w-[100%] pt-[3rem] space-y-100 bg-white items-center">
-                <div className="TitleHeader h-[20%] text-center">
-                    <span className='text-[28px] capitalize font-bold'>Login to your Account</span>
-                    <div className="invalid p-[5px] ">
+            <div className="right w-[65%] h-[83vh] float-left bg-white shadow-[4px_15px_10px_4px_gray] rounded-[0px_7px_7px_0px] flex flex-col justify-center items-center">
+                <div className="TitleHeader h-[20%] space-y-5 text-center">
+                    <span className='text-[28px] capitalize font-bold '>Login to your Account</span>
+                    <div className="invalid p-[5px]">
                         <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>invalid User or Password please Try again</span>
                     </div>
                 </div>
@@ -92,12 +96,13 @@ const UserLogin = () => {
                         <div className="signBox">
                             <span className='capitalize'>need an account ?</span>
                             <Link to={'/usRegister'} className='link text-[#DD2803] font-bold pl-1'>Sign Up</Link>
-                        </div>
+                        </div>    
                     </div>
                 </form>
            </div>
-            </div>
-        </div>
+
+      </div>
+    </div>
   )
 }
 
