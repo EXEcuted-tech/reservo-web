@@ -67,7 +67,6 @@ const UserLogin = () => {
                     <Link to={'/adlogin'} className='linker bg-white font-semibold text-center p-[0.7rem] rounded-full m-[1rem] text-[#DD2803]'>Admin page</Link>
                 </div>
             </div>
-            {/* LOGIN INPUT AREA */}
             <div className="right flex flex-col h-[100%] w-[100%] pt-[3rem] space-y-100 bg-white items-center">
                 <div className="TitleHeader h-[20%] text-center">
                     <span className='text-[28px] capitalize font-bold'>Login to your Account</span>
