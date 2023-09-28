@@ -1,5 +1,7 @@
 import React, { FormEvent,useState } from 'react'
 
+import background from '../../../assets/background-pattern.png'
+
  import { RiReservedFill } from 'react-icons/ri'; 
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -42,9 +44,10 @@ const UserLogin = () => {
 
 
   return (
-    <div className="page font-poppins bg-cover bg-login flex w-screen h-screen justify-center items-center">
-        <div className="loginBox flex overflow-hidden bg-[grey] w-[50rem] h-[30rem] rounded-lg shadow-xl">
-            <div className="left bg-[#DD2803] w-[50%] flex flex-col items-center justify-center pl-[2.8rem] pr-[2.8rem]">
+    <div className="font-poppins">
+            <img className='absolute h-screen w-full' src={background} alt='background'/>
+            <div className='w-[65.5%] h-[85%] overflow-hidden absolute bg-white -translate-x-2/4 -translate-y-2/4 flex items-center shadow-[0_0_10px_black,0_0_15px_rgba(0,0,0,0.5)] rounded-[20px] left-2/4 top-2/4'>
+            <div className="left bg-[#DD2803] w-[50%] h-[100%] flex flex-col items-center justify-center pl-[2.8rem] pr-[2.8rem]">
                 <div className="imgBox "> 
                     <RiReservedFill size={60} color='white'/>
                 </div>
@@ -62,7 +65,6 @@ const UserLogin = () => {
                 <div className="footHeader flex flex-col ">
                     <span className='capitalize text-[18px] font-bold text-white'>are you admin?</span>
                     <Link to={'/adlogin'} className='bg-white font-semibold text-center p-[0.7rem] rounded-full m-[1rem] text-[#DD2803]'>Admin page</Link>
-                    {/* <a href="/adlogin" className='bg-white font-semibold text-center p-[0.7rem] rounded-full m-[1rem] text-[#DD2803]'>Admin page</a> */}
                 </div>
             </div>
             {/* LOGIN INPUT AREA */}
@@ -85,7 +87,7 @@ const UserLogin = () => {
                         </div>
                     </div>
                     <div className="frgt text-right text-[12px] mb-[2rem]">
-                        <Link to={'/uslogin'}>Forgot Password?</Link>
+                        <Link to={'/forgpass'}>Forgot Password?</Link>
                     </div>
                     <div className="buttons flex flex-col items-center space-y-5">
                         <button type='submit' onClick={submitHandler} className='bg-[#DD2803] text-white p-[0.5em] w-[50%] rounded-full hover:bg-red'>Sign in</button>
@@ -93,8 +95,8 @@ const UserLogin = () => {
                     </div>
                 </form>
            </div>
+            </div>
         </div>
-    </div>
   )
 }
 

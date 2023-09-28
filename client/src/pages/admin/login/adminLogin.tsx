@@ -1,6 +1,7 @@
 import React, { FormEvent,useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 
+import background from '../../../assets/background-pattern.png'
 
 import { RiReservedFill } from 'react-icons/ri'; 
 
@@ -35,9 +36,10 @@ const AdminLogin = () => {
 
 
   return (
-    <div className="page font-poppins bg-cover bg-login flex w-screen h-screen justify-center items-center">
-        <div className="loginBox flex overflow-hidden bg-[grey] w-[50rem] h-[30rem] rounded-lg shadow-xl">
-            <div className="left bg-white w-[50%] flex flex-col items-center justify-center pl-[2.8rem] pr-[2.8rem]">
+    <div className="font-poppins">
+            <img className='absolute h-screen w-full' src={background} alt='background'/>
+            <div className='w-[65.5%] h-[85%] absolute bg-white overflow-hidden -translate-x-2/4 -translate-y-2/4 flex items-center shadow-[0_0_10px_black,0_0_15px_rgba(0,0,0,0.5)] rounded-[20px] left-2/4 top-2/4'>
+            <div className="left bg-white w-[50%] h-[100%] flex flex-col items-center justify-center pl-[2.8rem] pr-[2.8rem]">
                 <div className="imgBox "> 
                     <RiReservedFill size={60} color='#660605'/>
                 </div>
@@ -87,8 +89,8 @@ const AdminLogin = () => {
                     </div>
                 </form>
            </div>
+            </div>
         </div>
-    </div>
 )
 }
 
