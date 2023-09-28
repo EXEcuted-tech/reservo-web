@@ -1,10 +1,12 @@
 const createInventoryValidator = (req,res,next)=>{
-    if(!req.body.text){
+    console.log(req.body.test)
+    if (typeof req.body.test !== 'string') {
         return res.json({
-            success:false,
-            error:{text:['text is required']},
-        })
-    }
+          success: false,
+          error: { text: ['value should be text'] },
+        });
+      }
+    next()
 }
 
 module.exports = createInventoryValidator;

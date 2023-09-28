@@ -1,5 +1,5 @@
 const express = require('express');
-const db = require('../index'); 
+const db = require('./a_db'); 
 
 const createAccount = (req,res)=>{
     res.json({
