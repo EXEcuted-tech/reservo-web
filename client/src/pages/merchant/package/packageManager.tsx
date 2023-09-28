@@ -7,7 +7,7 @@ import CardEmpty from "../../../components/card/CardEmpty.tsx"
 import MerchAdHeader from '../../../components/headers/MerchAdHeader.tsx';
 import { BiPackage } from "react-icons/bi";
 import { useState } from 'react';
-import CreatePackageModal from '../../../components/package-modal/CreatePackageModal.tsx';
+import CreatePackageModal from '../../../components/modals/package-modal/CreatePackageModal.tsx';
 
 
 const PackageManager = () => {

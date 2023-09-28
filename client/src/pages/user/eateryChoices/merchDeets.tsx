@@ -6,11 +6,13 @@ import {AiOutlineFolderView, AiFillStar, AiOutlineArrowLeft} from 'react-icons/a
 import {BsBookFill} from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom';
 import CommentSec from './commentSec';
+import { Transition } from '@headlessui/react'
 
 
 /*Insertan panig back end para ma fully functional*/
 
 const MerchDeets = () => {
+    const navigate = useNavigate();
     const data=   {
         merchId: 1,
         picture: 'https://i.imgur.com/ht36TyH.jpg',
@@ -50,12 +52,16 @@ const MerchDeets = () => {
         },
       ];
 
+  const navigateBack = () =>{
+    
+  }
+
   return (
-    <div className={`font-poppins bg-[#F9F2EA] h-[100%]`}>
+    <div className={`animate-slide-right font-poppins bg-[#F9F2EA] h-[100%]`}>
        <div className='text-[#DD2803] ml-[2%]'>
          <h1 className='text-[2.5em] py-[1%] font-bold flex items-center'>
             <AiOutlineArrowLeft className='text-black mr-[1%] hover:text-[#DD2803]'
-            />
+            onClick={()=>{navigate('/eaterychoice')}}/>
             Merchant Details
         </h1>
        </div>
@@ -100,7 +106,8 @@ const MerchDeets = () => {
 
                     <div className='flex flex-col relative justify-start mt-[-2.5%] mr-[2%] ml-[22%] w-[100%]'>
                         <button className='w-[100%] flex items-center justify-center text-black bg-[#F4D147] mb-[4%] px-[3%] 
-                            py-[4%] rounded-3xl hover:bg-[#FFB800] font-medium text-[1.3em]'>
+                            py-[4%] rounded-3xl hover:bg-[#FFB800] font-medium text-[1.3em]'
+                            onClick={()=>{navigate('/eaterychoice/book')}}>
                             <BsBookFill className='text-center text-[1em] mr-[2%]'/>Book Now
                         </button>
                         <button className='w-[100%] flex items-center justify-center text-white bg-[#FF8A00] px-[3%] py-[4%] rounded-3xl
@@ -164,7 +171,7 @@ const MerchDeets = () => {
                 <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Average Rating:</span>4.5</p>
                 <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Total Reviews:</span>5,021 Total</p>
                 {reviewData.map((review,index)=>(
-                    <div>
+                    <div className='my-[1%]'>
                         <CommentSec key={index} {...review}/>
                     </div>
                 ))}
