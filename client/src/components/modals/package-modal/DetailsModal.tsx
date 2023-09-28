@@ -1,8 +1,8 @@
-import colors from '../../common/colors'
+import colors from '../../../common/colors'
 import React, {useState} from 'react'
 import {AiFillCloseCircle, AiFillDelete} from "react-icons/ai"
 import { HiOutlineMagnifyingGlass, HiMiniPencilSquare } from "react-icons/hi2";
-import "../../assets/css/card.css"
+import "../../../assets/css/card.css"
 import { BsDot } from "react-icons/bs";
 import EditDetailsModal from './EditDetailsModal';
 

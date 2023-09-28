@@ -4,8 +4,8 @@ import { FaIcons } from 'react-icons/fa'
 import { AiFillDownCircle } from "react-icons/ai";
 import { HiOutlineMagnifyingGlass, HiMiniPencilSquare } from "react-icons/hi2";
 import "../../assets/css/card.css"
-import DetailsModal from '../package-modal/DetailsModal';
-import EditDetailsModal from '../package-modal/EditDetailsModal';
+import DetailsModal from '../modals/package-modal/DetailsModal';
+import EditDetailsModal from '../modals/package-modal/EditDetailsModal';
 
 
 
@@ -17,11 +17,13 @@ interface prop {
     tags: string[];
     visibility: string;
     items: string[];
+    oneButton: boolean;
 }
 
-const Card: React.FC<prop>=({packageID, packageName, price, description, tags, visibility, items}) => {
+const Card: React.FC<prop>=({packageID, packageName, price, description, tags, visibility, items, oneButton}) => {
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
 
 
   // Function to open the modal
@@ -59,7 +61,9 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
                 {isModalOpen && <DetailsModal onClose={closeModal} packageID={packageID} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items} openEditModal={function (): void {
                 throw new Error('Function not implemented.');
               } }/>}
-                <button className='CardButton flex EditButton w-1/2 items-center justify-center' onClick={openEditModal} ><HiMiniPencilSquare/>Edit</button>
+                {oneButton === false &&
+                  <button className='CardButton flex EditButton w-1/2 items-center justify-center' onClick={openEditModal} ><HiMiniPencilSquare/>Edit</button>
+                }
                 {isEditModalOpen && <EditDetailsModal onClose={closeEditModal} packageID={packageID} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items}/>}
                 </div>
                 </div>

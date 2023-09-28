@@ -7,7 +7,7 @@ import CardEmpty from "../../../components/card/CardEmpty.tsx"
 import MerchAdHeader from '../../../components/headers/MerchAdHeader.tsx';
 import { BiPackage } from "react-icons/bi";
 import { useState } from 'react';
-import CreatePackageModal from '../../../components/package-modal/CreatePackageModal.tsx';
+import CreatePackageModal from '../../../components/modals/package-modal/CreatePackageModal.tsx';
 
 
 const PackageManager = () => {
@@ -28,9 +28,10 @@ const PackageManager = () => {
 
 
     return (
-<div className={`bg-[#FFFFFF] h-[100vh] w-[80vw] font-poppins overflow-y-auto`}>
+<div className={`bg-[#FFFFFF] h-[100vh] font-poppins overflow-y-auto overflow-x-hidden`}>
+    <div className="w-[80vw]">
     <MerchAdHeader icon={BiPackage} title={'Package Manager'}/>
-    <div className="SortFilterSubheader flex mb-4 text-lg bg-[#f0e5d8]">
+    <div className="SortFilterSubheader flex mb-4 text-lg bg-[#f0e5d8] w-[85vw]">
         <div className="flex align-middle w-3/6 items-center mx-32 ps-8 h-20">
         <label htmlFor="filterDropdown" className={`font-bold mx-2 w-[4vw]`}>Sort By: </label>
                     <select id="sortDropdown" name="sortDropdown" className={`bg-transparent rounded-md h-10 w-[20vw]  hover:bg-white transition duration-150 ease-out hover:ease-in`}>
@@ -60,6 +61,7 @@ const PackageManager = () => {
                 tags={["Best-Seller", "Popular"]}
                 visibility='Visible'
                 items={["Lechon 1KG"]}
+                oneButton={false}
             />
 
             <Card
@@ -70,6 +72,7 @@ const PackageManager = () => {
                 tags={["Best-Seller", "Popular"]}
                 visibility='Visible'
                 items={[]}
+                oneButton={false}
             />
 
             <Card
@@ -80,6 +83,7 @@ const PackageManager = () => {
                 tags={["Best-Seller", "Popular"]}
                 visibility='Visible'
                 items={["1pc Rice, 1pc Chicken, 16oz Drink"]}
+                oneButton={false}
             />
 
 
@@ -100,6 +104,7 @@ const PackageManager = () => {
                 tags={["Best-Seller", "Popular"]}
                 visibility='Hidden'
                 items={["5Kg Lechon, 1.5L Coke"]}
+                oneButton={false}
             />
 
             <Card
@@ -110,6 +115,7 @@ const PackageManager = () => {
                 tags={["Best-Seller", "Popular"]}
                 visibility='Hidden'
                 items={["2KG Lechon Belly"]}
+                oneButton={false}
             />
 
             <Card
@@ -120,10 +126,12 @@ const PackageManager = () => {
                 tags={["Best-Seller", "Popular"]}
                 visibility='Hidden'
                 items={["8pcs Shanghai"]}
+                oneButton={false}
             />
 
 
         </div>
+    </div>
     </div>
 </div>
     )
