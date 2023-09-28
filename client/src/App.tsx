@@ -34,7 +34,7 @@ function App() {
           <Route path="/adlogin" element={<AdminLogin/>} />
           <Route path="/usregister" element={<UserSignUp/>} />
           <Route path="/merchregister" element={<MerchSignUp/>} />
-          <Route path="/forgpass" element={<ForgetPassword/>} />
+          {/* <Route path="/forgpass" element={<ForgetPassword/>} /> */}
           <Route path="/logout" element={<LogoutPage/>} />
 
           {/* Layouts */}
@@ -49,7 +49,7 @@ function App() {
           <Route element={<MerchantLayout />}>
             <Route path="/merchdash" element={<MerchDashboard />}/>
             <Route path="/reservationlist" element={<ReserveList />}/>
-            <Route path="/feedbacklist" element={<FeedbackList />}/>
+            {/* <Route path="/feedbacklist" element={<FeedbackList />}/> */}
             <Route path="/packagemanager" element={<PackageManager />}/>
             <Route path="/merchsettings" element={<MerchSettings />}/>           
           </Route>
