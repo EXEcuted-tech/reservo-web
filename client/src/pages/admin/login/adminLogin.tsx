@@ -56,12 +56,9 @@ const AdminLogin = () => {
 
                 <div className="footHeader flex flex-col ">
                     <span className='capitalize text-[18px] font-bold text-[#660605]'>not an admin?</span>
-
                     <Link to={'/uslogin'} className='bg-[#660605] font-semibold text-center p-[0.7rem] rounded-full m-[1rem] text-white'>User page</Link>
-                    {/* <a href="/uslogin" className='bg-[#660605] font-semibold text-center p-[0.7rem] rounded-full m-[1rem] text-white'>User page</a> */}
                 </div>
             </div>
-            {/* LOGIN INPUT AREA */}
             <div className="right flex flex-col h-[100%] w-[100%] pt-[3rem] bg-[#660605] items-center">
                 <div className="TitleHeader h-[20%] text-center">
                     <span className='text-[28px] capitalize font-bold text-white '>Login to your Account</span>
@@ -82,10 +79,13 @@ const AdminLogin = () => {
                     </div>
                     <div className="frgt text-right text-[12px] mb-[2rem] text-white ">
                       <Link to={'#'}>Forgot Password?</Link>
-                        {/* <a href="#" target="_blank" rel="noopener noreferrer">Forgot Password?</a> */}
                     </div>
                     <div className="buttons flex flex-col items-center space-y-5">
                         <button type='submit' onClick={submitHandler} className='bg-white text-[#DD2803] p-[0.5em] w-[50%] rounded-full'>Sign in</button>
+                        <div className="signBox">
+                            <span className='text-white font-extralight capitalize'>need an account ?</span> 
+                            <Link to={'/usRegister'} className='text-white font-bold pl-1'>Sign Up</Link>
+                        </div>
                     </div>
                 </form>
            </div>
