@@ -50,7 +50,7 @@ function App() {
           <Route element={<MerchantLayout />}>
             <Route path="/merchdash" element={<MerchDashboard />}/>
             <Route path="/reservationlist" element={<ReserveList />}/>
-            <Route path="/feedbacklist" element={<FeedbackList />}/>
+            {/* <Route path="/feedbacklist" element={<FeedbackList />}/> */}
             <Route path="/packagemanager" element={<PackageManager />}/>
             <Route path="/merchsettings" element={<MerchSettings />}/>           
           </Route>
