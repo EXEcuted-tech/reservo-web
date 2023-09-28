@@ -8,7 +8,7 @@ USE reservo;
 */
 
 CREATE TABLE `reservation` (
-  `reservation_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `reservation_id` bigint(20) NOT NULL,
   `res_date_time` datetime NOT NULL,
   `res_location` varchar(255) NOT NULL,
   `date_received` datetime NOT NULL,
@@ -29,7 +29,7 @@ ALTER TABLE `reservation`
   ADD KEY `merchant_id` (`merchant_id`),
   ADD KEY `sched_id` (`sched_id`),
   ADD KEY `package_id` (`package_id`),
-  ADD KEY `payment_id` (`payment_id`);
+  ADD KEY `payment_id` (`payment_id`),
   MODIFY COLUMN `reservation_id` BIGINT AUTO_INCREMENT;
 
 
@@ -38,7 +38,5 @@ ALTER TABLE `reservation`
   ADD CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`merchant_id`),
   ADD CONSTRAINT `reservation_ibfk_3` FOREIGN KEY (`sched_id`) REFERENCES `merchant_sched` (`sched_id`),
   ADD CONSTRAINT `reservation_ibfk_4` FOREIGN KEY (`package_id`) REFERENCES `package` (`package_id`),
-  ADD CONSTRAINT `reservation_ibfk_5` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`payment_id`);
+  ADD CONSTRAINT `reservation_ibfk_5` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`payment_id`),
 COMMIT;
-
-
