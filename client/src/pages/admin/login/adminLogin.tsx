@@ -39,7 +39,7 @@ const AdminLogin = () => {
     <div className='content-center w-[full] h-[full] overflow-hidden font-poppins'>
       {/* Background Picture */}
       <img className='absolute h-screen w-full' src={background} />
-      <div className='absolute overflow-hidden shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 text-align w-[1000px] -translate-x-2/4 -translate-y-2/4 bg-blue'>
+      <div className='absolute overflow-hidden shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 text-align w-[980px] -translate-x-2/4 -translate-y-2/4 bg-blue'>
         {/* Left Box */}
             <div className="leftBox z-1 flex flex-col justify-center w-[35%] h-[83vh] bg-white float-left text-center pt-[70px] pb-[78px] px-10">
                 <div className="imgBox flex justify-center"> 
