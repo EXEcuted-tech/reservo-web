@@ -19,7 +19,7 @@ const FeedbackList = () => {
     <div>
       <MerchAdHeader icon={RiMegaphoneFill} title="Feedback List"/>
       <div className='bg-[#F3F3F3] h-[90vh] px-12 py-7'>
-        <div className='bg-[#FFFFFF] h-[85vh] rounded-[2rem]'>
+        <div className='bg-[#FFFFFF] h-[85vh] p-4 rounded-[2rem] relative'>
           <div className='flex font-poppins px-10 py-10'>
             <h1 className='text-3xl font-bold'>Merchant Rating</h1>
             <h1 className='text-2xl pl-5 font-medium'>(5.0)</h1>
@@ -68,13 +68,14 @@ const FeedbackList = () => {
               <p className='text-xl'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
             </div>
           </div>
+          <div className='flex justify-center mb-20 w-[100%] h-[7%]'>
           <ThemeProvider theme={theme}>
-            <Pagination count={3} shape="rounded" showFirstButton showLastButton color="primary" className='flex justify-center pt-5'/>
+            <Pagination count={3} shape="rounded" showFirstButton showLastButton color="primary" className='absolute bottom-8'/>
           </ThemeProvider>
-          <div className='text-[#969696] text-xs flex justify-center'>
+          <div className='text-[#969696] text-xs absolute bottom-3'>
             {"1"} of {"2"}
           </div>
-
+          </div>
         </div>
       </div>
     </div>
