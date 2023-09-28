@@ -84,7 +84,7 @@ const AdminLogin = () => {
                         <button type='submit' onClick={submitHandler} className='bg-white text-[#DD2803] p-[0.5em] w-[50%] rounded-full'>Sign in</button>
                         <div className="signBox">
                             <span className='text-white font-extralight capitalize'>need an account ?</span> 
-                            <Link to={'/usRegister'} className='text-white font-bold pl-1'>Sign Up</Link>
+                            <Link to={'/merchregister'} className='text-white font-bold pl-1'>Sign Up</Link>
                         </div>
                     </div>
                 </form>
