@@ -11,7 +11,7 @@ CREATE TABLE `merchant` (
   `contact_number` varchar(11) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
   `settings` varchar(255) DEFAULT NULL,
-  `sched_id` bigint(20) DEFAULT NULL,
+  `sched_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 ALTER TABLE `merchant`

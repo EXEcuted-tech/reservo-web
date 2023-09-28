@@ -1,5 +1,5 @@
 const express = require('express');
-const db = require('./index'); 
+const db = require('../index'); 
 
 const createReserve = (req,res)=>{
     res.json({
