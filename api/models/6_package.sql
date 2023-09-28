@@ -4,7 +4,7 @@
 */
 USE reservo;
 CREATE TABLE `package` (
-  `package_id` bigint(20) NOT NULL,
+  `package_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `package_name` varchar(255) NOT NULL,
   `package_desc` text NOT NULL,
   `package_date_availability_start` date NOT NULL,
@@ -20,7 +20,8 @@ CREATE TABLE `package` (
 
 ALTER TABLE `package`
   ADD PRIMARY KEY (`package_id`),
-  ADD KEY `merchant_id` (`merchant_id`);
+  ADD KEY `merchant_id` (`merchant_id`),
+  MODIFY COLUMN `package_id` BIGINT AUTO_INCREMENT;
 
 ALTER TABLE `package`
   ADD CONSTRAINT `package_ibfk_1` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`merchant_id`);

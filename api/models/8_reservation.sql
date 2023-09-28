@@ -8,7 +8,7 @@ USE reservo;
 */
 
 CREATE TABLE `reservation` (
-  `reservation_id` bigint(20) NOT NULL,
+  `reservation_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `res_date_time` datetime NOT NULL,
   `res_location` varchar(255) NOT NULL,
   `date_received` datetime NOT NULL,
@@ -30,6 +30,7 @@ ALTER TABLE `reservation`
   ADD KEY `sched_id` (`sched_id`),
   ADD KEY `package_id` (`package_id`),
   ADD KEY `payment_id` (`payment_id`);
+  MODIFY COLUMN `reservation_id` BIGINT AUTO_INCREMENT;
 
 
 ALTER TABLE `reservation`
