@@ -20,8 +20,9 @@ import MerchantReview from './pages/admin/review/merchantReview';
 import AccountList from './pages/admin/accountlist/accountList';
 import MerchSettings from './pages/merchant/settings/merchSettings';
 import FeedbackList from './pages/merchant/feedbackList/feedbackList';
-import UserAccProfile from './pages/user/accountsProfile/userAccProfile';
 import ForgetPassword from './pages/forgetPassword';
+import MerchDeets from './pages/user/eateryChoices/merchDeets';
+import UserProfilePage from './pages/user/accountsProfile/userAccProfile';
 
 function App() {
   return (
@@ -40,15 +41,17 @@ function App() {
           <Route element={<UserLayout />}>
             <Route path="/" element={<LandingPage />} />
             <Route path="/about" element={<AboutUsPage />} />
-            <Route path="/accprofile" element={<UserAccProfile />} />
+            <Route path="/accprofile" element={<UserProfilePage />} />
             <Route path="/eaterychoice" element={<ChoicePage />} />
+            <Route path="/eaterychoice/view" element={<MerchDeets />}/> 
+            <Route path="/eaterychoice/book" element={<MerchSettings />}/> 
           </Route>
           <Route element={<MerchantLayout />}>
             <Route path="/merchdash" element={<MerchDashboard />}/>
             <Route path="/reservationlist" element={<ReserveList />}/>
-            <Route path="/feedbacklist" element={<FeedbackList />}/>
+            {/* <Route path="/feedbacklist" element={<FeedbackList />}/> */}
             <Route path="/packagemanager" element={<PackageManager />}/>
-            <Route path="/merchsettings" element={<MerchSettings />}/>          
+            <Route path="/merchsettings" element={<MerchSettings />}/>           
           </Route>
           <Route element={<AdminLayout />}>
             <Route path="/admindash" element={<AdminDashboard />}/>
