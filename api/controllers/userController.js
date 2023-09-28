@@ -1,14 +1,14 @@
 const express = require('express');
 const db = require('./index'); 
 
-const createReserve = (req,res)=>{
+const signUp = (req,res)=>{
     res.json({
         success:true,
         data: req.body,
     })
 }
 
-const getReserve = (req,res)=>{
+const authenticate = (req,res)=>{
     res.json({
         success:true,
         data:[{id:1,text:'Testing Purposes Only'}]
@@ -16,6 +16,6 @@ const getReserve = (req,res)=>{
 }
 
 module.exports = {
-    createReserve,
-    getReserve,
+    signUp,
+    authenticate,
 }

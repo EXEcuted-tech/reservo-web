@@ -41,8 +41,6 @@ const UserLogin = () => {
     }
     
 
-
-
   return (
     <div className="font-poppins">
             <img className='absolute h-screen w-full' src={background} alt='background'/>
