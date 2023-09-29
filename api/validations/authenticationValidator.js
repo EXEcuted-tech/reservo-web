@@ -7,4 +7,4 @@ const authenticationValidator = (req,res,next)=>{
     }
 }
 
-module.exports = authenticationValidator;
+module.exports = authenticationValidator; 
