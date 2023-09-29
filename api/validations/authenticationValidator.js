@@ -1,34 +1,39 @@
+const express = require('express');
+const app = express();
+
+// Middleware to parse JSON request bodies
+app.use(express.json());
 const authenticationValidator = (req,res,next)=>{
     if(!req.body.account_email){
-        return res.json({
+        return res.status(400).json({
             success:false,
             error:{text:['email is required']},
         })
     }
 
     if(!req.body.password){
-        return res.json({
+        return res.status(400).json({
             success:false,
             error:{text:['password is required']},
         })
     }
 
     if(req.body.password.length < 8){
-        return res.json({
+        return res.status(400).json({
             success:false,
             error:{text:['password is too short']},
         })
     }
 
     if(req.body.account_name.length < 8 || !req.body.account_name){
-        return res.json({
+        return res.status(400).json({
             success:false,
             error:{text:['account name is invalid']},
         })
     }
 
     if(!req.body.contact_number){
-        return res.json({
+        return res.status(400).json({
             success:false,
             error:{text:['contact number is empty']},
         })
@@ -40,7 +45,7 @@ const authenticationValidator = (req,res,next)=>{
         case 30:
             break;
         default:
-            return res.json({
+            return res.status(400).json({
                 success:false,
                 error:{text:['Err_account Type']},
             })
@@ -51,4 +56,29 @@ const authenticationValidator = (req,res,next)=>{
     next();
 }
 
-module.exports = authenticationValidator;
+const loginValidator = (req, res, next) => {
+    if (!req.body.account_email) {
+        return res.status(400).json({
+            success: false,
+            error: { text: ['Email is required'] },
+        });
+    }
+
+    if (!req.body.password) {
+        return res.status(400).json({
+            success: false,
+            error: { text: ['Password is required'] },
+        });
+    }
+
+    if (req.body.password.length < 8){
+        return res.status(400).json({
+            success: false,
+            error: { text: ['Password is too short'] },
+        });
+    }
+
+    next();
+}
+
+module.exports = [authenticationValidator, loginValidator];
