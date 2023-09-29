@@ -27,15 +27,20 @@ const UserLogin = () => {
             setInvalid(true);
         }
         else{
-            // backend here
             axios.post('http://localhost:5000/login',{
                 account_email: email , 
-                password : pass
+                password : pass,
+                account_type: 1
             }).then(
                 (res)=>{
-                    console.log(res);
+                    console.log(res.data);
                 }
-            ).catch((err) => { console.error('AXIOS error: ',err)});
+            ).catch((err) => { 
+                //Insert here something to store the error message
+                if(err.response.data.message=='Account Type Mismatch'){
+                    setInvalid(true);
+                }
+            });
         }
     }
 
@@ -70,7 +75,7 @@ const UserLogin = () => {
                 <div className="TitleHeader space-y-5 text-center">
                     <span className='text-[28px] capitalize font-bold '>Login to your Account</span>
                     <div className="invalid p-[5px]">
-                        <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>invalid User or Password please Try again</span>
+                        <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>Invalid user or password. Please try again!</span>
                     </div>
                 </div>
                 <form className='formBox w-[70%] flex flex-col'>
