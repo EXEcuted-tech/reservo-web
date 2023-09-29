@@ -5,7 +5,13 @@ const updateUser = (req,res)=>{
     try {
         const {userID} = req.params
         const userUpdate = req.body
-        const sql = "UPDATE account SET ? WHERE account_id = ?"
+
+        const cols = Object.keys(userUpdate)
+      const values = Object.values(userUpdate)
+
+      const setClause = cols.map((col) => `${col} = ?`).join(', ')
+
+      const sql = `UPDATE account SET ${setClause} WHERE account_id = ?`
 
         db.query(sql,[userUpdate,userID],(err,results) =>{
             if(err){
