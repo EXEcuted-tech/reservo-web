@@ -31,11 +31,10 @@ const UserLogin = () => {
                 account_email: email , 
                 password : pass,
                 account_type: 1
-            }).then(
-                (res)=>{
-                    console.log(res.data);
-                }
-            ).catch((err) => { 
+            }).then((res)=>{
+                localStorage.setItem('userDetails', JSON.stringify(res.data.account_info));
+                Navigate('/')
+            }).catch((err) => { 
                 //Insert here something to store the error message
                 if(err.response.data.message=='Account Type Mismatch'){
                     setInvalid(true);
@@ -62,7 +61,7 @@ const UserLogin = () => {
                     </div>
                     <div className="divider w-[100%] h-[2px] bg-white"></div>
                     <div className="subH text-center text-white mt-[5%]">
-                        <span className='text-[14px] font-light'>Make a reservation in<br/> just a few click. Log in now!</span>
+                        <span className='text-[1em] font-light'>Make a reservation in<br/> just a few click. Log in now!</span>
                     </div>
                </div>
 
@@ -89,15 +88,16 @@ const UserLogin = () => {
                             <input type="password" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}} required/>
                         </div>
                     </div>
-                    <div className="frgt text-right text-[12px] mb-[2rem] ">
+                    <div className="frgt text-right text-[0.8em] mb-[2rem] ">
                         <Link to={'/forgpass'}>Forgot Password?</Link>
                     </div>
                     <div className="buttons flex flex-col items-center space-y-5">
-                        <button type='submit' onClick={submitHandler} className='button bg-[#DD2803] text-white p-[0.5em] w-[50%] rounded-full hover:bg-red font-bold'>Sign in</button>
+                        <button type='submit' onClick={submitHandler} className='button bg-[#DD2803] text-white p-[0.5em] w-[50%] rounded-full 
+                                hover:bg-[#9a1a00] font-bold'>Sign in</button>
                         <button type='submit' onClick={guestHandler} className='button text-[#DD2803] p-[0.5em] font-bold w-[50%] rounded-full border-solid border-2 border-[#DD2803] font-bold'>Log in as Guest</button>
                         <div className="signBox">
                             <span className='capitalize'>need an account ?</span>
-                            <Link to={'/usRegister'} className='link text-[#DD2803] font-bold pl-1'>Sign Up</Link>
+                            <Link to={'/usRegister'} className='link text-[#DD2803] font-bold pl-1 hover:text-[#9a1a00]'>Sign Up</Link>
                         </div>    
                     </div>
                 </form>

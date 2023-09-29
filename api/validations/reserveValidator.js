@@ -1,7 +1,7 @@
 const {isValidDate,isValidTime}=require('../helpers/date-time')
 
 const createReserveValidator = (req,res,next)=>{
-    const { date, timestart, location, size, settings, addeets, acc_id, merch_id, sched_id, pack_id, pay_id, inventory_id } = req.body;
+    const { date, timestart, location, size, settings, addeets, acc_id, merch_id, sched_id, pack_id, pay_id, invent_id } = req.body;
 
     const errors = {};
 
@@ -29,16 +29,18 @@ const createReserveValidator = (req,res,next)=>{
     if (!pay_id || typeof pay_id !== 'number') {
         errors.pay_id = ['Payment ID is required and must be a number'];
     }
-    if (!inventory_id || typeof inventory_id !== 'number'){
+    if (!invent_id || typeof invent_id !== 'number'){
         errors.inventory_id = ['Inventory ID is required and must be a number'];
     }
-    if (typeof settings !== 'object') {
+
+    //Not Required
+    if (settings && typeof settings !== 'object') {
         errors.settings = ['Settings must be an object'];
     }
-    if (typeof addeets !== 'string') {
+    if (addeets && typeof addeets !== 'string') {
         errors.addeets = ['Additional details must be a string'];
     }
-    if (typeof sched_id !== 'number') {
+    if (sched_id && typeof sched_id !== 'number') {
         errors.sched_id = ['Schedule ID must be a number'];
     }
 
