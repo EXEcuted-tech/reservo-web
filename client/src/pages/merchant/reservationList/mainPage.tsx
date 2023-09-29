@@ -9,6 +9,8 @@ import ReserveCalendar from './reserveCalendar'
 import CompleteList from './modules/complete'
 import UpcomingList from './modules/upcoming'
 import {MdUpcoming} from 'react-icons/md'
+import ViewModal from '../../../components/modals/reserveModal/viewModal'
+import EditModal from '../../../components/modals/reserveModal/editModal'
 
 const ReserveList = () => {
 
@@ -28,6 +30,13 @@ const ReserveList = () => {
 
   return (
     <div>
+      {(openModalView || openModalEdit) &&
+        <>
+         <div className='fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,0.5)] opacity-0.5 z-100'></div>
+          {openModalView && <ViewModal setOpenModalView={setOpenModalView}/>}
+          {openModalEdit && <EditModal setOpenModalEdit={setOpenModalEdit}/>}
+        </>
+      }
       <MerchAdHeader 
       icon={urlPart=='all' ? BiSolidBookAlt : urlPart=='upcoming' ? MdUpcoming : BsFillClipboardCheckFill} 
       title={urlPart=='all' ? 'All Bookings' : urlPart=='upcoming' ? 'Upcoming' : 'Finished'}
@@ -65,13 +74,22 @@ const ReserveList = () => {
           <div>
             {urlPart=='all' && <AllBookings 
                                 setOpenModalView={setOpenModalView}
-                                setOpenModalEdit={setOpenModalEdit}/>}
+                                setOpenModalEdit={setOpenModalEdit}
+                                openModalView={openModalView}
+                                openModalEdit={openModalEdit}
+                                />}
             {urlPart=='upcoming' && <UpcomingList
                                 setOpenModalView={setOpenModalView}
-                                setOpenModalEdit={setOpenModalEdit}/>}
+                                setOpenModalEdit={setOpenModalEdit}
+                                openModalView={openModalView}
+                                openModalEdit={openModalEdit}
+                                />}
             {urlPart=='finished' && <CompleteList
                                 setOpenModalView={setOpenModalView}
-                                setOpenModalEdit={setOpenModalEdit}/>}
+                                setOpenModalEdit={setOpenModalEdit}
+                                openModalView={openModalView}
+                                openModalEdit={openModalEdit}
+                                />}
           </div>
         : 
           <div>
