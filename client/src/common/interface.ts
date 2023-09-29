@@ -25,12 +25,12 @@ interface ReserveCardProps {
     package_id: number;
     payment_id: number;
     status: string;
-    
-    sched_id: number;
-    settings: object;
-    additional_details: string;
 
+    sched_id: number | null;
+    settings: object | null;
+    additional_details: string | null;
 }
+
 interface ReviewProps {
     reviewId: number;
     customerName: string;

@@ -5,10 +5,11 @@ const createReserve = (req,res)=>{
     const {date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id} = req.body;
     
     const insertQuery = 
-    'INSERT INTO reservation (res_date,res_time,res_location,date_received,party_size,settings,additional_details,account_id,merchant_id,sched_id,package_id,payment_id,inventory_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';
+    'INSERT INTO reservation (res_date,res_time,res_location,date_received,party_size,settings,additional_details,account_id,merchant_id,sched_id,package_id,payment_id,inventory_id,status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 
     const date_received = new Date();
-    const data = [date,timestart,location,date_received,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id]
+    const status = "Ongoing";
+    const data = [date,timestart,location,date_received,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id,status]
     db.query(insertQuery, data, (err, result) => {
       if (err) {
         console.error('Error inserting data:', err);

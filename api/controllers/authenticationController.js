@@ -43,33 +43,35 @@ const login = (req,res)=>{
         const values = [account_email];
         db.query(sql, values, (err, dbresult) => {
             //console.log("W: " + account_type + " DB: "+dbresult[0].account_type);
-            if (account_type != dbresult[0].account_type){
-                return res.status(400).json({
-                    success: false,
-                    message: "Account Type Mismatch",
-                });
-            }else{
-                if (!err && dbresult.length === 1){
+
+            if (!err && dbresult.length === 1){
+                if (account_type != dbresult[0].account_type){
+                    return res.status(400).json({
+                        success: false,
+                        message: "Account Type Mismatch",
+                    });
+                }else{
                     const hash = dbresult[0].passwd;
-                bcrypt.compare(password,hash).then(function(result) {
-                    if (result == true){
-                        res.status(201).json({
-                            success: true,
-                            message: "Retrieved",
-                            account_info:{
-                                userID: dbresult[0].account_id,
-                                user: dbresult[0].account_name,
-                                email: dbresult[0].account_email,
-                                type: dbresult[0].account_type                           
-                            }
-                        });
-                    }else{
-                        res.status(200).json({
-                            success: false,
-                            message: "Incorrect Credentials",
-                        });
-                    }
-                });
+                    bcrypt.compare(password,hash).then(function(result) {
+                        if (result == true){
+                            res.status(201).json({
+                                success: true,
+                                message: "Retrieved",
+                                account_info:{
+                                    userID: dbresult[0].account_id,
+                                    user: dbresult[0].account_name,
+                                    email: dbresult[0].account_email,
+                                    type: dbresult[0].account_type                           
+                                }
+                            });
+                        }else{
+                            res.status(200).json({
+                                success: false,
+                                message: "Incorrect Credentials",
+                            });
+                        }
+                    });
+                }
                     
             }else{
                 res.status(200).json({
@@ -77,7 +79,6 @@ const login = (req,res)=>{
                     message: "Bad Request",
                 });
                 console.log(err);
-            }
             }
 
             
