@@ -32,10 +32,10 @@ const authenticationValidator = (req,res,next)=>{
         })
     }
 
-    if(!req.body.contact_number){
+    if(!req.body.contact_number|| isNaN(req.body.contact_number)){
         return res.status(400).json({
             success:false,
-            error:{text:['contact number is empty']},
+            error:{text:['contact number is invalid']},
         })
     }
 
