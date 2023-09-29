@@ -8,7 +8,7 @@ import { RiReservedFill } from 'react-icons/ri';
 
 const AdminLogin = () => {
   const [invalid , setInvalid] = useState(false);
-    const [uName , setUser] = useState('');
+    const [email , setEmail] = useState('');
     const [pass , setPass] = useState('');
 
     const Navigate = useNavigate();
@@ -16,12 +16,12 @@ const AdminLogin = () => {
     const submitHandler = (event:FormEvent) =>{
         event.preventDefault();
 
-        if(uName === '' || pass === ''){
+        if(email === '' || pass === ''){
             setInvalid(true);
         }
         else{
             // backend here
-            if(uName === '19103296@usc.edu.ph'){
+            if(email === '19103296@usc.edu.ph'){
                 if(pass === '123'){
                     Navigate('/');
                 }
@@ -69,11 +69,11 @@ const AdminLogin = () => {
                     <span className={(!invalid) ? 'text-[#840705] hidden' : 'text-[#840705]'}>invalid User or Password please Try again</span>
                 </div>
                 </div>
-                <form className='formBox w-[70%] flex flex-col' >
+                <form className='formBox w-[70%] flex flex-col' onSubmit={submitHandler} >
                     <div className="inputs">
                         <div className="I-Box flex flex-col space-y-2 mb-[20px]">
                             <label htmlFor="email" className='font-thin text-white '>Email:</label>
-                            <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="email" id="Email" value={uName} onChange={(e) =>{setUser(e.target.value)}}/>
+                            <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="email" id="Email" value={email} onChange={(e) =>{setEmail(e.target.value)}}/>
                         </div>
                         <div className="I-Box flex flex-col space-y-2 mb-[10px]">
                             <label htmlFor="email" className='font-thin text-white '>Password:</label>
@@ -84,7 +84,7 @@ const AdminLogin = () => {
                       <Link to={'#'}>Forgot Password?</Link>
                     </div>
                     <div className="buttons flex flex-col items-center space-y-5">
-                        <button type='submit' onClick={submitHandler} className='bg-white text-[#840705] p-[0.5em] w-[50%] rounded-full font-bold'>Sign in</button>
+                        <button type='submit' className='bg-white text-[#840705] p-[0.5em] w-[50%] rounded-full font-bold'>Sign in</button>
                         <div className="signBox">
                             <span className='text-white font-extralight capitalize'>need an account ?</span>
                             <Link to={'/merchregister'} className='text-white font-bold pl-1'>Sign Up</Link>
