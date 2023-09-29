@@ -7,7 +7,7 @@ const updateUser = (req,res)=>{
         const userUpdate = req.body
 
         const cols = Object.keys(userUpdate)
-      const values = Object.values(userUpdate)
+        const values = Object.values(userUpdate)
 
       const setClause = cols.map((col) => `${col} = ?`).join(', ')
 
