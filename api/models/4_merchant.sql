@@ -11,7 +11,11 @@ CREATE TABLE `merchant` (
   `address` varchar(255) DEFAULT NULL,
   `settings` varchar(255) DEFAULT NULL,
   `sched_id` bigint(20) DEFAULT NULL,
+  `account_id` bigint(20) NOT NULL,
   PRIMARY KEY (`merchant_id`),
   KEY `sched_id` (`sched_id`),
   CONSTRAINT `merchant_ibfk_1` FOREIGN KEY (`sched_id`) REFERENCES `merchant_sched` (`sched_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE `merchant`
+  ADD CONSTRAINT `merchant_idfk_1` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`);
