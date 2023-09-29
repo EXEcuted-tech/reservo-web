@@ -55,7 +55,8 @@ const UserHeader = () => {
                 <li><hr className="w-[85px] pt-[10%]"/></li>
                 {/* <li className='hover:text-[#DD2803] cursor-pointer'>About Us</li> */}
 
-                <li className='flex hover:text-[#DD2803] cursor-pointer py-[8%] hover:animate-zoom-in'>Log In<RiLoginCircleFill className='ml-[2%] mt-[2%] text-[1.3em]'/></li> 
+                <li className='flex hover:text-[#DD2803] cursor-pointer py-[8%] hover:animate-zoom-in'
+                 onClick={()=>{navigate('/uslogin')}}>Log In<RiLoginCircleFill className='ml-[2%] mt-[2%] text-[1.3em]'/></li> 
               </ul>
             </div>
           }
