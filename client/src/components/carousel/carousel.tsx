@@ -49,7 +49,7 @@ const Carousel: React.FC = () => {
         ))}
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 flex justify-center space-x-2">
+      <div className="absolute inset-x-0 bottom-10 flex justify-center space-x-2">
         {images.map((_, index) => (
           <button
             key={index}

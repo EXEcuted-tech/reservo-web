@@ -27,16 +27,6 @@ const UserLogin = () => {
             setInvalid(true);
         }
         else{
-<<<<<<< HEAD
-            // backend here
-            axios.post('http://localhost:5000/login',{data:{account_email: email , password : pass}}).then(
-                (res)=>{
-                    console.log(res);
-
-                }
-            ).catch((err) => {console.log(err)});
-            
-=======
             axios.post('http://localhost:5000/login',{
                 account_email: email , 
                 password : pass,
@@ -50,7 +40,6 @@ const UserLogin = () => {
                     setInvalid(true);
                 }
             });
->>>>>>> df94ec2ff808a0c513be7d66f56218fac13f4cb0
         }
     }
     
