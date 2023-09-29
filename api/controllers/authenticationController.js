@@ -13,12 +13,12 @@ const createAccount = async (req, res) => {
         const values = [account_name, account_email, hashedpassword, account_type, contact_number];
         db.query(sql, values, (err, result) => {
             if (err) {
-                res.json({
+                res.status(200).json({
                     success: false,
                     message: "Account add fail",
                 });
             } else {
-                res.json({
+                res.status(200).json({
                     success: true,
                     message: "Account created successfully",
                 });
