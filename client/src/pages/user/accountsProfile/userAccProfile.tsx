@@ -6,24 +6,18 @@ import { BsFillPencilFill } from "react-icons/bs";
 
 function UserProfilePage(){ 
     return(
-        <div className = "h-[100vh] bg-[#F9F2EA] font-[Poppins]">
+        <div className = "h-[80vh] bg-[#F9F2EA] font-[Poppins]">
 
             <div className="mx-auto w-[90vw] border-b-[1px] border-black">
-                <p className="pt-10 text-[30pt] font-bold">User Information</p>
+                <p className="pt-2 text-[30pt] font-bold">User Information</p>
                 <p className="text-[#929090] text-[15pt] font-bold">Protect and Secure Your Account</p>
             </div>
 
-            <div className="m-auto h-[80vh] w-[90vw] mt-7 mb-10 mr-[-5] rounded-3xl bg-white">
+            <div className="m-auto h-[63vh] w-[90vw] mt-7 mb-10 mr-[-5] rounded-3xl bg-white">
+                    <div className="float-left border-r-[2px] border-black mt-[2vh]">
+                        <FaRegUserCircle className="text-[21vh] mx-[15vh] mb-[2vh]"/>
 
-                <div>
-
-                    <div className="float-left border-r-[2px] border-black mt-[5vh]">
-                        <FaRegUserCircle className="text-[23vh] mx-[15vh] mt-[6vh]"/>
-                        <br />
-                        <h1 className="userName">Kathea Mari<button><BsFillPencilFill className="ml-1"/></button></h1>
-                        <br />
-                        <br />
-                        <br />
+                        <h1 className="userName mb-[6vh]">Kathea Mari <button><BsFillPencilFill className="ml-1 "/></button></h1>
                         <table className='accTable'>
                             
                             <tr className="row">
@@ -56,39 +50,40 @@ function UserProfilePage(){
                             </tr>
                         </table>
 
-                        
                     </div>
                 
                     <div className="">
-                    <h1 className="resTitle">Reservation History</h1>
-                        <div className="h-[65vh] w-[55vw] rounded-3xl float-right bg-white mr-[2cm] mt-[0.5cm]">
-                            <table>
-                                <thead>
-                                    <tr className="resRow">
-                                        <th className="py-1 px-12 text-center">Date</th>
-                                        <th className="py-1 px-12 text-center">Time</th>
-                                        <th className="py-1 px-12 text-center">Organizer</th>
-                                        <th className="py-1 px-7 text-center">Event Size</th>
-                                        <th className="py-1 px-12 text-center">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td className="py-3 px-12 text-center">Jan. 23, 2023</td>
-                                        <td className="py-3 px-12 text-center">11:30am - 1:00pm</td>
-                                        <td className="py-3 px-12 text-center">Juan Dela Cruz</td>
-                                        <td className="py-3 px-12 text-center">5</td>
-                                        <td className="py-3 px-12 text-center"><div className="m-2 bg-[#CCFFD1] text-[#00A310]">Done</div></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <h1 className="resTitle">Reservation History</h1>
+                            <div className="h-[65vh] w-[55vw] rounded-3xl float-right mr-[2cm] mt-[0.5cm]">
+                                <table>
+                                    <thead>
+                                        <tr className="resRow">
+                                            <th className="py-1 px-12 text-center">Date</th>
+                                            <th className="py-1 px-12 text-center">Time</th>
+                                            <th className="py-1 px-12 text-center">Organizer</th>
+                                            <th className="py-1 px-7 text-center">Event Size</th>
+                                            <th className="py-1 px-12 text-center">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td className="py-3 px-12 text-center">Jan. 23, 2023</td>
+                                            <td className="py-3 px-12 text-center">11:30am - 1:00pm</td>
+                                            <td className="py-3 px-12 text-center">Juan Dela Cruz</td>
+                                            <td className="py-3 px-12 text-center">5</td>
+                                            <td className="py-3 px-12 text-center"><div className="m-2 bg-[#CCFFD1] text-[#00A310]">Done</div></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                     </div>
 
-                </div>
-
             </div>
+
+            
         </div>
+
+        
     )
     
 }

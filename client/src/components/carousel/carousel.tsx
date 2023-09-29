@@ -24,7 +24,7 @@ const Carousel: React.FC = () => {
   };
 
   return (
-    <div className="relative overflow-hidden h-[900px] w-[126.5rem] ">
+    <div className="relative overflow-hidden h-[900px] w-[118.87rem] ">
       <div className="flex " >
         {images.map((image, index) => (
           <div
@@ -49,7 +49,7 @@ const Carousel: React.FC = () => {
         ))}
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 flex justify-center pb-4 space-x-2">
+      <div className="absolute inset-x-0 bottom-0 flex justify-center space-x-2">
         {images.map((_, index) => (
           <button
             key={index}

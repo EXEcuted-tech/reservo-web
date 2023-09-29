@@ -29,15 +29,15 @@ interface EditDetailsModalProps {
             <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
             <div>
             <div className='h-[40vh] '>
-                <p><b>Package Name: </b><input type="text" defaultValue={packageName} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input></p>
-                <p><b>Total Price: </b> <input type="text" defaultValue={price} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input></p>
-                <p><b>Available From: </b> <input type="date" className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input></p>
-                <p><b>Expiry Date: </b> <input type="date" className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input></p>
-                <p><b>Tags: </b> <input type="text" defaultValue={tags} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input>
+                <p><b>Package Name: </b><input type="text" defaultValue={packageName} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+                <p><b>Total Price: </b> <input type="text" defaultValue={price} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+                <p><b>Available From: </b> <input type="date" className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+                <p><b>Expiry Date: </b> <input type="date" className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+                <p><b>Tags: </b> <input type="text" defaultValue={tags} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input>
                 
                 </p>
                 <p><b>Visibility: </b>
-                        <select id="sortDropdown" name="sortDropdown" className={`h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4`}>
+                        <select id="sortDropdown" name="sortDropdown" className={`h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2`}>
                         <option defaultValue="Visible">Visible</option>
                         <option defaultValue="Hidden">Hidden</option>
                     </select>
@@ -47,7 +47,7 @@ interface EditDetailsModalProps {
             </div>
             <div className='my-4'>
                     <p><b>Items: </b>
-                    <input type="text" defaultValue={items} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input>
+                    <input type="text" defaultValue={items} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input>
                     </p>
                 </div>
             </div>
