@@ -1,61 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReserveCard from './reserveCard'
 import axios from 'axios'
 
 const AllBookings: React.FC<ReserveProps> = (props) => {
   const openModal = props;
-  const bookings1:ReserveCardProps[] = [
-    {
-      reserveId: 1,
-      organizerName: "Hannah Calisura",
-      clientName: "Jeremiah Juinio",
-      eventSize: 5,
-      time: "11:30 PM - 12:00 AM",
-      status: "Ongoing",
-    },
-    {
-      reserveId: 2,
-      organizerName: "Angelou Sereno",
-      clientName: "Jeremiah Juinio",
-      eventSize: 5,
-      time: "11:30 PM - 12:00 AM",
-      status: "Ongoing",
-    },
-  ]
+  const [reservations, setReservations] = useState<ReserveCardProps[]>([]);
 
-  const bookings2:ReserveCardProps[] = [
-    {
-      reserveId: 1,
-      organizerName: "Kathea Mari Mayol",
-      clientName: "Jeremiah Juinio",
-      eventSize: 5,
-      time: "11:30 PM - 12:00 AM",
-      status: "Finished",
-    },
-    {
-      reserveId: 2,
-      organizerName: "Franz Ondiano",
-      clientName: "Jeremiah Juinio",
-      eventSize: 5,
-      time: "11:30 PM - 12:00 AM",
-      status: "Finished",
-    },
-  ]
+  useEffect(() => {
+    axios.get("http://localhost:5000/reserve/retrieve_all").then((res) => {
+      // Parse date strings into Date objects
+      const parsedReservations = res.data.records.map((record: any) => ({
+        ...record,
+        res_date: new Date(record.res_date),
+      }));
 
-  useEffect(()=>{
-    axios.get("http://localhost:5000/reserve/retrieve_all").then((res)=>{
-        console.log(res.data.records);
-    })
-  },[])
+      // Set the reservations in state
+      setReservations(parsedReservations);
+    });
+  }, []);
 
   return (
     <div>
-      <div className='font-poppins mx-[3%] mt-[3%]'>
+      <div className='font-poppins mx-[3%] mt-[1%]'>
         <ReserveCard 
-          bookings={bookings1} openModal={openModal} />
-      </div>
-      <div className='font-poppins mx-[3%] mt-[3%]'>
-        <ReserveCard bookings={bookings2} openModal={openModal}/>
+          bookings={reservations} openModal={openModal} />
       </div>
     </div>
   )
