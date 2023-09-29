@@ -9,7 +9,8 @@ USE reservo;
 
 CREATE TABLE `reservation` (
   `reservation_id` bigint(20) NOT NULL,
-  `res_date_time` datetime NOT NULL,
+  `res_date` date NOT NULL,
+  `res_time` time NOT NULL,
   `res_location` varchar(255) NOT NULL,
   `date_received` datetime NOT NULL,
   `party_size` int(11) NOT NULL,
