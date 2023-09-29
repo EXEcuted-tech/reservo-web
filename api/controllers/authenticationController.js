@@ -16,11 +16,13 @@ const createAccount = async (req, res) => {
                 res.status(200).json({
                     success: false,
                     message: "Account add fail",
+                    result: result,
                 });
             } else {
                 res.status(200).json({
                     success: true,
                     message: "Account created successfully",
+                    result: result,
                 });
             }
 
@@ -29,6 +31,7 @@ const createAccount = async (req, res) => {
         res.status(500).json({
             success: false,
             message: "Database Error",
+            result: result,
         });
     }
 }
