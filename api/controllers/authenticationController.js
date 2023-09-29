@@ -29,6 +29,7 @@ const createAccount = async (req, res) => {
         res.status(500).json({
             success: false,
             message: "Database Error",
+            error: error.message
         });
     }
 }
@@ -69,7 +70,6 @@ const login = (req,res)=>{
             message: "Database Error",
         });
     }
-    
     
 }
 

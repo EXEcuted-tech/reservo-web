@@ -57,14 +57,11 @@ CREATE TABLE `merchant` (
   `address` varchar(255) DEFAULT NULL,
   `settings` varchar(255) DEFAULT NULL,
   `sched_id` bigint(20) DEFAULT NULL,
-  `account_id` bigint(20) NOT NULL,
+  `accounts` varchar(255) NOT NULL,
   PRIMARY KEY (`merchant_id`),
   KEY `sched_id` (`sched_id`),
   CONSTRAINT `merchant_ibfk_1` FOREIGN KEY (`sched_id`) REFERENCES `merchant_sched` (`sched_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-ALTER TABLE `merchant`
-  ADD CONSTRAINT `merchant_idfk_1` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`);
 
 /*Inventory*/
 
@@ -75,18 +72,13 @@ CREATE TABLE `inventory` (
   `no_of_plates` int(11) NOT NULL,
   `no_of_glasses` int(11) NOT NULL,
   `no_of_tableCloths` int(11) NOT NULL,
-  `no_of_chairCovers` int(11) NOT NULL,
-  `merchant_id` bigint(20) NOT NULL
+  `no_of_chairCovers` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 ALTER TABLE `inventory`
   ADD PRIMARY KEY (`inventory_id`),
-  ADD KEY `merchant_id` (`merchant_id`),
   MODIFY COLUMN `inventory_id` BIGINT AUTO_INCREMENT;
-
-  ALTER TABLE `inventory`
-  ADD CONSTRAINT `inventory_ibfk_1` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`merchant_id`);
 
 
 /*PACKAGE*/
@@ -141,7 +133,8 @@ CREATE TABLE `reservation` (
   `merchant_id` bigint(20) NOT NULL,
   `sched_id` bigint(20) DEFAULT NULL,
   `package_id` bigint(20) NOT NULL,
-  `payment_id` bigint(20) NOT NULL
+  `payment_id` bigint(20) NOT NULL,
+  `inventory_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Reservation*/
@@ -152,6 +145,7 @@ ALTER TABLE `reservation`
   ADD KEY `sched_id` (`sched_id`),
   ADD KEY `package_id` (`package_id`),
   ADD KEY `payment_id` (`payment_id`),
+  ADD KEY `inventory_id` (`inventory_id`),
   MODIFY COLUMN `reservation_id` BIGINT AUTO_INCREMENT;
 
 
@@ -160,7 +154,8 @@ ALTER TABLE `reservation`
   ADD CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`merchant_id`),
   ADD CONSTRAINT `reservation_ibfk_3` FOREIGN KEY (`sched_id`) REFERENCES `merchant_sched` (`sched_id`),
   ADD CONSTRAINT `reservation_ibfk_4` FOREIGN KEY (`package_id`) REFERENCES `package` (`package_id`),
-  ADD CONSTRAINT `reservation_ibfk_5` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`payment_id`);
+  ADD CONSTRAINT `reservation_ibfk_5` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`payment_id`),
+  ADD CONSTRAINT `reservation_ibfk_6` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`inventory_id`);
 
 
 
