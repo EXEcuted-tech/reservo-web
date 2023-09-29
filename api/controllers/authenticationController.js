@@ -36,41 +36,59 @@ const createAccount = async (req, res) => {
 
 const login = (req,res)=>{
     try {
-        const { account_email, password} = req.body;
+        const { account_email, password, account_type} = req.body;
 
         // Use a parameterized query to prevent SQL injection
         const sql = "SELECT * FROM account WHERE email_address = ?";
         const values = [account_email];
         db.query(sql, values, (err, dbresult) => {
-            if (!err && dbresult.length === 1){
-                const hash = dbresult[0].passwd;
-            bcrypt.compare(password,hash).then(function(result) {
-                if (result == true){
-                    res.json({
-                        success: true,
-                        message: "Retrieved",
-                        userID: dbresult[0].account_id,
-                        user: dbresult[0].account_name,
-                    });
-                }else{
-                    res.json({
-                        success: false,
-                        message: "Incorrect Credentials",
-                    });
-                }
-            });
-                
-        }else{
-            console.log(err);
-        }
+            //console.log("W: " + account_type + " DB: "+dbresult[0].account_type);
+            if (account_type != dbresult[0].account_type){
+                return res.status(400).json({
+                    success: false,
+                    message: "Account Type Mismatch",
+                });
+            }else{
+                if (!err && dbresult.length === 1){
+                    const hash = dbresult[0].passwd;
+                bcrypt.compare(password,hash).then(function(result) {
+                    if (result == true){
+                        res.status(201).json({
+                            success: true,
+                            message: "Retrieved",
+                            account_info:{
+                                userID: dbresult[0].account_id,
+                                user: dbresult[0].account_name,
+                                email: dbresult[0].account_email,
+                                type: dbresult[0].account_type                           
+                            }
+                        });
+                    }else{
+                        res.status(200).json({
+                            success: false,
+                            message: "Incorrect Credentials",
+                        });
+                    }
+                });
+                    
+            }else{
+                res.status(200).json({
+                    success: false,
+                    message: "Bad Request",
+                });
+                console.log(err);
+            }
+            }
+
+            
+            
         });
     } catch (error) {
         res.status(500).json({
             success: false,
             message: "Database Error",
         });
-    }
-    
+    } 
 }
 
 module.exports = {

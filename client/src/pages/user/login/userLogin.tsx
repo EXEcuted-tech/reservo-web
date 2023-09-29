@@ -6,12 +6,13 @@ import logo from '../../../assets/temp-logo-2w.png'
 import { RiReservedFill } from 'react-icons/ri'; 
 import { Link, useNavigate } from 'react-router-dom';
 
+import axios from 'axios'
 
 
 const UserLogin = () => {
 
     const [invalid , setInvalid] = useState(false);
-    const [uName , setUser] = useState('');
+    const [email , setEmail] = useState('');
     const [pass , setPass] = useState('');
     const Navigate = useNavigate();
 
@@ -22,27 +23,26 @@ const UserLogin = () => {
     const submitHandler = (event:FormEvent) =>{
         event.preventDefault();
 
-        if(uName === '' || pass === ''){
+        if(email === '' || pass === ''){
             setInvalid(true);
         }
         else{
-            // backend here
-            if(uName === '19103296@usc.edu.ph'){
-                if(pass === '123'){
-                    Navigate('/');
+            axios.post('http://localhost:5000/login',{
+                account_email: email , 
+                password : pass,
+                account_type: 1
+            }).then(
+                (res)=>{
+                    console.log(res.data);
                 }
-                else{
+            ).catch((err) => { 
+                //Insert here something to store the error message
+                if(err.response.data.message=='Account Type Mismatch'){
                     setInvalid(true);
                 }
-            }
-            else{
-                setInvalid(true);
-            }
+            });
         }
     }
-    
-
-
 
   return (
     <div className='content-center w-[full] h-[full] overflow-hidden font-poppins'>
@@ -75,17 +75,17 @@ const UserLogin = () => {
                 <div className="TitleHeader space-y-5 text-center">
                     <span className='text-[28px] capitalize font-bold '>Login to your Account</span>
                     <div className="invalid p-[5px]">
-                        <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>invalid User or Password please Try again</span>
+                        <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>Invalid user or password. Please try again!</span>
                     </div>
                 </div>
                 <form className='formBox w-[70%] flex flex-col'>
                     <div className="inputs">
                         <div className="I-Box flex flex-col space-y-2 mb-[20px]">
-                            <label htmlFor="email" className='font-thin'>Email:</label>
-                            <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="email" id="Email" value={uName} onChange={(e) =>{setUser(e.target.value)}} required/>
+                            <label htmlFor="email" className='font-thin'>Email</label>
+                            <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="email" id="Email" value={email} onChange={(e) =>{setEmail(e.target.value)}} required/>
                         </div>
                         <div className="I-Box flex flex-col space-y-2 mb-[10px]">
-                            <label htmlFor="pass" className='font-thin'>Password:</label>
+                            <label htmlFor="pass" className='font-thin'>Password</label>
                             <input type="password" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}} required/>
                         </div>
                     </div>
