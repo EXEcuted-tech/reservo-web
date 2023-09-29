@@ -56,8 +56,12 @@ const login = (req,res)=>{
                         res.status(201).json({
                             success: true,
                             message: "Retrieved",
-                            userID: dbresult[0].account_id,
-                            user: dbresult[0].account_name,
+                            account_info:{
+                                userID: dbresult[0].account_id,
+                                user: dbresult[0].account_name,
+                                email: dbresult[0].account_email,
+                                type: dbresult[0].account_type                           
+                            }
                         });
                     }else{
                         res.status(200).json({
