@@ -1,7 +1,8 @@
 const express = require('express');
-const db = require('../index'); 
+const db = require('./a_db'); 
 
 const createReserve = (req,res)=>{
+    const {} = req.body;
     res.json({
         success:true,
         data: req.body,

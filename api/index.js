@@ -1,8 +1,8 @@
 require('dotenv').config();
-const app = require('./routes')
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const cors = require('cors');
+
 
 const db = mysql.createPool({
     host:process.env.DB_HOST,
@@ -10,8 +10,11 @@ const db = mysql.createPool({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
 });
+  
 
 const PORT = process.env.PORT || 5000; 
+
+const app = require('./routes')
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cors({
@@ -31,4 +34,6 @@ app.listen(PORT, ()=>{
     console.log(`Server is running on port ${PORT}`);
 });
 
-module.exports = db;
+// console.log("DATABASE: ", db);
+
+module.exports = db

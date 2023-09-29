@@ -18,7 +18,7 @@ interface ReserveCardProps {
     clientName: string,
     eventSize: number,
     time: string,
-    status: string
+    status: string,
 }
 
 

@@ -24,7 +24,7 @@ function UserProfilePage(){
                         <br />
                         <br />
                         <br />
-                        <table>
+                        <table className='accTable'>
                             
                             <tr className="row">
                                 <td className="var">Gender:</td>
