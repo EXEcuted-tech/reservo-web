@@ -22,34 +22,88 @@ const createReserve = (req,res)=>{
           data: result,
         });
       } else {
-        return res.status(500).json({ status: 500, success: false, error: 'Data insertion failed' });
+        return res.status(500).json({ status: 500, success: false, error: 'Record insertion failed' });
       }
     });
 }
 
 const updateReserve = (req,res)=>{
-    res.json({
-        success:true,
-        data:[{id:1,text:'Testing Purposes Only'}]
-    })
+  const {date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,res_id} = req.body;
+    
+  const updateQuery = 'UPDATE reservation SET res_date=?,res_time=?,res_location=?,party_size=?,settings=?,additional_details=?,account_id=?,merchant_id=?,sched_id=?,package_id=?,payment_id=? WHERE reservation_id=?'
+
+  const data = [date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,res_id]
+  db.query(updateQuery, data, (err, result) => {
+    if (err) {
+      console.error('Error updating data:', err);
+      return res.status(500).json({ status: 500, success:false,error: 'Error updating data' });
+    }
+
+    if (result.affectedRows > 0) {
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        data: result,
+      });
+    } else {
+      return res.status(500).json({ status: 500, success: false, error: 'Updating record failed' });
+    }
+  });
 }
 
-const retrieveAll = (req,res)=>{
-    res.json({
-        success:true,
-        data:[{id:1,text:'Testing Purposes Only'}]
-    })
+const retrieveAll = (req,res)=>{   
+  const retrieveRecs = 'SELECT * FROM reservation'
+
+  db.query(retrieveRecs, (err, rows) => {
+    if (err) {
+      console.error('Error retrieving all records:', err);
+      return res.status(500).json({ status: 500, success:false,error: 'Error retrieving all records' });
+    }else{
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        data: rows,
+      });
+    }
+  });
 }
 
 const retrieveByParams = (req,res)=>{
-    res.json({
-        success:true,
-        data:[{id:1,text:'Testing Purposes Only'}]
-    })
+  const { column, value } = req.query; 
+
+  const retrieveSpecific = 'SELECT * FROM reservation WHERE ?? = ?';
+
+  db.query(retrieveSpecific, [column,value],(err, row) => {
+    if (err) {
+      console.error('Error retrieving records:', err);
+      return res.status(500).json({ status: 500, success:false,error: 'Error retrieving records' });
+    }else{
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        data: row,
+      });
+    }
+  });
 }
 
 const deleteReserve = (req,res)=>{
+  const {res_id} = req.body;
 
+  const deleteQuery = 'DELETE FROM reservation WHERE reservation_id = ?';
+
+  db.query(deleteQuery, res_id,(err, result) => {
+    if (err) {
+      console.error('Error deleting record:', err);
+      return res.status(500).json({ status: 500, success:false,error: 'Error deleting records' });
+    }else{
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        data: result,
+      });
+    }
+  });
 }
 
 module.exports = {
