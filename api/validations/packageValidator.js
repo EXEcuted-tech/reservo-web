@@ -33,6 +33,8 @@ const createPackageValidator = (req,res,next)=>{
             error:{text:['start date is empty!']},
         })
     }
+
+    next();
 }
 
 module.exports = createPackageValidator;
