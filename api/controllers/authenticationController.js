@@ -84,8 +84,7 @@ const login = (req,res)=>{
             success: false,
             message: "Database Error",
         });
-    }
-    
+    } 
 }
 
 module.exports = {
