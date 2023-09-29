@@ -6,12 +6,13 @@ import logo from '../../../assets/temp-logo-2w.png'
 import { RiReservedFill } from 'react-icons/ri'; 
 import { Link, useNavigate } from 'react-router-dom';
 
+import axios from 'axios'
 
 
 const UserLogin = () => {
 
     const [invalid , setInvalid] = useState(false);
-    const [uName , setUser] = useState('');
+    const [email , setEmail] = useState('');
     const [pass , setPass] = useState('');
     const Navigate = useNavigate();
 
@@ -22,22 +23,18 @@ const UserLogin = () => {
     const submitHandler = (event:FormEvent) =>{
         event.preventDefault();
 
-        if(uName === '' || pass === ''){
+        if(email === '' || pass === ''){
             setInvalid(true);
         }
         else{
             // backend here
-            if(uName === '19103296@usc.edu.ph'){
-                if(pass === '123'){
-                    Navigate('/');
+            axios.post('http://localhost:5000/login',{data:{account_email: email , password : pass}}).then(
+                (res)=>{
+                    console.log(res);
+
                 }
-                else{
-                    setInvalid(true);
-                }
-            }
-            else{
-                setInvalid(true);
-            }
+            ).catch((err) => {console.log(err)});
+            
         }
     }
     
@@ -82,7 +79,7 @@ const UserLogin = () => {
                     <div className="inputs">
                         <div className="I-Box flex flex-col space-y-2 mb-[20px]">
                             <label htmlFor="email" className='font-thin'>Email:</label>
-                            <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="email" id="Email" value={uName} onChange={(e) =>{setUser(e.target.value)}} required/>
+                            <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="email" id="Email" value={email} onChange={(e) =>{setEmail(e.target.value)}} required/>
                         </div>
                         <div className="I-Box flex flex-col space-y-2 mb-[10px]">
                             <label htmlFor="pass" className='font-thin'>Password:</label>
