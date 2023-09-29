@@ -9,7 +9,8 @@ USE reservo;
 
 CREATE TABLE `reservation` (
   `reservation_id` bigint(20) NOT NULL,
-  `res_date_time` datetime NOT NULL,
+  `res_date` date NOT NULL,
+  `res_time` time NOT NULL,
   `res_location` varchar(255) NOT NULL,
   `date_received` datetime NOT NULL,
   `party_size` int(11) NOT NULL,
@@ -17,7 +18,7 @@ CREATE TABLE `reservation` (
   `additional_details` text DEFAULT NULL,
   `account_id` bigint(20) NOT NULL,
   `merchant_id` bigint(20) NOT NULL,
-  `sched_id` bigint(20) NOT NULL,
+  `sched_id` bigint(20) DEFAULT NULL,
   `package_id` bigint(20) NOT NULL,
   `payment_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -39,6 +40,4 @@ ALTER TABLE `reservation`
   ADD CONSTRAINT `reservation_ibfk_3` FOREIGN KEY (`sched_id`) REFERENCES `merchant_sched` (`sched_id`),
   ADD CONSTRAINT `reservation_ibfk_4` FOREIGN KEY (`package_id`) REFERENCES `package` (`package_id`),
   ADD CONSTRAINT `reservation_ibfk_5` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`payment_id`);
-COMMIT
-
 
