@@ -12,7 +12,9 @@ const createAccount = async (req, res) => {
         const hashedpassword = await bcrypt.hash(password, saltRounds)
         const values = [account_name, account_email, hashedpassword, account_type, contact_number];
         db.query(sql, values, (err, result) => {
+            console.log(db);
             if (err) {
+                console.log(result);
                 res.status(200).json({
                     success: false,
                     message: "Account add fail",
