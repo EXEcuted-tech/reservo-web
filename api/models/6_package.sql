@@ -14,7 +14,7 @@ CREATE TABLE `package` (
   `package_visibility` enum('PUBLISHED','NOT PUBLISHED') NOT NULL,
   `item_list` text NOT NULL,
   `image_filepath` text NOT NULL,
-  `tags` text NOT NULL,
+  `tags` text DEFAULT NULL,
   `merchant_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

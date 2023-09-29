@@ -17,7 +17,7 @@ CREATE TABLE `reservation` (
   `additional_details` text DEFAULT NULL,
   `account_id` bigint(20) NOT NULL,
   `merchant_id` bigint(20) NOT NULL,
-  `sched_id` bigint(20) NOT NULL,
+  `sched_id` bigint(20) DEFAULT NULL,
   `package_id` bigint(20) NOT NULL,
   `payment_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
