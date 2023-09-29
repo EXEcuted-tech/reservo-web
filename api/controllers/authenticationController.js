@@ -59,7 +59,6 @@ const login = (req,res)=>{
                     });
                 }
             });
-                
         }else{
             console.log(err);
         }
@@ -69,8 +68,7 @@ const login = (req,res)=>{
             success: false,
             message: "Database Error",
         });
-    }
-    
+    } 
 }
 
 module.exports = {

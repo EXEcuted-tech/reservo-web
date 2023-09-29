@@ -28,18 +28,16 @@ const UserLogin = () => {
         }
         else{
             // backend here
-            axios.post('http://localhost:5000/login',{data:{account_email: email , password : pass}}).then(
+            axios.post('http://localhost:5000/login',{
+                account_email: email , 
+                password : pass
+            }).then(
                 (res)=>{
                     console.log(res);
-
                 }
-            ).catch((err) => {console.log(err)});
-            
+            ).catch((err) => { console.error('AXIOS error: ',err)});
         }
     }
-    
-
-
 
   return (
     <div className='content-center w-[full] h-[full] overflow-hidden font-poppins'>
@@ -78,11 +76,11 @@ const UserLogin = () => {
                 <form className='formBox w-[70%] flex flex-col'>
                     <div className="inputs">
                         <div className="I-Box flex flex-col space-y-2 mb-[20px]">
-                            <label htmlFor="email" className='font-thin'>Email:</label>
+                            <label htmlFor="email" className='font-thin'>Email</label>
                             <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="email" id="Email" value={email} onChange={(e) =>{setEmail(e.target.value)}} required/>
                         </div>
                         <div className="I-Box flex flex-col space-y-2 mb-[10px]">
-                            <label htmlFor="pass" className='font-thin'>Password:</label>
+                            <label htmlFor="pass" className='font-thin'>Password</label>
                             <input type="password" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}} required/>
                         </div>
                     </div>
