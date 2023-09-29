@@ -24,7 +24,7 @@ const Carousel: React.FC = () => {
   };
 
   return (
-    <div className="relative overflow-hidden h-[800px] w-[112.4rem] ">
+    <div className="relative overflow-hidden h-[900px] w-[126.5rem] ">
       <div className="flex " >
         {images.map((image, index) => (
           <div
@@ -34,7 +34,7 @@ const Carousel: React.FC = () => {
             }`}
           >
             <img src={image} alt={`Slide ${index + 1}`} className="w-full h-full object-cover" />
-            <div className="absolute bottom-40 left-44 w-full p-4  bg-opacity-50">
+            <div className="absolute bottom-40 left-44 w-full p-4">
               <h1 className="text-8xl md:text-2xl lg:text-8xl text-[#DD2803] font-bold">RESERVE A</h1>
               <h1 className="text-8xl mt-4 md:text-2xl lg:text-8xl text-[#DD2803] font-bold">SPOT EASILY,</h1>
               <h1 className="text-8xl mt-4 md:text-2xl lg:text-8xl text-[#DD2803] font-bold">SAVE YOUR TIME</h1>

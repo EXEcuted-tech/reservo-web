@@ -20,7 +20,8 @@ CREATE TABLE `reservation` (
   `merchant_id` bigint(20) NOT NULL,
   `sched_id` bigint(20) DEFAULT NULL,
   `package_id` bigint(20) NOT NULL,
-  `payment_id` bigint(20) NOT NULL
+  `payment_id` bigint(20) NOT NULL,
+  `inventory_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
@@ -31,6 +32,7 @@ ALTER TABLE `reservation`
   ADD KEY `sched_id` (`sched_id`),
   ADD KEY `package_id` (`package_id`),
   ADD KEY `payment_id` (`payment_id`),
+  ADD KEY `incvetory_id` (`inventory_id`),
   MODIFY COLUMN `reservation_id` BIGINT AUTO_INCREMENT;
 
 
@@ -39,5 +41,6 @@ ALTER TABLE `reservation`
   ADD CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`merchant_id`),
   ADD CONSTRAINT `reservation_ibfk_3` FOREIGN KEY (`sched_id`) REFERENCES `merchant_sched` (`sched_id`),
   ADD CONSTRAINT `reservation_ibfk_4` FOREIGN KEY (`package_id`) REFERENCES `package` (`package_id`),
-  ADD CONSTRAINT `reservation_ibfk_5` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`payment_id`);
+  ADD CONSTRAINT `reservation_ibfk_5` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`payment_id`),
+  ADD CONSTRAINT `reservation_ibfk_6` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`inventory_id`);
 
