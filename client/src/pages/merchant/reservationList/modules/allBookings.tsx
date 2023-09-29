@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReserveCard from './reserveCard'
+import axios from 'axios'
 
 const AllBookings: React.FC<ReserveProps> = (props) => {
   const openModal = props;
@@ -40,6 +41,13 @@ const AllBookings: React.FC<ReserveProps> = (props) => {
       status: "Finished",
     },
   ]
+
+  useEffect(()=>{
+    axios.get("http://localhost:5000/reserve/retrieve_all").then((res)=>{
+        console.log(res.data.records);
+    })
+  },[])
+
   return (
     <div>
       <div className='font-poppins mx-[3%] mt-[3%]'>
