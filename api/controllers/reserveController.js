@@ -69,11 +69,11 @@ const retrieveAll = (req,res)=>{
 }
 
 const retrieveByParams = (req,res)=>{
-  const { column, value } = req.query; 
+  const { col, val } = req.query; 
 
   const retrieveSpecific = 'SELECT * FROM reservation WHERE ?? = ?';
 
-  db.query(retrieveSpecific, [column,value],(err, row) => {
+  db.query(retrieveSpecific, [col,val],(err, row) => {
     if (err) {
       console.error('Error retrieving records:', err);
       return res.status(500).json({ status: 500, success:false,error: 'Error retrieving records' });

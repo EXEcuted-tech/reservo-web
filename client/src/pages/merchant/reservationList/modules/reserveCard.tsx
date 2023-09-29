@@ -6,11 +6,12 @@ import {ImPencil} from 'react-icons/im'
 const ReserveCard: 
     React.FC<{bookings: ReserveCardProps[],openModal: ReserveProps}> = ({bookings, openModal}) => {
   
-    const {setOpenModalEdit,setOpenModalView} = openModal;
+    const {setOpenModalEdit,setOpenModalView, openModalEdit, openModalView} = openModal;
    return (
     <div>
         <h1 className='text-[1.3em] text-[#797979] font-bold'>{"January 18, 2023, Tuesday"}</h1>
-        <div className='px-[1%] bg-white rounded-lg drop-shadow'>
+        <div className={`px-[1%] bg-white rounded-lg drop-shadow opacity-0.5`}
+            style={{opacity: openModalView || openModalEdit ? 0.25 : 1}}>
         <table className='w-[100%] mt-[0.8%]'>
         <thead className='text-[1.2em]'>
             <tr>  
