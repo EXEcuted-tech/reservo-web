@@ -14,6 +14,7 @@ const UserLogin = () => {
     const [invalid , setInvalid] = useState(false);
     const [email , setEmail] = useState('');
     const [pass , setPass] = useState('');
+    const [errMess , setErrMess] = useState('');
     const Navigate = useNavigate();
 
     const guestHandler = () =>{
@@ -24,6 +25,7 @@ const UserLogin = () => {
         event.preventDefault();
 
         if(email === '' || pass === ''){
+            setErrMess("Fill all the Fields Required");
             setInvalid(true);
         }
         else{
@@ -34,12 +36,20 @@ const UserLogin = () => {
             }).then(
                 (res)=>{
                     console.log(res.data);
+                    //if success means the email is exist and the password is correct
+                    if(res.data.success === true){
+                            Navigate('/');
+                    }
+                    else{
+                        setErrMess(res.data.message);
+                        setInvalid(true);
+                    }
+                    
                 }
             ).catch((err) => { 
                 //Insert here something to store the error message
-                if(err.response.data.message=='Account Type Mismatch'){
-                    setInvalid(true);
-                }
+                setErrMess(err.response.data.message);
+                setInvalid(true);
             });
         }
     }
@@ -75,18 +85,18 @@ const UserLogin = () => {
                 <div className="TitleHeader space-y-5 text-center">
                     <span className='text-[28px] capitalize font-bold '>Login to your Account</span>
                     <div className="invalid p-[5px]">
-                        <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>Invalid user or password. Please try again!</span>
+                        <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>{errMess} Please try again!</span>
                     </div>
                 </div>
                 <form className='formBox w-[70%] flex flex-col'>
                     <div className="inputs">
                         <div className="I-Box flex flex-col space-y-2 mb-[20px]">
                             <label htmlFor="email" className='font-thin'>Email</label>
-                            <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="email" id="Email" value={email} onChange={(e) =>{setEmail(e.target.value)}} required/>
+                            <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="email" id="Email" value={email} onChange={(e) =>{setEmail(e.target.value)}}/>
                         </div>
                         <div className="I-Box flex flex-col space-y-2 mb-[10px]">
                             <label htmlFor="pass" className='font-thin'>Password</label>
-                            <input type="password" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}} required/>
+                            <input type="password" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}}/>
                         </div>
                     </div>
                     <div className="frgt text-right text-[12px] mb-[2rem] ">
