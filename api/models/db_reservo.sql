@@ -134,7 +134,8 @@ CREATE TABLE `reservation` (
   `sched_id` bigint(20) DEFAULT NULL,
   `package_id` bigint(20) NOT NULL,
   `payment_id` bigint(20) NOT NULL,
-  `inventory_id` bigint(20) NOT NULL
+  `inventory_id` bigint(20) NOT NULL,
+  `status` enum('Ongoing','Finished') NOT NULL DEFAULT 'Ongoing'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Reservation*/
