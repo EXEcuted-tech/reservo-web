@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express')
 const app = express()
 const cors = require('cors');
@@ -23,6 +24,8 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
 });
+
+console.log("CORS: "+ process.env.CORS_ORIGIN);
 
 app.use(express.json());
 app.use('/',authenticationRoutes); //authentication
