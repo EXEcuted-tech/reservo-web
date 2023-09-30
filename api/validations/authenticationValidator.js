@@ -32,17 +32,17 @@ const authenticationValidator = (req,res,next)=>{
         })
     }
 
-    if(!req.body.contact_number|| isNaN(req.body.contact_number)){
+    if(!req.body.contact_number){
         return res.status(400).json({
             success:false,
-            error:{text:['contact number is invalid']},
+            error:{text:['contact number is empty']},
         })
     }
 
     switch(req.body.account_type){
         case 1:
-        case 10:
         case 50:
+        case 30:
             break;
         default:
             return res.status(400).json({
@@ -50,6 +50,9 @@ const authenticationValidator = (req,res,next)=>{
                 error:{text:['Err_account Type']},
             })
     }
+    
+    
+
     next();
 }
 
@@ -75,17 +78,6 @@ const loginValidator = (req, res, next) => {
         });
     }
 
-    switch(req.body.account_type){
-        case 1:
-        case 10:
-        case 50:
-            break;
-        default:
-            return res.status(400).json({
-                success:false,
-                error:{text:['Err_account Type']},
-            })
-    }
     next();
 }
 
