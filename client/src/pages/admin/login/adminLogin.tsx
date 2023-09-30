@@ -29,7 +29,7 @@ const AdminLogin = () => {
             axios.post(`${config.API}/login`,{
                 account_email: email , 
                 password : pass,
-                account_type: 2
+                account_type: 10
             }).then(
                 (res)=>{
                     //if success means the email is exist and the password is correct
