@@ -32,14 +32,25 @@ const AdminLogin = () => {
                 account_type: 2
             }).then(
                 (res)=>{
-                    console.log(res.data);
                     //if success means the email is exist and the password is correct
-                    if(res.data.success === true){
-                            Navigate('/merchdash');
+                    if(res.data.success){
+                        localStorage.setItem('userDetails', JSON.stringify(res.data.account_info));
+                        Navigate('/merchdash')
                     }
                     else{
-                        setErrMess(res.data.message);
-                        setInvalid(true);
+                        switch(res.data.message){
+                            case 'Password is required':
+                                setErrMess(res.data.message);
+                                setInvalid(true);
+                                break;
+                            case 'Password is too short':
+                                setErrMess(res.data.message);
+                                setInvalid(true);
+                                break;
+                            default:
+                                setErrMess("Email does not Exist");
+                                setInvalid(true);
+                        }
                     }
                     
                 }
