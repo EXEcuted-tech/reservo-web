@@ -23,7 +23,7 @@ const ReserveCard:
         const clientName = await getClient(booking.account_id);
         updatedNewRecs.push({ booking, clientName });
       }
-      console.log(updatedNewRecs);
+
       setNewRecs(updatedNewRecs);
     };
   
@@ -43,6 +43,7 @@ const ReserveCard:
         return '';
       }
     };
+
     return (
     <div>
         <h1 className='text-[1.3em] text-[#797979] font-bold'>{`As of ${date}`}</h1>
@@ -82,7 +83,11 @@ const ReserveCard:
                     <div className='flex justify-center'>
                         <button className='flex items-center bg-[#ffbb38] py-[3%] px-[15%] mt-[5%] mb-[2%] rounded-3xl
                                 hover:bg-[#ffe7ba]'
-                                onClick={()=>setOpenModalView(true)}>
+                                onClick={()=>{
+                                  console.log("Before: ",booking.account_id.toString())
+                                  sessionStorage.setItem('res_id',booking.account_id.toString())
+                                  setOpenModalView(true)
+                                }}>
                             <LiaSearchSolid/>
                             View
                         </button>
@@ -90,7 +95,10 @@ const ReserveCard:
                     <div className='flex justify-center'>
                         <button className='flex items-center bg-[#ff8e4f] py-[3%] px-[17%] mb-[5%] rounded-3xl
                                hover:bg-[#ffbe9b]'
-                               onClick={()=>setOpenModalEdit(true)}>
+                               onClick={()=>{
+                                sessionStorage.setItem('res_id',booking.account_id.toString())
+                                setOpenModalEdit(true)
+                               }}>
                             <ImPencil/>
                             Edit
                         </button>

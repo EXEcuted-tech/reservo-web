@@ -59,7 +59,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                         onClick={()=>{navigate('/eaterychoice/view')}}>
                         <AiOutlineFolderView className='text-[1.6em]'/>View More
                     </button>
-                    <button className='w-[35%] flex items-center text-black bg-[#F4D147] px-[3%] py-[1.5%] rounded-2xl
+                    <button className='w-[40%] flex items-center text-black bg-[#F4D147] px-[3%] py-[1.5%] rounded-2xl
                         hover:bg-[#FFB800] font-medium'
                         onClick={()=>{navigate('/eaterychoice/book')}}>
                         <BsBookFill className='text-[1em] mr-[2%]'/>Book Now

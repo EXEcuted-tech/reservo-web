@@ -1,10 +1,35 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {RiNewspaperFill} from 'react-icons/ri'
 import {AiFillCloseCircle} from 'react-icons/ai'
 import {BsFillTrashFill} from 'react-icons/bs'
+import axios from 'axios'
 
 const ViewModal:React.FC<ViewModalProps> = (props) => {
+  const [resId,setResId]=useState(0);
+  const [record,setRecord]=useState<ReserveCardProps[]>([]);
   const {setOpenModalView} = props;
+
+  useEffect(()=>{
+    const current=sessionStorage.getItem('res_id');
+    console.log("Current: ",current);
+    if(current!==null){
+      const currentId = parseInt(current,10);
+      setResId(currentId);
+    }
+    getRecord();
+    console.log("Record: ",record);
+  },[resId])
+
+  const getRecord = () => {
+    const col = "reservation_id";
+    const val = resId;
+    axios.get(`http://localhost:5000/reserve/retrieve?col=${col}&val=${val}`)
+    .then((res)=>{
+       if(res.status === 200){
+        setRecord(res.data.records)
+       }
+    })
+  }
   return (
     <div className="animate-slide-up font-poppins fixed top-[8%] left-[18%] right-0 bg-white z-50 bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
         <div className='flex w-full h-[5vh]'>
@@ -25,8 +50,8 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block text-white px-[1%] rounded-lg mb-[0.5%]'>General Information</h1>
         <div className='flex mx-[2%] text-[1.2em]'>
           <div className='w-[50%]'>
-            <p className='my-[1%]'><span className='font-bold'>Date: </span>{"January 13,2023"}</p>
-            <p className='my-[1%]'><span className='font-bold'>Time: </span>{"January 13,2023"}</p>
+            <p className='my-[1%]'><span className='font-bold'>Date: </span>{record[0].res_date}</p>
+            <p className='my-[1%]'><span className='font-bold'>Time: </span>{record[0].res_time}</p>
             <p className='my-[1%]'><span className='font-bold'>Organizer: </span>{"January 13,2023"}</p>
             <p className='my-[1%]'><span className='font-bold'>Client Name: </span>{"January 13,2023"}</p>
           </div>
