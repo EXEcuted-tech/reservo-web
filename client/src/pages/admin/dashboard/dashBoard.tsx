@@ -45,7 +45,7 @@ const AdminDashboard = () => {
         {/* Welcome Section */}
         <div className='bg-[#F3F3F3] h-[30vh] flex'>
            <div className='w-[35%] p-[1%] items-center'>
-              <div className='align-center text-left p-[3%] h-[100%] rounded-3xl bg-gradient-to-b from-[#EC0000] to-black'>
+              <div className='align-center text-left p-[3%] h-[100%] rounded-3xl bg-gradient-to-b from-[#EC0000] to-black pl-10 pt-7'>
                 <h1 className='text-[1.8em] text-white'>
                   Welcome, Kathea Marie!
                 </h1>
