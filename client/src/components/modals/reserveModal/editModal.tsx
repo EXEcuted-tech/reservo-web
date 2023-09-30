@@ -129,7 +129,8 @@ const EditModal:React.FC<EditModalProps> = (props) => {
         {/* Additional Details */}
         <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block text-white px-[1%] mt-[2%] rounded-lg mb-[0.5%]'>Additional Details</h1>
         <div className='flex mx-[2%] text-[1.2em]'>
-          <div className='w-[33%]'>
+        <h1 className='font-medium text-[1.4em] italic'>Coming Soon</h1>
+          {/* <div className='w-[33%]'>
             <div className='flex mb-[1%]'>
                 <p className='my-[1%] mr-[1%]'>Date</p>
                 <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
@@ -158,7 +159,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
                 <p className='my-[1%] mr-[1%]'>Date</p>
                 <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
-          </div>
+          </div> */}
         </div>  
 
 
