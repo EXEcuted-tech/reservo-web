@@ -78,7 +78,7 @@ const UserLogin = () => {
                 <div className="TitleHeader space-y-5 text-center">
                     <span className='text-[28px] capitalize font-bold '>Login to your Account</span>
                     <div className="invalid p-[5px]">
-                        <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>Invalid user or password. Please try again!</span>
+                        <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>I{errMess}. Please try again!</span>
                     </div>
                 </div>
                 <form className='formBox w-[70%] flex flex-col'>
