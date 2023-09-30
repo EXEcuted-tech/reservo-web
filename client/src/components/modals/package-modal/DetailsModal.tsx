@@ -12,6 +12,8 @@ interface DetailsModalProps {
     packageID: string;
     packageName: string;
     description: string;
+    date_start: string;
+    date_end: string;
     tags: string[];
     price: string;
     visibility: string;
@@ -19,7 +21,7 @@ interface DetailsModalProps {
   }
 
   
-  const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, packageName, description, price, tags, visibility, items }) => {
+  const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, packageName,date_start, date_end, description, price, tags, visibility, items }) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const closeModal = () => {
@@ -50,8 +52,8 @@ interface DetailsModalProps {
             <div className='h-[40vh] '>
                 <p><b>Package Name: </b>{packageName}</p>
                 <p><b>Total Price: </b> {price}</p>
-                <p><b>Available From: </b></p>
-                <p><b>Expiry Date: </b></p>
+                <p><b>Available From: </b>{date_start}</p>
+                <p><b>Expiry Date: </b>{date_end}</p>
                 <p><b>Tags: </b>{tags.map((tag, index) => (
                                             <span key={index}>{tag}{index < tags.length - 1 ? ', ' : ''}</span>
                                         ))}
