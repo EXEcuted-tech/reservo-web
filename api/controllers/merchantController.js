@@ -42,10 +42,10 @@ const createMerchant = (req,res)=>{
 }
 
 const updateMerchant = (req,res)=>{
-    const updateMerchant = req.body;
+    const updatedMerchant = req.body;
 
-    const columns = Object.keys(updateMerchant);
-    const values = Object.values(updateMerchant);
+    const columns = Object.keys(updatedMerchant);
+    const values = Object.values(updatedMerchant);
 
     const setClause = columns.map((column) => `${column} = ?`).join(', ');
 
