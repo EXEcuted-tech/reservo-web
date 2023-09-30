@@ -40,7 +40,6 @@ const UserLogin = () => {
                     Navigate('/')
                 }
                 else{
-                    
                     switch(res.data.message){
                         case 'Password is required':
                             setErrMess(res.data.message);
