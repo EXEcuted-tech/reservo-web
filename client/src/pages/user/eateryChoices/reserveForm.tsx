@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router'
 import starleft from '../../../assets/starleft.png'
 import starright from '../../../assets/starright.png'
 import {SiFormstack, SiGoogleforms} from 'react-icons/si'
+import axios from 'axios'
+import config from '../../../common/config'
 
 const ReserveForm = () => {
   const navigate = useNavigate();
@@ -18,8 +20,24 @@ const ReserveForm = () => {
   const [clickEight,setClickEight] = useState(false);
   const [clickNine,setClickNine] = useState(false);
 
+  const [date,setDate] = useState(null);
+  const [timestart,setTimeStart] = useState(null);
+  const [location,setLocation] = useState("");
+  const [size,setSize] = useState(0);
+  const [add,setAdd] = useState("");
+
+  const submitReservation = (event: { preventDefault: () => void }) =>{
+    event.preventDefault();
+    axios.post(`${config.API}/reserve/create`, {
+
+    }).then((response) => {
+
+    }).catch((error)=>{
+        console.error(error);
+    });
+  }
   return (
-    <div className='animate-slide-right font-poppins bg-[#F9F2EA] h-[100%]'>
+    <div className='font-poppins bg-[#F9F2EA] h-[100%]'>
        <div className='text-[#DD2803] ml-[2%]'>
          <h1 className='text-[2.5em] py-[1%] font-bold flex items-center'>
             <AiOutlineArrowLeft className='text-black mr-[1%] hover:text-[#DD2803]'
@@ -194,7 +212,8 @@ const ReserveForm = () => {
         {/* Additional Form */}
         <div className='bg-white'>
             <div className='flex px-[4%] py-[2%]'>
-                <div className='w-[20%] pl-[0.5%] mr-[3%]'>
+                <p className='font-bold text-[2em]'>Coming Soon</p>
+                {/* <div className='w-[20%] pl-[0.5%] mr-[3%]'>
                 <label className='absolute mt-[-1%] text-[#838383]'>Number of Tables</label>
                     <input 
                         className='text-[#B7B7B7] text-[1.1em] w-[100%] border-b-2 border-[#B7B7B7]
@@ -205,7 +224,7 @@ const ReserveForm = () => {
                             e.target.style.outline = 'none';
                     }}
                 />    
-                </div>
+                </div> */}
             </div>
         </div>
 

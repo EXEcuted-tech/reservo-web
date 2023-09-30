@@ -5,7 +5,7 @@ import {AiOutlineCopyrightCircle} from 'react-icons/ai'
 
 const Footer = () => {
   return (
-    <div className="font-poppins flex items-center bg-footer text-white relative z-100">
+    <div className="font-poppins flex items-center bg-footer text-white relative z-100 bg-[100%] bg-[red]">
         <div className='ml-[3%]'>
             <b className='font-extrabold text-[1.4em]'>Contact Us</b>
             <p className='text-[1.1em] mt-[-3%]'>+639175618159</p>

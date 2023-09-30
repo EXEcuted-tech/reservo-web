@@ -10,11 +10,10 @@ USE reservo;
 */
 CREATE TABLE `payment` (
   `payment_id` bigint(20) NOT NULL,
-  `reservation_id` bigint(20) NOT NULL,
-  `total_expense` decimal(10,2) NOT NULL,
+  `total_expense` decimal(10,2) DEFAULT NULL,
   `balance` decimal(10,2) NOT NULL,
   `payment_status` enum('PENDING','PAID') NOT NULL,
-  `payment_date` datetime NOT NULL
+  `payment_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 ALTER TABLE `payment`
