@@ -1,6 +1,6 @@
 const { isValidDate, isValidTime }= require('../helpers/date-time')
 const createPackageValidator = (req,res,next)=>{
-    //console.log(req.body);
+    console.log(req.body);
     console.log(req.body.date_start);
     if(!req.body.package_name){
         return res.json({

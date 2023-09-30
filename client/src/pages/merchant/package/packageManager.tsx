@@ -13,15 +13,15 @@ import axios from 'axios'
 
 interface PackageItem {
     package_id: string;
-    packageName: string;
-    description: string;
+    package_name: string;
+    package_desc: string;
     price: string;
     tags: string[];
-    date_start: Date;
-    date_end: Date;
+    date_start: string;
+    date_end: string;
     visibility: string;
-    items: string[];
-    filePath: string;
+    item_list: string[];
+    image_filepath: string;
     oneButton: boolean;
   }
 
@@ -52,7 +52,7 @@ const PackageManager = () => {
       setIsCreatePackageModalOpen(false);
     };
 
-    const fetchData = async (selectedSortOption) => {
+    const fetchData = async (selectedSortOption: string | undefined) => {
         try {
           const response = await axios.get(`${config.API}/package/retrieveparams`, {
             params: {

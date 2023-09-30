@@ -40,12 +40,12 @@ const createPackage = (req,res)=>{
 }
 
 const updatePackage = (req,res)=>{
-    const {pack_name,pack_desc,price,date_start,date_end,time_start,time_end,visibility,list,imgUrl,tags,merch_id} = req.body;
-    
+    const {package_name,package_desc,price,date_start,date_end,time_start,time_end,visibility,list,image_filepath,tags} = req.body;
+    console.log(req.body)
     const update = 
     'UPDATE package SET package_name=?,package_desc=?, price=?, date_start=?,date_end=?,time_start=?,time_end=?,visibility=?,item_list=?,image_filepath=?,tags=? WHERE package_id=?';
 
-    const data = [pack_name,pack_desc,price,date_start,date_end,time_start,time_end,visibility,list,imgUrl,tags,merch_id]
+    const data = [package_name,package_desc,price,date_start,date_end,time_start,time_end,visibility,list,image_filepath,tags]
     db.query(update, data, (err, result) => {
       if (err) {
         console.error('Error updating data:', err);
