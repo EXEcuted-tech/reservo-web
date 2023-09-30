@@ -1,31 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ReserveCard from './reserveCard'
+import axios from 'axios';
 
 const CompleteList: React.FC<ReserveProps> = (props) => {
   const openModal = props;
+  const [reservations, setReservations] = useState<ReserveCardProps[]>([]);
 
-  const bookings2:ReserveCardProps[] = [
-    {
-      reserveId: 1,
-      organizerName: "Kathea Mari Mayol",
-      clientName: "Jeremiah Juinio",
-      eventSize: 5,
-      time: "11:30 PM - 12:00 AM",
-      status: "Finished",
-    },
-    {
-      reserveId: 2,
-      organizerName: "Franz Ondiano",
-      clientName: "Jeremiah Juinio",
-      eventSize: 5,
-      time: "11:30 PM - 12:00 AM",
-      status: "Finished",
-    },
-  ]
+  useEffect(() => {
+    const col = "status";
+    const val = "Finished";
+
+    axios.get(`http://localhost:5000/reserve/retrieve?col=${col}&val=${val}`).then((res) => {
+      const parsedReservations = res.data.records.map((record: any) => ({
+        ...record,
+        res_date: new Date(record.res_date),
+      }));
+
+      setReservations(parsedReservations);
+    });
+  }, []);
   return (
-    <div>
-      <div className='font-poppins mx-[3%] mt-[3%]'>
-        <ReserveCard bookings={bookings2} openModal={openModal}/>
+    <div className='h-[82.5vh] overflow-y-auto'>
+      <div className='font-poppins mx-[3%] mt-[1%] mb-[1%]'>
+        <ReserveCard bookings={reservations} openModal={openModal}/>
       </div>
     </div>
   )

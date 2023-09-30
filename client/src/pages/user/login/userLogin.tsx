@@ -33,26 +33,19 @@ const UserLogin = () => {
                 account_email: email , 
                 password : pass,
                 account_type: 1
-            }).then(
-                (res)=>{
-                    console.log(res.data);
-                    //if success means the email is exist and the password is correct
-                    if(res.data.success === true){
-                            Navigate('/');
-                    }
-                    else{
-                        setErrMess(res.data.message);
-                        setInvalid(true);
-                    }
-                    
-                }
-            ).catch((err) => { 
+            }).then((res)=>{
+                localStorage.setItem('userDetails', JSON.stringify(res.data.account_info));
+                Navigate('/')
+            }).catch((err) => { 
                 //Insert here something to store the error message
                 setErrMess(err.response.data.message);
                 setInvalid(true);
             });
         }
     }
+    
+
+
 
   return (
     <div className='content-center w-[full] h-[full] overflow-hidden font-poppins'>
@@ -72,7 +65,7 @@ const UserLogin = () => {
                     </div>
                     <div className="divider w-[100%] h-[2px] bg-white"></div>
                     <div className="subH text-center text-white mt-[5%]">
-                        <span className='text-[14px] font-light'>Make a reservation in<br/> just a few click. Log in now!</span>
+                        <span className='text-[1em] font-light'>Make a reservation in<br/> just a few click. Log in now!</span>
                     </div>
                </div>
 
@@ -85,29 +78,30 @@ const UserLogin = () => {
                 <div className="TitleHeader space-y-5 text-center">
                     <span className='text-[28px] capitalize font-bold '>Login to your Account</span>
                     <div className="invalid p-[5px]">
-                        <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>{errMess} Please try again!</span>
+                        <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>Invalid user or password. Please try again!</span>
                     </div>
                 </div>
                 <form className='formBox w-[70%] flex flex-col'>
                     <div className="inputs">
                         <div className="I-Box flex flex-col space-y-2 mb-[20px]">
                             <label htmlFor="email" className='font-thin'>Email</label>
-                            <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="email" id="Email" value={email} onChange={(e) =>{setEmail(e.target.value)}}/>
+                            <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="email" id="Email" value={email} onChange={(e) =>{setEmail(e.target.value)}} required/>
                         </div>
                         <div className="I-Box flex flex-col space-y-2 mb-[10px]">
                             <label htmlFor="pass" className='font-thin'>Password</label>
-                            <input type="password" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}}/>
+                            <input type="password" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}} required/>
                         </div>
                     </div>
-                    <div className="frgt text-right text-[12px] mb-[2rem] ">
+                    <div className="frgt text-right text-[0.8em] mb-[2rem] ">
                         <Link to={'/forgpass'}>Forgot Password?</Link>
                     </div>
                     <div className="buttons flex flex-col items-center space-y-5">
-                        <button type='submit' onClick={submitHandler} className='button bg-[#DD2803] text-white p-[0.5em] w-[50%] rounded-full hover:bg-red font-bold'>Sign in</button>
+                        <button type='submit' onClick={submitHandler} className='button bg-[#DD2803] text-white p-[0.5em] w-[50%] rounded-full 
+                                hover:bg-[#9a1a00] font-bold'>Sign in</button>
                         <button type='submit' onClick={guestHandler} className='button text-[#DD2803] p-[0.5em] font-bold w-[50%] rounded-full border-solid border-2 border-[#DD2803] font-bold'>Log in as Guest</button>
                         <div className="signBox">
                             <span className='capitalize'>need an account ?</span>
-                            <Link to={'/usRegister'} className='link text-[#DD2803] font-bold pl-1'>Sign Up</Link>
+                            <Link to={'/usRegister'} className='link text-[#DD2803] font-bold pl-1 hover:text-[#9a1a00]'>Sign Up</Link>
                         </div>    
                     </div>
                 </form>
