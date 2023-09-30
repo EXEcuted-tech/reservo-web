@@ -34,9 +34,8 @@ const UserLogin = () => {
                 password : pass,
                 account_type: 1
             }).then((res)=>{
-                localStorage.setItem('userDetails', JSON.stringify(res.data.account_info));
-
-                if(res.data.success === true){
+                if(res.data.success){
+                    localStorage.setItem('userDetails', JSON.stringify(res.data.account_info));
                     Navigate('/')
                 }
                 else{

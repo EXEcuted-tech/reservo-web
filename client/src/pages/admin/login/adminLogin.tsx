@@ -33,7 +33,7 @@ const AdminLogin = () => {
             }).then(
                 (res)=>{
                     //if success means the email is exist and the password is correct
-                    if(res.data.success === true){
+                    if(res.data.success){
                         localStorage.setItem('userDetails', JSON.stringify(res.data.account_info));
                         Navigate('/merchdash')
                     }
