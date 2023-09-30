@@ -3,6 +3,8 @@ import { AiOutlineClose } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 import { BsCalendarDate } from "react-icons/bs";
 import { FiClock } from "react-icons/fi";
+import {RiReservedFill} from 'react-icons/ri'
+import MerchAdHeader from "../../../components/headers/MerchAdHeader";
 
 const NAV_BAR = [
   { title: "Reservation Form", url: "reservationManager" },
@@ -64,7 +66,7 @@ const ReservationManager = () => {
   };
 
   return (
-    <div className="h-screen font-poppins bg-[#F3F3F3] p-8">
+    <div className="h-screen font-poppins bg-[#F3F3F3] p-8 h-[90vh]">
       <nav className="flex gap-8 border-b-2 border-black">
         {NAV_BAR.map(({ title, url }, index) => (
           <Fragment key={index}>
