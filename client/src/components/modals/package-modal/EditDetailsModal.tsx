@@ -36,13 +36,25 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
 }) => {
   const [editedPackageName, setEditedPackageName] = useState(packageName);
   const [editedPrice, setEditedPrice] = useState(price);
-  const [editedDateStart, setEditedDateStart] = useState(dateStart);
-  const [editedDateEnd, setEditedDateEnd] = useState(dateEnd);
+  const [editedDateStart, setEditedDateStart] = useState(formatDateToMMDDYYYY(dateStart));
+  const [editedDateEnd, setEditedDateEnd] = useState(formatDateToMMDDYYYY(dateEnd));
   const [editedTags, setEditedTags] = useState(tags.join(', '));
   const [editedVisibility, setEditedVisibility] = useState(visibility);
   const [editedDescription, setEditedDescription] = useState(description);
   const [editedItems, setEditedItems] = useState(items.join(', '));
   const [itemName, setItemName] = useState(''); // State for the input field
+
+
+  function formatDateToMMDDYYYY(date) {
+    const [year, month, day] = date.split('-');
+    return `${month}/${day}/${year}`;
+  }
+  
+  function formatDateToYYYYMMDD(date) {
+    const [month, day, year] = date.split('/');
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  }
+
 
   const handlePackageNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditedPackageName(e.target.value);
