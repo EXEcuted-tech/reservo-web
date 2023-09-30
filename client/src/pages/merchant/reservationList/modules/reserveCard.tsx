@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {HiOutlineUsers} from 'react-icons/hi'
 import {LiaSearchSolid} from 'react-icons/lia'
 import {ImPencil} from 'react-icons/im'
+import config from '../../../../common/config'
 import axios from 'axios'
 
 const ReserveCard: 
@@ -32,7 +33,7 @@ const ReserveCard:
         const col = 'account_id';
         const val = id;
   
-        const response = await axios.get(`http://localhost:5000/user/retrieve?col=${col}&val=${val}`);
+        const response = await axios.get(`${config.API}/user/retrieve?col=${col}&val=${val}`);
   
         if (response.data.status === 200) {
           return response.data.users[0].account_name;
@@ -84,8 +85,9 @@ const ReserveCard:
                         <button className='flex items-center bg-[#ffbb38] py-[3%] px-[15%] mt-[5%] mb-[2%] rounded-3xl
                                 hover:bg-[#ffe7ba]'
                                 onClick={()=>{
-                                  console.log("Before: ",booking.account_id.toString())
-                                  sessionStorage.setItem('res_id',booking.account_id.toString())
+                                  console.log("Before: ",booking.reservation_id.toString())
+                                  sessionStorage.setItem('res_id',booking.reservation_id.toString())
+                                  // localStorage.setItem('res_id',`${booking.account_id}`);
                                   setOpenModalView(true)
                                 }}>
                             <LiaSearchSolid/>
@@ -97,6 +99,7 @@ const ReserveCard:
                                hover:bg-[#ffbe9b]'
                                onClick={()=>{
                                 sessionStorage.setItem('res_id',booking.account_id.toString())
+                                console.log(sessionStorage.getItem('res_id'))
                                 setOpenModalEdit(true)
                                }}>
                             <ImPencil/>

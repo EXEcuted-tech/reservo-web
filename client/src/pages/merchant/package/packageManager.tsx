@@ -8,6 +8,7 @@ import MerchAdHeader from '../../../components/headers/MerchAdHeader.tsx';
 import { BiPackage } from "react-icons/bi";
 import { useState } from 'react';
 import CreatePackageModal from '../../../components/modals/package-modal/CreatePackageModal.tsx';
+import config from '../../../common/config.ts'
 import axios from 'axios'
 
 interface PackageItem {
@@ -52,7 +53,7 @@ const PackageManager = () => {
 
     const fetchData = async (selectedSortOption) => {
         try {
-          const response = await axios.get('http://localhost:5000/package/retrieveparams', {
+          const response = await axios.get(`${config.API}/package/retrieveparams`, {
             params: {
               col1: 'merchant_id',
               val1: 1, // Replace with the actual merchant ID
@@ -62,7 +63,7 @@ const PackageManager = () => {
             },
           });
 
-          const unpublishedresponse = await axios.get('http://localhost:5000/package/retrieveparams', {
+          const unpublishedresponse = await axios.get(`${config.API}/package/retrieveparams`, {
             params: {
               col1: 'merchant_id',
               val1: 1, // Replace with the actual merchant ID
