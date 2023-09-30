@@ -5,7 +5,7 @@ import logo from '../../../assets/temp-logo-2w.png'
 
 import { RiReservedFill } from 'react-icons/ri'; 
 import { Link, useNavigate } from 'react-router-dom';
-
+import config from '../../../common/config'
 import axios from 'axios'
 
 
@@ -29,7 +29,7 @@ const UserLogin = () => {
             setInvalid(true);
         }
         else{
-            axios.post('http://localhost:5000/login',{
+            axios.post(`${config.API}:5000/login`,{
                 account_email: email , 
                 password : pass,
                 account_type: 1

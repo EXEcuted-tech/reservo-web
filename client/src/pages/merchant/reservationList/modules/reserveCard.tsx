@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {HiOutlineUsers} from 'react-icons/hi'
 import {LiaSearchSolid} from 'react-icons/lia'
 import {ImPencil} from 'react-icons/im'
+import config from '../../../../common/config'
 import axios from 'axios'
 
 const ReserveCard: 
@@ -23,7 +24,7 @@ const ReserveCard:
         const clientName = await getClient(booking.account_id);
         updatedNewRecs.push({ booking, clientName });
       }
-      console.log(updatedNewRecs);
+
       setNewRecs(updatedNewRecs);
     };
   
@@ -32,7 +33,7 @@ const ReserveCard:
         const col = 'account_id';
         const val = id;
   
-        const response = await axios.get(`http://localhost:5000/user/retrieve?col=${col}&val=${val}`);
+        const response = await axios.get(`${config.API}/user/retrieve?col=${col}&val=${val}`);
   
         if (response.data.status === 200) {
           return response.data.users[0].account_name;
@@ -43,6 +44,7 @@ const ReserveCard:
         return '';
       }
     };
+
     return (
     <div>
         <h1 className='text-[1.3em] text-[#797979] font-bold'>{`As of ${date}`}</h1>
@@ -82,7 +84,12 @@ const ReserveCard:
                     <div className='flex justify-center'>
                         <button className='flex items-center bg-[#ffbb38] py-[3%] px-[15%] mt-[5%] mb-[2%] rounded-3xl
                                 hover:bg-[#ffe7ba]'
-                                onClick={()=>setOpenModalView(true)}>
+                                onClick={()=>{
+                                  console.log("Before: ",booking.reservation_id.toString())
+                                  sessionStorage.setItem('res_id',booking.reservation_id.toString())
+                                  // localStorage.setItem('res_id',`${booking.account_id}`);
+                                  setOpenModalView(true)
+                                }}>
                             <LiaSearchSolid/>
                             View
                         </button>
@@ -90,7 +97,11 @@ const ReserveCard:
                     <div className='flex justify-center'>
                         <button className='flex items-center bg-[#ff8e4f] py-[3%] px-[17%] mb-[5%] rounded-3xl
                                hover:bg-[#ffbe9b]'
-                               onClick={()=>setOpenModalEdit(true)}>
+                               onClick={()=>{
+                                sessionStorage.setItem('res_id',booking.account_id.toString())
+                                console.log(sessionStorage.getItem('res_id'))
+                                setOpenModalEdit(true)
+                               }}>
                             <ImPencil/>
                             Edit
                         </button>
