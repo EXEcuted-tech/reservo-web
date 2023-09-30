@@ -113,7 +113,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
         <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block text-white px-[1%] mt-[2%] rounded-lg mb-[0.5%]'>Additional Details</h1>
           
         <div className='flex mx-[2%] text-[1.2em]'>
-            <h1>Coming Soon!</h1>  
+        <h1 className='font-medium text-[1.4em] italic'>Coming Soon</h1>
           {/* <div className='w-[33%]'>
             <div className='flex mb-[1%]'>
                 <p className='my-[1%] mr-[1%]'>Date</p>
