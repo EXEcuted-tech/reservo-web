@@ -42,10 +42,10 @@ const createMerchant = (req,res)=>{
 }
 
 const updateMerchant = (req,res)=>{
-    const updateMerchant = req.body;
+    const updatedMerchant = req.body;
 
-    const columns = Object.keys(updateMerchant);
-    const values = Object.values(updateMerchant);
+    const columns = Object.keys(updatedMerchant);
+    const values = Object.values(updatedMerchant);
 
     const setClause = columns.map((column) => `${column} = ?`).join(', ');
 
@@ -85,17 +85,21 @@ const retrieveAll = (req,res)=>{
             res.status(500).json({error: 'Internal server error'})
         }
         else{
-            //extracting object address
-            const parsedDataArray = [];
+            //extracting objects
+            const parsedAddressArray = [];
+            const parsedSettingsArray = [];
             for(const result of results){
-                const parsedData = JSON.parse(result.address);
-                parsedDataArray.push(parsedData);
+                const parsedAddress = JSON.parse(result.address);
+                const parsedSettings = JSON.parse(result.settings);
+                parsedSettingsArray.push(parsedSettings);
+                parsedAddressArray.push(parsedAddress);
             }
 
             return res.json({
                 success:true,
                 merchant: results,
-                address: parsedDataArray
+                address: parsedAddressArray,
+                settings: parsedSettingsArray
             })
         }
     })
@@ -109,13 +113,15 @@ const retrieveByParams = (req,res)=>{
             res.status(500).json({error: 'Error retrieving data'})
         }
         else{
-            const parsedData = JSON.parse(result.address);
+            const parsedAddress = JSON.parse(result[0].address);
+            const parsedSettings = JSON.parse(result[0].settings);
 
             return res.status(200).json({
                 status: 200,
                 success: true,
-                merchant: result,
-                address: parsedData
+                merchant: result[0],
+                address: parsedAddress,
+                settings: parsedSettings
             })
         }
     })
