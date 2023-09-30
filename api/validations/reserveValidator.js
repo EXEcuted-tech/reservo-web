@@ -32,6 +32,9 @@ const createReserveValidator = (req,res,next)=>{
     if (!invent_id || typeof invent_id !== 'number'){
         errors.inventory_id = ['Inventory ID is required and must be a number'];
     }
+    if (!invent_id || typeof invent_id !== 'number'){
+        errors.inventory_id = ['Inventory ID is required and must be a number'];
+    }
 
     //Not Required
     if (settings && typeof settings !== 'object') {

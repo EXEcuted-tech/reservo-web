@@ -1,11 +1,40 @@
 const createPackageValidator = (req,res,next)=>{
-    const {pack_name,pack_desc,date_start,date_end,time_start,time_end,visibility,list,imgUrl,tags,merch_id} = req.body;
-    if(!req.body.text){
+    if(!req.body.package_name){
         return res.json({
             success:false,
-            error:{text:['text is required']},
+            error:{text:['package name is empty']},
         })
     }
+
+    if(!req.body.package_desc){
+        return res.json({
+            success:false,
+            error:{text:['package description is empty']},
+        })
+    }
+
+    if(!req.body.date_start){
+        return res.json({
+            success:false,
+            error:{text:['start date is empty!']},
+        })
+    }
+
+    if(!req.body.date_end){
+        return res.json({
+            success:false,
+            error:{text:['end date is empty!']},
+        })
+    }
+
+    if(!req.body.date_start){
+        return res.json({
+            success:false,
+            error:{text:['start date is empty!']},
+        })
+    }
+
+    next();
 }
 
 module.exports = createPackageValidator;
