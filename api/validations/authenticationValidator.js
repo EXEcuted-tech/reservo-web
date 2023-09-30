@@ -41,8 +41,8 @@ const authenticationValidator = (req,res,next)=>{
 
     switch(req.body.account_type){
         case 1:
+        case 10:
         case 50:
-        case 30:
             break;
         default:
             return res.status(400).json({
