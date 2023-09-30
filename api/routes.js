@@ -25,6 +25,17 @@ app.use((req, res, next) => {
     next();
 });
 
+const allowedOrigins = [process.env.CORS_ORIGIN];
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+}));
+
 console.log("CORS: "+ process.env.CORS_ORIGIN);
 
 app.use(express.json());
