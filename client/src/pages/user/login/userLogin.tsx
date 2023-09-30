@@ -34,8 +34,9 @@ const UserLogin = () => {
                 password : pass,
                 account_type: 1
             }).then((res)=>{
-                localStorage.setItem('userDetails', JSON.stringify(res.data.account_info));
-                Navigate('/')
+                console.log(res);
+                // localStorage.setItem('userDetails', JSON.stringify(res.data.account_info));
+                // Navigate('/')
             }).catch((err) => { 
                 //Insert here something to store the error message
                 setErrMess(err.response.data.message);
