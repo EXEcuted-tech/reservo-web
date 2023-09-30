@@ -17,7 +17,7 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
       setResId(currentId);
     }
     getRecord();
-    console.log("Record: ",record);
+    console.log("Log: ",record[0]);
   },[resId])
 
   const getRecord = () => {
@@ -26,6 +26,7 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
     axios.get(`http://localhost:5000/reserve/retrieve?col=${col}&val=${val}`)
     .then((res)=>{
        if(res.status === 200){
+        console.log("Records: ",res.data.records[0])
         setRecord(res.data.records)
        }
     })
@@ -50,9 +51,9 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block text-white px-[1%] rounded-lg mb-[0.5%]'>General Information</h1>
         <div className='flex mx-[2%] text-[1.2em]'>
           <div className='w-[50%]'>
-            <p className='my-[1%]'><span className='font-bold'>Date: </span>{record[0].res_date}</p>
-            <p className='my-[1%]'><span className='font-bold'>Time: </span>{record[0].res_time}</p>
-            <p className='my-[1%]'><span className='font-bold'>Organizer: </span>{"January 13,2023"}</p>
+            <p className='my-[1%]'><span className='font-bold'>Date: </span>{record[0]?.res_date}</p>
+            <p className='my-[1%]'><span className='font-bold'>Time: </span>{record[0]?.res_time}</p>
+            <p className='my-[1%]'><span className='font-bold'>Location: </span>{record[0]?.res_location}</p>
             <p className='my-[1%]'><span className='font-bold'>Client Name: </span>{"January 13,2023"}</p>
           </div>
           <div className='w-[50%]'>
