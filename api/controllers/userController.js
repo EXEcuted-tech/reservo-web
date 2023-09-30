@@ -66,7 +66,7 @@ const retrieveAll = (req,res)=>{
 
 const retrieveByParams = (req,res)=>{
     try {
-        const {col, value} = req.body
+        const {col, value} = req.query
         const sql = "SELECT * FROM account WHERE ?? = ?"
         db.query(sql,[col, value], (err, results) => {
             if(err){
