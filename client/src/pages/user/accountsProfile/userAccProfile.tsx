@@ -1,89 +1,92 @@
 import React from 'react'
-import '../../../assets/css/userAccProfile.css';
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
 import { BsFillPencilFill } from "react-icons/bs";
 
-function UserProfilePage(){ 
+function UserProfilePage(){
+
     return(
-        <div className = "h-[80vh] bg-[#F9F2EA] font-[Poppins]">
+        <div className = "h-[100vh] bg-[#F9F2EA] font-[Poppins]">
 
             <div className="mx-auto w-[90vw] border-b-[1px] border-black">
-                <p className="pt-2 text-[30pt] font-bold">User Information</p>
+                <p className="pt-10 text-[30pt] font-bold">User Information</p>
                 <p className="text-[#929090] text-[15pt] font-bold">Protect and Secure Your Account</p>
             </div>
 
-            <div className="m-auto h-[63vh] w-[90vw] mt-7 mb-10 mr-[-5] rounded-3xl bg-white">
-                    <div className="float-left border-r-[2px] border-black mt-[2vh]">
-                        <FaRegUserCircle className="text-[21vh] mx-[15vh] mb-[2vh]"/>
+            <div className="m-auto h-[80vh] w-[90vw] mt-7 mb-10 mr-[-5] rounded-3xl bg-white">
 
-                        <h1 className="userName mb-[6vh]">Kathea Mari <button><BsFillPencilFill className="ml-1 "/></button></h1>
-                        <table className='accTable'>
+                <div>
+
+                    <div className="float-left border-r-[2px] border-black mt-[5vh]">
+                        <FaRegUserCircle className="text-[23vh] mx-[15vh] mt-[6vh]"/>
+                        <br />
+                        <h1 className="text-center font-bold text-[20pt]">Kathea Mari<button><BsFillPencilFill className="ml-1"/></button></h1>
+                        <br />
+                        <br />
+                        <br />
+                        <table className='ml-[3vw]'>
                             
-                            <tr className="row">
-                                <td className="var">Gender:</td>
-                                <td className="value">Female</td>
+                            <tr className="font-[12pt]">
+                                <td className="font-bold w-[150px]">Gender:</td>
+                                <td className="w-[250px]">Female</td>
                             </tr>
-                            <tr className="row">
-                                <td className="var">Address:</td>
-                                <td className="value">123 Sesasmi Street st. , neverland peter pan amazon Cebu City</td>
+                            <tr className="font-[12pt]">
+                                <td className="font-bold w-[150px]">Address:</td>
+                                <td className="w-[250px]">123 Sesasmi Street st. , neverland peter pan amazon Cebu City</td>
                             </tr>
-                            <tr className="row">
-                                <td className="var">BirthDate:</td>
-                                <td className="value">September 20, 2000</td>
+                            <tr className="font-[12pt]">
+                                <td className="font-bold w-[150px]">BirthDate:</td>
+                                <td className="w-[250px]">September 20, 2000</td>
                             </tr>
-                            <tr className="row">
-                                <td className="var">Age:</td>
-                                <td className="value">23</td>
+                            <tr className="font-[12pt]">
+                                <td className="font-bold w-[150px]">Age:</td>
+                                <td className="w-[250px]">23</td>
                             </tr>
-                            <tr className="row">
-                                <td className="var">Email:</td>
-                                <td className="value">Example@example.com</td>
+                            <tr className="font-[12pt]">
+                                <td className="font-bold w-[150px]">Email:</td>
+                                <td className="w-[250px]">Example@example.com</td>
                             </tr>
-                            <tr className="row">
-                                <td className="var">Phone Number:</td>
-                                <td className="value">0937 462 5364</td>
+                            <tr className="font-[12pt]">
+                                <td className="font-bold w-[150px]">Phone Number:</td>
+                                <td className="w-[250px]">0937 462 5364</td>
                             </tr>
                             <tr>
-                                <td><button className="p-[7px] w-[3.2cm] mt-[1cm] flex flex-row items-center bg-[#FFA800] rounded-3xl"><MdOutlineLogout className="mr-[0.5cm]"/>Logout</button></td>
-                                <td className="value"></td>
+                                <td><button className="p-[7px] w-[3.2cm] mt-[0.8cm] flex flex-row items-center bg-[#FFA800] rounded-3xl"><MdOutlineLogout className="mr-[0.5cm]"/>Logout</button></td>
                             </tr>
                         </table>
 
+                        
                     </div>
                 
-                    <div className="">
-                        <h1 className="resTitle">Reservation History</h1>
-                            <div className="h-[65vh] w-[55vw] rounded-3xl float-right mr-[2cm] mt-[0.5cm]">
-                                <table>
-                                    <thead>
-                                        <tr className="resRow">
-                                            <th className="py-1 px-12 text-center">Date</th>
-                                            <th className="py-1 px-12 text-center">Time</th>
-                                            <th className="py-1 px-12 text-center">Organizer</th>
-                                            <th className="py-1 px-7 text-center">Event Size</th>
-                                            <th className="py-1 px-12 text-center">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td className="py-3 px-12 text-center">Jan. 23, 2023</td>
-                                            <td className="py-3 px-12 text-center">11:30am - 1:00pm</td>
-                                            <td className="py-3 px-12 text-center">Juan Dela Cruz</td>
-                                            <td className="py-3 px-12 text-center">5</td>
-                                            <td className="py-3 px-12 text-center"><div className="m-2 bg-[#CCFFD1] text-[#00A310]">Done</div></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                    <div>
+                    <h1 className="text-center font-bold text-[22pt] pt-[0.75cm]">Reservation History</h1>
+                            <table className="flex flex-col items-center">
+                                <thead>
+                                    <tr className="text-[15pt] border-b-2 border-black">
+                                        <th className="py-1 px-[3vw] text-center">Date</th>
+                                        <th className="py-1 px-[3vw] text-center">Time</th>
+                                        <th className="py-1 px-[3vw] text-center">Organizer</th>
+                                        <th className="py-1 px-[3vw] text-center">Event Size</th>
+                                        <th className="py-1 px-[3vw] text-center">Status</th>
+                                    </tr>
+                                
+                                
+                                    <tr className="text-[12pt] text-center">
+                                        <td className="py-1 px-[1vw] text-center">Jan. 23, 2023</td>
+                                        <td className="py-1 px-[1vw] text-center">11:30am - 1:00pm</td>
+                                        <td className="py-1 px-[1vw] text-center">Juan Dela Cruz</td>
+                                        <td className="py-1 px-[1vw] text-center">5</td>
+                                        <td className="py-1 px-[1vw] row flex justify-center items-center"><div className="m-2 bg-[#CCFFD1] text-[#00A310] wx-[50px] ">Done</div></td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        
                     </div>
 
+                </div>
+
             </div>
-
-            
         </div>
-
-        
     )
     
 }
