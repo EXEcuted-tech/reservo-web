@@ -20,6 +20,7 @@ interface PackageItem {
     date_end: Date;
     visibility: string;
     items: string[];
+    filePath: string;
     oneButton: boolean;
   }
 
@@ -147,6 +148,7 @@ const PackageManager = () => {
                     tags={packageItem.tags.split(',').map((tag: string) => tag.trim())} // Split and trim tags
                     visibility={packageItem.visibility}
                     items={packageItem.item_list.split(',').map((item: string) => item.trim())} // Split and trim items
+                    filePath={packageItem.image_filepath}
                     oneButton={false}
                 />
               ))
@@ -178,6 +180,7 @@ const PackageManager = () => {
                     price={packageItem.price} // Make sure to use the correct property name
                     tags={packageItem.tags.split(',').map((tag: string) => tag.trim())} // Split and trim tags
                     visibility={packageItem.visibility}
+                    filePath={packageItem.image_filepath}
                     items={packageItem.item_list.split(',').map((item: string) => item.trim())} // Split and trim items
                     oneButton={false}
                 />

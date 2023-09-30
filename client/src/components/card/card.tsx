@@ -15,15 +15,18 @@ interface prop {
     packageName: string;
     date_start: string;
     date_end: string;
+    time_start: string;
+    time_end:string;
     price: string;
     description: string;
     tags: string[];
     visibility: string;
     items: string[];
+    filePath: string;
     oneButton: boolean;
 }
 
-const Card: React.FC<prop>=({package_id, packageName, price, date_start, date_end, description, tags, visibility, items, oneButton}) => {
+const Card: React.FC<prop>=({package_id, packageName, price, date_start, date_end, description, tags, visibility, time_start, time_end, items,filePath, oneButton}) => {
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -52,9 +55,17 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
 
     return (
-        <div className='Card mx-5 my-5 w-[18vw]'>
+        <div className='Card mx-5 my-5 w-[18vw] truncate'>
                 <div className="">
-                <div className='CardImage flex flex-col h-[100%]'>IMAGE</div>
+                <div className='CardImage flex flex-col h-[100%]'><img
+                src={filePath} // Use your image URL from the DB here
+                alt="Package Image"
+                onError={(e) => {
+                  e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
+                  e.currentTarget.src = 'https://imgur.com/YNoZzmJ'; // Use a placeholder image as a fallback
+                }}
+                className="w-full h-full object-cover rounded-2xl"
+  /></div>
                 <p className="text-xl my-1 text-center font-bold flex flex-col">{packageName}</p>
                 <p className='text-sm mx-8 h-[25%] first-letter:text-justify indent-5 flex flex-col'>{description}</p>
                 <div className='h-20 flex flex-col items-center'>
@@ -67,7 +78,7 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
                 {oneButton === false &&
                   <button className='CardButton flex EditButton w-1/2 items-center justify-center' onClick={openEditModal} ><HiMiniPencilSquare/>Edit</button>
                 }
-                {isEditModalOpen && <EditDetailsModal onClose={closeEditModal} packageID={package_id} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items}/>}
+                {isEditModalOpen && <EditDetailsModal onClose={closeEditModal} dateStart={date_start} timeStart={time_start} timeEnd={time_end} dateEnd={date_end} packageID={package_id} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items}/>}
                 </div>
                 </div>
                 </div>
