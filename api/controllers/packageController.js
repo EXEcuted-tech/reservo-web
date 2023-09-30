@@ -87,6 +87,33 @@ const retrieveByParams = (req,res)=>{
     });
 }
 
+const retrieveByTwoParams = (req,res)=>{
+  const { col1, val1, col2, val2, order_param} = req.query; 
+
+  let orderByClause = ''; // Initialize the ORDER BY clause
+
+  if (order_param) {
+    // If an order_param is provided, add the ORDER BY clause
+    orderByClause = ` ORDER BY ${order_param} ASC`; // You can change ASC to DESC if needed
+  }
+
+  const retrieveSpecific = `SELECT * FROM package WHERE ?? = ? AND ?? = ?${orderByClause}`;
+
+  db.query(retrieveSpecific, [col1,val1, col2, val2],(err, row) => {
+    //console.log(row);
+    if (err) {
+      console.error('Error retrieving records:', err);
+      return res.status(500).json({ status: 500, success:false,error: 'Error retrieving records' });
+    }else{
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        data: row,
+      });
+    }
+  });
+}
+
 const deletePackage = (req,res)=>{
     const {pack_id} = req.body;
 
@@ -112,4 +139,5 @@ module.exports = {
     retrieveAll,
     retrieveByParams,
     deletePackage,
+    retrieveByTwoParams,
 }
