@@ -4,6 +4,8 @@ import { HiOutlineMagnifyingGlass, HiMiniPencilSquare } from "react-icons/hi2";
 import "../../../assets/css/card.css";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { BsDot } from "react-icons/bs";
+import axios from 'axios';
+import config from '../../../common/config'
 
 interface EditDetailsModalProps {
   onClose: () => void;
@@ -16,6 +18,7 @@ interface EditDetailsModalProps {
   timeEnd: string;
   price: string;
   tags: string[];
+  filePath: string;
   visibility: string;
   items: string[];
 }
@@ -31,6 +34,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   timeEnd,
   price,
   tags,
+  filePath,
   visibility,
   items,
 }) => {
@@ -40,20 +44,52 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   const [editedDateEnd, setEditedDateEnd] = useState(formatDateToMMDDYYYY(dateEnd));
   const [editedTags, setEditedTags] = useState(tags.join(', '));
   const [editedVisibility, setEditedVisibility] = useState(visibility);
+  const [editedFilePath, setEditedFilePath] = useState(filePath);
   const [editedDescription, setEditedDescription] = useState(description);
   const [editedItems, setEditedItems] = useState(items.join(', '));
   const [itemName, setItemName] = useState(''); // State for the input field
 
+  //WALA NI PASA SA VALIDATOR OG CONTROLLER
+  const editInfo = async ()=>{
+    console.log("HEEE HEE");
+    try{
+        const response = await axios.post(`${config.API}/package/update`,{
+            package_id: packageID,
+            package_name: editedPackageName,
+            package_desc: editedDescription,
+            price: editedPrice,
+            date_start: editedDateStart,
+            time_start: formatDateToYYYYMMDD(timeStart),
+            time_end: formatDateToYYYYMMDD(timeEnd),
+            tags: editedTags,
+            visibility: editedVisibility,
+            image_filepath: editedFilePath,
+            item_list: editedItems,
+        });
+        console.log("RESPONSE IS: " + response)
+    }catch(error){
+        console.log(error);
+    }
 
-  function formatDateToMMDDYYYY(date) {
+    onClose();
+  }
+
+
+
+
+  function formatDateToMMDDYYYY(date:string) {
     const [year, month, day] = date.split('-');
     return `${month}/${day}/${year}`;
   }
   
-  function formatDateToYYYYMMDD(date) {
+  function formatDateToYYYYMMDD(date:string) {
     const [month, day, year] = date.split('/');
     return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
   }
+
+  const handleFilePathChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditedFilePath(e.target.value);
+  };
 
 
   const handlePackageNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,16 +129,6 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
     setEditedDescription(e.target.value);
   };
 
-  const handleItemsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditedItems(e.target.value);
-  };
-
-  const handleSaveClick = () => {
-    // You can perform actions with the edited data here
-    // Example: sendEditedDataToAPI(editedPackageName, editedPrice, ...);
-
-    // Close the modal
-  };
 
   return (
     <div className=''>
@@ -120,28 +146,41 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
             <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
               <div>
                 <div className='h-[40vh] '>
-                  <p><b>Package Name: </b><input onChange={handlePackageNameChange} type="text" value={packageName} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
-                  <p><b>Total Price: </b> <input type="text" value={price} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+                  <p><b>Package Name: </b><input onChange={handlePackageNameChange} type="text" value={editedPackageName} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+                  <p><b>Total Price: </b> <input type="text" value={editedPrice} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
                   <p><b>Available From: </b> <input type="date" value={editedDateStart} onChange={handleDateStartChange} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
                   <p><b>Expiry Date: </b> <input type="date" value={editedDateEnd} onChange={handleDateEndChange} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
-                  <p><b>Tags: </b> <input onChange={handleTagsChange} type="text" value={tags} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+                  <p><b>Tags: </b> <input onChange={handleTagsChange} type="text" value={editedTags} className="h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
                   <p><b>Visibility: </b>
                     <select id="sortDropdown" name="sortDropdown" className={`h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2`}
                       onChange={handleVisibilityChange}
-                      value={visibility}
+                      value={editedVisibility}
                     >
                       <option value="PUBLISHED">Visible</option>
                       <option value="NOT PUBLISHED">Hidden</option>
                     </select>
                   </p>
                   <p><b>Description: </b></p>
-                  <textarea onChange={handleDescriptionChange} className="w-[80%] h-[25%] overflow-y-auto" value={description}></textarea>
+                  <textarea onChange={handleDescriptionChange} className="w-[80%] h-[25%] overflow-y-auto" value={editedDescription}></textarea>
                 </div>
               </div>
               <div className='flex flex-col w-[100%] h-[100%]'>
-              <div className='IMAGE_PLACEHOLDER bg-slate-600 block w-3/5 h-3/5 rounded-2xl'></div>
+              <div className='IMAGE_PLACEHOLDER bg-slate-600 block w-3/5 h-3/5 rounded-2xl'>
+              <img
+                src={editedFilePath} // Use your image URL from the DB here
+                alt="Package Image"
+                onError={(e) => {
+                  e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
+                  e.currentTarget.src = 'https://imgur.com/YNoZzmJ'; // Use a placeholder image as a fallback
+                }}
+                
+                className="w-full h-full object-cover rounded-2xl"
+                />
+<label htmlFor="packageImage">Upload Image Here: </label>
+            <input className="my-2 w-[50%] px-4 border-black border-solid rounded-lg border-2" value={editedFilePath} onChange={handleFilePathChange} type="text" name="packageImage" placeholder='Paste Link Here'/>
+              </div>
 
-                <div className='my-4 block '>
+                <div className='my-8 block '>
                   <b>Items:</b>
                   <div className='overflow-y-auto h-[8vh]'>
                     <ul>
@@ -169,7 +208,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
             </div>
             <div className='flex justify-end items-center h-[5vh]'>
               <button className='w-[5vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center'><AiFillDelete />Delete</button>
-              <button className='w-[5vw] h-[4vh] bg-[#7dc72d] mx-5 rounded-md flex items-center justify-center'><HiMiniPencilSquare />Save</button>
+              <button className='w-[5vw] h-[4vh] bg-[#7dc72d] mx-5 rounded-md flex items-center justify-center' onClick={editInfo}><HiMiniPencilSquare />Save</button>
             </div>
           </div>
         </div>

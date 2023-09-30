@@ -78,7 +78,7 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
                 {oneButton === false &&
                   <button className='CardButton flex EditButton w-1/2 items-center justify-center' onClick={openEditModal} ><HiMiniPencilSquare/>Edit</button>
                 }
-                {isEditModalOpen && <EditDetailsModal onClose={closeEditModal} dateStart={date_start} timeStart={time_start} timeEnd={time_end} dateEnd={date_end} packageID={package_id} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items}/>}
+                {isEditModalOpen && <EditDetailsModal onClose={closeEditModal} dateStart={date_start} timeStart={time_start} timeEnd={time_end} dateEnd={date_end} packageID={package_id} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items} filePath={filePath}/>}
                 </div>
                 </div>
                 </div>
