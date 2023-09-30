@@ -32,5 +32,6 @@ app.use('/reserve',reserveRoutes);
 app.use('/inventory',inventoryRoutes);
 app.use('/payment',paymentRoutes);
 app.use('/package',packageRoutes);
+app.use('/feedback',packageRoutes);
 
 module.exports = app;

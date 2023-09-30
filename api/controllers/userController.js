@@ -5,7 +5,13 @@ const updateUser = (req,res)=>{
     try {
         const {userID} = req.params
         const userUpdate = req.body
-        const sql = "UPDATE account SET ? WHERE account_id = ?"
+
+        const cols = Object.keys(userUpdate)
+        const values = Object.values(userUpdate)
+
+      const setClause = cols.map((col) => `${col} = ?`).join(', ')
+
+      const sql = `UPDATE account SET ${setClause} WHERE account_id = ?`
 
         db.query(sql,[userUpdate,userID],(err,results) =>{
             if(err){
@@ -60,9 +66,9 @@ const retrieveAll = (req,res)=>{
 
 const retrieveByParams = (req,res)=>{
     try {
-        const {col, value} = req.body
+        const {col, val} = req.query
         const sql = "SELECT * FROM account WHERE ?? = ?"
-        db.query(sql,[col, value], (err, results) => {
+        db.query(sql,[col, val], (err, results) => {
             if(err){
                 console.log("Error fetching data")
                 res.status(500).json({error: 'Internal server error'})

@@ -42,6 +42,9 @@ const UserLogin = () => {
             });
         }
     }
+    
+
+
 
   return (
     <div className='content-center w-[full] h-[full] overflow-hidden font-poppins'>
@@ -74,17 +77,17 @@ const UserLogin = () => {
                 <div className="TitleHeader space-y-5 text-center">
                     <span className='text-[28px] capitalize font-bold '>Login to your Account</span>
                     <div className="invalid p-[5px]">
-                        <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>Invalid user or password. Please try again!</span>
+                        <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>invalid User or Password please Try again</span>
                     </div>
                 </div>
                 <form className='formBox w-[70%] flex flex-col'>
                     <div className="inputs">
                         <div className="I-Box flex flex-col space-y-2 mb-[20px]">
-                            <label htmlFor="email" className='font-thin'>Email</label>
+                            <label htmlFor="email" className='font-thin'>Email:</label>
                             <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="email" id="Email" value={email} onChange={(e) =>{setEmail(e.target.value)}} required/>
                         </div>
                         <div className="I-Box flex flex-col space-y-2 mb-[10px]">
-                            <label htmlFor="pass" className='font-thin'>Password</label>
+                            <label htmlFor="pass" className='font-thin'>Password:</label>
                             <input type="password" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}} required/>
                         </div>
                     </div>
