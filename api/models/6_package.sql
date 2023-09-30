@@ -7,6 +7,7 @@ CREATE TABLE `package` (
   `package_id` bigint(20) NOT NULL,
   `package_name` varchar(255) NOT NULL,
   `package_desc` text NOT NULL,
+  `price` float NOT NULL,
   `date_start` date NOT NULL,
   `date_end` date DEFAULT NULL,
   `time_start` time NOT NULL,
