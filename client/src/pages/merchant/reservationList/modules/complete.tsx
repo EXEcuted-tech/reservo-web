@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ReserveCard from './reserveCard'
+import config from '../../../../common/config'
 import axios from 'axios';
 
 const CompleteList: React.FC<ReserveProps> = (props) => {
@@ -10,7 +11,7 @@ const CompleteList: React.FC<ReserveProps> = (props) => {
     const col = "status";
     const val = "Finished";
 
-    axios.get(`http://localhost:5000/reserve/retrieve?col=${col}&val=${val}`).then((res) => {
+    axios.get(`${config.API}/reserve/retrieve?col=${col}&val=${val}`).then((res) => {
       const parsedReservations = res.data.records.map((record: any) => ({
         ...record,
         res_date: new Date(record.res_date),

@@ -194,7 +194,8 @@ const ReserveForm = () => {
         {/* Additional Form */}
         <div className='bg-white'>
             <div className='flex px-[4%] py-[2%]'>
-                <div className='w-[20%] pl-[0.5%] mr-[3%]'>
+                <p className='font-bold text-[2em]'>Coming Soon</p>
+                {/* <div className='w-[20%] pl-[0.5%] mr-[3%]'>
                 <label className='absolute mt-[-1%] text-[#838383]'>Number of Tables</label>
                     <input 
                         className='text-[#B7B7B7] text-[1.1em] w-[100%] border-b-2 border-[#B7B7B7]
@@ -205,7 +206,7 @@ const ReserveForm = () => {
                             e.target.style.outline = 'none';
                     }}
                 />    
-                </div>
+                </div> */}
             </div>
         </div>
 
