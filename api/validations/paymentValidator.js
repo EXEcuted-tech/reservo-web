@@ -3,7 +3,7 @@ const createPaymentValidator = (req,res,next)=>{
 
     const errors = {};
 
-    if (!balance || typeof size !== 'number') {
+    if (!balance || typeof balance !== 'number') {
         errors.balance = ['Balance is required and must be a number'];
     }
 

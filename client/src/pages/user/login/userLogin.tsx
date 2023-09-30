@@ -5,7 +5,7 @@ import logo from '../../../assets/temp-logo-2w.png'
 
 import { RiReservedFill } from 'react-icons/ri'; 
 import { Link, useNavigate } from 'react-router-dom';
-
+import config from '../../../common/config'
 import axios from 'axios'
 
 
@@ -14,7 +14,7 @@ const UserLogin = () => {
     const [invalid , setInvalid] = useState(false);
     const [email , setEmail] = useState('');
     const [pass , setPass] = useState('');
-    const [errMess , setErrMess] = useState('');
+    const [errMess , setErrMess] = useState('Invalid Credentials');
     const Navigate = useNavigate();
 
     const guestHandler = () =>{
@@ -29,14 +29,30 @@ const UserLogin = () => {
             setInvalid(true);
         }
         else{
-            axios.post('http://localhost:5000/login',{
+            axios.post(`${config.API}:5000/login`,{
                 account_email: email , 
                 password : pass,
                 account_type: 1
             }).then((res)=>{
-                console.log(res);
-                // localStorage.setItem('userDetails', JSON.stringify(res.data.account_info));
-                // Navigate('/')
+                if(res.data.success){
+                    localStorage.setItem('userDetails', JSON.stringify(res.data.account_info));
+                    Navigate('/')
+                }
+                else{
+                    switch(res.data.message){
+                        case 'Password is required':
+                            setErrMess(res.data.message);
+                            setInvalid(true);
+                            break;
+                        case 'Password is too short':
+                            setErrMess(res.data.message);
+                            setInvalid(true);
+                            break;
+                        default:
+                            setErrMess(res.data.message);
+                            setInvalid(true);
+                    }
+                }
             }).catch((err) => { 
                 //Insert here something to store the error message
                 setErrMess(err.response.data.message);
@@ -79,7 +95,7 @@ const UserLogin = () => {
                 <div className="TitleHeader space-y-5 text-center">
                     <span className='text-[28px] capitalize font-bold '>Login to your Account</span>
                     <div className="invalid p-[5px]">
-                        <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>I{errMess}. Please try again!</span>
+                        <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>{errMess}. Please try again!</span>
                     </div>
                 </div>
                 <form className='formBox w-[70%] flex flex-col'>
