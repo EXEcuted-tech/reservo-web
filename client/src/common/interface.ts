@@ -37,3 +37,12 @@ interface ReviewProps {
     rating: number,
     comment: string;
 }
+
+interface Inventory {
+    numberOfTables: number;
+    numberOfChairs: number;
+    numberOfPlates: number;
+    numberOfGlasses: number;
+    numberOfTableCloths: number;
+    numberOfChairCovers: number;
+  }

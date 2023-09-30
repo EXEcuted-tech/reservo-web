@@ -94,9 +94,9 @@ const retrieveAll = (req,res)=>{
 
 const retrieveByParams = (req,res)=>{
   try {
-        const {col, value} = req.body
+        const {col, val} = req.query
         const sql = "SELECT * FROM inventory WHERE ?? = ?"
-        db.query(sql,[col, value], (err, results) => {
+        db.query(sql,[col, val], (err, results) => {
             if(err){
                 console.log("Error fetching data")
                 res.status(500).json({error: 'Internal server error'})
@@ -104,7 +104,7 @@ const retrieveByParams = (req,res)=>{
                 res.status(200).json({
                     status: 200,
                     success: true,
-                    users: results
+                    records: results
                 })
             }
         })
