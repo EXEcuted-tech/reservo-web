@@ -1,8 +1,13 @@
 import { Fragment, useRef, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
-import { BsCalendarDate } from "react-icons/bs";
+
+import { IoCalendarOutline } from "react-icons/io5";
+import { LiaEdit } from "react-icons/lia";
+
 import { FiClock } from "react-icons/fi";
+import {RiReservedFill} from 'react-icons/ri'
+import MerchAdHeader from "../../../components/headers/MerchAdHeader";
 
 const NAV_BAR = [
   { title: "Reservation Form", url: "reservationManager" },
@@ -64,7 +69,7 @@ const ReservationManager = () => {
   };
 
   return (
-    <div className="h-screen font-poppins bg-[#F3F3F3] p-8">
+    <div className="h-screen font-poppins bg-[#F3F3F3] p-8 h-[90vh]">
       <nav className="flex gap-8 border-b-2 border-black">
         {NAV_BAR.map(({ title, url }, index) => (
           <Fragment key={index}>
@@ -76,7 +81,7 @@ const ReservationManager = () => {
       </nav>
 
       <div className="flex items-center justify-center">
-        <div className="rounded-lg bg-[#FFFFFF] w-full p-5 mt-40">
+        <div className="rounded-lg bg-[#FFFFFF] w-full p-5 mt-[6rem]">
           <div className="flex w-full ">
             <h1 className="text-[1.5em] font-bold">Current Reservation Form</h1>
             <button
@@ -84,14 +89,14 @@ const ReservationManager = () => {
               onClick={() => (pageMode === PAGE_MODE.READ ? setPageMode(PAGE_MODE.UPDATE) : setPageMode(PAGE_MODE.READ))}
               className="text-black p-0 cursor-pointer ml-auto"
             >
-              <BiEdit size={40} />
+              <LiaEdit size={40} />
             </button>
           </div>
-          <div className="flex flex-col text-xl text-black w-full h-full bg-[#F0E5D8] rounded">
+          <div className="flex flex-col text-xl text-black w-full h-full bg-[#F0E5D8] rounded mt-5">
             <div className="flex p-10">
-              <div className="flex flex-col gap-5 w-1/2">
+              <div className="flex flex-col gap-5 w-1/2 font-bold">
                 <div className="flex items-center gap-1">
-                  <BsCalendarDate /> <h3>Date:</h3>
+                  <IoCalendarOutline className="text-[22px]"/> <h3 className="">Date:</h3>
                 </div>
                 <div className="flex items-center gap-1">
                   <FiClock />
@@ -99,6 +104,9 @@ const ReservationManager = () => {
                 </div>
                 <div className="flex items-center">
                   <h3>Client Name:</h3>
+                </div>
+                <div className="flex items-center mt-[10%]">
+                  <h3>Remarks:</h3>
                 </div>
                 {pageMode === PAGE_MODE.READ &&
                   !!fieldList.length &&
@@ -110,7 +118,7 @@ const ReservationManager = () => {
                     </Fragment>
                   ))}
               </div>
-              <div className="flex flex-col gap-5 w-1/2">
+              <div className="flex flex-col gap-5 w-1/2 font-bold">
                 <div className="flex items-center">
                   <h3>Event Size:</h3>
                 </div>

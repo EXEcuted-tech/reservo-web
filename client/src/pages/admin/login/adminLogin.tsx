@@ -6,32 +6,48 @@ import logo from '../../../assets/temp-logo-2.png'
 
 import { RiReservedFill } from 'react-icons/ri'; 
 
+import axios from 'axios'
+
 const AdminLogin = () => {
-  const [invalid , setInvalid] = useState(false);
-    const [uName , setUser] = useState('');
+    const [invalid , setInvalid] = useState(false);
+    const [email , setEmail] = useState('');
     const [pass , setPass] = useState('');
+    const [errMess , setErrMess] = useState('Undetected Error');
 
     const Navigate = useNavigate();
 
     const submitHandler = (event:FormEvent) =>{
         event.preventDefault();
 
-        if(uName === '' || pass === ''){
+        if(email === '' || pass === ''){
+            setErrMess("Fill all the Fields Required");
             setInvalid(true);
         }
         else{
-            // backend here
-            if(uName === '19103296@usc.edu.ph'){
-                if(pass === '123'){
-                    Navigate('/');
+            console.log(email);
+            console.log(pass);
+            axios.post('http://localhost:5000/login',{
+                account_email: email , 
+                password : pass,
+                account_type: 2
+            }).then(
+                (res)=>{
+                    console.log(res.data);
+                    //if success means the email is exist and the password is correct
+                    if(res.data.success === true){
+                            Navigate('/merchdash');
+                    }
+                    else{
+                        setErrMess(res.data.message);
+                        setInvalid(true);
+                    }
+                    
                 }
-                else{
-                    setInvalid(true);
-                }
-            }
-            else{
+            ).catch((err) => { 
+                //Insert here something to store the error message
+                setErrMess(err.response.data.message);
                 setInvalid(true);
-            }
+            });
         }
     }
 
@@ -66,14 +82,14 @@ const AdminLogin = () => {
                 <div className="TitleHeader space-y-5 text-center">
                     <span className='text-[28px] capitalize font-bold text-white'>Login to your Account</span>
                     <div className="invalid p-[5px]">
-                    <span className={(!invalid) ? 'text-[#840705] hidden' : 'text-[#840705]'}>invalid User or Password please Try again</span>
+                    <span className={(!invalid) ? 'text-white hidden' : 'text-white'}>{errMess} please Try again</span>
                 </div>
                 </div>
-                <form className='formBox w-[70%] flex flex-col' >
+                <form className='formBox w-[70%] flex flex-col' onSubmit={submitHandler} >
                     <div className="inputs">
                         <div className="I-Box flex flex-col space-y-2 mb-[20px]">
                             <label htmlFor="email" className='font-thin text-white '>Email:</label>
-                            <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="email" id="Email" value={uName} onChange={(e) =>{setUser(e.target.value)}}/>
+                            <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="email" id="Email" value={email} onChange={(e) =>{setEmail(e.target.value)}}/>
                         </div>
                         <div className="I-Box flex flex-col space-y-2 mb-[10px]">
                             <label htmlFor="email" className='font-thin text-white '>Password:</label>
@@ -84,7 +100,7 @@ const AdminLogin = () => {
                       <Link to={'#'}>Forgot Password?</Link>
                     </div>
                     <div className="buttons flex flex-col items-center space-y-5">
-                        <button type='submit' onClick={submitHandler} className='bg-white text-[#840705] p-[0.5em] w-[50%] rounded-full font-bold'>Sign in</button>
+                        <button type='submit' className='bg-white text-[#840705] p-[0.5em] w-[50%] rounded-full font-bold'>Sign in</button>
                         <div className="signBox">
                             <span className='text-white font-extralight capitalize'>need an account ?</span>
                             <Link to={'/merchregister'} className='text-white font-bold pl-1'>Sign Up</Link>

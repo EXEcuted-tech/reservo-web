@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react'
 import {useNavigate} from 'react-router-dom';
 import colors from '../../common/colors'
 import logo from '../../assets/temp-logo-2w.png'
-import {RiDashboard3Line,RiMegaphoneFill} from 'react-icons/ri'
+import {RiDashboard3Line,RiMegaphoneFill, RiReservedFill} from 'react-icons/ri'
 import {IoCalendar, IoBusiness} from 'react-icons/io5'
 import {LuPackage2} from 'react-icons/lu'
 import {FiLogOut} from 'react-icons/fi'
@@ -65,6 +65,10 @@ const MerchantSide = () => {
                     hover:cursor-pointer hover:animate-small-fade-in-down hover:mb-[3%] ${urlPart === 'feedbacklist' ? 'bg-[#660605] px-[3%] py-[4%] ml-[-3%] rounded-xl mb-[3%]' : ''}`}
                     onClick={()=>{handleMenuItemClick('/feedbacklist',false)}}>
                     <RiMegaphoneFill className='mr-[4%] text-[1.5em]'/> Feedback List</li>
+                    <li className={`flex items-center text-[1.4em] mb-[11%] hover:bg-[#660605] hover:px-[3%] hover:py-[4%] hover:ml-[-3%] hover:rounded-xl 
+                    hover:cursor-pointer hover:animate-small-fade-in-down hover:mb-[3%] ${urlPart === 'reservationmanager' ? 'bg-[#660605] px-[3%] py-[4%] ml-[-3%] rounded-xl mb-[3%]' : ''}`}
+                    onClick={()=>{handleMenuItemClick('/reservationmanager',false)}}>
+                    <RiReservedFill className='mr-[4%] text-[1.4em]'/> Reserve Manager</li>
                 <li className={`flex items-center text-[1.4em] mb-[11%] hover:bg-[#660605] hover:px-[3%] hover:py-[4%] hover:ml-[-3%] hover:rounded-xl 
                     hover:cursor-pointer hover:animate-small-fade-in-down hover:mb-[3%] ${urlPart === 'packagemanager' ? 'bg-[#660605] px-[3%] py-[4%] ml-[-3%] rounded-xl mb-[3%]' : ''}`}
                     onClick={()=>{handleMenuItemClick('/packagemanager',false)}}>
