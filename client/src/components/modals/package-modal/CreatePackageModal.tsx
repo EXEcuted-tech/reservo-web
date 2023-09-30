@@ -7,6 +7,7 @@ import { IoAddCircleSharp } from "react-icons/io5";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { useState, useEffect} from 'react'
 import axios from 'axios'
+import config from '../../../common/config'
 
 interface CreatePackageModal{
     onClose: ()=>void;
@@ -93,7 +94,7 @@ interface CreatePackageModal{
     const createPackage = async () => {
       console.log("WASSUP");
       try {
-        const response = await axios.post('http://localhost:5000/package/create', {
+        const response = await axios.post(`${config.API}/package/create`, {
             package_name: packageName,
             package_desc: packageDesc, // Replace with the actual merchant ID
             price: price,
