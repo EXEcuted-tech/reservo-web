@@ -1,8 +1,24 @@
 import React from 'react'
 import {GrUpdate} from 'react-icons/gr'
 import {AiFillCloseCircle, AiFillSave} from 'react-icons/ai'
+import axios from 'axios'
 
 const EditModal:React.FC<EditModalProps> = (props) => {
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/reserve/retrieve_all").then((res) => {
+      // Parse date strings into Date objects
+      const parsedReservations = res.data.records.map((record: any) => ({
+        ...record,
+        res_date: new Date(record.res_date),
+      }));
+
+      // Set the reservations in state
+      setReservations(parsedReservations);
+    });
+  }, []);
+
+
   const {setOpenModalEdit} = props;
   return (
     <div className="animate-slide-up font-poppins fixed top-[8%] left-[18%] right-0 bg-white z-50 bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
