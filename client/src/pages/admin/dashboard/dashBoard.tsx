@@ -1,7 +1,33 @@
 import React from 'react'
+import react, {useEffect, useState} from 'react'
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
 import {RiDashboard3Line} from 'react-icons/ri'
 import Chart from 'react-google-charts'
+
+
+// const AdminDashboard = () => {
+
+//   const [merchants, setMerchants] = useState({})
+//   const [users, setUsers] = useState({})
+//   const [active, setActive] = useState({})
+ 
+
+
+//   useEffect(() => {
+//     axios.get(`http://localhost:5000/reserve/retrieve`, {
+//       params: {
+//         column: "status",
+//         value: "Ongoing"
+//       }
+//     })
+//     .then(response => {
+//         setReservations(response.data);
+//     })
+//     .catch(error => {
+//         console.log(error);
+//     })
+//   }, []);
+
 
 const LineData = [
   ['x', 'Merchants', 'Users'],

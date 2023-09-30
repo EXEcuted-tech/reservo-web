@@ -71,7 +71,7 @@ const retrieveAll = (req,res)=>{
 
 const retrieveByParams = (req,res)=>{
   const { col, val } = req.query; 
-
+  
   const retrieveSpecific = 'SELECT * FROM reservation WHERE ?? = ?';
 
   db.query(retrieveSpecific, [col,val],(err, row) => {

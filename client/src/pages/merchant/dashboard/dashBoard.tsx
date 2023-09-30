@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {RiDashboard3Line} from 'react-icons/ri'
 import {IoCalendarSharp} from 'react-icons/io5'
 import {GiJuggler} from 'react-icons/gi'
@@ -6,6 +6,7 @@ import {AiFillCloseCircle} from 'react-icons/ai'
 import {MdGroups2} from 'react-icons/md'
 import Chart from 'react-google-charts'
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
+import axios from 'axios'
 
 const LineData = [
   ['x', 'Bookings'],
@@ -42,6 +43,62 @@ const LineChartOptions = {
 }
 
 const MerchDashboard = () => {
+
+  const [reservations, setReservations] = useState({})
+  const [reservationsFinished, setReservationsFinished] = useState({})
+  const [reservationsToday, setReservationsToday] = useState({})
+  const [reservationsCancelled, setReservationsCancelled] = useState({})
+
+  const [rowCount, setRowCount] = useState(0);
+  const [rowFinishedCount, setRowFinishedCount] = useState(0);
+  const [rowTodayCount, setRowTodayCount] = useState(0);
+
+
+  useEffect(() => {
+    axios.get(`http://localhost:5000/reserve/retrieve`, {
+      params: {
+        col: "status",
+        val: "Ongoing"
+      }
+    })
+    .then(response => {
+        setReservations(response.data.records);
+        setRowCount(response.data.records.length);
+    })
+    .catch(error => {
+        console.log(error);
+    })
+
+    axios.get(`http://localhost:5000/reserve/retrieve`, {
+      params: {
+        col: "status",
+        val: "Finished"
+      }
+    })
+    .then(response => {
+        setReservationsFinished(response.data.records);
+        setRowFinishedCount(response.data.records.length);
+    })
+    .catch(error => {
+        console.log(error);
+    })
+
+    axios.get(`http://localhost:5000/reserve/retrieve`, {
+      params: {
+        col: "res_date",
+        val: "CURDATE()"
+      }
+    })
+    .then(response => {
+        setReservationsToday(response.data.records);
+        setRowTodayCount(response.data.records.length);
+    })
+    .catch(error => {
+        console.log(error);
+    })
+  }, []);
+
+
   return (
     <div className='flex-col'>
       {/* Header Section */}
@@ -60,7 +117,7 @@ const MerchDashboard = () => {
               <div className='p-[0.5%] h-[100%] rounded-3xl bg-black grid-cols-2 grid-rows-2 grid gap-1'>
                 <div className='bg-[#660605] rounded-tl-2xl flex'>
                   <div className='w-[70%]'>
-                    <p className='text-white mt-[-5%] text-[5em] font-bold display'>32</p>
+                    <p className='text-white mt-[-5%] text-[5em] font-bold display'>{rowCount}</p>
                     <p className='text-white text-[1.2em] mt-[-13%]'>RESERVATION</p>
                   </div>
                   <div className='w-[30%] pt-[10%] text-center'>
@@ -69,8 +126,8 @@ const MerchDashboard = () => {
                 </div>
                 <div className='bg-[#660605] rounded-tr-2xl flex'>
                 <div className='w-[70%]'>
-                    <p className='text-white mt-[-5%] text-[5em] font-bold display'>4</p>
-                    <p className='text-white text-[1.2em] mt-[-13%]'>TODAY'S TABLE</p>
+                    <p className='text-white mt-[-5%] text-[5em] font-bold display'>{rowTodayCount}</p>
+                    <p className='text-white text-[1.2em] mt-[-13%]'>Today's Table</p>
                   </div>
                   <div className='w-[30%] pt-[10%] text-center'>
                       <MdGroups2 className='text-white text-[4em]'/>
@@ -78,7 +135,7 @@ const MerchDashboard = () => {
                 </div>
                 <div className='bg-[#660605] rounded-bl-2xl flex'>
                 <div className='w-[70%]'>
-                    <p className='text-white mt-[-5%] text-[5em] font-bold display'>25</p>
+                    <p className='text-white mt-[-5%] text-[5em] font-bold display'>{rowFinishedCount}</p>
                     <p className='text-white text-[1.2em] mt-[-13%]'>CATERED</p>
                   </div>
                   <div className='w-[30%] pt-[10%] text-center'>
