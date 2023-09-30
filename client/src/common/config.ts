@@ -1,3 +1,3 @@
 export default{
-    API:"http://localhost:5000"
+    API:"https://api-reservo-app.onrender.com"
 }
