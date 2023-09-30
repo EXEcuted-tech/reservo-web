@@ -3,7 +3,15 @@ const db = require('./a_db');
 
 const updateUser = (req,res)=>{
     try {
-        const { account_email} = req.body;
+        const {userID} = req.params
+        const userUpdate = req.body
+
+        const cols = Object.keys(userUpdate)
+        const values = Object.values(userUpdate)
+
+      const setClause = cols.map((col) => `${col} = ?`).join(', ')
+
+      const sql = `UPDATE account SET ${setClause} WHERE account_id = ?`
 
         // Use a parameterized query to prevent SQL injection
         const sql = "SELECT * FROM account WHERE email_address = ?";
