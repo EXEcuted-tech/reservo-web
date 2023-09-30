@@ -29,7 +29,7 @@ const UserLogin = () => {
             setInvalid(true);
         }
         else{
-            axios.post(`${config.API}:5000/login`,{
+            axios.post(`${config.API}/login`,{
                 account_email: email , 
                 password : pass,
                 account_type: 1
