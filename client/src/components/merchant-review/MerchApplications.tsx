@@ -33,18 +33,18 @@ const MerchantApplications = () => {
             </div>
             <div className='w-[25%] flex flex-col p-[1%] justify-center items-center'>
               <div className='h-[33%] bg-[#FFB800] text-center m-[2%] w-[50%] text-black rounded-md hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%]'>
-                  <BiSearchAlt className='text-[1.2em]'/>View More
+                <div className='flex justify-center p-[1%] m-[2%]'>
+                  <BiSearchAlt className='text-[1.2em] mt-[1%]'/>View More
                 </div >
               </div>
               <div className='h-[33%] bg-[#3B9C00] text-center m-[2%] w-[50%] text-white rounded-md hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%]'>
-                  <AiOutlineCheck className='text-[1.2em]'/>Approve
+                <div className='flex justify-center p-[1%] m-[2%]'>
+                  <AiOutlineCheck className='text-[1.2em] mt-[1%]'/>Approve
                 </div >
               </div>
               <div className='h-[33%] bg-[#DD2803] text-center m-[2%] w-[50%] text-white rounded-md hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%]'>
-                  <RxCross2 className='text-[1.2em]'/>Deny
+                <div className='flex justify-center p-[1%] m-[2%]'>
+                  <RxCross2 className='text-[1.2em] mt-[1%]'/>Deny
                 </div >
               </div>
             </div>
@@ -65,18 +65,18 @@ const MerchantApplications = () => {
             </div>
             <div className='w-[25%] flex flex-col p-[1%] justify-center items-center'>
               <div className='h-[33%] bg-[#FFB800] text-center m-[2%] w-[50%] text-black rounded-sm hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%]'>
-                  <BiSearchAlt className='text-[1.2em]'/>View More
+                <div className='flex justify-center p-[1%] m-[2%]'>
+                  <BiSearchAlt className='text-[1.2em] mt-[1%]'/>View More
                 </div >
               </div>
               <div className='h-[33%] bg-[#3B9C00] text-center m-[2%] w-[50%] text-white rounded-sm hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%]'>
-                  <AiOutlineCheck className='text-[1.2em]'/>Approve
+                <div className='flex justify-center p-[1%] m-[2%]'>
+                  <AiOutlineCheck className='text-[1.2em] mt-[1%]'/>Approve
                 </div >
               </div>
               <div className='h-[33%] bg-[#DD2803] text-center m-[2%] w-[50%] text-white rounded-sm hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%]'>
-                  <RxCross2 className='text-[1.2em]'/>Deny
+                <div className='flex justify-center p-[1%] m-[2%]'>
+                  <RxCross2 className='text-[1.2em] mt-[1%]'/>Deny
                 </div >
               </div>
             </div>
@@ -97,18 +97,18 @@ const MerchantApplications = () => {
             </div>
             <div className='w-[25%] flex flex-col p-[1%] justify-center items-center'>
               <div className='h-[33%] bg-[#FFB800] text-center m-[2%] w-[50%] text-black rounded-sm hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%]'>
-                  <BiSearchAlt className='text-[1.2em]'/>View More
+                <div className='flex justify-center p-[1%] m-[2%]'>
+                  <BiSearchAlt className='text-[1.2em] mt-[1%]'/>View More
                 </div >
               </div>
               <div className='h-[33%] bg-[#3B9C00] text-center m-[2%] w-[50%] text-white rounded-sm hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%]'>
-                  <AiOutlineCheck className='text-[1.2em]'/>Approve
+                <div className='flex justify-center p-[1%] m-[2%]'>
+                  <AiOutlineCheck className='text-[1.2em] mt-[1%]'/>Approve
                 </div >
               </div>
               <div className='h-[33%] bg-[#DD2803] text-center m-[2%] w-[50%] text-white rounded-sm hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%]'>
-                  <RxCross2 className='text-[1.2em]'/>Deny
+                <div className='flex justify-center p-[1%] m-[2%]'>
+                  <RxCross2 className='text-[1.2em] mt-[1%]'/>Deny
                 </div >
               </div>
             </div>

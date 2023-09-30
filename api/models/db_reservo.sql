@@ -86,10 +86,11 @@ CREATE TABLE `package` (
   `package_id` bigint(20) NOT NULL,
   `package_name` varchar(255) NOT NULL,
   `package_desc` text NOT NULL,
+  `price` float NOT NULL,
   `date_start` date NOT NULL,
-  `date_end` date DEFAULT NULL,
+  `date_end` date NOT NULL,
   `time_start` time NOT NULL,
-  `time_end` time DEFAULT NULL,
+  `time_end` time NOT NULL,
   `visibility` enum('PUBLISHED','NOT PUBLISHED') NOT NULL,
   `item_list` text DEFAULT NULL,
   `image_filepath` text NOT NULL,
@@ -107,13 +108,15 @@ ALTER TABLE `package`
 
 
 /*Payment*/
-  CREATE TABLE `payment` (
+CREATE TABLE `payment` (
   `payment_id` bigint(20) NOT NULL,
-  `total_expense` decimal(10,2) NOT NULL,
+  `reservation_id` bigint(20) NOT NULL,
+  `total_expense` decimal(10,2) DEFAULT NULL,
   `balance` decimal(10,2) NOT NULL,
   `payment_status` enum('PENDING','PAID') NOT NULL,
-  `payment_date` datetime NOT NULL
+  `payment_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 ALTER TABLE `payment`
   ADD PRIMARY KEY (`payment_id`),

@@ -36,7 +36,7 @@ const createAccount = async (req, res) => {
 
 const login = (req,res)=>{
     try {
-        const { account_email, password, account_type} = req.body;
+        const { account_email, password} = req.body;
 
         // Use a parameterized query to prevent SQL injection
         const sql = "SELECT * FROM account WHERE email_address = ?";
@@ -89,7 +89,8 @@ const login = (req,res)=>{
             success: false,
             message: "Database Error",
         });
-    } 
+    }
+    
 }
 
 module.exports = {

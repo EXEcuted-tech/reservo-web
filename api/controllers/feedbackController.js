@@ -1,7 +1,7 @@
 const express = require('express');
 const db = require('./a_db'); 
 
-const createReserve = (req,res)=>{
+const createFeedback = (req,res)=>{
     const {date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id} = req.body;
     
     const insertQuery = 
@@ -28,7 +28,7 @@ const createReserve = (req,res)=>{
     });
 }
 
-const updateReserve = (req,res)=>{
+const updateFeedback = (req,res)=>{
   const {date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,res_id,invent_id,status} = req.body;
     
   const updateQuery = 'UPDATE reservation SET res_date=?,res_time=?,res_location=?,party_size=?,settings=?,additional_details=?,account_id=?,merchant_id=?,sched_id=?,package_id=?,payment_id=?,inventory_id=?,status=? WHERE reservation_id=?'
@@ -53,7 +53,7 @@ const updateReserve = (req,res)=>{
 }
 
 const retrieveAll = (req,res)=>{   
-  const retrieveRecs = 'SELECT * FROM reservation'
+  const retrieveRecs = 'SELECT * FROM feedback'
 
   db.query(retrieveRecs, (err, rows) => {
     if (err) {
@@ -72,7 +72,7 @@ const retrieveAll = (req,res)=>{
 const retrieveByParams = (req,res)=>{
   const { col, val } = req.query; 
 
-  const retrieveSpecific = 'SELECT * FROM reservation WHERE ?? = ?';
+  const retrieveSpecific = 'SELECT * FROM feedback WHERE ?? = ?';
 
   db.query(retrieveSpecific, [col,val],(err, row) => {
     if (err) {
@@ -88,29 +88,10 @@ const retrieveByParams = (req,res)=>{
   });
 }
 
-const deleteReserve = (req,res)=>{
-  const {res_id} = req.body;
-
-  const deleteQuery = 'DELETE FROM reservation WHERE reservation_id = ?';
-
-  db.query(deleteQuery, res_id,(err, result) => {
-    if (err) {
-      console.error('Error deleting record:', err);
-      return res.status(500).json({ status: 500, success:false,error: 'Error deleting records' });
-    }else{
-      return res.status(200).json({
-        status: 200,
-        success: true,
-        data: result,
-      });
-    }
-  });
-}
 
 module.exports = {
-    createReserve,
-    updateReserve,
+    createFeedback,
+    updateFeedback,
     retrieveAll,
     retrieveByParams,
-    deleteReserve,
 }
