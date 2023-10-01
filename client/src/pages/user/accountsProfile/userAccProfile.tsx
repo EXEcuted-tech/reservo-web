@@ -1,5 +1,4 @@
 import React from 'react'
-import '../../../assets/css/userAccProfile.css';
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
 import { BsFillPencilFill } from "react-icons/bs";
