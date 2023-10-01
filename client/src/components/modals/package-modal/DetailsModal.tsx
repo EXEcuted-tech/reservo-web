@@ -18,10 +18,13 @@ interface DetailsModalProps {
     price: string;
     visibility: string;
     items: string[];
+    time_start: string;
+    time_end: string;
+    filePath: string;
   }
 
   
-  const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, packageName,date_start, date_end, description, price, tags, visibility, items }) => {
+  const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, packageName,date_start, date_end, description, price, tags, visibility, items, time_start, time_end, filePath }) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const closeModal = () => {
@@ -74,13 +77,38 @@ interface DetailsModalProps {
                     </p>
                 </div>
             </div>
-            <div className='IMAGE_PLACEHOLDER bg-slate-600 block w-3/5 h-3/5 rounded-2xl'></div>
+            <div className='IMAGE_PLACEHOLDER bg-slate-600 block w-[20vw] h-[40vh] rounded-2xl'>
+            <img
+                src={filePath} // Use your image URL from the DB here
+                alt="Package Image"
+                onError={(e) => {
+                  e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
+                  e.currentTarget.src = 'https://imgur.com/YNoZzmJ'; // Use a placeholder image as a fallback
+                }}
+                
+                className="w-full h-full object-cover rounded-2xl"
+                />
+            </div>
 
             </div>
             <div className='flex justify-end items-center h-[5vh]'>{/*This is the footer*/}
-                <button className='w-[5vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center'><AiFillDelete/>Delete</button>
-                <button className='w-[5vw] h-[4vh] bg-[#efb953] mx-5 rounded-md flex items-center justify-center' onClick={openEditModal}><HiMiniPencilSquare/>Edit</button>
-                {isEditModalOpen && <EditDetailsModal onClose={closeEditModal} packageID={packageID} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items}/>}
+                <button className='w-[5vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center duration-75 hover:border-black border-2'><AiFillDelete/>Delete</button>
+                <button className='w-[5vw] h-[4vh] bg-[#efb953] mx-5 rounded-md flex items-center justify-center duration-75 hover:border-black border-2' onClick={openEditModal}><HiMiniPencilSquare/>Edit</button>
+                {isEditModalOpen && 
+                <EditDetailsModal 
+                onClose={closeEditModal} 
+                packageID={packageID} 
+                packageName={packageName} 
+                price={price} 
+                description={description} 
+                tags={tags} 
+                visibility={visibility} 
+                items={items} // Handle empty or null item_list 
+                dateStart={date_start} 
+                dateEnd={date_end} 
+                timeStart={time_start} 
+                timeEnd={time_end} 
+                filePath={filePath}/>}
 
             </div>
         </div>

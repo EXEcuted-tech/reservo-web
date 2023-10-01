@@ -1,24 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import '../../../assets/css/userAccProfile.css';
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
 import { BsFillPencilFill } from "react-icons/bs";
-import { useState, useEffect } from 'react';
+import axios from 'axios'
+import config from "../../../common/config"
+
 
 function UserProfilePage(){ 
+            const [data, setData] = useState<any>();
 
-    const [account , setAccount] = useState({userID:0,user:"",type:0 });
-    const active = localStorage.getItem("userDetails");
+    
+            const fetchData = async ()=>{
+                try{
+                    const response = await axios.get(`${config.API}/user/retrieve`, {
+                        params:{
+                            col: 'account_id',
+                            val: 1       //currently logged in user
+                        },
+                    })
+                    setData(response.data.users[0]);
+                    console.log(data);
+                }catch(error){
+                    console.log(error);
+                }
+            }
 
-    useEffect(() => {
-      setTimeout(() => {
-        if(active){
-            setAccount(JSON.parse(active));
-            console.log("setted");
-        }
-      }, 1000);
-
-    }, [])
-
+            useEffect(() => {
+                fetchData(); // Call the async function to fetch data
+            },[]);
     return(
         <div className = "h-[100vh] bg-[#F9F2EA] font-[Poppins]">
 
@@ -31,38 +41,16 @@ function UserProfilePage(){
 
                 <div>
 
-                    <div className="float-left border-r-[2px] border-black mt-[5vh]">
-                        <FaRegUserCircle className="text-[23vh] mx-[15vh] mt-[6vh]"/>
-                        <br />
-                        <h1 className="text-center font-bold text-[20pt]">Kathea Mari<button><BsFillPencilFill className="ml-1"/></button></h1>
-                        <br />
-                        <br />
-                        <br />
-                        <table className='ml-[3vw]'>
+                        <h1 className="userName mb-[6vh]">{data?.account_name} <button><BsFillPencilFill className="ml-1 "/></button></h1>
+                        <table className='accTable'>
                             
-                            <tr className="font-[12pt]">
-                                <td className="font-bold w-[150px]">Gender:</td>
-                                <td className="w-[250px]">Female</td>
+                            <tr className="row">
+                                <td className="var">Email:</td>
+                                <td className="value">{data?.email_address}</td>
                             </tr>
-                            <tr className="font-[12pt]">
-                                <td className="font-bold w-[150px]">Address:</td>
-                                <td className="w-[250px]">123 Sesasmi Street st. , neverland peter pan amazon Cebu City</td>
-                            </tr>
-                            <tr className="font-[12pt]">
-                                <td className="font-bold w-[150px]">BirthDate:</td>
-                                <td className="w-[250px]">September 20, 2000</td>
-                            </tr>
-                            <tr className="font-[12pt]">
-                                <td className="font-bold w-[150px]">Age:</td>
-                                <td className="w-[250px]">23</td>
-                            </tr>
-                            <tr className="font-[12pt]">
-                                <td className="font-bold w-[150px]">Email:</td>
-                                <td className="w-[250px]">Example@example.com</td>
-                            </tr>
-                            <tr className="font-[12pt]">
-                                <td className="font-bold w-[150px]">Phone Number:</td>
-                                <td className="w-[250px]">0937 462 5364</td>
+                            <tr className="row">
+                                <td className="var">Phone Number:</td>
+                                <td className="value">{data?.contact_number}</td>
                             </tr>
                             <tr>
                                 <td><button className="p-[7px] w-[3.2cm] mt-[0.8cm] flex flex-row items-center bg-[#FFA800] rounded-3xl"><MdOutlineLogout className="mr-[0.5cm]"/>Logout</button></td>
