@@ -4,7 +4,7 @@ const createFeedbackValidator=require('../validations/feedbackValidator')
 const { createFeedback, updateFeedback,retrieveAll,retrieveByParams } = require('../controllers/feedbackController');
 
 router.post('/create',createFeedbackValidator,createFeedback);
-router.put('/update',createFeedbackValidator,updateFeedback);
+router.post('/update',createFeedbackValidator,updateFeedback);
 router.get('/retrieve',retrieveByParams);
 router.get('/retrieve_all',retrieveAll);
 

@@ -30,7 +30,7 @@ const LandingPage = () => {
         <div className = "block align-middle h-full px-60 py-32 ">
 
           <div className="pb-20 flex flex-col items-center justify-center">
-            <img src={img1} alt="Landing Page Image 1" className="h-auto max-w-full mb-20 transform scale-125"></img>
+            <img src={img1} alt="Landing Page Image 1" className="h-auto max-w-full mb-20 transform scale-100"></img>
             <h3 className = "text-5xl text-center font-bold text-[#DD2803]">COMMITTED TO MAKING THINGS</h3>
             <h3 className = "text-5xl text-center font-bold text-[#DD2803] pt-5 "> CONVENIENT SINCE 2022</h3>
           </div>
@@ -63,15 +63,15 @@ const LandingPage = () => {
         {/* ALL TIME FAVORITES */}
         <div className= "bg-white p-3 drop-shadow-lg">
           <div className="flex justify-center">
-            <img src={starleft} alt="star-1" className="h-20 w-20 mt-[0.5%]"></img>
+            <img src={starleft} alt="star-1" className="h-12 w-15 mt-[1.2%]"></img>
             <h1 className = "text-5xl text-center font-bold p-5">ALL TIME FAVORITES</h1>
-            <img src={starright} alt="star-2" className="h-20 w-20 mt-[0.5%]"></img>
+            <img src={starright} alt="star-2" className="h-12 w-15 mt-[1.2%]"></img>
           </div>
           
 
         {/* RESTOS */}
-        <div className= "flex">
-          <div className ="group h-full w-96 ml-[7%] pt-12 mb-20">
+        <div className= "flex justify-center">
+          <div className ="group h-full w-96 pt-12 mb-20">
               <img src={food1} className="rounded-full h-60 w-60 mb-8 ring-8 ml-16 ring-[#DD2803] ring-offset-8 group-hover:ring-4 group-hover:scale-95 transition-transform duration-[1000] ease-in-out "></img>
                 <h2 className="text-3xl text-center font-bold p-3 group-hover:text-[#DD2803] transition-colors delay-450 duration-[3000] ease-in-out"> Derf's Grill and Resto</h2>
                 <div className="flex p-3 items-center justify-center">
@@ -96,7 +96,7 @@ const LandingPage = () => {
             </div>
         </div>
         <div className="flex items-center justify-center">
-          <Link to="/">
+          <Link to="/eaterychoice">
           <button className= " text-2xl p-5 mb-10 text-white bg-[#DD2803] hover:bg-[#A01B00] transition-colors delay-250 duration-[3000] ease-in">View Eatery Choices</button>
           </Link>
         </div>
