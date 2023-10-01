@@ -6,6 +6,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { BsDot } from "react-icons/bs";
 import axios from 'axios';
 import config from '../../../common/config'
+import DeleteConfirmationModal from '../../card/DeleteConfirmationModal';
 
 interface EditDetailsModalProps {
   onClose: () => void;
@@ -48,6 +49,8 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   const [editedDescription, setEditedDescription] = useState(description);
   const [editedItems, setEditedItems] = useState(items.join(', '));
   const [itemName, setItemName] = useState(''); // State for the input field
+  const [deleteModal, setDeleteModal] = useState(false);
+  
 
   //WALA NI PASA SA VALIDATOR OG CONTROLLER
   const editInfo = async ()=>{
@@ -74,6 +77,26 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
     onClose();
   }
 
+
+  const handleDeleteClick = () => {
+    setDeleteModal(true);
+  };
+
+  const handleConfirmDelete = () => {
+    try{
+        const response = axios.delete(`${config.API}/package/delete/${packageID}`);
+    }catch(error){
+        console.log("ERR HERE!");
+        console.log(error);
+    }
+    
+    setDeleteModal(false);
+  };
+
+
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
+  };
 
 
 
@@ -135,6 +158,12 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
       <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh] backdrop-blur-sm animate-zoom-in overflow-hidden'>
         <div className='flex justify-center align-center my-20'>
           <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl">
+          {deleteModal && (
+        <DeleteConfirmationModal
+          onClose={handleCloseDeleteModal}
+          onConfirmDelete={handleConfirmDelete}
+        />
+      )}
             <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'>
               <div className='flex start items-center'>
                 <p><b>Package ID:</b>{packageID}</p>
@@ -156,8 +185,8 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
                       onChange={handleVisibilityChange}
                       value={editedVisibility}
                     >
-                      <option value="PUBLISHED">Visible</option>
-                      <option value="NOT PUBLISHED">Hidden</option>
+                      <option value="PUBLISHED">Published</option>
+                      <option value="NOT PUBLISHED">Not Published</option>
                     </select>
                   </p>
                   <p><b>Description: </b></p>
@@ -192,7 +221,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
                   <div className='flex flex-row items-center'>
                     <button
                       onClick={handleAddItemClick}
-                      className="w-[5vw] h-[4vh] rounded-md bg-[#7dc72d] flex items-center justify-center">
+                      className="w-[5vw] h-[4vh] rounded-md bg-[#7dc72d] flex items-center justify-center duration-75 hover:border-black border-2">
                       <IoMdAddCircleOutline />Add Item
                     </button>
                     <input
@@ -207,12 +236,13 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
               </div>
             </div>
             <div className='flex justify-end items-center h-[5vh]'>
-              <button className='w-[5vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center'><AiFillDelete />Delete</button>
-              <button className='w-[5vw] h-[4vh] bg-[#7dc72d] mx-5 rounded-md flex items-center justify-center' onClick={editInfo}><HiMiniPencilSquare />Save</button>
+              <button className='w-[5vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center duration-75 hover:border-black border-2'  onClick={handleDeleteClick}><AiFillDelete />Delete</button>
+              <button className='w-[5vw] h-[4vh] bg-[#7dc72d] mx-5 rounded-md flex items-center justify-center duration-75 hover:border-black border-2' onClick={editInfo}><HiMiniPencilSquare />Save</button>
             </div>
           </div>
         </div>
       </div>
+      
     </div>
   );
 }

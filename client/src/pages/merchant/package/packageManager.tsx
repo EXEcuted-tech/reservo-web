@@ -35,10 +35,10 @@ const PackageManager = () => {
     const [sort, setSort] = useState('package_name');
 
     // Function to handle sorting option change
-    const handleSortChange = (event) => {
+    const handleSortChange = (event: { target: { value: any; }; }) => {
       const selectedOption = event.target.value;
       setSort(selectedOption);
-      fetchData();
+      fetchData(selectedOption);
     }
 
 
@@ -139,19 +139,20 @@ const PackageManager = () => {
             ) : (
               packages.map((packageItem) => (
                 <Card
-                    key={packageItem.package_id}
-                    package_id={packageItem.package_id}
-                    packageName={packageItem.package_name}
-                    date_start = {packageItem.date_start}
-                    date_end = {packageItem.date_end}
-                    description={packageItem.package_desc} // Make sure to use the correct property name
-                    price={packageItem.price} // Make sure to use the correct property name
-                    tags={packageItem.tags.split(',').map((tag: string) => tag.trim())} // Split and trim tags
-                    visibility={packageItem.visibility}
-                    items={packageItem.item_list.split(',').map((item: string) => item.trim())} // Split and trim items
-                    filePath={packageItem.image_filepath}
-                    oneButton={false}
-                />
+                  key={packageItem.package_id}
+                  package_id={packageItem.package_id}
+                  packageName={packageItem.package_name}
+                  date_start={packageItem.date_start}
+                  date_end={packageItem.date_end}
+                  description={packageItem.package_desc} // Make sure to use the correct property name
+                  price={packageItem.price} // Make sure to use the correct property name
+                  tags={packageItem.tags.split(',').map((tag: string) => tag.trim())} // Split and trim tags
+                  visibility={packageItem.visibility}
+                  items={packageItem.item_list.split(',').map((item: string) => item.trim())} // Split and trim items
+                  filePath={packageItem.image_filepath}
+                  oneButton={false} 
+                  time_start={''} 
+                  time_end={''}                />
               ))
               
             )}
@@ -172,19 +173,18 @@ const PackageManager = () => {
             ) : (
               unpublishedPackages.map((packageItem) => (
                 <Card
-                    key={packageItem.package_id}
-                    package_id={packageItem.package_id}
-                    packageName={packageItem.package_name}
-                    date_start = {packageItem.date_start}
-                    date_end = {packageItem.date_end}
-                    description={packageItem.package_desc} // Make sure to use the correct property name
-                    price={packageItem.price} // Make sure to use the correct property name
-                    tags={packageItem.tags.split(',').map((tag: string) => tag.trim())} // Split and trim tags
-                    visibility={packageItem.visibility}
-                    filePath={packageItem.image_filepath}
-                    items={packageItem.item_list.split(',').map((item: string) => item.trim())} // Split and trim items
-                    oneButton={false}
-                />
+                  key={packageItem.package_id}
+                  package_id={packageItem.package_id}
+                  packageName={packageItem.package_name}
+                  date_start={packageItem.date_start}
+                  date_end={packageItem.date_end}
+                  description={packageItem.package_desc}
+                  price={packageItem.price}
+                  tags={packageItem.tags.split(',').map((tag: string) => tag.trim())} // Split and trim tags
+                  visibility={packageItem.visibility}
+                  filePath={packageItem.image_filepath}
+                  items={packageItem.item_list.split(',').map((item: string) => item.trim())} // Split and trim items
+                  oneButton={false} time_start={''} time_end={''}                />
               ))
               
             )}

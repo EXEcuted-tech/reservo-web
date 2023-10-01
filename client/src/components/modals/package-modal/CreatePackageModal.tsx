@@ -110,6 +110,7 @@ interface CreatePackageModal{
       }catch(error){
           console.log(error);
       }
+      onClose();
     }
 
 

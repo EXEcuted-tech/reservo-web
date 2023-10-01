@@ -128,11 +128,11 @@ const retrieveByTwoParams = (req,res)=>{
 }
 
 const deletePackage = (req,res)=>{
-    const {pack_id} = req.body;
+    const {package_id} = req.body;
 
     const deleteQuery = 'DELETE FROM package WHERE package_id = ?';
   
-    db.query(deleteQuery, pack_id,(err, result) => {
+    db.query(deleteQuery, package_id,(err, result) => {
       if (err) {
         console.error('Error deleting record:', err);
         return res.status(500).json({ status: 500, success:false,error: 'Error deleting records' });
