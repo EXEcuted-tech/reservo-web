@@ -55,6 +55,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
 
   //WALA NI PASA SA VALIDATOR OG CONTROLLER
   const editInfo = async ()=>{
+    setIsLoading(true)
     try{
         const response = await axios.post(`${config.API}/package/update`,{
             package_id: packageID,
@@ -70,14 +71,13 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
             image_filepath: editedFilePath,
             item_list: editedItems,
         });
-        console.log("RESPONSE IS: " + response)
+        console.log("RESPONSE IS: " + response.data)
     }catch(error){
         console.log(error);
     }
-
-    onClose();
+     setIsLoading(false);
+     onClose();
   }
-
 
   const handleDeleteClick = () => {
     setDeleteModal(true);
@@ -189,7 +189,7 @@ function formatDateToMMDDYYYY(date: string) {
               <div>
                 <div className='h-[40vh] '>
                   <p><b>Package Name: </b><input onChange={handlePackageNameChange} type="text" value={editedPackageName} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
-                  <p><b>Total Price: </b> <input type="text" value={editedPrice} className="h-[4vh] my-2 border-solid border-[#000000] border-2 p-2 rounded-md mx-4 pl-2"></input></p>
+                  <p><b>Total Price: </b> <input type="text" value={editedPrice} onChange={handlePriceChange} className="h-[4vh] my-2 border-solid border-[#000000] border-2 p-2 rounded-md mx-4 pl-2"></input></p>
                   <p><b>Available From: </b> <input type="date" value={editedDateStart} onChange={handleDateStartChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
                   <p><b>Expiry Date: </b> <input type="date" value={editedDateEnd} onChange={handleDateEndChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
                   <p><b>Tags: </b> <input onChange={handleTagsChange} type="text" value={editedTags} className="h-[4vh] my-2 border-solid p-2 border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
@@ -213,7 +213,7 @@ function formatDateToMMDDYYYY(date: string) {
                 alt="Package Image"
                 onError={(e) => {
                   e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
-                  e.currentTarget.src = 'https://imgur.com/YNoZzmJ'; // Use a placeholder image as a fallback
+                  e.currentTarget.src = 'https://i.imgur.com/YNoZzmJ.png'; // Use a placeholder image as a fallback
                 }}
                 
                 className="w-full h-full object-cover rounded-2xl"
@@ -250,7 +250,13 @@ function formatDateToMMDDYYYY(date: string) {
             </div>
             <div className='flex justify-end items-center h-[5vh]'>
               <button className='w-[5vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center duration-75 hover:border-black border-2'  onClick={handleDeleteClick}><AiFillDelete />Delete</button>
-              <button className='w-[5vw] h-[4vh] bg-[#7dc72d] mx-5 rounded-md flex items-center justify-center duration-75 hover:border-black border-2' disabled={isLoading} onClick={editInfo}>{isLoading ? 'Loading...' : <HiMiniPencilSquare /> }Save</button>
+              <button
+                    className='w-[5vw] h-[4vh] bg-[#7dc72d] mx-5 rounded-md flex items-center justify-center duration-75  hover:border-black border-2'
+                    disabled={isLoading}
+                    onClick={editInfo}
+                    >
+                    {isLoading ? 'Loading...' : <><HiMiniPencilSquare /> Save</>}
+                    </button>
             </div>
           </div>
         </div>
