@@ -29,7 +29,7 @@ const UserLogin = () => {
             setInvalid(true);
         }
         else{
-            axios.post(`${config.API}:5000/login`,{
+            axios.post(`${config.API}/login`,{
                 account_email: email , 
                 password : pass,
                 account_type: 1
@@ -118,7 +118,7 @@ const UserLogin = () => {
                         <button type='submit' onClick={guestHandler} className='button text-[#DD2803] p-[0.5em] font-[bold] w-[50%] rounded-full border-solid border-2 border-[#DD2803] font-bold'>Log in as Guest</button>
                         <div className="signBox">
                             <span className='capitalize'>need an account ?</span>
-                            <Link to={'/usRegister'} className='link text-[#DD2803] font-bold pl-1 hover:text-[#9a1a00]'>Sign Up</Link>
+                            <Link to={'/usregister'} className='link text-[#DD2803] font-bold pl-1 hover:text-[#9a1a00]'>Sign Up</Link>
                         </div>    
                     </div>
                 </form>

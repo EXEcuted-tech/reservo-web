@@ -48,7 +48,7 @@ const UserHeader = () => {
           <AiOutlineDown className='text-black mt-[6%] ml-[6%] text-[1.3em] hover:cursor-pointer hover:text-[#DD2803]'
            onClick={()=>{setShowMenu(!showMenu)}}/>
           {showMenu && 
-            <div className='absolute h-[11vh] w-[6vw] left-0 z-100 bg-white text-black block top-[100%] animate-slide-down'>
+            <div className='absolute h-[11vh] w-[6vw] left-0 z-50 bg-white text-black block top-[100%] animate-slide-down'>
               <ul className='list-none pl-[15%]'>
                 <li><hr className="w-[85px] pt-[10%]"/></li>
                 <li className='pb-[10%]'>Hi, Guest!</li>

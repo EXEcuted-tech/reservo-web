@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 import colors from '../../../common/colors'
 import { BsFillPersonFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
@@ -6,17 +6,42 @@ import { BsFillTelephoneFill } from "react-icons/bs";
 import { BiSolidLockAlt } from "react-icons/bi";
 import background from '../../../assets/background-pattern.png';
 import guykey from '../../../assets/usersign.png';
+import config from '../../../common/config'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 const SignupPage = () => {
-  const [account_email, setaccount_email]= useState("");
-  const [account_username, setaccount_username]= useState("");
-  const [account_password, setaccount_password]= useState("");
-  const [contact_number, setcontact_number]= useState("");
-  const [account_type, setaccount_type]= useState(1);
-  return (
+  const navigate = useNavigate();
+  const [emailAdd, setEmailAdd]= useState("");
+  const [accName, setAccName]= useState("");
+  const [password, setPassword]= useState("");
+  const [contactNum, setContactNum]= useState("");
+  const [error,setError] = useState("");
 
+  const signUp = (event:FormEvent) =>{
+    event.preventDefault();
+    axios.post(`${config.API}/signup`,{
+        account_name:  accName, 
+        account_email: emailAdd,
+        password : password,
+        account_type: 1,
+        contact_number: contactNum
+    }).then((res)=>{
+        console.log("Response on: ", res);
+    }).catch((err) => { 
+      console.log("ERROR: ",err);
+        setError(err.error);
+    });
+}
+
+  return (
     <div className='content-center overflow-hidden font-poppins'>
+      {error && 
+        <div className='absolute w-[80%] bg-[rgba(217, 83, 79, 0.1)] p-[20px] border border-[1px] m-[10px] text-[1em] border-s-[#d9534f]'>
+            <span>Error - </span>{error}
+        </div>
+      }
       {/* Background Picture */}
       <img className='absolute h-screen w-full' src={background} />
       <div className='absolute left-2/4 top-2/4 text-align w-[1000px] p-[10px] -translate-x-2/4 -translate-y-2/4'>
@@ -34,7 +59,8 @@ const SignupPage = () => {
 
             <a className='no-underline inline-block text-[#e72a2a] border text-lg relative cursor-pointer font-[bold] 
                           w-[190px] px-6 py-[11px] bg-white
-                          rounded-[100px] border-solid border-white font-poppins font-bold'>
+                          rounded-[100px] border-solid border-white font-poppins font-bold'
+                          onClick={()=>{navigate('/uslogin')}}>
               Log In
             </a>
           </div>
@@ -45,28 +71,40 @@ const SignupPage = () => {
           <div className='mt-2.5'>
             <BsFillPersonFill className='float-left text-[21px]'  />
             <label className='float-left ml-[2px]'>Username</label>
-            <input type="username" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+            <input type="username" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'
+                value={accName}
+                onChange={(e) => setAccName(e.target.value)}            
+            ></input>
           </div>
           <div className='mt-2.5'>
             <MdEmail className='float-left text-[20px]'/>
             <label  className='float-left ml-[3px]'>Email</label>
-            <input type="username" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+            <input type="username" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'
+            value={emailAdd}
+            onChange={(e) => setEmailAdd(e.target.value)}></input>
           </div>
           {/* //Halu */}
           <div className='mt-2.5'>
             <BsFillTelephoneFill className='float-left text-[17px]'/>
             <label className='float-left ml-[4px]'>Contact Number</label>
-            <input type="username" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+            <input type="username" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'
+            value={contactNum}
+            onChange={(e) => setContactNum(e.target.value)}
+            ></input>
           </div>
           <div className='mt-2.5'>
             <BiSolidLockAlt className='float-left text-[19px]'/>
             <label className='float-left ml-[3px]'>Password</label>
-            <input type="password" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+            <input type="password" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            ></input>
           </div>
           <div className='text-center mt-5'>
             <input type='submit' className='no-underline inline-block text-[white] border text-lg relative cursor-pointer
                                             shadow-[inset_0_0_0_white] w-[220px] px-6 py-[11px] rounded-[100px] border-solid 
-                                            border-[#e72a2a] font-poppins font-bold bg-[#DD2803]' value='Sign Up'>
+                                            border-[#e72a2a] font-poppins font-bold bg-[#DD2803]' value='Sign Up'
+                                            onClick={signUp}>
                                               
             </input>
           </div>
