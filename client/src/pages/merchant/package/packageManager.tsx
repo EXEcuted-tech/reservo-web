@@ -10,6 +10,7 @@ import { useState } from 'react';
 import CreatePackageModal from '../../../components/modals/package-modal/CreatePackageModal.tsx';
 import config from '../../../common/config.ts'
 import axios from 'axios'
+import GenSpinner from '../../../components/loaders/genSpinner.tsx';
 
 interface PackageItem {
     package_id: string;
@@ -23,12 +24,14 @@ interface PackageItem {
     item_list: string[];
     image_filepath: string;
     oneButton: boolean;
+    time_start: string;
+    time_end: string;
   }
 
 const PackageManager = () => {
     const [packages, setPackages] = useState<PackageItem[]>([]);
     const [unpublishedPackages, setUnpublishedPackages] = useState<PackageItem[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [isCreatePackageModalOpen, setIsCreatePackageModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,6 +56,7 @@ const PackageManager = () => {
     };
 
     const fetchData = async (selectedSortOption: string | undefined) => {
+      setIsLoading(true);
         try {
           const response = await axios.get(`${config.API}/package/retrieveparams`, {
             params: {
@@ -133,7 +137,7 @@ const PackageManager = () => {
         <p className={`text-3xl mx-20 my-3 font-bold`}>Published Packages</p>
         <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl  ">
         {isLoading ? (
-              <p>Loading packages...</p>
+              <GenSpinner/>
             ) : packages.length === 0 ? (
               <p>No packages to show for now.</p>
             ) : (
@@ -146,13 +150,13 @@ const PackageManager = () => {
                   date_end={packageItem.date_end}
                   description={packageItem.package_desc} // Make sure to use the correct property name
                   price={packageItem.price} // Make sure to use the correct property name
-                  tags={packageItem.tags.split(',').map((tag: string) => tag.trim())} // Split and trim tags
+                  tags={packageItem.tags ? packageItem.tags.split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags
                   visibility={packageItem.visibility}
-                  items={packageItem.item_list.split(',').map((item: string) => item.trim())} // Split and trim items
+                  items={packageItem.item_list ? packageItem.item_list.split(',').map((item: string) => item.trim()) : []} // Handle empty or null item_list
                   filePath={packageItem.image_filepath}
                   oneButton={false} 
-                  time_start={''} 
-                  time_end={''}                />
+                  time_start={packageItem.time_start} 
+                  time_end={packageItem.time_end}                />
               ))
               
             )}
@@ -167,7 +171,7 @@ const PackageManager = () => {
         <CardEmpty onClick={openCreatePackageModal} />
         {isCreatePackageModalOpen && <CreatePackageModal onClose={closeCreatePackageModal}/>}
         {isLoading ? (
-              <p>Loading packages...</p>
+              <GenSpinner/>
             ) : packages.length === 0 ? (
               <p>No packages to show for now.</p>
             ) : (
@@ -180,10 +184,10 @@ const PackageManager = () => {
                   date_end={packageItem.date_end}
                   description={packageItem.package_desc}
                   price={packageItem.price}
-                  tags={packageItem.tags.split(',').map((tag: string) => tag.trim())} // Split and trim tags
+                  tags={packageItem.tags ? packageItem.tags.split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags
                   visibility={packageItem.visibility}
                   filePath={packageItem.image_filepath}
-                  items={packageItem.item_list.split(',').map((item: string) => item.trim())} // Split and trim items
+                  items={packageItem.item_list ? packageItem.item_list.split(',').map((item: string) => item.trim()) : []} // Handle empty or null item_list
                   oneButton={false} time_start={''} time_end={''}                />
               ))
               
