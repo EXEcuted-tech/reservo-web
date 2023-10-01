@@ -1,9 +1,24 @@
 import React from 'react'
+import '../../../assets/css/userAccProfile.css';
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
 import { BsFillPencilFill } from "react-icons/bs";
+import { useState, useEffect } from 'react';
 
-function UserProfilePage(){
+function UserProfilePage(){ 
+
+    const [account , setAccount] = useState({userID:0,user:"",type:0 });
+    const active = localStorage.getItem("userDetails");
+
+    useEffect(() => {
+      setTimeout(() => {
+        if(active){
+            setAccount(JSON.parse(active));
+            console.log("setted");
+        }
+      }, 1000);
+
+    }, [])
 
     return(
         <div className = "h-[100vh] bg-[#F9F2EA] font-[Poppins]">
