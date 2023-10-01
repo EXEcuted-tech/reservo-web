@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import '../../../assets/css/userAccProfile.css';
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
 import { BsFillPencilFill } from "react-icons/bs";
@@ -29,6 +28,7 @@ function UserProfilePage(){
             useEffect(() => {
                 fetchData(); // Call the async function to fetch data
             },[]);
+
     return(
         <div className = "h-[100vh] bg-[#F9F2EA] font-[Poppins]">
 
@@ -41,21 +41,34 @@ function UserProfilePage(){
 
                 <div>
 
-                        <h1 className="userName mb-[6vh]">{data?.account_name} <button><BsFillPencilFill className="ml-1 "/></button></h1>
-                        <table className='accTable'>
-                            
-                            <tr className="row">
-                                <td className="var">Email:</td>
-                                <td className="value">{data?.email_address}</td>
-                            </tr>
-                            <tr className="row">
-                                <td className="var">Phone Number:</td>
-                                <td className="value">{data?.contact_number}</td>
-                            </tr>
-                            <tr>
-                                <td><button className="p-[7px] w-[3.2cm] mt-[0.8cm] flex flex-row items-center bg-[#FFA800] rounded-3xl"><MdOutlineLogout className="mr-[0.5cm]"/>Logout</button></td>
-                            </tr>
-                        </table>
+                    <div className="float-left border-r-[2px] border-black mt-[5vh]">
+                        <FaRegUserCircle className="text-[23vh] mx-[15vh] mt-[6vh]"/>
+                        <br />
+                        {data ? (
+                            <>
+                                <h1 className="text-center font-bold text-[20pt]">{data.account_name}<button><BsFillPencilFill className="ml-1" /></button></h1>
+                                <br />
+                                <br />
+                                <br />
+                                <table className="ml-[3vw]">
+                                    <tbody>
+                                        <tr className="font-[12pt]">
+                                            <td className="font-bold w-[150px]">Email:</td>
+                                            <td className="w-[250px]">{data.email_address}</td>
+                                        </tr>
+                                        <tr className="font-[12pt]">
+                                            <td className="font-bold w-[150px]">Phone Number:</td>
+                                            <td className="w-[250px]">{data.contact_number}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><button className="p-[7px] w-[3.2cm] mt-[0.8cm] flex flex-row items-center bg-[#FFA800] rounded-3xl"><MdOutlineLogout className="mr-[0.5cm]" />Logout</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </>
+                            ) : (
+                            <p>Loading...</p>
+                            )}
 
                         
                     </div>
