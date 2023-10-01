@@ -4,9 +4,9 @@ const createMerchantValidator=require('../validations/merchantValidator')
 const { createMerchant,updateMerchant,retrieveByParams,retrieveAll, deleteMerchant,} = require('../controllers/merchantController');
 
 router.post('/create',createMerchantValidator,createMerchant);
-router.put('/update',createMerchantValidator,updateMerchant);
+router.post('/update',createMerchantValidator,updateMerchant);
 router.get('/retrieve',retrieveByParams);
 router.get('/retrieve_all',retrieveAll);
-router.delete('/delete',deleteMerchant);
+router.post('/delete',deleteMerchant);
 
 module.exports = router;
