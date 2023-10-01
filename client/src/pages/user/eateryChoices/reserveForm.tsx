@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router'
 import starleft from '../../../assets/starleft.png'
 import starright from '../../../assets/starright.png'
 import {SiFormstack, SiGoogleforms} from 'react-icons/si'
+import axios from 'axios'
+import config from '../../../common/config'
 
 const ReserveForm = () => {
   const navigate = useNavigate();
@@ -18,8 +20,24 @@ const ReserveForm = () => {
   const [clickEight,setClickEight] = useState(false);
   const [clickNine,setClickNine] = useState(false);
 
+  const [date,setDate] = useState(null);
+  const [timestart,setTimeStart] = useState(null);
+  const [location,setLocation] = useState("");
+  const [size,setSize] = useState(0);
+  const [add,setAdd] = useState("");
+
+  const submitReservation = (event: { preventDefault: () => void }) =>{
+    event.preventDefault();
+    axios.post(`${config.API}/reserve/create`, {
+
+    }).then((response) => {
+
+    }).catch((error)=>{
+        console.error(error);
+    });
+  }
   return (
-    <div className='animate-slide-right font-poppins bg-[#F9F2EA] h-[100%]'>
+    <div className='font-poppins bg-[#F9F2EA] h-[100%]'>
        <div className='text-[#DD2803] ml-[2%]'>
          <h1 className='text-[2.5em] py-[1%] font-bold flex items-center'>
             <AiOutlineArrowLeft className='text-black mr-[1%] hover:text-[#DD2803]'

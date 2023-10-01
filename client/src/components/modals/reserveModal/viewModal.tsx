@@ -55,14 +55,17 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
   const getClientInfo = () => {
     const col = "account_id";
     const val = record[0]?.account_id;
-    // setIsLoading(false);
+    setIsLoading(false);
     axios.get(`${config.API}/user/retrieve?col=${col}&val=${val}`)
     .then((res)=>{
        if(res.status === 200){
-        console.log("RESULT: ",res.data);
-        
+        // console.log("RESULT: ",res.data);
+        const user = res.data.users[0];
+        setName(user?.account_name);
+        setEmail(user?.email_address);
+        setContactNo(user?.contact_number);
        }
-      //  setTimeout(()=>{setIsLoading(true)},500);
+       setTimeout(()=>{setIsLoading(true)},500);
     })
   }
 
@@ -76,12 +79,12 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         console.log("RESULT: ",res.data);
         const inventoryData = res.data.records[0];
         setInventory({
-          numberOfTables: inventoryData.numberOfTables,
-          numberOfChairs: inventoryData.numberOfChairs,
-          numberOfPlates: inventoryData.numberOfPlates,
-          numberOfGlasses: inventoryData.numberOfGlasses,
-          numberOfTableCloths: inventoryData.numberOfTableCloths,
-          numberOfChairCovers: inventoryData.numberOfChairCovers,
+          numberOfTables: inventoryData?.no_of_tables,
+          numberOfChairs: inventoryData?.no_of_chairs,
+          numberOfPlates: inventoryData?.no_of_plates,
+          numberOfGlasses: inventoryData?.no_of_glasses,
+          numberOfTableCloths: inventoryData?.no_of_tableCloths,
+          numberOfChairCovers: inventoryData?.no_of_chairCovers,
         });
        }
        setTimeout(()=>{setIsLoading(true)},500);
@@ -149,7 +152,7 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
 
         <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block px-[1%] mt-[2%] text-white text-center rounded-lg mb-[0.5%]'>Additional Information</h1>
         <div className='flex mx-[2%] text-[1.2em]'>
-          <p className='font-bold text-[1.8em] italicize'>Coming Soon</p>
+          <p className='font-bold text-[1.8em]'>Coming Soon</p>
           {/* <div className='w-[33%]'>
             <p className='my-[1%]'><span className='font-bold'>Date: </span>{"January 13,2023"}</p>
           </div>
