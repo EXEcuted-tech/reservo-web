@@ -4,9 +4,9 @@ const createPaymentValidator=require('../validations/paymentValidator')
 const {createPayment,updatePayment,retrieveAll,retrieveByParams,deletePayment} = require('../controllers/paymentController')
 
 router.post('/create',createPaymentValidator,createPayment);
-router.put('/update',createPaymentValidator,updatePayment);
+router.post('/update',createPaymentValidator,updatePayment);
 router.get('/retrieve',retrieveByParams);
 router.get('/retrieve_all',retrieveAll);
-router.delete('/delete',deletePayment);
+router.post('/delete',deletePayment);
 
 module.exports = router;

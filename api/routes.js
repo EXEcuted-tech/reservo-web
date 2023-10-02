@@ -36,8 +36,6 @@ app.use(cors({
   },
 }));
 
-console.log("CORS: "+ process.env.CORS_ORIGIN);
-
 app.use(express.json());
 app.use('/',authenticationRoutes); //authentication
 app.use('/user',userRoutes);  

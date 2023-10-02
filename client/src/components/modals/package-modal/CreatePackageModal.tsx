@@ -6,6 +6,7 @@ import "../../../assets/css/card.css"
 import { IoAddCircleSharp } from "react-icons/io5";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { useState, useEffect} from 'react'
+import config from '../../../common/config'
 import axios from 'axios'
 import config from '../../../common/config'
 
