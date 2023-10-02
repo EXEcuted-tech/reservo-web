@@ -10,7 +10,6 @@ USE reservo;
 */
 CREATE TABLE `payment` (
   `payment_id` bigint(20) NOT NULL,
-  `reservation_id` bigint(20) NOT NULL,
   `total_expense` decimal(10,2) DEFAULT NULL,
   `balance` decimal(10,2) NOT NULL,
   `payment_status` enum('PENDING','PAID') NOT NULL,

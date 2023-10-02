@@ -7,18 +7,19 @@ import {RiTimeFill} from 'react-icons/ri'
 const AboutUsPage = () => {
   return (
     <div className='h-[80vh]'>
-      <div className='font-poppins relative flex flex-row justify-between bg-black bg-opacity-40 h-[100%]'>
+      <div className='font-poppins relative flex flex-row justify-between bg-black bg-opacity-40 z-10 h-[100%]'>
         <img src={background} alt='About Us Background' className='h-full w-full bg-[100%] object-cover bg-no-repreat bg-cover absolute z-100'/>
-        <div className='h-full w-full bg-no-repreat bg-cover absolute z-999 bg-[rgba(0,0,0,0.45)]'/>
-        <div className='w-4/5 px-40 py-20 z-0'>
+        <div className='h-full w-full bg-no-repreat bg-cover absolute z-999 z-1 bg-[rgba(0,0,0,0.45)]'/>
+        <div className='w-4/5 px-32 py-24 z-0'>
           <div className='border-b-4 pb-6 '>
-            <h1 className='font-extrabold text-white text-8xl pb-3'>Cater.</h1>
+            <h1 className='font-extrabold text-white text-8xl pb-3'>Choose.</h1>
             <h1 className='font-extrabold text-white text-8xl pb-3'>Connect.</h1>
             <h1 className='font-extrabold text-white text-8xl pb-3'>Celebrate.</h1>
-            <p className='italic text-white text-5xl'>Quisque sit amet elit tempor, pretium.</p>
+            <p className='italic text-white text-5xl'>With Reservo, everything becomes instant.</p>
           </div>
           <div className='pt-8'>
-            <p className='text-white font-light text-justify text-2xl'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at sollicitudin lectus. Donec in lacinia erat, ut porttitor diam. Sed mauris nulla, lacinia sed placerat accumsan, viverra vel magna. Etiam vulputate lorem eget ligula vulputate dignissim. Curabitur molestie est sem, vel facilisis nunc lacinia quis. Fusce a nibh volutpat, congue turpis tempus, sollicitudin nulla.</p>
+            <p className='text-white font-light text-justify text-2xl'>
+Reservo, developed by the Cebu-based team EXEcuted, consists of talented BSIT students determined to further their expertise in the IT field through their collaborative efforts. In line with that, the team decided to make a centralized reservation management system for the benefit of both the customers and food businesses.</p>
           </div>
         </div>
 
@@ -31,7 +32,7 @@ const AboutUsPage = () => {
               </tr>
               <tr>
                 <td></td>
-                <td><h1 className='text-white text-lg pl-4'>example@abc.com</h1></td>
+                <td><h1 className='text-white text-lg pl-4'>EXEcuted@abc.com</h1></td>
               </tr>
               <tr>
                 <td></td>

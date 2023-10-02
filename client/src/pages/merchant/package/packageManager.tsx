@@ -8,18 +8,20 @@ import MerchAdHeader from '../../../components/headers/MerchAdHeader.tsx';
 import { BiPackage } from "react-icons/bi";
 import { useState } from 'react';
 import CreatePackageModal from '../../../components/modals/package-modal/CreatePackageModal.tsx';
+import config from '../../../common/config.ts'
 import axios from 'axios'
 
 interface PackageItem {
     package_id: string;
-    packageName: string;
-    description: string;
+    package_name: string;
+    package_desc: string;
     price: string;
     tags: string[];
-    date_start: Date;
-    date_end: Date;
+    date_start: string;
+    date_end: string;
     visibility: string;
-    items: string[];
+    item_list: string[];
+    image_filepath: string;
     oneButton: boolean;
   }
 
@@ -50,9 +52,9 @@ const PackageManager = () => {
       setIsCreatePackageModalOpen(false);
     };
 
-    const fetchData = async (selectedSortOption) => {
+    const fetchData = async (selectedSortOption: string | undefined) => {
         try {
-          const response = await axios.get('http://localhost:5000/package/retrieveparams', {
+          const response = await axios.get(`${config.API}/package/retrieveparams`, {
             params: {
               col1: 'merchant_id',
               val1: 1, // Replace with the actual merchant ID
@@ -62,7 +64,7 @@ const PackageManager = () => {
             },
           });
 
-          const unpublishedresponse = await axios.get('http://localhost:5000/package/retrieveparams', {
+          const unpublishedresponse = await axios.get(`${config.API}/package/retrieveparams`, {
             params: {
               col1: 'merchant_id',
               val1: 1, // Replace with the actual merchant ID
@@ -147,6 +149,7 @@ const PackageManager = () => {
                     tags={packageItem.tags.split(',').map((tag: string) => tag.trim())} // Split and trim tags
                     visibility={packageItem.visibility}
                     items={packageItem.item_list.split(',').map((item: string) => item.trim())} // Split and trim items
+                    filePath={packageItem.image_filepath}
                     oneButton={false}
                 />
               ))
@@ -178,6 +181,7 @@ const PackageManager = () => {
                     price={packageItem.price} // Make sure to use the correct property name
                     tags={packageItem.tags.split(',').map((tag: string) => tag.trim())} // Split and trim tags
                     visibility={packageItem.visibility}
+                    filePath={packageItem.image_filepath}
                     items={packageItem.item_list.split(',').map((item: string) => item.trim())} // Split and trim items
                     oneButton={false}
                 />

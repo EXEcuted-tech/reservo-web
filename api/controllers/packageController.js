@@ -2,13 +2,26 @@ const express = require('express');
 const db = require('./a_db'); 
 
 const createPackage = (req,res)=>{
-    const {pack_name,pack_desc,date_start,date_end,time_start,time_end,visibility,list,imgUrl,tags,merch_id} = req.body;
+  console.log(req);
+    const {
+      package_name,
+      package_desc,
+      price,
+      date_start,
+      date_end,
+      time_start,
+      time_end,
+      visibility,
+      item_list,
+      image_filepath,
+      tags,
+      merchant_id
+    } = req.body;
     
-    const insert = 
-    'INSERT INTO package (package_name,package_desc,date_start,date_end,time_start,time_end,visiblity,item_list,image_filepath,tags,merchant_id) VALUES (?,?,?,?,?,?,?,?,?,?,?)';
-
-    const data = [pack_name,pack_desc,date_start,date_end,time_start,time_end,visibility,list,imgUrl,tags,merch_id]
+    const insert = 'INSERT INTO package (package_name,package_desc,price,date_start,date_end,time_start,time_end,visibility,item_list,image_filepath,tags,merchant_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)';
+    const data = [package_name,package_desc,price,date_start,date_end,time_start,time_end,visibility,item_list,image_filepath,tags,merchant_id]
     db.query(insert, data, (err, result) => {
+      
       if (err) {
         console.error('Error inserting data:', err);
         return res.status(500).json({ status: 500, success:false,error: 'Error inserting data' });
@@ -27,12 +40,12 @@ const createPackage = (req,res)=>{
 }
 
 const updatePackage = (req,res)=>{
-    const {pack_name,pack_desc,date_start,date_end,time_start,time_end,visibility,list,imgUrl,tags,merch_id} = req.body;
-    
+    const {package_name,package_desc,price,date_start,date_end,time_start,time_end,visibility,list,image_filepath,tags} = req.body;
+    console.log(req.body)
     const update = 
-    'UPDATE package SET package_name=?,package_desc=?,date_start=?,date_end=?,time_start=?,time_end=?,visibility=?,item_list=?,image_filepath=?,tags=? WHERE package_id=?';
+    'UPDATE package SET package_name=?,package_desc=?, price=?, date_start=?,date_end=?,time_start=?,time_end=?,visibility=?,item_list=?,image_filepath=?,tags=? WHERE package_id=?';
 
-    const data = [pack_name,pack_desc,date_start,date_end,time_start,time_end,visibility,list,imgUrl,tags,merch_id]
+    const data = [package_name,package_desc,price,date_start,date_end,time_start,time_end,visibility,list,image_filepath,tags]
     db.query(update, data, (err, result) => {
       if (err) {
         console.error('Error updating data:', err);

@@ -5,7 +5,7 @@ import background from '../../../assets/background-pattern.png'
 import logo from '../../../assets/temp-logo-2.png'
 
 import { RiReservedFill } from 'react-icons/ri'; 
-
+import config from '../../../common/config'
 import axios from 'axios'
 
 const AdminLogin = () => {
@@ -26,20 +26,31 @@ const AdminLogin = () => {
         else{
             console.log(email);
             console.log(pass);
-            axios.post('http://localhost:5000/login',{
+            axios.post(`${config.API}/login`,{
                 account_email: email , 
                 password : pass,
-                account_type: 2
+                account_type: 10
             }).then(
                 (res)=>{
-                    console.log(res.data);
                     //if success means the email is exist and the password is correct
-                    if(res.data.success === true){
-                            Navigate('/merchdash');
+                    if(res.data.success){
+                        localStorage.setItem('userDetails', JSON.stringify(res.data.account_info));
+                        Navigate('/merchdash')
                     }
                     else{
-                        setErrMess(res.data.message);
-                        setInvalid(true);
+                        switch(res.data.message){
+                            case 'Password is required':
+                                setErrMess(res.data.message);
+                                setInvalid(true);
+                                break;
+                            case 'Password is too short':
+                                setErrMess(res.data.message);
+                                setInvalid(true);
+                                break;
+                            default:
+                                setErrMess("Email does not Exist");
+                                setInvalid(true);
+                        }
                     }
                     
                 }
