@@ -12,11 +12,13 @@ import GenSpinner from '../../loaders/genSpinner';
 
 interface CreatePackageModal{
     onClose: ()=>void;
+    fetchData: ()=>void;
+    selectedSortOption: string;
 }
 
 
 
-  const CreatePackageModal: React.FC<CreatePackageModal>=({onClose}) => {
+  const CreatePackageModal: React.FC<CreatePackageModal>=({onClose, fetchData, selectedSortOption}) => {
 
     const getCurrentDate = () => {
       const today = new Date();
@@ -110,6 +112,7 @@ interface CreatePackageModal{
             tags: tags, //can be null
             merchant_id: merchantId,
         });
+        fetchData();
       }catch(error){
           console.log(error);
       }
@@ -140,8 +143,8 @@ interface CreatePackageModal{
                 </p>
                 <p><b>Visibility:<span className='text-red-600'>*</span> </b>
                         <select id="sortDropdown" value={visibility} onChange={handleVisibilityChange} name="sortDropdown" className={`h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4`}>
-                        <option value="PUBLISHED" selected>Not Published</option>
-                        <option value="NOT PUBLISHED">Published</option>
+                        <option value="NOT PUBLISHED" selected>Not Published</option>
+                        <option value="PUBLISHED">Published</option>
                     </select>
                     </p>
                 <p><b>Description:<span className='text-red-600'>*</span> </b></p>
@@ -185,10 +188,15 @@ interface CreatePackageModal{
             </div>
             <div className='flex justify-end items-center h-[5vh]'>{/*This is the footer*/}
                 <button className='w-[5vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center' onClick={onClose}><AiFillDelete/>Cancel</button>
-                <button className='w-[5vw] h-[4vh] mx-5 rounded-md bg-[#7dc72d] ${
-    isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-[#dae8cc]"
-  } flex items-center justify-center' disabled={isLoading} onClick={createPackage}><IoAddCircleSharp/>
-  Add</button>
+                <button
+                  className={`w-[5vw] h-[4vh] mx-5 rounded-md ${
+                    isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#dae8cc]'
+                  } flex items-center justify-center`}
+                  disabled={isLoading}
+                  onClick={createPackage}
+                >
+                  <IoAddCircleSharp /> Add
+                </button>
 
             </div>
         </div>

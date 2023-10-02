@@ -5,7 +5,7 @@ import { AiFillDownCircle } from "react-icons/ai";
 import Card from "../../../components/card/card.tsx";
 import CardEmpty from "../../../components/card/CardEmpty.tsx"
 import MerchAdHeader from '../../../components/headers/MerchAdHeader.tsx';
-import { BiPackage } from "react-icons/bi";
+import { BiPackage, BiRefresh } from "react-icons/bi";
 import { useState } from 'react';
 import CreatePackageModal from '../../../components/modals/package-modal/CreatePackageModal.tsx';
 import config from '../../../common/config.ts'
@@ -105,6 +105,13 @@ const PackageManager = () => {
       }, [sort]);
 
       console.log(packages);
+
+
+      const refreshPackageManager = () => {
+        fetchData(sort); // Call the async function to fetch data
+      };
+
+
     return (
 <div className={`bg-[#FFFFFF] h-[100vh] font-poppins overflow-y-auto overflow-x-hidden`}>
     <div className="w-[80vw]">
@@ -134,7 +141,10 @@ const PackageManager = () => {
         </div>
     </div>
     <div className='PublishedPackages ps-20'>
-        <p className={`text-3xl mx-20 my-3 font-bold`}>Published Packages</p>
+      <div className='grid grid-flow-col'>
+        <div><p className={`text-3xl mx-20 my-3 font-bold`}>Published Packages</p></div>
+        <div className='flex justify-end items-center mx-10' ><button onClick={() => fetchData(sort)} className='w-[6vw] h-[3vh] p-2 bg-[#1b6e1e] text-white flex justify-center items-center rounded-lg hover:border-black border-solid border-2'><BiRefresh className='flex items-center justify-center'/>Refresh</button></div>
+        </div>
         <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl  ">
         {isLoading ? (
               <GenSpinner/>
@@ -169,7 +179,11 @@ const PackageManager = () => {
         <p className={`text-3xl mx-20 my-3 font-bold`}>Unpublished Packages</p>
         <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl  ">
         <CardEmpty onClick={openCreatePackageModal} />
-        {isCreatePackageModalOpen && <CreatePackageModal onClose={closeCreatePackageModal}/>}
+        {isCreatePackageModalOpen && 
+        <CreatePackageModal 
+        onClose={closeCreatePackageModal}
+        fetchData={refreshPackageManager} // Pass the refresh function as a prop
+        selectedSortOption={sort}/>}
         {isLoading ? (
               <GenSpinner/>
             ) : packages.length === 0 ? (
@@ -188,7 +202,10 @@ const PackageManager = () => {
                   visibility={packageItem.visibility}
                   filePath={packageItem.image_filepath}
                   items={packageItem.item_list ? packageItem.item_list.split(',').map((item: string) => item.trim()) : []} // Handle empty or null item_list
-                  oneButton={false} time_start={''} time_end={''}                />
+                  oneButton={false} 
+                  time_start={packageItem.time_start} 
+                  time_end={packageItem.time_end}                
+                  />
               ))
               
             )}
