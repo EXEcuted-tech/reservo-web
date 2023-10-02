@@ -4,22 +4,36 @@ import { MdOutlineLogout } from "react-icons/md";
 import { BsFillPencilFill } from "react-icons/bs";
 import axios from 'axios'
 import config from "../../../common/config"
+import GenSpinner from '../../../components/loaders/genSpinner';
 
 
 function UserProfilePage(){ 
             const [data, setData] = useState<any>();
-
-    
+            const [reservations, setReservations] = useState<any[]>([]);
+            const userDetails = localStorage.getItem('userDetails');
+            const userID = userDetails ? JSON.parse(userDetails).userID : "0";
+            const [isLoading, setIsLoading] = useState(false);
+        
             const fetchData = async ()=>{
                 try{
+                    setIsLoading(true);
                     const response = await axios.get(`${config.API}/user/retrieve`, {
                         params:{
                             col: 'account_id',
-                            val: 1       //currently logged in user
+                            val: userID       //currently logged in user
                         },
                     })
+                    const result = await axios.get(`${config.API}/user/retrieve`,{
+                        params:{
+                            col: 'account_id',
+                            val: userID
+                        }
+                    })
                     setData(response.data.users[0]);
-                    console.log(data);
+                    setReservations(result.data.reservations);
+                    console.log(reservations.length);
+                    console.log(setData);
+                    setIsLoading(false);
                 }catch(error){
                     console.log(error);
                 }
@@ -86,14 +100,31 @@ function UserProfilePage(){
                                     </tr>
                                 
                                 
-                                    <tr className="text-[12pt] text-center">
-                                        <td className="py-1 px-[1vw] text-center">Jan. 23, 2023</td>
-                                        <td className="py-1 px-[1vw] text-center">11:30am - 1:00pm</td>
-                                        <td className="py-1 px-[1vw] text-center">Juan Dela Cruz</td>
-                                        <td className="py-1 px-[1vw] text-center">5</td>
-                                        <td className="py-1 px-[1vw] row flex justify-center items-center"><div className="m-2 bg-[#CCFFD1] text-[#00A310] wx-[50px] ">Done</div></td>
-                                    </tr>
+                                    
                                 </thead>
+                                <tbody>
+                                    {isLoading == true?  <tr><td colSpan={5}><GenSpinner/></td></tr> :
+                                        <>
+                                        {reservations && reservations.length > 0 ? (
+                                            reservations.map((reservation: any, index: number) => (
+                                            <tr key={index} className="text-[12pt] text-center">
+                                                <td className="py-1 px-[1vw] text-center">{reservation.date}</td>
+                                                <td className="py-1 px-[1vw] text-center">{reservation.time}</td>
+                                                <td className="py-1 px-[1vw] text-center">{reservation.organizer}</td>
+                                                <td className="py-1 px-[1vw] text-center">{reservation.eventSize}</td>
+                                                <td className="py-1 px-[1vw] row flex justify-center items-center">
+                                                <div className="m-2 bg-[#CCFFD1] text-[#00A310] wx-[50px] ">Done</div>
+                                                </td>
+                                            </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                            <td colSpan={5}>No reservations found.</td>
+                                            </tr>
+                                        )}</>
+
+                                }
+                            </tbody>
                             </table>
                         
                     </div>

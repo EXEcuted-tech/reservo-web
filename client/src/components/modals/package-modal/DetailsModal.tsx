@@ -5,6 +5,9 @@ import { HiOutlineMagnifyingGlass, HiMiniPencilSquare } from "react-icons/hi2";
 import "../../../assets/css/card.css"
 import { BsDot } from "react-icons/bs";
 import EditDetailsModal from './EditDetailsModal';
+import axios from 'axios'
+import config from '../../../common/config';
+import DeleteConfirmationModal from '../../card/DeleteConfirmationModal';
 
 interface DetailsModalProps {
     onClose: () => void;
@@ -24,15 +27,45 @@ interface DetailsModalProps {
   }
 
   
-  const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, packageName,date_start, date_end, description, price, tags, visibility, items, time_start, time_end, filePath }) => {
+const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, packageName,date_start, date_end, description, price, tags, visibility, items, time_start, time_end, filePath }) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const closeModal = () => {
+    const [deleteModal, setDeleteModal] = useState(false);
+
+    const handleDeleteClick = () => {
+      setDeleteModal(true);
+    };
+  
+    const handleConfirmDelete = async () => {
+      try {
+          const response = await axios.post(`${config.API}/package/delete/`,{
+              package_id: packageID,
+  
+          }).then(response=>{
+              console.log(response);
+          })
+  
+          console.log('Delete request successful:', response);}
+      catch(error:any|undefined){
+          console.log('Error deleting package:', error);
+          console.log('Status Code:', error.response?.status);
+      }
+      onClose();
+      setDeleteModal(false);
+      
+    };
+  
+  
+    const handleCloseDeleteModal = () => {
+      setDeleteModal(false);
+    };
+
+      const closeModal = () => {
         setIsModalOpen(false);
       };
     
     const openEditModal = ()=>{
-        closeModal();
+        setIsModalOpen(false);
         setIsEditModalOpen(true);
       };
     
@@ -45,7 +78,13 @@ interface DetailsModalProps {
     <div>
     <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh] backdrop-blur-sm animate-zoom-in overflow-hidden'>
     <div className='flex justify-center align-center my-20'>
-        <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl">
+          <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl">
+          {deleteModal && (
+        <DeleteConfirmationModal
+          onClose={handleCloseDeleteModal}
+          onConfirmDelete={handleConfirmDelete}
+        />
+      )}
             <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'> {/*this is the header for the modal*/}
                 <div className='flex start items-center'><p><b>Package ID:</b> {packageID}</p></div>
                 <div className='flex justify-end'><button onClick={onClose} className='flex items-center text-3xl '><AiFillCloseCircle className='mx-2 detailsClose'/></button></div>
@@ -83,7 +122,7 @@ interface DetailsModalProps {
                 alt="Package Image"
                 onError={(e) => {
                   e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
-                  e.currentTarget.src = 'https://imgur.com/YNoZzmJ'; // Use a placeholder image as a fallback
+                  e.currentTarget.src = 'https://i.imgur.com/YNoZzmJ.png'; // Use a placeholder image as a fallback
                 }}
                 
                 className="w-full h-full object-cover rounded-2xl"
@@ -92,11 +131,11 @@ interface DetailsModalProps {
 
             </div>
             <div className='flex justify-end items-center h-[5vh]'>{/*This is the footer*/}
-                <button className='w-[5vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center duration-75 hover:border-black border-2'><AiFillDelete/>Delete</button>
+                <button className='w-[5vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center duration-75 hover:border-black border-2' onClick={handleDeleteClick}><AiFillDelete/>Delete</button>
                 <button className='w-[5vw] h-[4vh] bg-[#efb953] mx-5 rounded-md flex items-center justify-center duration-75 hover:border-black border-2' onClick={openEditModal}><HiMiniPencilSquare/>Edit</button>
                 {isEditModalOpen && 
                 <EditDetailsModal 
-                onClose={closeEditModal} 
+                onClose={closeEditModal}
                 packageID={packageID} 
                 packageName={packageName} 
                 price={price} 
