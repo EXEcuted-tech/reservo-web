@@ -1,10 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../../assets/css/userAccProfile.css';
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
 import { BsFillPencilFill } from "react-icons/bs";
+import axios from 'axios'
+import config from "../../../common/config"
+
 
 function UserProfilePage(){ 
+            const [data, setData] = useState<any>();
+
+    
+            const fetchData = async ()=>{
+                try{
+                    const response = await axios.get(`${config.API}/user/retrieve`, {
+                        params:{
+                            col: 'account_id',
+                            val: 1       //currently logged in user
+                        },
+                    })
+                    setData(response.data.users[0]);
+                    console.log(data);
+                }catch(error){
+                    console.log(error);
+                }
+            }
+
+            useEffect(() => {
+                fetchData(); // Call the async function to fetch data
+            },[]);
     return(
         <div className = "h-[80vh] bg-[#F9F2EA] font-[Poppins]">
 
@@ -17,32 +41,16 @@ function UserProfilePage(){
                     <div className="float-left border-r-[2px] border-black mt-[2vh]">
                         <FaRegUserCircle className="text-[21vh] mx-[15vh] mb-[2vh]"/>
 
-                        <h1 className="userName mb-[6vh]">Kathea Mari <button><BsFillPencilFill className="ml-1 "/></button></h1>
+                        <h1 className="userName mb-[6vh]">{data?.account_name} <button><BsFillPencilFill className="ml-1 "/></button></h1>
                         <table className='accTable'>
                             
                             <tr className="row">
-                                <td className="var">Gender:</td>
-                                <td className="value">Female</td>
-                            </tr>
-                            <tr className="row">
-                                <td className="var">Address:</td>
-                                <td className="value">123 Sesasmi Street st. , neverland peter pan amazon Cebu City</td>
-                            </tr>
-                            <tr className="row">
-                                <td className="var">BirthDate:</td>
-                                <td className="value">September 20, 2000</td>
-                            </tr>
-                            <tr className="row">
-                                <td className="var">Age:</td>
-                                <td className="value">23</td>
-                            </tr>
-                            <tr className="row">
                                 <td className="var">Email:</td>
-                                <td className="value">Example@example.com</td>
+                                <td className="value">{data?.email_address}</td>
                             </tr>
                             <tr className="row">
                                 <td className="var">Phone Number:</td>
-                                <td className="value">0937 462 5364</td>
+                                <td className="value">{data?.contact_number}</td>
                             </tr>
                             <tr>
                                 <td><button className="p-[7px] w-[3.2cm] mt-[1cm] flex flex-row items-center bg-[#FFA800] rounded-3xl"><MdOutlineLogout className="mr-[0.5cm]"/>Logout</button></td>
