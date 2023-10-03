@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {RiDashboard3Line} from 'react-icons/ri'
 import {IoCalendarSharp} from 'react-icons/io5'
 import {GiJuggler} from 'react-icons/gi'
@@ -6,6 +6,8 @@ import {AiFillCloseCircle} from 'react-icons/ai'
 import {MdGroups2} from 'react-icons/md'
 import Chart from 'react-google-charts'
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
+import axios from 'axios'
+import config from '../../../common/config'
 
 const LineData = [
   ['x', 'Bookings'],
@@ -42,6 +44,31 @@ const LineChartOptions = {
 }
 
 const MerchDashboard = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [userInfo, setUserInfo] = useState<any[]>([]);
+  const userDetails = localStorage.getItem('userDetails');
+  const userID = userDetails ? JSON.parse(userDetails).userID : "0";
+  const userName = userDetails ? JSON.parse(userDetails).user: "UNDEFINED";
+  const fetchInfo = async() =>{
+    console.log(localStorage.userDetails)
+    try{
+      const response = await axios.post(`${config.API}/account/retrieve`, {
+        params:{
+          col: "account_id",
+          val: userID
+        }
+      })
+
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchInfo();
+  }, []);
+  
+
   return (
     <div className='flex-col'>
       {/* Header Section */}
@@ -51,7 +78,7 @@ const MerchDashboard = () => {
            <div className='w-[60%] p-[1%] text-center'>
               <div className='align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-b from-[#EC0000] to-black'>
                 <h1 className='text-[1.8em] text-white'>
-                  Welcome, Kathea Marie!
+                  Welcome, {userName}!
                 </h1>
                 <p className='text-[1.3em] text-white'><br/>Lorem ipsum dolor sit amet, <br/>consectetur adipiscing elit!</p>
               </div>
