@@ -18,8 +18,8 @@ interface PackageItem {
     package_desc: string;
     price: string;
     tags: string[];
-    date_start: string;
-    date_end: string;
+    date_start: Date;
+    date_end: Date;
     visibility: string;
     item_list: string[];
     image_filepath: string;
@@ -37,7 +37,9 @@ const PackageManager = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [sort, setSort] = useState('package_name');
     const userDetails = localStorage.getItem('userDetails');
-    const[merchant_id, setMerchantId] = useState((userDetails ? JSON.parse(userDetails).merchant_id : "0"));
+    //const merchant_id = (userDetails? JSON.parse(userDetails).merchant_id:0);
+    //Use this in actual working localStorage for merchant_id
+    const merchant_id = 1;
 
     // Function to handle sorting option change
     const handleSortChange = (event: { target: { value: any; }; }) => {
@@ -58,7 +60,7 @@ const PackageManager = () => {
     };
 
     const fetchData = async (selectedSortOption: string | undefined) => {
-      setMerchantId(1);//remove this
+      //setMerchantId(1);//remove this
       setIsLoading(true);
         try {
           
@@ -82,22 +84,10 @@ const PackageManager = () => {
             },
           });
 
-          const formattedPackages = response.data.data.map((packageItem: { date_start: string | number | Date; date_end: string | number | Date; }) => ({
-              ...packageItem,
-              date_start: new Date(packageItem.date_start).toLocaleDateString('en-US'),
-              date_end: new Date(packageItem.date_end).toLocaleDateString('en-US'),
-            }));
-
-
-            const formattedUnpublishedPackages = unpublishedresponse.data.data.map((packageItem: { date_start: string | number | Date; date_end: string | number | Date; }) => ({
-              ...packageItem,
-              date_start: new Date(packageItem.date_start).toLocaleDateString('en-US'),
-              date_end: new Date(packageItem.date_end).toLocaleDateString('en-US'),
-            }));
-            
-          setPackages(formattedPackages)
-          setUnpublishedPackages(formattedUnpublishedPackages); // Assuming packages are returned in the 'data' property of the response
+          setPackages(response.data.data)
+          setUnpublishedPackages(unpublishedresponse.data.data)
           setIsLoading(false);
+          
         } catch (error) {
           console.error('Error fetching packages:', error);
           setIsLoading(false);
@@ -108,7 +98,6 @@ const PackageManager = () => {
         fetchData(sort);
       }, [sort]);
 
-      console.log(packages);
 
 
   const refreshPackageManager = () => {
@@ -160,8 +149,8 @@ const PackageManager = () => {
                   key={packageItem.package_id}
                   package_id={packageItem.package_id}
                   packageName={packageItem.package_name}
-                  date_start={packageItem.date_start}
-                  date_end={packageItem.date_end}
+                  date_start={new Date(packageItem.date_start)}
+                  date_end={new Date(packageItem.date_end)}
                   description={packageItem.package_desc} // Make sure to use the correct property name
                   price={packageItem.price} // Make sure to use the correct property name
                   tags={packageItem.tags ? packageItem.tags.split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags
@@ -170,7 +159,8 @@ const PackageManager = () => {
                   filePath={packageItem.image_filepath}
                   oneButton={false} 
                   time_start={packageItem.time_start} 
-                  time_end={packageItem.time_end}                />
+                  time_end={packageItem.time_end}                
+                  />
               ))
               
             )}
@@ -198,8 +188,8 @@ const PackageManager = () => {
                   key={packageItem.package_id}
                   package_id={packageItem.package_id}
                   packageName={packageItem.package_name}
-                  date_start={packageItem.date_start}
-                  date_end={packageItem.date_end}
+                  date_start={new Date(packageItem.date_start)}
+                  date_end={new Date(packageItem.date_end)}
                   description={packageItem.package_desc}
                   price={packageItem.price}
                   tags={packageItem.tags ? packageItem.tags.split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags

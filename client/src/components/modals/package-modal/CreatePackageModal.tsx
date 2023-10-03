@@ -187,15 +187,16 @@ interface CreatePackageModal{
 
             </div>
             <div className='flex justify-end items-center h-[5vh]'>{/*This is the footer*/}
-                <button className='w-[5vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center' onClick={onClose}><AiFillDelete/>Cancel</button>
+                <button className='w-[8vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center' onClick={onClose}><AiFillDelete/>Cancel</button>
                 <button
-                  className={`w-[5vw] h-[4vh] mx-5 rounded-md ${
-                    isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#dae8cc]'
+                  className={`w-[8vw] h-[4vh] mx-5 rounded-md duration-300 ${
+                    isLoading ? 'bg-[#bbd89e] cursor-not-allowed' : 'bg-[#7ac033]'
                   } flex items-center justify-center`}
                   disabled={isLoading}
                   onClick={createPackage}
                 >
-                  <IoAddCircleSharp /> Add
+                  {isLoading? <>Processing...</>:<><IoAddCircleSharp />Add</>}
+                  
                 </button>
 
             </div>
