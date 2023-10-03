@@ -33,8 +33,6 @@ function UserProfilePage(){
                     })
                     setData(response.data.users[0]);
                     setReservations(result.data.reservations);
-                    console.log(reservations.length);
-                    console.log(setData);
                     setIsLoading(false);
                 }catch(error){
                     console.log(error);
@@ -43,7 +41,6 @@ function UserProfilePage(){
 
             const handleLogout = () =>{
                 localStorage.removeItem('userDetails');
-                console.log(localStorage);
                 Navigate('/logout');
             }
 
