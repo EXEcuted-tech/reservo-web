@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import colors from '../../../common/colors'
 import { BsFillPersonFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
@@ -7,16 +7,82 @@ import { BiSolidLockAlt } from "react-icons/bi";
 import background from '../../../assets/background-pattern.png';
 import guykey from '../../../assets/usersign.png';
 import { useNavigate } from 'react-router';
+import config from '../../../common/config';
+import axios from 'axios';
 
 
 const MerchSignUp = () => {
   const Navigate = useNavigate();
+  const [username, setUsername]= useState("");
+  const [businessName, setBusinessName]= useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword]= useState("");
+  const [contactNum, setContactNum]= useState("");
+  const [confirmPassword, setConfirmPassword]= useState("");
+  const [position, setPosition] = useState("");
+  const [error,setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [passwordMismatch, setPasswordMismatch] = useState(false);
+
+  const handleSubmit = () => {
+    try{
+      if (password == confirmPassword){
+        const response = axios.post(`${config.API}/merchregister`,{
+          merchant_name: businessName,
+          username: username,
+          email_address: email,
+          position: position,
+          contact_number: contactNum,
+          password: password
+        });
+      }else{
+        setPasswordMismatch(true);
+      }
+        
+    }catch(error){
+        console.log("DB ERR: "+error);
+    }
+  }
+
+  
+
+  const handleChange = (e:any|null) => {
+    const { name, value } = e.target;
+    
+    // Use the name of the input field to determine which state variable to update
+    switch (name) {
+      case 'username':
+        setUsername(value);
+        break;
+      case 'businessName':
+        setBusinessName(value);
+        break;
+      case 'email':
+        setEmail(value);
+        break;
+      case 'password':
+        setPassword(value);
+        break;
+      case 'contactNum':
+        setContactNum(value);
+        break;
+      case 'confirmPassword':
+        setConfirmPassword(value);
+        break;
+      case 'position':
+        setPosition(value);
+        break;
+      default:
+        break;
+    }
+  };
 
   const handleLoginClick = () => {
     Navigate('/adlogin')
   }
 
   return (
+
 
 
     <div className=''>
@@ -52,17 +118,17 @@ const MerchSignUp = () => {
                 <div className='mt-2.5'>
                   <BsFillPersonFill className='float-left text-[21px]'  />
                   <label className='float-left ml-[2px]'>Username</label>
-                  <input type="username" className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="text" name="username" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 <div className='mt-2.5'>
                   <BsBriefcaseFill className='float-left ml-[2px] text-[18px]'/>
                   <label  className='float-left ml-[4px]'>Business Name</label>
-                  <input type="text" className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="text" name="businessName" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 <div className='mt-2.5'>
                   <BsFillPersonVcardFill className='float-left text-[19px]'/>
                   <label className='float-left ml-[4px]'>Position</label>
-                  <input type="text" className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="text" name="position" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 <div className='mt-2.5'>
                   <BsPersonAdd className='float-left text-[21px]'/>
@@ -79,34 +145,39 @@ const MerchSignUp = () => {
                 <div className='mt-2.5'>
                   <MdEmail className='float-left text-[21px]'  />
                   <label className='float-left ml-[2px]'>Email</label>
-                  <input type="email" className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="email" name="email" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 <div className='mt-2.5'>
                   <BsFillTelephoneFill className='float-left text-[20px]'/>
                   <label  className='float-left ml-[3px]'>Contact Number</label>
-                  <input type="text" className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="text" name="contactNum" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 {/* //Halu */}
                 <div className='mt-2.5'>
                   <BiSolidLockAlt className='float-left text-[19px]'/>
                   <label className='float-left ml-[4px]'>Password</label>
-                  <input type="password" className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="password" name="password" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 <div className='mt-2.5'>
                   <BiSolidLockAlt className='float-left text-[19px]'/>
                   <label className='float-left ml-[3px]'>Confirm Password</label>
-                  <input type="password" className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="password" name="confirmPassword" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
               
               </div>
             </div>
-            <div className='text-center mt-5'>
-              <input type='submit' className='no-underline inline-block text-[#840705] border text-lg relative cursor-pointer
+            <div className='text-center mt-5  grid grid-cols-2'>
+              <div className='flex items-center justify-center'>{passwordMismatch? <><p className='text-white font-poppins float-left animate-pulse'>Passwords Do Not Match.</p></>:<></>}</div>
+              <div>
+              <button type='submit' onClick={handleSubmit} className='no-underline inline-block text-[#840705] border text-lg relative cursor-pointer
                                                 shadow-[inset_0_0_0_white] w-[220px] px-6 py-[11px] rounded-[100px] border-solid 
-                                                border-[#e72a2a] font-poppins font-bold bg-[white]' value='Sign Up'>
+                                                border-[#e72a2a] font-poppins font-bold bg-[white]' value='Sign Up'>Submit
                                                   
-              </input>
+              </button>
+              </div>
+              
             </div>
+           
             
           </div>
 

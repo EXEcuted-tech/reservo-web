@@ -36,6 +36,8 @@ const PackageManager = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [sort, setSort] = useState('package_name');
+    const userDetails = localStorage.getItem('userDetails');
+    const[merchant_id, setMerchantId] = useState((userDetails ? JSON.parse(userDetails).merchant_id : "0"));
 
     // Function to handle sorting option change
     const handleSortChange = (event: { target: { value: any; }; }) => {
@@ -56,12 +58,14 @@ const PackageManager = () => {
     };
 
     const fetchData = async (selectedSortOption: string | undefined) => {
+      setMerchantId(1);//remove this
       setIsLoading(true);
         try {
+          
           const response = await axios.get(`${config.API}/package/retrieveparams`, {
             params: {
               col1: 'merchant_id',
-              val1: 1, // Replace with the actual merchant ID
+              val1: merchant_id, // Replace with the actual merchant ID
               col2: 'visibility',
               val2: 'PUBLISHED',
               order_param: selectedSortOption,
@@ -71,7 +75,7 @@ const PackageManager = () => {
           const unpublishedresponse = await axios.get(`${config.API}/package/retrieveparams`, {
             params: {
               col1: 'merchant_id',
-              val1: 1, // Replace with the actual merchant ID
+              val1: merchant_id, // Replace with the actual merchant ID
               col2: 'visibility',
               val2: 'NOT PUBLISHED',
               order_param: selectedSortOption,
@@ -101,13 +105,13 @@ const PackageManager = () => {
       };
 
     useEffect(() => {
-        fetchData(sort); // Call the async function to fetch data
+        fetchData(sort);
       }, [sort]);
 
       console.log(packages);
 
 
-      const refreshPackageManager = () => {
+  const refreshPackageManager = () => {
         fetchData(sort); // Call the async function to fetch data
       };
 
