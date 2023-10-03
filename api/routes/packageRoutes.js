@@ -1,12 +1,13 @@
 const express=require('express');
 const router = express.Router();
-const createPackageValidator=require('../validations/packageValidator')
-const {createPackage,updatePackage,retrieveAll,retrieveByParams,deletePackage} = require('../controllers/packageController')
+const [createPackageValidator, updatePackageValidator]=require('../validations/packageValidator')
+const {createPackage,updatePackage,retrieveAll,retrieveByTwoParams, retrieveByParams,deletePackage} = require('../controllers/packageController')
 
 router.post('/create',createPackageValidator,createPackage);
-router.put('/update',createPackageValidator,updatePackage);
+router.post('/update',updatePackageValidator,updatePackage);
 router.get('/retrieve',retrieveByParams);
+router.get('/retrieveparams',retrieveByTwoParams);
 router.get('/retrieve_all',retrieveAll);
-router.delete('/delete',deletePackage);
+router.post('/delete',deletePackage);
 
 module.exports = router;

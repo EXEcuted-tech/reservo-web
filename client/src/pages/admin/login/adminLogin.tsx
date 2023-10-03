@@ -5,11 +5,14 @@ import background from '../../../assets/background-pattern.png'
 import logo from '../../../assets/temp-logo-2.png'
 
 import { RiReservedFill } from 'react-icons/ri'; 
+import config from '../../../common/config'
+import axios from 'axios'
 
 const AdminLogin = () => {
-  const [invalid , setInvalid] = useState(false);
+    const [invalid , setInvalid] = useState(false);
     const [email , setEmail] = useState('');
     const [pass , setPass] = useState('');
+    const [errMess , setErrMess] = useState('Undetected Error');
 
     const Navigate = useNavigate();
 
@@ -17,21 +20,45 @@ const AdminLogin = () => {
         event.preventDefault();
 
         if(email === '' || pass === ''){
+            setErrMess("Fill all the Fields Required");
             setInvalid(true);
         }
         else{
-            // backend here
-            if(email === '19103296@usc.edu.ph'){
-                if(pass === '123'){
-                    Navigate('/');
+            console.log(email);
+            console.log(pass);
+            axios.post(`${config.API}/login`,{
+                account_email: email , 
+                password : pass,
+                account_type: 10
+            }).then(
+                (res)=>{
+                    //if success means the email is exist and the password is correct
+                    if(res.data.success){
+                        localStorage.setItem('userDetails', JSON.stringify(res.data.account_info));
+                        Navigate('/merchdash')
+                    }
+                    else{
+                        switch(res.data.message){
+                            case 'Password is required':
+                                setErrMess(res.data.message);
+                                setInvalid(true);
+                                break;
+                            case 'Password is too short':
+                                setErrMess(res.data.message);
+                                setInvalid(true);
+                                break;
+                            default:
+                                setErrMess("Email does not Exist");
+                                setInvalid(true);
+                        }
+                    }
+                    
                 }
-                else{
-                    setInvalid(true);
-                }
-            }
-            else{
+            ).catch((err) => { 
+                //Insert here something to store the error message
+                setErrMess(err.response.data.message);
                 setInvalid(true);
-            }
+            });
         }
     }
 
@@ -66,7 +93,7 @@ const AdminLogin = () => {
                 <div className="TitleHeader space-y-5 text-center">
                     <span className='text-[28px] capitalize font-bold text-white'>Login to your Account</span>
                     <div className="invalid p-[5px]">
-                    <span className={(!invalid) ? 'text-[#840705] hidden' : 'text-[#840705]'}>invalid User or Password please Try again</span>
+                    <span className={(!invalid) ? 'text-white hidden' : 'text-white'}>{errMess} please Try again</span>
                 </div>
                 </div>
                 <form className='formBox w-[70%] flex flex-col' onSubmit={submitHandler} >

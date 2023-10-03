@@ -5,7 +5,7 @@ import logo from '../../../assets/temp-logo-2w.png'
 
 import { RiReservedFill } from 'react-icons/ri'; 
 import { Link, useNavigate } from 'react-router-dom';
-
+import config from '../../../common/config'
 import axios from 'axios'
 
 
@@ -14,6 +14,7 @@ const UserLogin = () => {
     const [invalid , setInvalid] = useState(false);
     const [email , setEmail] = useState('');
     const [pass , setPass] = useState('');
+    const [errMess , setErrMess] = useState('Invalid Credentials');
     const Navigate = useNavigate();
 
     const guestHandler = () =>{
@@ -24,21 +25,38 @@ const UserLogin = () => {
         event.preventDefault();
 
         if(email === '' || pass === ''){
+            setErrMess("Fill all the Fields Required");
             setInvalid(true);
         }
         else{
-            axios.post('http://localhost:5000/login',{
+            axios.post(`${config.API}/login`,{
                 account_email: email , 
                 password : pass,
                 account_type: 1
             }).then((res)=>{
-                localStorage.setItem('userDetails', JSON.stringify(res.data.account_info));
-                Navigate('/')
+                if(res.data.success){
+                    localStorage.setItem('userDetails', JSON.stringify(res.data.account_info));
+                    Navigate('/')
+                }
+                else{
+                    switch(res.data.message){
+                        case 'Password is required':
+                            setErrMess(res.data.message);
+                            setInvalid(true);
+                            break;
+                        case 'Password is too short':
+                            setErrMess(res.data.message);
+                            setInvalid(true);
+                            break;
+                        default:
+                            setErrMess(res.data.message);
+                            setInvalid(true);
+                    }
+                }
             }).catch((err) => { 
                 //Insert here something to store the error message
-                if(err.response.data.message=='Account Type Mismatch'){
-                    setInvalid(true);
-                }
+                setErrMess(err.response.data.message);
+                setInvalid(true);
             });
         }
     }
@@ -77,17 +95,17 @@ const UserLogin = () => {
                 <div className="TitleHeader space-y-5 text-center">
                     <span className='text-[28px] capitalize font-bold '>Login to your Account</span>
                     <div className="invalid p-[5px]">
-                        <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>invalid User or Password please Try again</span>
+                        <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>{errMess}. Please try again!</span>
                     </div>
                 </div>
                 <form className='formBox w-[70%] flex flex-col'>
                     <div className="inputs">
                         <div className="I-Box flex flex-col space-y-2 mb-[20px]">
-                            <label htmlFor="email" className='font-thin'>Email:</label>
+                            <label htmlFor="email" className='font-thin'>Email</label>
                             <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="email" id="Email" value={email} onChange={(e) =>{setEmail(e.target.value)}} required/>
                         </div>
                         <div className="I-Box flex flex-col space-y-2 mb-[10px]">
-                            <label htmlFor="pass" className='font-thin'>Password:</label>
+                            <label htmlFor="pass" className='font-thin'>Password</label>
                             <input type="password" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}} required/>
                         </div>
                     </div>
@@ -97,10 +115,10 @@ const UserLogin = () => {
                     <div className="buttons flex flex-col items-center space-y-5">
                         <button type='submit' onClick={submitHandler} className='button bg-[#DD2803] text-white p-[0.5em] w-[50%] rounded-full 
                                 hover:bg-[#9a1a00] font-bold'>Sign in</button>
-                        <button type='submit' onClick={guestHandler} className='button text-[#DD2803] p-[0.5em] font-bold w-[50%] rounded-full border-solid border-2 border-[#DD2803] font-bold'>Log in as Guest</button>
+                        <button type='submit' onClick={guestHandler} className='button text-[#DD2803] p-[0.5em] font-[bold] w-[50%] rounded-full border-solid border-2 border-[#DD2803] font-bold'>Log in as Guest</button>
                         <div className="signBox">
                             <span className='capitalize'>need an account ?</span>
-                            <Link to={'/usRegister'} className='link text-[#DD2803] font-bold pl-1 hover:text-[#9a1a00]'>Sign Up</Link>
+                            <Link to={'/usregister'} className='link text-[#DD2803] font-bold pl-1 hover:text-[#9a1a00]'>Sign Up</Link>
                         </div>    
                     </div>
                 </form>

@@ -1,10 +1,21 @@
 const createPaymentValidator = (req,res,next)=>{
-    if(!req.body.text){
-        return res.json({
-            success:false,
-            error:{text:['text is required']},
-        })
+    const { balance } = req.body;
+
+    const errors = {};
+
+    if (!balance || typeof balance !== 'number') {
+        errors.balance = ['Balance is required and must be a number'];
     }
+
+    if (Object.keys(errors).length > 0) {
+        return res.json({
+            status: 404,
+            success: false,
+            error: errors,
+        });
+    }
+
+    next();
 }
 
 module.exports = createPaymentValidator;

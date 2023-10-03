@@ -1,5 +1,6 @@
 
 .Card{
+    
     background-color: rgb(255, 255, 255);
     border-radius: 2vh;
     box-shadow:
@@ -66,4 +67,8 @@
 
 .detailsClose{
     transition: 0.3s;
+}
+
+.description{
+    overflow-wrap: break-word;
 }

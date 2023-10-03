@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ReserveCard from './reserveCard'
+import config from '../../../../common/config'
 import axios from 'axios'
 
 const AllBookings: React.FC<ReserveProps> = (props) => {
@@ -7,7 +8,7 @@ const AllBookings: React.FC<ReserveProps> = (props) => {
   const [reservations, setReservations] = useState<ReserveCardProps[]>([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/reserve/retrieve_all").then((res) => {
+    axios.get(`${config.API}/reserve/retrieve_all`).then((res) => {
       // Parse date strings into Date objects
       const parsedReservations = res.data.records.map((record: any) => ({
         ...record,
@@ -20,10 +21,10 @@ const AllBookings: React.FC<ReserveProps> = (props) => {
   }, []);
 
   return (
-    <div>
-      <div className='font-poppins mx-[3%] mt-[1%]'>
-        <ReserveCard 
-          bookings={reservations} openModal={openModal} />
+    <div className='h-[82.5vh] overflow-y-auto'>
+      <div className='font-poppins mx-[3%] mt-[1%] mb-[1%]'>
+          <ReserveCard 
+            bookings={reservations} openModal={openModal} />
       </div>
     </div>
   )

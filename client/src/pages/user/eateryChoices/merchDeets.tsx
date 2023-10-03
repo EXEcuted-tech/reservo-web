@@ -77,7 +77,7 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
   }
 
   return (
-    <div className={`animate-slide-right font-poppins bg-[#F9F2EA] h-[100%] ${openRatingMod ? 'z-[-10]' : 'z-1'}`}>
+    <div className={`font-poppins bg-[#F9F2EA] h-[100%] ${openRatingMod ? 'z-[-10]' : 'z-1'}`}>
        <div className='text-[#DD2803] ml-[2%]'>
          <h1 className='text-[2.5em] py-[1%] font-bold flex items-center'>
             <AiOutlineArrowLeft className='text-black mr-[1%] hover:text-[#DD2803]'
@@ -148,37 +148,34 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
             <div className='PublishedPackages mt-[-2%]'>
             <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl">
                 <Card
-                    packageID='10379'
+                    package_id='10379'
                     packageName='Lechon Kawali'
                     description='A lechon kawali served hot 1kg good for four people.'
                     price='360.00'
                     tags={["Best-Seller", "Popular"]}
                     visibility='Visible'
                     items={["Lechon 1KG"]}
-                    oneButton={true}
-                />
+                    oneButton={true} key={''} date_start={''} date_end={''} time_start={''} time_end={''} filePath={''}/>
 
                 <Card
-                    packageID='10379'
+                    package_id='10379'
                     packageName='Lechon Kawali'
                     description='A lechon kawali served hot 1kg good for four people.'
                     price='360.00'
                     tags={["Best-Seller", "Popular"]}
                     visibility='Visible'
                     items={[]}
-                    oneButton={true}
-                />
+                    oneButton={true} key={''} date_start={''} date_end={''} time_start={''} time_end={''} filePath={''}/>
 
                 <Card
-                    packageID='10289'
+                    package_id='10289'
                     packageName='Combo Meal'
                     description='A bang for the buck meal'
-                    price = '190.00'
+                    price='190.00'
                     tags={["Best-Seller", "Popular"]}
                     visibility='Visible'
                     items={["1pc Rice, 1pc Chicken, 16oz Drink"]}
-                    oneButton={true}
-                />
+                    oneButton={true} key={''} date_start={''} date_end={''} time_start={''} time_end={''} filePath={''}/>
 
 
             </div> 
