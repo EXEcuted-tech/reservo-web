@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FormEvent, useEffect } from 'react'
 import colors from '../../../common/colors'
 import { BsFillPersonFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
@@ -6,85 +6,28 @@ import { BsFillTelephoneFill, BsBriefcaseFill, BsPersonAdd, BsFillImageFill, BsF
 import { BiSolidLockAlt } from "react-icons/bi";
 import background from '../../../assets/background-pattern.png';
 import guykey from '../../../assets/usersign.png';
-import { useNavigate } from 'react-router';
-import config from '../../../common/config';
 import axios from 'axios';
 
-
 const MerchSignUp = () => {
-  const Navigate = useNavigate();
-  const [username, setUsername]= useState("");
-  const [businessName, setBusinessName]= useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword]= useState("");
-  const [contactNum, setContactNum]= useState("");
-  const [confirmPassword, setConfirmPassword]= useState("");
-  const [position, setPosition] = useState("");
-  const [error,setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [passwordMismatch, setPasswordMismatch] = useState(false);
+  const [username,setUsername] = ("");
+  const [business,setBusiness] = ("");
+  const [position,setPosition] = ("");
+  const [email,setEmail] = ("");
 
-  const handleSubmit = () => {
-    try{
-      if (password == confirmPassword){
-        const response = axios.post(`${config.API}/merchregister`,{
-          merchant_name: businessName,
-          username: username,
-          email_address: email,
-          position: position,
-          contact_number: contactNum,
-          password: password
-        });
-      }else{
-        setPasswordMismatch(true);
-      }
-        
-    }catch(error){
-        console.log("DB ERR: "+error);
-    }
-  }
-
-  
-
-  const handleChange = (e:any|null) => {
-    const { name, value } = e.target;
+  //store accounts
+  //match business name and account
+  //store in merchant account field
+  useEffect(() => {
     
-    // Use the name of the input field to determine which state variable to update
-    switch (name) {
-      case 'username':
-        setUsername(value);
-        break;
-      case 'businessName':
-        setBusinessName(value);
-        break;
-      case 'email':
-        setEmail(value);
-        break;
-      case 'password':
-        setPassword(value);
-        break;
-      case 'contactNum':
-        setContactNum(value);
-        break;
-      case 'confirmPassword':
-        setConfirmPassword(value);
-        break;
-      case 'position':
-        setPosition(value);
-        break;
-      default:
-        break;
-    }
-  };
+  }, []);
 
-  const handleLoginClick = () => {
-    Navigate('/adlogin')
+  const merchSignUp = (event: FormEvent) =>{
+    event.preventDefault();
+
+    axois.post(`${config.API}/merchant/create`)
   }
 
   return (
-
-
-
     <div className=''>
       <div className='content-center overflow-hidden font-poppins'>
         {/* Background Picture */}

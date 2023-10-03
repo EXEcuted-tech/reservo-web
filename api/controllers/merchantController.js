@@ -2,8 +2,8 @@ const express = require('express');
 const db = require('./a_db'); 
 
 const createMerchant = (req,res)=>{
-    const newMerchant = req.body;
-
+    const { account_name, account_email, password, account_type, contact_number } = req.body;
+    const sql = "INSERT INTO"
     db.query('INSERT INTO merchant (merchant_name,email_address,logo,contact_number,address,settings,sched_id) VALUES (?,?,?,?,?,?,?,?,?,?)',
     [
         newMerchant.merchant_name,
