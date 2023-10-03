@@ -3,6 +3,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
 import { BsFillPencilFill } from "react-icons/bs";
 import axios from 'axios'
+import { Link, useNavigate } from 'react-router-dom';
 import config from "../../../common/config"
 import GenSpinner from '../../../components/loaders/genSpinner';
 
@@ -13,6 +14,7 @@ function UserProfilePage(){
             const userDetails = localStorage.getItem('userDetails');
             const userID = userDetails ? JSON.parse(userDetails).userID : "0";
             const [isLoading, setIsLoading] = useState(false);
+            const Navigate = useNavigate();
         
             const fetchData = async ()=>{
                 try{
@@ -37,6 +39,12 @@ function UserProfilePage(){
                 }catch(error){
                     console.log(error);
                 }
+            }
+
+            const handleLogout = () =>{
+                localStorage.removeItem('userDetails');
+                console.log(localStorage);
+                Navigate('/logout');
             }
 
             useEffect(() => {
@@ -75,7 +83,7 @@ function UserProfilePage(){
                                             <td className="w-[250px]">{data.contact_number}</td>
                                         </tr>
                                         <tr>
-                                            <td><button className="p-[7px] w-[3.2cm] mt-[0.8cm] flex flex-row items-center bg-[#FFA800] rounded-3xl"><MdOutlineLogout className="mr-[0.5cm]" />Logout</button></td>
+                                            <td><button onClick={handleLogout} className="p-[7px] w-[3.2cm] mt-[0.8cm] flex flex-row items-center bg-[#FFA800] rounded-3xl"><MdOutlineLogout className="mr-[0.5cm]" />Logout</button></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -113,7 +121,8 @@ function UserProfilePage(){
                                                 <td className="py-1 px-[1vw] text-center">{reservation.organizer}</td>
                                                 <td className="py-1 px-[1vw] text-center">{reservation.eventSize}</td>
                                                 <td className="py-1 px-[1vw] row flex justify-center items-center">
-                                                <div className="m-2 bg-[#CCFFD1] text-[#00A310] wx-[50px] ">Done</div>
+                                                    {reservation.status == "Finished"? <><div className="m-2 bg-[#CCFFD1] text-[#00A310] wx-[50px] ">Ongoing</div></>:<div className="m-2 bg-[#50b0d6] text-[#000000] wx-[50px] ">Ongoing</div>}
+                                                
                                                 </td>
                                             </tr>
                                             ))
