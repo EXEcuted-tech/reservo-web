@@ -8,6 +8,7 @@ import Chart from 'react-google-charts'
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
 import axios from 'axios'
 import config from '../../../common/config'
+import GenSpinner from '../../../components/loaders/genSpinner'
 
 const LineData = [
   ['x', 'Bookings'],
@@ -43,22 +44,70 @@ const LineChartOptions = {
   }
 }
 
+
 const MerchDashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState<any[]>([]);
   const userDetails = localStorage.getItem('userDetails');
   const userID = userDetails ? JSON.parse(userDetails).userID : "0";
   const userName = userDetails ? JSON.parse(userDetails).user: "UNDEFINED";
+  const [reservationCount, setReservationCount] = useState(0);
+  const [cateredCount, setCateredCount] = useState(0);
+  const [cancelledCount, setCancelledCount] = useState(0);
+  const [todayCount, setTodayCount] = useState(0);
+  
+  function getTodaysDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Add 1 because months are zero-based
+    const day = String(today.getDate()).padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  }
+
   const fetchInfo = async() =>{
     console.log(localStorage.userDetails)
     try{
-      const response = await axios.post(`${config.API}/account/retrieve`, {
-        params:{
-          col: "account_id",
-          val: userID
+      const responseCount = await axios.get(`${config.API}/reserve/retrievecount`, {
+        params: {
+          col: "merchant_id",
+          val: "1" //needs to be changed to get through loc storage
         }
       })
+      setReservationCount(responseCount.data.count);
 
+      const responseCatered = await axios.get(`${config.API}/reserve/retrievecountparams`,{
+        params:{
+          col1: "merchant_id",
+          val1: "1", //needs to be changed to get through loc storage
+          col2: "status",
+          val2: "Finished"
+        }
+      });
+      setCateredCount(responseCatered.data.count);
+
+      const responseCancelled = await axios.get(`${config.API}/reserve/retrievecountparams`,{
+        params:{
+          col1: "merchant_id",
+          val1: "1", //needs to be changed to get through loc storage
+          col2: "status",
+          val2: "Cancelled"
+        }
+      });
+      setCancelledCount(responseCancelled.data.count);
+
+      
+      const responseToday = await axios.get(`${config.API}/reserve/retrievecount3params`,{
+        params:{
+          col1: "merchant_id",
+          val1: "1", //needs to be changed to get through loc storage
+          col2: "status",
+          val2: "Cancelled",
+          col3: "res_date",
+          val3: getTodaysDate() //todays date
+        }
+      });
+      setTodayCount(responseToday.data.count);
     }catch(error){
       console.log(error);
     }
@@ -87,7 +136,7 @@ const MerchDashboard = () => {
               <div className='p-[0.5%] h-[100%] rounded-3xl bg-black grid-cols-2 grid-rows-2 grid gap-1'>
                 <div className='bg-[#660605] rounded-tl-2xl flex'>
                   <div className='w-[70%]'>
-                    <p className='text-white mt-[-5%] text-[5em] font-bold display'>32</p>
+                    <p className="text-white mt-[-5%] text-[5em] font-bold display">{reservationCount}</p>
                     <p className='text-white text-[1.2em] mt-[-13%]'>RESERVATION</p>
                   </div>
                   <div className='w-[30%] pt-[10%] text-center'>
@@ -96,7 +145,7 @@ const MerchDashboard = () => {
                 </div>
                 <div className='bg-[#660605] rounded-tr-2xl flex'>
                 <div className='w-[70%]'>
-                    <p className='text-white mt-[-5%] text-[5em] font-bold display'>4</p>
+                    <p className='text-white mt-[-5%] text-[5em] font-bold display'>{todayCount}</p>
                     <p className='text-white text-[1.2em] mt-[-13%]'>TODAY'S TABLE</p>
                   </div>
                   <div className='w-[30%] pt-[10%] text-center'>
@@ -105,7 +154,7 @@ const MerchDashboard = () => {
                 </div>
                 <div className='bg-[#660605] rounded-bl-2xl flex'>
                 <div className='w-[70%]'>
-                    <p className='text-white mt-[-5%] text-[5em] font-bold display'>25</p>
+                    <p className='text-white mt-[-5%] text-[5em] font-bold display'>{cateredCount}</p>
                     <p className='text-white text-[1.2em] mt-[-13%]'>CATERED</p>
                   </div>
                   <div className='w-[30%] pt-[10%] text-center'>
@@ -114,7 +163,7 @@ const MerchDashboard = () => {
                 </div>
                 <div className='bg-[#660605] rounded-br-2xl flex'>
                 <div className='w-[70%]'>
-                    <p className='text-white mt-[-5%] text-[5em] font-bold display'>3</p>
+                    <p className='text-white mt-[-5%] text-[5em] font-bold display'>{cancelledCount}</p>
                     <p className='text-white text-[1.2em] mt-[-13%]'>CANCELLED</p>
                   </div>
                   <div className='w-[30%] pt-[10%] text-center'>
