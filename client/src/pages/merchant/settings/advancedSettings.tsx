@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import colors from '../../../common/colors'
 
 export default function AdvancedSettings(){
+    const request = {
+        merchant_id: 3
+    }
+    
     const HandleEvent = () => {
-        //smth
+        axios.post(`http://localhost:5000/merchant/delete`, { data: request})
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
     }
     return(
         <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg">

@@ -28,7 +28,7 @@ const authenticationValidator = (req,res,next)=>{
         })
     }
 
-    if(req.body.account_name.length < 8 || !req.body.account_name){
+    if(req.body.account_name.length < 5 || !req.body.account_name){
         return res.status(400).json({
             success:false,
             error:'Account name is invalid'
