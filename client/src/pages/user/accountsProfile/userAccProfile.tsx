@@ -3,26 +3,45 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
 import { BsFillPencilFill } from "react-icons/bs";
 import axios from 'axios'
+import { Link, useNavigate } from 'react-router-dom';
 import config from "../../../common/config"
+import GenSpinner from '../../../components/loaders/genSpinner';
 
 
 function UserProfilePage(){ 
             const [data, setData] = useState<any>();
-
-    
+            const [reservations, setReservations] = useState<any[]>([]);
+            const userDetails = localStorage.getItem('userDetails');
+            const userID = userDetails ? JSON.parse(userDetails).userID : "0";
+            const [isLoading, setIsLoading] = useState(false);
+            const Navigate = useNavigate();
+        
             const fetchData = async ()=>{
                 try{
+                    setIsLoading(true);
                     const response = await axios.get(`${config.API}/user/retrieve`, {
                         params:{
                             col: 'account_id',
-                            val: 1       //currently logged in user
+                            val: userID       //currently logged in user
                         },
                     })
+                    const result = await axios.get(`${config.API}/user/retrieve`,{
+                        params:{
+                            col: 'account_id',
+                            val: userID
+                        }
+                    })
                     setData(response.data.users[0]);
-                    console.log(data);
+                    setReservations(result.data.reservations);
+                    setIsLoading(false);
                 }catch(error){
                     console.log(error);
                 }
+            }
+
+            const handleLogout = () =>{
+                localStorage.removeItem('userDetails');
+                Navigate('/logout');
             }
 
             useEffect(() => {
@@ -61,7 +80,7 @@ function UserProfilePage(){
                                             <td className="w-[250px]">{data.contact_number}</td>
                                         </tr>
                                         <tr>
-                                            <td><button className="p-[7px] w-[3.2cm] mt-[0.8cm] flex flex-row items-center bg-[#FFA800] rounded-3xl"><MdOutlineLogout className="mr-[0.5cm]" />Logout</button></td>
+                                            <td><button onClick={handleLogout} className="p-[7px] w-[3.2cm] mt-[0.8cm] flex flex-row items-center bg-[#FFA800] rounded-3xl"><MdOutlineLogout className="mr-[0.5cm]" />Logout</button></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -86,14 +105,32 @@ function UserProfilePage(){
                                     </tr>
                                 
                                 
-                                    <tr className="text-[12pt] text-center">
-                                        <td className="py-1 px-[1vw] text-center">Jan. 23, 2023</td>
-                                        <td className="py-1 px-[1vw] text-center">11:30am - 1:00pm</td>
-                                        <td className="py-1 px-[1vw] text-center">Juan Dela Cruz</td>
-                                        <td className="py-1 px-[1vw] text-center">5</td>
-                                        <td className="py-1 px-[1vw] row flex justify-center items-center"><div className="m-2 bg-[#CCFFD1] text-[#00A310] wx-[50px] ">Done</div></td>
-                                    </tr>
+                                    
                                 </thead>
+                                <tbody>
+                                    {isLoading == true?  <tr><td colSpan={5}><GenSpinner/></td></tr> :
+                                        <>
+                                        {reservations && reservations.length > 0 ? (
+                                            reservations.map((reservation: any, index: number) => (
+                                            <tr key={index} className="text-[12pt] text-center">
+                                                <td className="py-1 px-[1vw] text-center">{reservation.date}</td>
+                                                <td className="py-1 px-[1vw] text-center">{reservation.time}</td>
+                                                <td className="py-1 px-[1vw] text-center">{reservation.organizer}</td>
+                                                <td className="py-1 px-[1vw] text-center">{reservation.eventSize}</td>
+                                                <td className="py-1 px-[1vw] row flex justify-center items-center">
+                                                    {reservation.status == "Finished"? <><div className="m-2 bg-[#CCFFD1] text-[#00A310] wx-[50px] ">Ongoing</div></>:<div className="m-2 bg-[#50b0d6] text-[#000000] wx-[50px] ">Ongoing</div>}
+                                                
+                                                </td>
+                                            </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                            <td colSpan={5}>No reservations found.</td>
+                                            </tr>
+                                        )}</>
+
+                                }
+                            </tbody>
                             </table>
                         
                     </div>
