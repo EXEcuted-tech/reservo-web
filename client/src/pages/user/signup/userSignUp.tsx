@@ -8,7 +8,8 @@ import background from '../../../assets/background-pattern.png';
 import guykey from '../../../assets/usersign.png';
 import config from '../../../common/config'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import GenSpinner from '../../../components/loaders/genSpinner';
 
 
 const SignupPage = () => {
@@ -18,9 +19,12 @@ const SignupPage = () => {
   const [password, setPassword]= useState("");
   const [contactNum, setContactNum]= useState("");
   const [error,setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const Navigate = useNavigate();
 
   const signUp = (event:FormEvent) =>{
     event.preventDefault();
+    setIsLoading(true);
     axios.post(`${config.API}/signup`,{
         account_name:  accName, 
         account_email: emailAdd,
@@ -28,11 +32,20 @@ const SignupPage = () => {
         account_type: 1,
         contact_number: contactNum
     }).then((res)=>{
+        setIsLoading(false);
         console.log("Response on: ", res);
+        if (res.status == 200){
+          Navigate('/uslogin');
+        }
     }).catch((err) => { 
       console.log("ERROR: ",err);
         setError(err.error);
+        setIsLoading(false);
     });
+    
+    
+
+    
 }
 
   return (
@@ -101,6 +114,7 @@ const SignupPage = () => {
             ></input>
           </div>
           <div className='text-center mt-5'>
+            {isLoading? <><GenSpinner/></>: <></>}
             <input type='submit' className='no-underline inline-block text-[white] border text-lg relative cursor-pointer
                                             shadow-[inset_0_0_0_white] w-[220px] px-6 py-[11px] rounded-[100px] border-solid 
                                             border-[#e72a2a] font-poppins font-bold bg-[#DD2803]' value='Sign Up'

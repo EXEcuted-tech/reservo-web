@@ -6,10 +6,18 @@ import { BsFillTelephoneFill, BsBriefcaseFill, BsPersonAdd, BsFillImageFill, BsF
 import { BiSolidLockAlt } from "react-icons/bi";
 import background from '../../../assets/background-pattern.png';
 import guykey from '../../../assets/usersign.png';
+import { useNavigate } from 'react-router';
 
 
 const MerchSignUp = () => {
+  const Navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    Navigate('/adlogin')
+  }
+
   return (
+
 
     <div className=''>
       <div className='content-center overflow-hidden font-poppins'>
@@ -29,11 +37,11 @@ const MerchSignUp = () => {
               <h3 className=' mb-0 text-[1.17em] text-[black] font-poppins'>Already have an</h3>
               <h3 className=' mb-2 text-[1.17em] text-[black] font-poppins'>existing account?</h3>
 
-              <a className='no-underline inline-block text-[white] border text-lg relative cursor-pointer font-[bold] 
+              <button onClick={handleLoginClick} className='no-underline inline-block text-[white] border text-lg relative cursor-pointer 
                             w-[190px] px-6 py-[11px] bg-[#840705]
                             rounded-[100px] border-solid border-white font-poppins font-bold'>
                 Log In
-              </a>
+              </button>
             </div>
           </div>
           {/* Right Box */}

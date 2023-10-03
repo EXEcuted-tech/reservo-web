@@ -130,7 +130,7 @@ const PackageManager = () => {
                             <option value="date_start">Oldest</option> 
                     </select>
         </div>
-        <div className="flex align-middle w-3/6 items-center mx-48 ps-8 h-20">
+        <div className="flex align-middle w-3/6 items-center mx-48 ps-8 h-20 hidden">
             <label htmlFor="filterDropdown" className={`font-bold mx-2`}>Filter By: </label>
                     <select id="filterDropdown" name="filterDropdown" className={`bg-transparent rounded-md h-10 w-[9vw] hover:bg-white transition duration-150 ease-out hover:ease-in`}>
                         <option value="option1">Time-Limited</option>
