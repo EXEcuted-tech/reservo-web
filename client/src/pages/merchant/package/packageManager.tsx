@@ -5,11 +5,12 @@ import { AiFillDownCircle } from "react-icons/ai";
 import Card from "../../../components/card/card.tsx";
 import CardEmpty from "../../../components/card/CardEmpty.tsx"
 import MerchAdHeader from '../../../components/headers/MerchAdHeader.tsx';
-import { BiPackage } from "react-icons/bi";
+import { BiPackage, BiRefresh } from "react-icons/bi";
 import { useState } from 'react';
 import CreatePackageModal from '../../../components/modals/package-modal/CreatePackageModal.tsx';
 import config from '../../../common/config.ts'
 import axios from 'axios'
+import GenSpinner from '../../../components/loaders/genSpinner.tsx';
 
 interface PackageItem {
     package_id: string;
@@ -23,22 +24,24 @@ interface PackageItem {
     item_list: string[];
     image_filepath: string;
     oneButton: boolean;
+    time_start: string;
+    time_end: string;
   }
 
 const PackageManager = () => {
     const [packages, setPackages] = useState<PackageItem[]>([]);
     const [unpublishedPackages, setUnpublishedPackages] = useState<PackageItem[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [isCreatePackageModalOpen, setIsCreatePackageModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [sort, setSort] = useState('package_name');
 
     // Function to handle sorting option change
-    const handleSortChange = (event) => {
+    const handleSortChange = (event: { target: { value: any; }; }) => {
       const selectedOption = event.target.value;
       setSort(selectedOption);
-      fetchData();
+      fetchData(selectedOption);
     }
 
 
@@ -53,6 +56,7 @@ const PackageManager = () => {
     };
 
     const fetchData = async (selectedSortOption: string | undefined) => {
+      setIsLoading(true);
         try {
           const response = await axios.get(`${config.API}/package/retrieveparams`, {
             params: {
@@ -101,6 +105,13 @@ const PackageManager = () => {
       }, [sort]);
 
       console.log(packages);
+
+
+      const refreshPackageManager = () => {
+        fetchData(sort); // Call the async function to fetch data
+      };
+
+
     return (
 <div className={`bg-[#FFFFFF] h-[100vh] font-poppins overflow-y-auto overflow-x-hidden`}>
     <div className="w-[80vw]">
@@ -130,28 +141,32 @@ const PackageManager = () => {
         </div>
     </div>
     <div className='PublishedPackages ps-20'>
-        <p className={`text-3xl mx-20 my-3 font-bold`}>Published Packages</p>
+      <div className='grid grid-flow-col'>
+        <div><p className={`text-3xl mx-20 my-3 font-bold`}>Published Packages</p></div>
+        <div className='flex justify-end items-center mx-10' ><button onClick={() => fetchData(sort)} className='w-[6vw] h-[3vh] p-2 bg-[#1b6e1e] text-white flex justify-center items-center rounded-lg hover:border-black border-solid border-2'><BiRefresh className='flex items-center justify-center'/>Refresh</button></div>
+        </div>
         <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl  ">
         {isLoading ? (
-              <p>Loading packages...</p>
+              <GenSpinner/>
             ) : packages.length === 0 ? (
               <p>No packages to show for now.</p>
             ) : (
               packages.map((packageItem) => (
                 <Card
-                    key={packageItem.package_id}
-                    package_id={packageItem.package_id}
-                    packageName={packageItem.package_name}
-                    date_start = {packageItem.date_start}
-                    date_end = {packageItem.date_end}
-                    description={packageItem.package_desc} // Make sure to use the correct property name
-                    price={packageItem.price} // Make sure to use the correct property name
-                    tags={packageItem.tags.split(',').map((tag: string) => tag.trim())} // Split and trim tags
-                    visibility={packageItem.visibility}
-                    items={packageItem.item_list.split(',').map((item: string) => item.trim())} // Split and trim items
-                    filePath={packageItem.image_filepath}
-                    oneButton={false}
-                />
+                  key={packageItem.package_id}
+                  package_id={packageItem.package_id}
+                  packageName={packageItem.package_name}
+                  date_start={packageItem.date_start}
+                  date_end={packageItem.date_end}
+                  description={packageItem.package_desc} // Make sure to use the correct property name
+                  price={packageItem.price} // Make sure to use the correct property name
+                  tags={packageItem.tags ? packageItem.tags.split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags
+                  visibility={packageItem.visibility}
+                  items={packageItem.item_list ? packageItem.item_list.split(',').map((item: string) => item.trim()) : []} // Handle empty or null item_list
+                  filePath={packageItem.image_filepath}
+                  oneButton={false} 
+                  time_start={packageItem.time_start} 
+                  time_end={packageItem.time_end}                />
               ))
               
             )}
@@ -164,27 +179,33 @@ const PackageManager = () => {
         <p className={`text-3xl mx-20 my-3 font-bold`}>Unpublished Packages</p>
         <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl  ">
         <CardEmpty onClick={openCreatePackageModal} />
-        {isCreatePackageModalOpen && <CreatePackageModal onClose={closeCreatePackageModal}/>}
+        {isCreatePackageModalOpen && 
+        <CreatePackageModal 
+        onClose={closeCreatePackageModal}
+        fetchData={refreshPackageManager} // Pass the refresh function as a prop
+        selectedSortOption={sort}/>}
         {isLoading ? (
-              <p>Loading packages...</p>
+              <GenSpinner/>
             ) : packages.length === 0 ? (
               <p>No packages to show for now.</p>
             ) : (
               unpublishedPackages.map((packageItem) => (
                 <Card
-                    key={packageItem.package_id}
-                    package_id={packageItem.package_id}
-                    packageName={packageItem.package_name}
-                    date_start = {packageItem.date_start}
-                    date_end = {packageItem.date_end}
-                    description={packageItem.package_desc} // Make sure to use the correct property name
-                    price={packageItem.price} // Make sure to use the correct property name
-                    tags={packageItem.tags.split(',').map((tag: string) => tag.trim())} // Split and trim tags
-                    visibility={packageItem.visibility}
-                    filePath={packageItem.image_filepath}
-                    items={packageItem.item_list.split(',').map((item: string) => item.trim())} // Split and trim items
-                    oneButton={false}
-                />
+                  key={packageItem.package_id}
+                  package_id={packageItem.package_id}
+                  packageName={packageItem.package_name}
+                  date_start={packageItem.date_start}
+                  date_end={packageItem.date_end}
+                  description={packageItem.package_desc}
+                  price={packageItem.price}
+                  tags={packageItem.tags ? packageItem.tags.split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags
+                  visibility={packageItem.visibility}
+                  filePath={packageItem.image_filepath}
+                  items={packageItem.item_list ? packageItem.item_list.split(',').map((item: string) => item.trim()) : []} // Handle empty or null item_list
+                  oneButton={false} 
+                  time_start={packageItem.time_start} 
+                  time_end={packageItem.time_end}                
+                  />
               ))
               
             )}

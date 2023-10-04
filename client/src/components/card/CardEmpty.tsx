@@ -17,7 +17,7 @@ const CardEmpty: React.FC<CardEmpty>=({onClick}) => {
 
     return (
         
-        <div className='Card CardEmpty flex flex-wrap content-center mx-5 my-5 hover:bg-[#FFFFFF] duration-500 cursor-pointer ' onClick={onClick}>
+        <div className='Card CardEmpty flex flex-wrap content-center mx-5 my-5 min-w-[18vw] max-w-[18vw] min-h-[50vh] max-h-[50vh] hover:bg-[#FFFFFF] duration-500 cursor-pointer ' onClick={onClick}>
             <button className='w-[18vw] flex justify-center'>
             <p className='text-5xl hover:bg-[#FFFFFF] rounded-full duration-500'><GoPlusCircle/></p>
             </button>

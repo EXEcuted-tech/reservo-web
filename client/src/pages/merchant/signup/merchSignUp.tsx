@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FormEvent, useEffect } from 'react'
 import colors from '../../../common/colors'
 import { BsFillPersonFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
@@ -6,11 +6,28 @@ import { BsFillTelephoneFill, BsBriefcaseFill, BsPersonAdd, BsFillImageFill, BsF
 import { BiSolidLockAlt } from "react-icons/bi";
 import background from '../../../assets/background-pattern.png';
 import guykey from '../../../assets/usersign.png';
-
+import axios from 'axios';
 
 const MerchSignUp = () => {
-  return (
+  const [username,setUsername] = ("");
+  const [business,setBusiness] = ("");
+  const [position,setPosition] = ("");
+  const [email,setEmail] = ("");
 
+  //store accounts
+  //match business name and account
+  //store in merchant account field
+  useEffect(() => {
+    
+  }, []);
+
+  const merchSignUp = (event: FormEvent) =>{
+    event.preventDefault();
+
+    axois.post(`${config.API}/merchant/create`)
+  }
+
+  return (
     <div className=''>
       <div className='content-center overflow-hidden font-poppins'>
         {/* Background Picture */}

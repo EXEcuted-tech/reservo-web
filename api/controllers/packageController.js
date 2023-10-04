@@ -40,12 +40,11 @@ const createPackage = (req,res)=>{
 }
 
 const updatePackage = (req,res)=>{
-    const {package_name,package_desc,price,date_start,date_end,time_start,time_end,visibility,list,image_filepath,tags} = req.body;
+    const {package_id,package_name,package_desc,price,date_start,date_end,time_start,time_end,visibility,item_list,image_filepath,tags} = req.body;
     console.log(req.body)
-    const update = 
-    'UPDATE package SET package_name=?,package_desc=?, price=?, date_start=?,date_end=?,time_start=?,time_end=?,visibility=?,item_list=?,image_filepath=?,tags=? WHERE package_id=?';
+    const update = 'UPDATE package SET package_name=?,package_desc=?, price=?, date_start=?,date_end=?,time_start=?,time_end=?,visibility=?,item_list=?,image_filepath=?,tags=? WHERE package_id=?';
 
-    const data = [package_name,package_desc,price,date_start,date_end,time_start,time_end,visibility,list,image_filepath,tags]
+    const data = [package_name,package_desc,price,date_start,date_end,time_start,time_end,visibility,item_list,image_filepath,tags, package_id]
     db.query(update, data, (err, result) => {
       if (err) {
         console.error('Error updating data:', err);
@@ -128,11 +127,12 @@ const retrieveByTwoParams = (req,res)=>{
 }
 
 const deletePackage = (req,res)=>{
-    const {pack_id} = req.body;
+  console.log("REQUEST BODY: "+ req.body);
+    const {package_id} = req.body;
 
     const deleteQuery = 'DELETE FROM package WHERE package_id = ?';
   
-    db.query(deleteQuery, pack_id,(err, result) => {
+    db.query(deleteQuery, package_id,(err, result) => {
       if (err) {
         console.error('Error deleting record:', err);
         return res.status(500).json({ status: 500, success:false,error: 'Error deleting records' });

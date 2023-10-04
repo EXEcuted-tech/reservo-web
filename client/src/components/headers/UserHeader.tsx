@@ -1,23 +1,31 @@
 import React,{useState,useEffect} from 'react'
 import logo from '../../assets/temp-logo-2.png'
-import {BiSolidUserCircle} from 'react-icons/bi'
+import {BiSolidUserCircle,BiSolidLogOutCircle} from 'react-icons/bi'
 import {AiOutlineDown} from 'react-icons/ai'
 import {RiLoginCircleFill} from 'react-icons/ri'
 import {useNavigate} from 'react-router-dom';
 
 const UserHeader = () => {
   const [showMenu,setShowMenu] = useState(false);
-
+  const [username,setUsername] = useState("");
   const [urlPart, setUrlPart] = useState('');
 
+  const storedAcc = localStorage.getItem('userDetails');
   const navigate = useNavigate();
   
   useEffect(() => {
+
     const pathParts = window.location.pathname.split('/');
     if (pathParts.length >= 2) {
       setUrlPart(pathParts[1]);
     }
+
+    if (storedAcc) {
+      setUsername(JSON.parse(storedAcc).user);
+    }
   }, [window.location.pathname]);
+
+  const truncatedUsername = username.slice(0, 6);
 
   const handleMenuItemClick = (path:string, status:boolean) => {
     navigate(path);
@@ -48,15 +56,32 @@ const UserHeader = () => {
           <AiOutlineDown className='text-black mt-[6%] ml-[6%] text-[1.3em] hover:cursor-pointer hover:text-[#DD2803]'
            onClick={()=>{setShowMenu(!showMenu)}}/>
           {showMenu && 
-            <div className='absolute h-[11vh] w-[6vw] left-0 z-50 bg-white text-black block top-[100%] animate-slide-down'>
+            <div className={`absolute ${username ? 'h-[15vh]' : 'h-[11vh]'}  w-[6vw] left-0 z-50 bg-white text-black block top-[100%] animate-slide-down`}>
               <ul className='list-none pl-[15%]'>
                 <li><hr className="w-[85px] pt-[10%]"/></li>
-                <li className='pb-[10%]'>Hi, Guest!</li>
+                {username
+                ?
+                 <li className='pb-[10%]'>Hi, {truncatedUsername}!</li>
+                :
+                  <li className='pb-[10%]'>Hi, Guest!</li>
+                }
+                
                 <li><hr className="w-[85px] pt-[10%]"/></li>
                 {/* <li className='hover:text-[#DD2803] cursor-pointer'>About Us</li> */}
 
-                <li className='flex hover:text-[#DD2803] cursor-pointer py-[8%] hover:animate-zoom-in'
-                 onClick={()=>navigate('/uslogin')}>Log In<RiLoginCircleFill className='ml-[2%] mt-[2%] text-[1.3em]'/></li> 
+                {username
+                ?
+                <>
+                  <li className='flex hover:text-[#DD2803] cursor-pointer py-[8%] hover:animate-zoom-in'
+                  onClick={()=>navigate('/accprofile')}>My Profile</li> 
+                  <li className='flex hover:text-[#DD2803] cursor-pointer py-[8%] hover:animate-zoom-in'
+                  onClick={()=>navigate('/logout')}>Log Out<BiSolidLogOutCircle className='ml-[2%] mt-[2%] text-[1.3em]'/></li>   
+                </>           
+                :
+                  <li className='flex hover:text-[#DD2803] cursor-pointer py-[8%] hover:animate-zoom-in'
+                  onClick={()=>navigate('/uslogin')}>Log In<RiLoginCircleFill className='ml-[2%] mt-[2%] text-[1.3em]'/></li> 
+                }
+                
               </ul>
             </div>
           }
