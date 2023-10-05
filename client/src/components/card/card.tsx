@@ -13,8 +13,8 @@ interface prop {
     key: string;
     package_id: string;
     packageName: string;
-    date_start: string;
-    date_end: string;
+    date_start: Date;
+    date_end: Date;
     time_start: string;
     time_end:string;
     price: string;

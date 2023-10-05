@@ -28,6 +28,7 @@ const ReserveForm = () => {
 
   const submitReservation = (event: { preventDefault: () => void }) =>{
     event.preventDefault();
+
     axios.post(`${config.API}/reserve/create`, {
 
     }).then((response) => {
@@ -230,7 +231,8 @@ const ReserveForm = () => {
 
         <div className='bg-white text-center'>
             <button className='w-[14%] bg-[#840705] text-white rounded-3xl py-[0.5%] mb-[2%] text-[1.3em]
-                hover:bg-[#DD2803]'>Book Now</button>
+                hover:bg-[#DD2803]'
+                onClick={()=>{navigate('/eaterychoice')}}>Book Now</button>
         </div>
     </div>
   )
