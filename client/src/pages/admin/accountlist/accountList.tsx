@@ -15,46 +15,28 @@ interface AccountDetailsProps {
 }
 
 const AccountList = () => {
-  // const [user, setData] = useState([]);
-  const [users, setData] = useState<AccountDetailsProps>();
+  const [users, setData] = useState<AccountDetailsProps[]> ([]);
 
   useEffect(() => {
     axios.get(`${config.API}/user/retrieve_all`)
     .then(res => {
       setData(res.data.records);
+      getAllAccounts();
       console.log(res);
     })
     .catch(err => {
-      console.log(err)
+      console.log(err);
     })
   }, []);
 
-  // const getAllAccounts = async () => {
-  //   const allAccounts = [];
+  const getAllAccounts = async () => {
+    const allAccounts = [];
 
-  //   for(const user of users) {
-  //     allAccounts.push({user})
-  //   }
-
-  //   setData(allAccounts);
-  //   console.log(allAccounts);
-  // }
-
-  // const [feedback, setData] = useState([]);
-  // // const [feedback, setData] = useState<any>();
-
-  // useEffect(()=>{
-  //   const fetchAllFeedback = async ()=>{
-  //     try{
-  //       const res = await axios.get(${config.API}/feedback/retrieve_all)
-  //       setData(res.data.records);
-  //       console.log(res.data.records);
-  //     }catch(err){
-  //       console.log(err)
-  //     }
-  //   }
-  //   fetchAllFeedback()
-  // },[])
+    for(const user of users) {
+      allAccounts.push(user);
+    }
+    setData(allAccounts);
+  }
 
   return (
     <div className='w-[100%]'>
@@ -87,14 +69,14 @@ const AccountList = () => {
             </tr>
           </thead>
           <tbody className='text-center'>
-            {/* {users.map(({account}, index) => (
+            {users.map((account, index) => (
               <tr>
                 <td>{account.account_id}</td>
                 <td>{account.account_name}</td>
               </tr>
-            ))} */}
+            ))}
 
-            <tr>
+            {/* <tr>
               <td className='text-md px-12 py-3'>1</td>
               <td className='text-md px-12 py-3'>Franz Casimir Ondiano</td>
               <td className='text-md px-12 py-3'>franzcasimir.ondiano@gmail.com</td>
@@ -144,7 +126,7 @@ const AccountList = () => {
                   Delete
                 </button>
               </td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
         <div className='text-slate-500 font-semibold fixed bottom-[50px] right-[80px] text-xl'>
