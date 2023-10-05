@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Link } from "react-router-dom";
+import {Link, useNavigate } from "react-router-dom";
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 
 import firstslider from "../../assets/firstslider.png"
@@ -13,6 +13,7 @@ const images = [
 ];
 
 const Carousel: React.FC = () => {
+  const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const prevSlide = () => {
@@ -24,7 +25,7 @@ const Carousel: React.FC = () => {
   };
 
   return (
-    <div className="relative overflow-hidden h-[900px] w-[118.87rem] ">
+    <div className="relative overflow-hidden z-0 h-[900px] w-[118.87rem] ">
       <div className="flex " >
         {images.map((image, index) => (
           <div
@@ -33,13 +34,13 @@ const Carousel: React.FC = () => {
               index === currentSlide ? 'block' : 'hidden'
             }`}
           >
-            <img src={image} alt={`Slide ${index + 1}`} className="w-full h-full object-cover" />
-            <div className="absolute bottom-40 left-44 w-full p-4">
+            <img src={image} alt={`Slide ${index + 1}`} className="animate-fade-in w-full h-full object-cover" />
+            <div className="absolute bottom-40 left-44 z-0 w-full px-4 py-7">
               <h1 className="text-8xl md:text-2xl lg:text-8xl text-[#DD2803] font-bold">RESERVE A</h1>
               <h1 className="text-8xl mt-4 md:text-2xl lg:text-8xl text-[#DD2803] font-bold">SPOT EASILY,</h1>
               <h1 className="text-8xl mt-4 md:text-2xl lg:text-8xl text-[#DD2803] font-bold">SAVE YOUR TIME</h1>
               <h2 className="text-5xl md:text-2xl lg:text-5xl p-3 font-semibold text-white">YOUR CONVENIENCE, OUR PRIORITY</h2>
-              <Link to="/">
+              <Link to="/eaterychoice">
               <button className="text-2xl p-5 mt-6 text-white bg-[#DD2803] hover:bg-[#A01B00] transition-colors delay-250 duration-[3000] ease-in">
                 Reserve Online
               </button>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FormEvent, useEffect } from 'react'
 import colors from '../../../common/colors'
 import { BsFillPersonFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
@@ -6,11 +6,28 @@ import { BsFillTelephoneFill, BsBriefcaseFill, BsPersonAdd, BsFillImageFill, BsF
 import { BiSolidLockAlt } from "react-icons/bi";
 import background from '../../../assets/background-pattern.png';
 import guykey from '../../../assets/usersign.png';
-
+import axios from 'axios';
 
 const MerchSignUp = () => {
-  return (
+  const [username,setUsername] = ("");
+  const [business,setBusiness] = ("");
+  const [position,setPosition] = ("");
+  const [email,setEmail] = ("");
 
+  //store accounts
+  //match business name and account
+  //store in merchant account field
+  useEffect(() => {
+    
+  }, []);
+
+  const merchSignUp = (event: FormEvent) =>{
+    event.preventDefault();
+
+    axois.post(`${config.API}/merchant/create`)
+  }
+
+  return (
     <div className=''>
       <div className='content-center overflow-hidden font-poppins'>
         {/* Background Picture */}
@@ -29,11 +46,11 @@ const MerchSignUp = () => {
               <h3 className=' mb-0 text-[1.17em] text-[black] font-poppins'>Already have an</h3>
               <h3 className=' mb-2 text-[1.17em] text-[black] font-poppins'>existing account?</h3>
 
-              <a className='no-underline inline-block text-[white] border text-lg relative cursor-pointer font-[bold] 
+              <button onClick={handleLoginClick} className='no-underline inline-block text-[white] border text-lg relative cursor-pointer 
                             w-[190px] px-6 py-[11px] bg-[#840705]
                             rounded-[100px] border-solid border-white font-poppins font-bold'>
                 Log In
-              </a>
+              </button>
             </div>
           </div>
           {/* Right Box */}
@@ -44,17 +61,17 @@ const MerchSignUp = () => {
                 <div className='mt-2.5'>
                   <BsFillPersonFill className='float-left text-[21px]'  />
                   <label className='float-left ml-[2px]'>Username</label>
-                  <input type="username" className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="text" name="username" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 <div className='mt-2.5'>
                   <BsBriefcaseFill className='float-left ml-[2px] text-[18px]'/>
                   <label  className='float-left ml-[4px]'>Business Name</label>
-                  <input type="text" className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="text" name="businessName" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 <div className='mt-2.5'>
                   <BsFillPersonVcardFill className='float-left text-[19px]'/>
                   <label className='float-left ml-[4px]'>Position</label>
-                  <input type="text" className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="text" name="position" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 <div className='mt-2.5'>
                   <BsPersonAdd className='float-left text-[21px]'/>
@@ -71,34 +88,39 @@ const MerchSignUp = () => {
                 <div className='mt-2.5'>
                   <MdEmail className='float-left text-[21px]'  />
                   <label className='float-left ml-[2px]'>Email</label>
-                  <input type="email" className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="email" name="email" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 <div className='mt-2.5'>
                   <BsFillTelephoneFill className='float-left text-[20px]'/>
                   <label  className='float-left ml-[3px]'>Contact Number</label>
-                  <input type="text" className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="text" name="contactNum" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 {/* //Halu */}
                 <div className='mt-2.5'>
                   <BiSolidLockAlt className='float-left text-[19px]'/>
                   <label className='float-left ml-[4px]'>Password</label>
-                  <input type="password" className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="password" name="password" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 <div className='mt-2.5'>
                   <BiSolidLockAlt className='float-left text-[19px]'/>
                   <label className='float-left ml-[3px]'>Confirm Password</label>
-                  <input type="password" className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="password" name="confirmPassword" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
               
               </div>
             </div>
-            <div className='text-center mt-5'>
-              <input type='submit' className='no-underline inline-block text-[#840705] border text-lg relative cursor-pointer
+            <div className='text-center mt-5  grid grid-cols-2'>
+              <div className='flex items-center justify-center'>{passwordMismatch? <><p className='text-white font-poppins float-left animate-pulse'>Passwords Do Not Match.</p></>:<></>}</div>
+              <div>
+              <button type='submit' onClick={handleSubmit} className='no-underline inline-block text-[#840705] border text-lg relative cursor-pointer
                                                 shadow-[inset_0_0_0_white] w-[220px] px-6 py-[11px] rounded-[100px] border-solid 
-                                                border-[#e72a2a] font-poppins font-bold bg-[white]' value='Sign Up'>
+                                                border-[#e72a2a] font-poppins font-bold bg-[white]' value='Sign Up'>Submit
                                                   
-              </input>
+              </button>
+              </div>
+              
             </div>
+           
             
           </div>
 

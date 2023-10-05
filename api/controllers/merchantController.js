@@ -2,8 +2,8 @@ const express = require('express');
 const db = require('./a_db'); 
 
 const createMerchant = (req,res)=>{
-    const newMerchant = req.body;
-
+    const { account_name, account_email, password, account_type, contact_number } = req.body;
+    const sql = "INSERT INTO"
     db.query('INSERT INTO merchant (merchant_name,email_address,logo,contact_number,address,settings,sched_id) VALUES (?,?,?,?,?,?,?,?,?,?)',
     [
         newMerchant.merchant_name,
@@ -42,7 +42,15 @@ const createMerchant = (req,res)=>{
 }
 
 const updateMerchant = (req,res)=>{
-    const updatedMerchant = req.body;
+    const updatedMerchant = req.body.merchant;
+    const updatedAddress = JSON.stringify(req.body.address);
+    const updatedSettings = JSON.stringify(req.body.settings);
+
+    const merchantId = updatedMerchant.merchant_id;
+    // console.log(updatedMerchant);
+
+    updatedMerchant.settings = updatedSettings;
+    updatedMerchant.address = updatedAddress;
 
     const columns = Object.keys(updatedMerchant);
     const values = Object.values(updatedMerchant);

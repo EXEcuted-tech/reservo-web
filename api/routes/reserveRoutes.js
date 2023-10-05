@@ -1,12 +1,15 @@
 const express=require('express');
 const router = express.Router();
 const createReserveValidator=require('../validations/reserveValidator')
-const {createReserve,retrieveAll,retrieveByParams,updateReserve,deleteReserve}=require('../controllers/reserveController')
+const {createReserve,retrieveAll,retrieveByParams,updateReserve,deleteReserve, retrieveCountByParams, retrieveCountByTwoParams, retrieveCountByThreeParams}=require('../controllers/reserveController')
 
 router.post('/create',createReserveValidator,createReserve);
-router.put('/update',createReserveValidator,updateReserve);
+router.post('/update',createReserveValidator,updateReserve);
 router.get('/retrieve',retrieveByParams);
+router.get('/retrievecount', retrieveCountByParams);
+router.get('/retrievecountparams', retrieveCountByTwoParams);
+router.get('retrievecount3params', retrieveCountByThreeParams);
 router.get('/retrieve_all',retrieveAll);
-router.delete('/delete',deleteReserve);
+router.post('/delete',deleteReserve);
 
 module.exports = router;
