@@ -4,8 +4,19 @@ import { RiUserFill } from 'react-icons/ri';
 import axios from 'axios';
 import config from '../../../common/config';
 
+interface AccountDetailsProps {
+  account_id: number;
+  account_name: string;
+  email_address: string;
+  account_type: number;
+  account_status: string;
+  password: string;
+  contact_number: string;
+}
+
 const AccountList = () => {
-  const [user, setData] = useState([]);
+  // const [user, setData] = useState([]);
+  const [users, setData] = useState<AccountDetailsProps>();
 
   useEffect(() => {
     axios.get(`${config.API}/user/retrieve_all`)
@@ -17,6 +28,33 @@ const AccountList = () => {
       console.log(err)
     })
   }, []);
+
+  // const getAllAccounts = async () => {
+  //   const allAccounts = [];
+
+  //   for(const user of users) {
+  //     allAccounts.push({user})
+  //   }
+
+  //   setData(allAccounts);
+  //   console.log(allAccounts);
+  // }
+
+  // const [feedback, setData] = useState([]);
+  // // const [feedback, setData] = useState<any>();
+
+  // useEffect(()=>{
+  //   const fetchAllFeedback = async ()=>{
+  //     try{
+  //       const res = await axios.get(${config.API}/feedback/retrieve_all)
+  //       setData(res.data.records);
+  //       console.log(res.data.records);
+  //     }catch(err){
+  //       console.log(err)
+  //     }
+  //   }
+  //   fetchAllFeedback()
+  // },[])
 
   return (
     <div className='w-[100%]'>
@@ -49,12 +87,12 @@ const AccountList = () => {
             </tr>
           </thead>
           <tbody className='text-center'>
-            {/* {user.map(user => (
+            {/* {users.map(({account}, index) => (
               <tr>
-                <td></td>
+                <td>{account.account_id}</td>
+                <td>{account.account_name}</td>
               </tr>
             ))} */}
-
 
             <tr>
               <td className='text-md px-12 py-3'>1</td>
