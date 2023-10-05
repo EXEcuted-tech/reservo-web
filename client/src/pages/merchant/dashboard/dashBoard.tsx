@@ -112,21 +112,20 @@ const MerchDashboard = () => {
            </div>
         </div>
         {/* Reservation Section */}
-        <div className='bg-[#F3F3F3] h-[30vh] flex'>
-            <div className='w-[75%] m-[1%] text-center bg-white rounded-3xl flex-col pt-0 p-[1%]'>
+        <div className='bg-[#F3F3F3] h-[30vh] flex overflow-auto'>
+            <div className='w-[75%] m-[1%] text-center bg-white rounded-3xl flex-col pt-0 p-[1%] overflow-auto'>
               <div className='text-left border-b-2 border-black'>
                 <p className='font-bold text-[1.5em]'>Recent Reservation <br/></p>
               </div>
-              <table className='flex-col w-[100%] text-left bg-white rounded-3xl'>
+              <table className='flex-col w-[100%] text-left bg-white rounded-3xl overflow-auto'>
               <tr>
                 <th>Client Name</th>
                 <th>Event</th>
                 <th>Date</th>
                 <th>Time</th>
               </tr>
-              <tr className='border-t-2 border-black'>
-                {/* Input Data from Database here */}
-              </tr>
+              <tbody id="data-table-row">
+              </tbody>
               </table> 
             </div>
             <div className='w-[35%] m-[1%] text-center bg-white rounded-3xl px-[1%]'>
