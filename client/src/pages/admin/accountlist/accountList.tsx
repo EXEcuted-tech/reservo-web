@@ -20,8 +20,7 @@ const AccountList = () => {
   useEffect(() => {
     axios.get(`${config.API}/user/retrieve_all`)
     .then(res => {
-      setData(res.data.records);
-      getAllAccounts();
+      setData(res.data.user);
       console.log(res);
     })
     .catch(err => {
@@ -29,14 +28,9 @@ const AccountList = () => {
     })
   }, []);
 
-  const getAllAccounts = async () => {
-    const allAccounts = [];
-
-    for(const user of users) {
-      allAccounts.push(user);
-    }
-    setData(allAccounts);
-  }
+// ACCOUNT TYPE: 
+// user = 1
+// merchant = 10
 
   return (
     <div className='w-[100%]'>
@@ -71,8 +65,21 @@ const AccountList = () => {
           <tbody className='text-center'>
             {users.map((account, index) => (
               <tr>
-                <td>{account.account_id}</td>
-                <td>{account.account_name}</td>
+                <td className='text-md px-12 py-3'>{account.account_id}</td>
+                <td className='text-md px-12 py-3'>{account.account_name}</td>
+                <td className='text-md px-12 py-3'>{account.email_address}</td>
+                <td className='text-md px-12 py-3'>{account.contact_number}</td>
+                <td className='text-md px-12 py-3'>{account.account_type === 1? 'Customer': 'Merchant'}</td>
+                <td className='text-md px-12 py-3'>
+                  <button className='bg-emerald-200 rounded-lg px-4 text-green-900 cursor-default'>
+                    {account.account_status}
+                  </button>
+                </td>
+                <td className='text-md px-5 py-3'>
+                <button className='bg-red-600 text-white rounded-lg px-4'>
+                  Delete
+                </button>
+              </td>
               </tr>
             ))}
 
