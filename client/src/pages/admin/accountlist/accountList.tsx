@@ -69,14 +69,17 @@ const AccountList = () => {
                 <td className='text-md px-12 py-3'>{account.account_name}</td>
                 <td className='text-md px-12 py-3'>{account.email_address}</td>
                 <td className='text-md px-12 py-3'>{account.contact_number}</td>
-                <td className='text-md px-12 py-3'>{account.account_type === 1? 'Customer': 'Merchant'}</td>
                 <td className='text-md px-12 py-3'>
-                  <button className='bg-emerald-200 rounded-lg px-4 text-green-900 cursor-default'>
-                    {account.account_status}
+                  {account.account_type === 1? 'Customer': 'Merchant'}
+                </td>
+                <td className='text-md px-12 py-3'>
+                  <button 
+                    className={'rounded-full px-4 cursor-default ' + (account.account_status === 'active'? 'bg-emerald-200 text-green-900' : 'bg-red-500 text-white')}>
+                    {account.account_status === 'active'? 'Active' : 'Abolished'}
                   </button>
                 </td>
                 <td className='text-md px-5 py-3'>
-                <button className='bg-red-600 text-white rounded-lg px-4'>
+                <button className='bg-red-600 text-white rounded-full px-4'>
                   Delete
                 </button>
               </td>
