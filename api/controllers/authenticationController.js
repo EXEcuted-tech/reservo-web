@@ -7,13 +7,12 @@ const createAccount = async (req, res) => {
     try {
         const { account_name, account_email, password, account_type, contact_number } = req.body;
 
-        // Use a parameterized query to prevent SQL injection
         const sql = "INSERT INTO account (account_name, email_address, passwd, account_type, contact_number) VALUES (?, ?, ?, ?, ?)";
         const hashedpassword = await bcrypt.hash(password, saltRounds)
         const values = [account_name, account_email, hashedpassword, account_type, contact_number];
         db.query(sql, values, (err, result) => {
             if (err) {
-                res.status(200).json({
+                res.status(404).json({
                     success: false,
                     message: "Account add fail",
                 });
@@ -21,6 +20,7 @@ const createAccount = async (req, res) => {
                 res.status(200).json({
                     success: true,
                     message: "Account created successfully",
+                    data: result,
                 });
             }
 
@@ -43,12 +43,11 @@ const login = (req,res)=>{
         const values = [account_email];
         db.query(sql, values, (err, dbresult) => {
             //console.log("W: " + account_type + " DB: "+dbresult[0].account_type);
-
             if (!err && dbresult.length === 1){
                 if (account_type != dbresult[0].account_type){
-                    return res.status(400).json({
+                    res.status(200).json({
                         success: false,
-                        message: "Account Type Mismatch",
+                        error: "Account Type Mismatch! Check if you are logging in the right page.",
                     });
                 }else{
                     const hash = dbresult[0].passwd;
@@ -67,7 +66,7 @@ const login = (req,res)=>{
                         }else{
                             res.status(200).json({
                                 success: false,
-                                message: "Incorrect Credentials",
+                                error: "Incorrect Credentials",
                             });
                         }
                     });
@@ -76,9 +75,8 @@ const login = (req,res)=>{
             }else{
                 res.status(200).json({
                     success: false,
-                    message: "Bad Request",
+                    error: "Account does not exist!",
                 });
-                console.log(err);
             }
 
             

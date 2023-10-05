@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {Link} from 'react-router-dom'
 import logo from '../assets/temp-logo-2.png'
 import PeopleWaving from '../assets/wave.png'
 
 const LogoutPage = () => {
+
+  useEffect(() => {
+    localStorage.removeItem('userDetails');
+    localStorage.removeItem('admerchDetails');
+  });
+
   return (
     <div className='relative'>
       <div className='h-[10vh] w-full border-b-8 border-red-600'>

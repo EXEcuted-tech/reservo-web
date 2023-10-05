@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 import colors from '../../../common/colors'
 import { BsFillPersonFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
@@ -7,28 +7,81 @@ import { BiSolidLockAlt } from "react-icons/bi";
 import background from '../../../assets/background-pattern.png';
 import guykey from '../../../assets/usersign.png';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Danger from '../../../components/box/danger';
+import config from '../../../common/config';
+import { Spinner } from '@material-tailwind/react/components/Spinner';
 
 const MerchSignUp = () => {
-  const [username,setUsername] = ("");
-  const [business,setBusiness] = ("");
-  const [position,setPosition] = ("");
-  const [email,setEmail] = ("");
+  const [username,setUsername] = useState("");
+  const [business,setBusiness] = useState("");
+  const [position,setPosition] = useState("");
+  const [email,setEmail] = useState("");
+  const [contactNum,setContactNum] = useState("");
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [errMessage,setErrMessage] = useState('')
+  const [success,setSuccess] = useState('')
+  const [isLoading,setIsLoading] = useState(false);
 
-  //store accounts
-  //match business name and account
-  //store in merchant account field
+  const navigate = useNavigate();
+
   useEffect(() => {
     
   }, []);
 
-  const merchSignUp = (event: FormEvent) =>{
+  const handleSubmit = (event: FormEvent) =>{
     event.preventDefault();
+    setIsLoading(true);
+    if(password === confirmPassword){
+      axios.post(`${config.API}/signup`,{
+        account_name: username,
+        account_email: email,
+        password: password,
+        contact_number: contactNum,
+        account_type: 10
+      }).then((res)=>{
+        if(res.data.success===true){
+          setErrMessage('');
+          merchSignUp(res.data.data.insertId);
+        }else{
+          setTimeout(()=>{setIsLoading(false)},800);
+          setErrMessage(res.data.error)
+        }
+      }).catch((err)=>{
+        setIsLoading(false);
+        setErrMessage("Failed to sign up successfully. Try again!")
+        console.log("Error: ",err);
+      })
+    }else{
+      setErrMessage("Passwords do not match.");
+    }
+  }
 
-    axois.post(`${config.API}/merchant/create`)
+  const merchSignUp = (insertId:number) =>{
+    setIsLoading(true);
+    axios.post(`${config.API}/merchant/create`,{
+      business_name: business,
+      insert_id: insertId.toString(),
+      email: email,
+      position: position
+    }).then((res)=>{
+      setSuccess("Registered Successfully!")
+      setTimeout(()=>{
+        setIsLoading(false);
+      },1500);
+      alert("Registered Successfully!");
+      navigate('/adlogin');
+    }).catch((err)=>{
+      setIsLoading(false);
+      setErrMessage("Failed to sign up successfully. Try again!")
+      console.log("Error: ",err);
+    })
   }
 
   return (
-    <div className=''>
+    <div className='animate-fade-in'>
+      {errMessage !='' && <Danger message={errMessage}/>}
       <div className='content-center overflow-hidden font-poppins'>
         {/* Background Picture */}
         <img className='absolute h-screen w-full' src={background} />
@@ -46,7 +99,7 @@ const MerchSignUp = () => {
               <h3 className=' mb-0 text-[1.17em] text-[black] font-poppins'>Already have an</h3>
               <h3 className=' mb-2 text-[1.17em] text-[black] font-poppins'>existing account?</h3>
 
-              <button onClick={handleLoginClick} className='no-underline inline-block text-[white] border text-lg relative cursor-pointer 
+              <button onClick={()=>{navigate('/adlogin')}} className='no-underline inline-block text-[white] border text-lg relative cursor-pointer 
                             w-[190px] px-6 py-[11px] bg-[#840705]
                             rounded-[100px] border-solid border-white font-poppins font-bold'>
                 Log In
@@ -61,25 +114,25 @@ const MerchSignUp = () => {
                 <div className='mt-2.5'>
                   <BsFillPersonFill className='float-left text-[21px]'  />
                   <label className='float-left ml-[2px]'>Username</label>
-                  <input type="text" name="username" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="text" name="username" onChange={(e)=>{setUsername(e.target.value)}} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 <div className='mt-2.5'>
                   <BsBriefcaseFill className='float-left ml-[2px] text-[18px]'/>
                   <label  className='float-left ml-[4px]'>Business Name</label>
-                  <input type="text" name="businessName" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="text" name="businessName" onChange={(e)=>{setBusiness(e.target.value)}} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 <div className='mt-2.5'>
                   <BsFillPersonVcardFill className='float-left text-[19px]'/>
                   <label className='float-left ml-[4px]'>Position</label>
-                  <input type="text" name="position" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="text" name="position" onChange={(e)=>{setPosition(e.target.value)}} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 <div className='mt-2.5'>
                   <BsPersonAdd className='float-left text-[21px]'/>
                   <label className='float-left ml-[4px]'>Proof of Employment</label>
                   
-                  <label className='flex cursor-pointer mt-2.5 ml-7 bg-white hover:bg-[#840705] hover:text-white text-white text-centerpy-2 px-4 rounded-lg shadow-md float-left align-middle w-[75%] '>
-                    <BsFillImageFill className='float-left text-[50px] mr-[10px] text-[#840705] hover:text-white ml-2'/>
-                    <input type="file" id="fileInput" accept="image/*" className='float-left cursor-pointer hover:text-white  mt-[13px] text-[#840705] inline-block border-solid border-[#ccc] file:hidden'></input>
+                  <label className='flex cursor-pointer mt-2.5 ml-7 bg-white hover:bg-[#ffb9b8] text-white text-centerpy-2 px-4 rounded-lg shadow-md float-left align-middle w-[75%] '>
+                    <BsFillImageFill className='float-left text-[50px] mr-[10px] text-[#840705] ml-2'/>
+                    <input type="file" id="fileInput" accept="image/*" className='float-left cursor-pointer mt-[13px] text-[#840705] inline-block border-solid border-[#ccc] file:hidden'></input>
                   </label>
                 </div>
               
@@ -88,37 +141,34 @@ const MerchSignUp = () => {
                 <div className='mt-2.5'>
                   <MdEmail className='float-left text-[21px]'  />
                   <label className='float-left ml-[2px]'>Email</label>
-                  <input type="email" name="email" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="email" name="email" onChange={(e)=>{setEmail(e.target.value)}} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 <div className='mt-2.5'>
                   <BsFillTelephoneFill className='float-left text-[20px]'/>
                   <label  className='float-left ml-[3px]'>Contact Number</label>
-                  <input type="text" name="contactNum" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="text" name="contactNum" onChange={(e)=>{setContactNum(e.target.value)}} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 {/* //Halu */}
                 <div className='mt-2.5'>
                   <BiSolidLockAlt className='float-left text-[19px]'/>
                   <label className='float-left ml-[4px]'>Password</label>
-                  <input type="password" name="password" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="password" name="password" onChange={(e)=>{setPassword(e.target.value)}} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
                 <div className='mt-2.5'>
                   <BiSolidLockAlt className='float-left text-[19px]'/>
                   <label className='float-left ml-[3px]'>Confirm Password</label>
-                  <input type="password" name="confirmPassword" onChange={handleChange} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                  <input type="password" name="confirmPassword" onChange={(e)=>{setConfirmPassword(e.target.value)}} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
                 </div>
               
               </div>
             </div>
-            <div className='text-center mt-5  grid grid-cols-2'>
-              <div className='flex items-center justify-center'>{passwordMismatch? <><p className='text-white font-poppins float-left animate-pulse'>Passwords Do Not Match.</p></>:<></>}</div>
-              <div>
-              <button type='submit' onClick={handleSubmit} className='no-underline inline-block text-[#840705] border text-lg relative cursor-pointer
-                                                shadow-[inset_0_0_0_white] w-[220px] px-6 py-[11px] rounded-[100px] border-solid 
-                                                border-[#e72a2a] font-poppins font-bold bg-[white]' value='Sign Up'>Submit
-                                                  
-              </button>
-              </div>
-              
+            <div className='flex justify-center w-full text-center mt-5'>
+              {/* <div className='flex items-center justify-center'>{passwordMismatch ? <><p className='text-white font-poppins float-left animate-pulse'>Passwords Do Not Match.</p></>:<></>}</div> */}
+                <button type='submit' onClick={handleSubmit} className='flex items-center justify-center no-underline inline-block text-[#840705] border text-lg relative cursor-pointer
+                  shadow-[inset_0_0_0_white] w-[220px] px-6 py-[11px] rounded-[100px] border-solid border-[#e72a2a] font-poppins font-bold bg-[white]' value='Sign Up'>
+                    {isLoading && <Spinner className='mr-[1%]'/>}
+                    Submit                                                  
+                </button>   
             </div>
            
             

@@ -3,9 +3,11 @@ import guykey from '../assets/usersign.png'
 import background from '../assets/background-pattern.png'
 import { FaEnvelope } from 'react-icons/fa';
 import {IoMdLock} from 'react-icons/io'
+import { useNavigate } from 'react-router-dom';
 
 
 const ForgetPassword = () => {
+    const navigate = useNavigate();
     return (
         <div className="font-poppins">
             <img className='absolute h-screen w-full' src={background} alt='background'/>
@@ -18,7 +20,8 @@ const ForgetPassword = () => {
                     <p className='text-[white] text-center'>Enter your email address <br/> and retrieve your account.</p>
                     <div className='mt-[20px]'>
                         <p className='text-[white] text-[1.17em] font-bold text-center mt-8'>Already have an<br/> existing account?</p>
-                        <button type="button" className='bg-[white] w-[80%] h-[50px] font-bold text-[rgb(221,40,3)] text-lg relative p-[1px] rounded-[30px] left-[30px] mt-[10px]'>Log In</button>
+                        <button type="button" className='bg-[white] w-[80%] h-[50px] font-bold text-[rgb(221,40,3)] text-lg relative p-[1px] rounded-[30px] left-[30px] mt-[10px]'
+                        onClick={()=>{navigate('/uslogin')}}>Log In</button>
                     </div>
                 </div>
                 <div className='bg-[white] h-full pt-[120px] px-[70px] text-center rounded-[7px_7px_7px_7px]'>

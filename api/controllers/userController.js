@@ -70,8 +70,8 @@ const retrieveByParams = (req,res)=>{
         const sql = "SELECT * FROM account WHERE ?? = ?"
         db.query(sql,[col, val], (err, results) => {
             if(err){
-                console.log("Error fetching data")
-                res.status(500).json({error: 'Internal server error'})
+                // console.log("Error fetching data")
+                res.status(201).json({error: 'Account does not exist'})
             }else{
                 res.status(200).json({
                     status: 200,
