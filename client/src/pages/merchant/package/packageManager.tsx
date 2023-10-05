@@ -60,39 +60,57 @@ const PackageManager = () => {
     };
 
     const fetchData = async (selectedSortOption: string | undefined) => {
-      //setMerchantId(1);//remove this
       setIsLoading(true);
-        try {
-          
-          const response = await axios.get(`${config.API}/package/retrieveparams`, {
-            params: {
-              col1: 'merchant_id',
-              val1: merchant_id, // Replace with the actual merchant ID
-              col2: 'visibility',
-              val2: 'PUBLISHED',
-              order_param: selectedSortOption,
-            },
-          });
-
-          const unpublishedresponse = await axios.get(`${config.API}/package/retrieveparams`, {
-            params: {
-              col1: 'merchant_id',
-              val1: merchant_id, // Replace with the actual merchant ID
-              col2: 'visibility',
-              val2: 'NOT PUBLISHED',
-              order_param: selectedSortOption,
-            },
-          });
-
-          setPackages(response.data.data)
-          setUnpublishedPackages(unpublishedresponse.data.data)
-          setIsLoading(false);
-          
-        } catch (error) {
-          console.error('Error fetching packages:', error);
-          setIsLoading(false);
-        }
-      };
+      try {
+        const publishedPackages = await fetchPublishedPackages(selectedSortOption);
+        const unpublishedPackages = await fetchUnpublishedPackages(selectedSortOption);
+    
+        setPackages(publishedPackages);
+        setUnpublishedPackages(unpublishedPackages);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching packages:', error);
+        setIsLoading(false);
+      }
+    };
+      
+    const fetchPublishedPackages = async (selectedSortOption: string | undefined) => {
+      try {
+        const response = await axios.get(`${config.API}/package/retrieveparams`, {
+          params: {
+            col1: 'merchant_id',
+            val1: merchant_id, // Replace with the actual merchant ID
+            col2: 'visibility',
+            val2: 'PUBLISHED',
+            order_param: selectedSortOption,
+          },
+        });
+    
+        return response.data.data;
+      } catch (error) {
+        console.error('Error fetching published packages:', error);
+        return [];
+      }
+    };
+    
+    const fetchUnpublishedPackages = async (selectedSortOption: string | undefined) => {
+      try {
+        const response = await axios.get(`${config.API}/package/retrieveparams`, {
+          params: {
+            col1: 'merchant_id',
+            val1: merchant_id, // Replace with the actual merchant ID
+            col2: 'visibility',
+            val2: 'NOT PUBLISHED',
+            order_param: selectedSortOption,
+          },
+        });
+    
+        return response.data.data;
+      } catch (error) {
+        console.error('Error fetching unpublished packages:', error);
+        return [];
+      }
+    };
 
     useEffect(() => {
         fetchData(sort);
@@ -180,7 +198,7 @@ const PackageManager = () => {
         selectedSortOption={sort}/>}
         {isLoading ? (
               <GenSpinner/>
-            ) : packages.length === 0 ? (
+            ) : unpublishedPackages.length === 0 ? (
               <p>No packages to show for now.</p>
             ) : (
               unpublishedPackages.map((packageItem) => (

@@ -189,12 +189,13 @@ function formatDateToMMDDYYYY(date: string) {
             <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
               <div>
                 <div className='h-[40vh] '>
-                  <p><b>Package Name: </b><input onChange={handlePackageNameChange} type="text" value={editedPackageName} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
-                  <p><b>Total Price: </b> <input type="text" value={editedPrice} onChange={handlePriceChange} className="h-[4vh] my-2 border-solid border-[#000000] border-2 p-2 rounded-md mx-4 pl-2"></input></p>
-                  <p><b>Available From: </b> <input type="date" value={editedDateStart.toISOString().split('T')[0]} onChange={handleDateStartChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
-                  <p><b>Expiry Date: </b> <input type="date" value={editedDateEnd.toISOString().split('T')[0]} onChange={handleDateEndChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
-                  <p><b>Tags: </b> <input onChange={handleTagsChange} type="text" value={editedTags} className="h-[4vh] my-2 border-solid p-2 border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
-                  <p><b>Visibility: </b>
+                <p><span className='text-red-600 text-xs'>Fields with * are required.</span></p>
+                  <p><b>Package Name: <span className='text-red-600'>*</span></b><input onChange={handlePackageNameChange} type="text" value={editedPackageName} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+                  <p><b>Total Price: <span className='text-red-600'>*</span></b> <input type="text" value={editedPrice} onChange={handlePriceChange} className="h-[4vh] my-2 border-solid border-[#000000] border-2 p-2 rounded-md mx-4 pl-2"></input></p>
+                  <p><b>Available From: <span className='text-red-600'>*</span></b> <input type="date" value={editedDateStart.toISOString().split('T')[0]} onChange={handleDateStartChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+                  <p><b>Expiry Date: <span className='text-red-600'>*</span></b> <input type="date" value={editedDateEnd.toISOString().split('T')[0]} onChange={handleDateEndChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+                  <p><b>Tags: </b> <span className='text-red-600'>*</span><input onChange={handleTagsChange} type="text" value={editedTags} className="h-[4vh] my-2 border-solid p-2 border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+                  <p><b>Visibility: <span className='text-red-600'>*</span></b>
                     <select id="sortDropdown" name="sortDropdown" className={`h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2`}
                       onChange={handleVisibilityChange}
                       value={editedVisibility}
@@ -203,7 +204,7 @@ function formatDateToMMDDYYYY(date: string) {
                       <option value="NOT PUBLISHED">Not Published</option>
                     </select>
                   </p>
-                  <p><b>Description: </b></p>
+                  <p><b>Description: <span className='text-red-600'>*</span></b></p>
                   <textarea onChange={handleDescriptionChange} className="w-[80%] p-2 h-[25%] overflow-y-auto border-black border-2" value={editedDescription}></textarea>
                 </div>
               </div>
@@ -219,12 +220,12 @@ function formatDateToMMDDYYYY(date: string) {
                 
                 className="w-full h-full object-cover rounded-2xl"
                 />
-<label htmlFor="packageImage">Upload Image Here: </label>
+<label htmlFor="packageImage">Upload Image Here: <span className='text-red-600'>*</span></label>
             <input className="my-2 w-[50%] px-2 border-black border-solid rounded-lg border-2" value={editedFilePath} onChange={handleFilePathChange} type="text" name="packageImage" placeholder='Paste Link Here'/>
               </div>
 
                 <div className='my-8 block '>
-                  <b>Items:</b>
+                  <b>Items: <span className='text-red-600'>*</span></b>
                   <div className='overflow-y-auto h-[8vh]'>
                     <ul>
                       {editedItems.split(',').map((item, index) => (
