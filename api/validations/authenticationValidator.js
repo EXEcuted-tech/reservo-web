@@ -7,39 +7,26 @@ app.use(express.json());
 //I-object ni nako ang mga errors later - kath
 
 const authenticationValidator = (req,res,next)=>{
+    let error = "";
+
+    if(!req.body.account_name || req.body.account_name.length < 5){
+        error = 'Account name is invalid'
+    }
+
     if(!req.body.account_email){
-        return res.status(400).json({
-            success:false,
-            error:'Email is required'
-        })
+       error = 'Email is required'
     }
 
     if(!req.body.password){
-        return res.status(400).json({
-            success:false,
-            error:'Password is required'
-        })
+       error = 'Password is required'
     }
 
-    if(req.body.password.length < 8){
-        return res.status(400).json({
-            success:false,
-            error:'Password is too short'
-        })
-    }
-
-    if(req.body.account_name.length < 5 || !req.body.account_name){
-        return res.status(400).json({
-            success:false,
-            error:'Account name is invalid'
-        })
+    if(req.body.password && req.body.password.length < 8){
+        error = 'Password is too short'
     }
 
     if(!req.body.contact_number){
-        return res.status(400).json({
-            success:false,
-            error:'Contact number is empty'
-        })
+        error = 'Contact number is empty'
     }
 
     switch(req.body.account_type){
@@ -48,36 +35,37 @@ const authenticationValidator = (req,res,next)=>{
         case 50:
             break;
         default:
-            return res.status(400).json({
-                success:false,
-                error:'Account Type Does not Exist'
-            })
+          error = 'Account Type Does not Exist'
+    }
+
+    if (error !== '') {
+        return res.json({
+            status: 404,
+            success: false,
+            error: error,
+        });
     }
     next();
 }
 
 const loginValidator = (req, res, next) => {
+    let error = "";
+    
     if (!req.body.account_email) {
-        return res.status(400).json({
-            success: false,
-            error: { text: ['Email is required'] },
-        });
+        error = 'Email is required'
     }
 
     if (!req.body.password) {
-        return res.status(400).json({
-            success: false,
-            error: { text: ['Password is required'] },
-        });
+        error = 'Password is required'
     }
 
-    if (req.body.password.length < 8){
-        return res.status(400).json({
+    if (error !== '') {
+        return res.json({
+            status: 404,
             success: false,
-            error: { text: ['Password is too short'] },
+            error: error,
         });
     }
-
     next();
 }
 

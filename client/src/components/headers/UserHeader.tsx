@@ -75,7 +75,10 @@ const UserHeader = () => {
                   <li className='flex hover:text-[#DD2803] cursor-pointer py-[8%] hover:animate-zoom-in'
                   onClick={()=>navigate('/accprofile')}>My Profile</li> 
                   <li className='flex hover:text-[#DD2803] cursor-pointer py-[8%] hover:animate-zoom-in'
-                  onClick={()=>navigate('/logout')}>Log Out<BiSolidLogOutCircle className='ml-[2%] mt-[2%] text-[1.3em]'/></li>   
+                  onClick={()=>{
+                    localStorage.removeItem('userDetails');
+                    navigate('/logout');
+                  }}>Log Out<BiSolidLogOutCircle className='ml-[2%] mt-[2%] text-[1.3em]'/></li>   
                 </>           
                 :
                   <li className='flex hover:text-[#DD2803] cursor-pointer py-[8%] hover:animate-zoom-in'
