@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiFillCloseCircle, AiFillDelete } from "react-icons/ai";
 import { HiOutlineMagnifyingGlass, HiMiniPencilSquare } from "react-icons/hi2";
 import "../../../assets/css/card.css";
@@ -13,8 +13,8 @@ interface EditDetailsModalProps {
   packageID: string;
   packageName: string;
   description: string;
-  dateStart: string;
-  dateEnd: string;
+  dateStart: Date;
+  dateEnd: Date;
   timeStart: string;
   timeEnd: string;
   price: string;
@@ -41,8 +41,8 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
 }) => {
   const [editedPackageName, setEditedPackageName] = useState(packageName);
   const [editedPrice, setEditedPrice] = useState(price);
-  const [editedDateStart, setEditedDateStart] = useState(formatDateToMMDDYYYY(dateStart));
-  const [editedDateEnd, setEditedDateEnd] = useState(formatDateToMMDDYYYY(dateEnd));
+  const [editedDateStart, setEditedDateStart] = useState(dateStart);
+  const [editedDateEnd, setEditedDateEnd] = useState(dateEnd);
   const [editedTags, setEditedTags] = useState(tags.join(', '));
   const [editedVisibility, setEditedVisibility] = useState(visibility);
   const [editedFilePath, setEditedFilePath] = useState(filePath);
@@ -51,9 +51,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   const [itemName, setItemName] = useState(''); // State for the input field
   const [deleteModal, setDeleteModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
 
-  //WALA NI PASA SA VALIDATOR OG CONTROLLER
   const editInfo = async ()=>{
     setIsLoading(true)
     try{
@@ -62,8 +60,8 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
             package_name: editedPackageName,
             package_desc: editedDescription,
             price: editedPrice,
-            date_start: formatDateToYYYYMMDD(editedDateStart),
-            date_end: formatDateToYYYYMMDD(editedDateEnd),
+            date_start: editedDateStart,
+            date_end: editedDateEnd,
             time_end: timeEnd,
             time_start: timeStart,
             tags: editedTags,
@@ -144,11 +142,13 @@ function formatDateToMMDDYYYY(date: string) {
   };
 
   const handleDateStartChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditedDateStart(e.target.value);
-  };
+    const newDate = new Date(e.target.value); // Create a new Date object from the input value
+    setEditedDateStart(newDate);
+}
 
   const handleDateEndChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditedDateEnd(e.target.value);
+    const newDate = new Date(e.target.value);
+    setEditedDateEnd(newDate);
   };
 
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -162,6 +162,7 @@ function formatDateToMMDDYYYY(date: string) {
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEditedDescription(e.target.value);
   };
+
 
 
   return (
@@ -190,8 +191,8 @@ function formatDateToMMDDYYYY(date: string) {
                 <div className='h-[40vh] '>
                   <p><b>Package Name: </b><input onChange={handlePackageNameChange} type="text" value={editedPackageName} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
                   <p><b>Total Price: </b> <input type="text" value={editedPrice} onChange={handlePriceChange} className="h-[4vh] my-2 border-solid border-[#000000] border-2 p-2 rounded-md mx-4 pl-2"></input></p>
-                  <p><b>Available From: </b> <input type="date" value={editedDateStart} onChange={handleDateStartChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
-                  <p><b>Expiry Date: </b> <input type="date" value={editedDateEnd} onChange={handleDateEndChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+                  <p><b>Available From: </b> <input type="date" value={editedDateStart.toISOString().split('T')[0]} onChange={handleDateStartChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+                  <p><b>Expiry Date: </b> <input type="date" value={editedDateEnd.toISOString().split('T')[0]} onChange={handleDateEndChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
                   <p><b>Tags: </b> <input onChange={handleTagsChange} type="text" value={editedTags} className="h-[4vh] my-2 border-solid p-2 border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
                   <p><b>Visibility: </b>
                     <select id="sortDropdown" name="sortDropdown" className={`h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2`}
@@ -203,7 +204,7 @@ function formatDateToMMDDYYYY(date: string) {
                     </select>
                   </p>
                   <p><b>Description: </b></p>
-                  <textarea onChange={handleDescriptionChange} className="w-[80%] p-2 h-[25%] overflow-y-auto" value={editedDescription}></textarea>
+                  <textarea onChange={handleDescriptionChange} className="w-[80%] p-2 h-[25%] overflow-y-auto border-black border-2" value={editedDescription}></textarea>
                 </div>
               </div>
               <div className='flex flex-col w-[100%] h-[100%]'>
@@ -249,9 +250,9 @@ function formatDateToMMDDYYYY(date: string) {
               </div>
             </div>
             <div className='flex justify-end items-center h-[5vh]'>
-              <button className='w-[5vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center duration-75 hover:border-black border-2'  onClick={handleDeleteClick}><AiFillDelete />Delete</button>
+              <button className='w-[8vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center duration-75 hover:border-black border-2'  onClick={handleDeleteClick}><AiFillDelete />Delete</button>
               <button
-                    className='w-[5vw] h-[4vh] bg-[#7dc72d] mx-5 rounded-md flex items-center justify-center duration-75  hover:border-black border-2'
+                    className='w-[8vw] h-[4vh] bg-[#7dc72d] mx-5 rounded-md flex items-center justify-center duration-75  hover:border-black border-2'
                     disabled={isLoading}
                     onClick={editInfo}
                     >
