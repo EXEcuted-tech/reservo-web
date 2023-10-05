@@ -9,7 +9,8 @@ import guykey from '../../../assets/usersign.png';
 import config from '../../../common/config'
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import GenSpinner from '../../../components/loaders/genSpinner';
+import Danger from '../../../components/box/danger';
+import { Spinner } from '@material-tailwind/react/components/Spinner';
 
 
 const SignupPage = () => {
@@ -32,29 +33,26 @@ const SignupPage = () => {
         account_type: 1,
         contact_number: contactNum
     }).then((res)=>{
-        setIsLoading(false);
-        console.log("Response on: ", res);
-        if (res.status == 200){
+        if (res.data.success == true){
+          setTimeout(()=>{
+            setIsLoading(false);
+          },1500);
+          alert("Registered Successfully!");
           Navigate('/uslogin');
+        }else{
+          setTimeout(()=>{setIsLoading(false)},800);
+          setError(res.data.error);
         }
     }).catch((err) => { 
       console.log("ERROR: ",err);
         setError(err.error);
         setIsLoading(false);
     });
-    
-    
-
-    
-}
+  }
 
   return (
-    <div className='content-center overflow-hidden font-poppins'>
-      {error && 
-        <div className='absolute w-[80%] bg-[rgba(217, 83, 79, 0.1)] p-[20px] border border-[1px] m-[10px] text-[1em] border-s-[#d9534f]'>
-            <span>Error - </span>{error}
-        </div>
-      }
+    <div className='animate-fade-in content-center overflow-hidden font-poppins'>
+      {error !='' && <Danger message={error}/> }
       {/* Background Picture */}
       <img className='absolute h-screen w-full' src={background} />
       <div className='absolute left-2/4 top-2/4 text-align w-[1000px] p-[10px] -translate-x-2/4 -translate-y-2/4'>
@@ -113,14 +111,12 @@ const SignupPage = () => {
             onChange={(e) => setPassword(e.target.value)}
             ></input>
           </div>
-          <div className='text-center mt-5'>
-            {isLoading? <><GenSpinner/></>: <></>}
-            <input type='submit' className='no-underline inline-block text-[white] border text-lg relative cursor-pointer
-                                            shadow-[inset_0_0_0_white] w-[220px] px-6 py-[11px] rounded-[100px] border-solid 
-                                            border-[#e72a2a] font-poppins font-bold bg-[#DD2803]' value='Sign Up'
-                                            onClick={signUp}>
-                                              
-            </input>
+          <div className='flex justify-center mt-5'>
+            <button type='submit' onClick={signUp} className='flex items-center justify-center no-underline inline-block text-[white] border text-lg relative cursor-pointer
+            shadow-[inset_0_0_0_white] w-[220px] px-6 py-[11px] rounded-[100px] border-solid border-[#e72a2a] font-poppins font-bold bg-[#DD2803]'>
+                    {isLoading && <Spinner className='mr-[1%]'/>}
+                    Sign Up                                                 
+              </button> 
           </div>
 
         </div>

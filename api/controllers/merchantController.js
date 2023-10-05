@@ -2,43 +2,89 @@ const express = require('express');
 const db = require('./a_db'); 
 
 const createMerchant = (req,res)=>{
-    const { account_name, account_email, password, account_type, contact_number } = req.body;
-    const sql = "INSERT INTO"
-    db.query('INSERT INTO merchant (merchant_name,email_address,logo,contact_number,address,settings,sched_id) VALUES (?,?,?,?,?,?,?,?,?,?)',
-    [
-        newMerchant.merchant_name,
-        newMerchant.email_address,
-        newMerchant.logo,
-        newMerchant.contact_number,
-        JSON.stringify(newMerchant.address),
-        JSON.stringify(newMerchant.settings),
-        newMerchant.sched_id
-    ], 
-    (error, result) => {
-        if(error){
-            console.log("error inserting data", error);
-            return res.status(500).json({
+    const { business_name, insert_id,email,position} = req.body;
+
+    const newAccount = {
+        [insert_id]: {
+          email: email,
+          position: position,
+        },
+      };
+
+    db.query('SELECT * FROM merchant WHERE merchant_name = ?', [business_name], (error, results) => {
+      if (error) {
+        return res.status(500).json({
+          status: 500,
+          success: false,
+          error: 'Some error occurred while checking the records',
+        });
+      }
+  
+      if (results.length > 0) {
+        // console.log("Accounts:", typeof(results[0].accounts));
+        // console.log("New Account: ",newAccount);
+        const existingAccounts = JSON.parse(results[0].accounts);
+
+        const updatedAccounts = { ...existingAccounts, ...newAccount };
+
+        db.query(
+          'UPDATE merchant SET accounts = ? WHERE merchant_name = ?',
+          [JSON.stringify(updatedAccounts), business_name],
+          (updateError, updateResult) => {
+            if (updateError) {
+              console.log("Error updating existing record", updateError);
+              return res.status(500).json({
                 status: 500,
-                success: false, 
-                error: 'Error inserting data'
-            });
-        }
-        if(result.affectedRows > 0){
-            return res.status(200).json({
-              status: 200,
-              success: true,
-              data: result,
-            });
-        } 
-        else{
-            return res.status(500).json({ 
-                status: 500, 
-                success: false, 
-                error: 'Data insertion failed' 
-            });
-        }
-    }
-    )
+                success: false,
+                error: 'Error updating existing record',
+              });
+            }
+
+            if (updateResult.affectedRows > 0) {
+              return res.status(200).json({
+                status: 200,
+                success: true,
+                data: updateResult,
+              });
+            } else {
+              return res.status(500).json({
+                status: 500,
+                success: false,
+                error: 'Data update failed',
+              });
+            }
+          }
+        );
+      } else {
+        db.query(
+          'INSERT INTO merchant (merchant_name, accounts) VALUES (?, ?)',
+          [business_name, JSON.stringify(newAccount)],
+          (insertError, insertResult) => {
+            if (insertError) {
+              console.log("Error inserting new record", insertError);
+              return res.status(500).json({
+                status: 500,
+                success: false,
+                error: 'Error inserting new record',
+              });
+            }
+            if (insertResult.affectedRows > 0) {
+              return res.status(200).json({
+                status: 200,
+                success: true,
+                data: insertResult,
+              });
+            } else {
+              return res.status(500).json({
+                status: 500,
+                success: false,
+                error: 'Data insertion failed',
+              });
+            }
+          }
+        );
+      }
+    });
 }
 
 const updateMerchant = (req,res)=>{
