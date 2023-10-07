@@ -4,6 +4,11 @@ import { BiEdit } from "react-icons/bi";
 
 import { IoCalendarOutline } from "react-icons/io5";
 import { LiaEdit } from "react-icons/lia";
+import { BsPerson } from "react-icons/bs";
+import { MdFormatListNumbered } from "react-icons/md";
+import { HiOutlineMail } from "react-icons/hi";
+import { AiOutlinePhone } from "react-icons/ai";
+import { LiaCommentSolid } from "react-icons/lia";
 
 import { FiClock } from "react-icons/fi";
 import {RiReservedFill} from 'react-icons/ri'
@@ -103,10 +108,10 @@ const ReservationManager = () => {
                   <h3>Time:</h3>
                 </div>
                 <div className="flex items-center">
-                  <h3>Client Name:</h3>
+                  <BsPerson className="text-[22px]"/> <h3>Client Name:</h3>
                 </div>
                 <div className="flex items-center mt-[10%]">
-                  <h3>Remarks:</h3>
+                  <LiaCommentSolid className="text-[22px]"/><h3> Remarks:</h3>
                 </div>
                 {pageMode === PAGE_MODE.READ &&
                   !!fieldList.length &&
@@ -120,13 +125,13 @@ const ReservationManager = () => {
               </div>
               <div className="flex flex-col gap-5 w-1/2 font-bold">
                 <div className="flex items-center">
-                  <h3>Event Size:</h3>
+                  <MdFormatListNumbered className="text-[22px]"/> <h3>Event Size:</h3>
                 </div>
                 <div className="flex items-center">
-                  <h3>Email:</h3>
+                  <HiOutlineMail className="text-[22px]"/> <h3>Email:</h3>
                 </div>
                 <div className="flex items-center">
-                  <h3>Contact Number:</h3>
+                  <AiOutlinePhone className="text-[22px]"/> <h3>Contact Number:</h3>
                 </div>
               </div>
             </div>
@@ -137,7 +142,7 @@ const ReservationManager = () => {
                   onClick={() => {
                     dialogRef.current?.showModal();
                   }}
-                  className="p-3 text-xl bg-[#189A3D] text-white rounded-lg"
+                  className="p-3 text-xl bg-[#008927] text-white rounded-lg hover:bg-[#077827] transition-colors delay-250 duration-[3000] ease-in"
                 >
                   Add Field
                 </button>
@@ -158,7 +163,7 @@ const ReservationManager = () => {
         </div>
       </div>
       <dialog ref={dialogRef}>
-        <div className="">
+        <div className=" animate-fade-in">
           <div className="flex font-bold bg-red-900 text-white p-3">
             <h1 className="">Field Info</h1>
             <button
@@ -170,7 +175,7 @@ const ReservationManager = () => {
               X
             </button>
           </div>
-          <div className="p-3">
+          <div className="p-3 w-[100%]">
             <form onSubmit={(event) => handleSubmit(event)} ref={formRef}>
               <div className="flex flex-col gap-1">
                 <label htmlFor="label">Input Label</label>
@@ -188,7 +193,7 @@ const ReservationManager = () => {
               </div>
               <div className="flex gap-2 text-white mt-5">
                 <button
-                  className="ml-auto bg-red-900 p-2 rounded-lg"
+                  className="ml-auto bg-red-900 p-2 rounded-lg hover:bg-[#A01B00] transition-colors delay-250 duration-[3000] ease-in"
                   type="reset"
                   onClick={() => {
                     dialogRef.current?.close();
@@ -196,7 +201,7 @@ const ReservationManager = () => {
                 >
                   Cancel
                 </button>
-                <button className="bg-[#189A3D] p-2 rounded-lg" type="submit">
+                <button className="bg-[#189A3D] p-2 rounded-lg hover:bg-[#077827] transition-colors delay-250 duration-[3000] ease-in" type="submit">
                   Confirm
                 </button>
               </div>

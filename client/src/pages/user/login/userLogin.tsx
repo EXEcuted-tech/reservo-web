@@ -78,13 +78,13 @@ const UserLogin = () => {
                     </div>
                     <div className="divider w-[100%] h-[2px] bg-white"></div>
                     <div className="subH text-center text-white mt-[5%]">
-                        <span className='text-[1em] font-light'>Make a reservation in<br/> just a few click. Log in now!</span>
+                        <span className='text-[1em] font-light'>Make a reservation in<br/> just a few clicks. Log in now!</span>
                     </div>
                </div>
 
                 <div className="footHeader flex flex-col">
-                    <span className='text-[1.17em] text-white font-bold'>Are You an Admin?</span>
-                    <Link to={'/adlogin'} className='bg-white font-bold text-center p-[0.7rem] rounded-full m-[0.5rem] text-[#DD2803] w-[20vh] ml-[3.5vh]'>Admin page</Link>
+                    <span className='text-[1.17em] text-white font-bold'>Are You a Merchant?</span>
+                    <Link to={'/adlogin'} className='bg-white font-bold text-center p-[0.7rem] rounded-full m-[0.5rem] text-[#DD2803] w-[20vh] ml-[3.5vh] hover:bg-[#9a1a00] hover:text-white transition-colors delay-250 duration-[3000] ease-in'>Merchant Page</Link>
                 </div>
             </div>
             <div className="right w-[65%] h-[63vh] float-left bg-white shadow-[4px_15px_10px_4px_gray] rounded-[0px_7px_7px_0px] flex flex-col justify-center items-center">
@@ -105,19 +105,19 @@ const UserLogin = () => {
                             <input type="password" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}} required/>
                         </div>
                     </div>
-                    <div className="frgt text-right text-[0.8em] mb-[2rem] ">
+                    <div className="frgt text-right text-[0.8em] mb-[2rem] hover:text-[#9a1a00] transition-colors delay-250 duration-[3000]">
                         <Link to={'/forgpass'}>Forgot Password?</Link>
                     </div>
                     <div className="buttons flex flex-col items-center space-y-5">
                         <button type='submit' onClick={submitHandler} className='flex items-center justify-center button bg-[#DD2803] text-white p-[0.5em] w-[50%] rounded-full 
-                                hover:bg-[#9a1a00] font-bold'>
+                                hover:bg-[#9a1a00] font-bold transition-colors delay-250 duration-[3000] ease-in'>
                                 {isLoading && <Spinner className='mr-[1%]'/>}
                                     Sign in
                         </button>
-                        <button type='submit' onClick={guestHandler} className='font-poppins button text-[#DD2803] p-[0.5em] font-[bold] w-[50%] rounded-full border-solid border-2 border-[#DD2803] font-bold'>Log in as Guest</button>
+                        <button type='submit' onClick={guestHandler} className='font-poppins button text-[#DD2803] p-[0.5em] font-[bold] w-[50%] rounded-full border-solid border-2 border-[#DD2803] font-bold hover:bg-[#DD2803] hover:text-white transition-colors delay-250 duration-[3000] ease-in '>Log in as Guest</button>
                         <div className="signBox">
                             <span className='capitalize'>need an account ?</span>
-                            <Link to={'/usregister'} className='link text-[#DD2803] font-bold pl-1 hover:text-[#9a1a00]'>Sign Up</Link>
+                            <Link to={'/usregister'} className='link text-[#DD2803] font-bold pl-1 hover:text-[#9a1a00] transition-colors delay-250 duration-[3000] ease-in'>Sign Up</Link>
                         </div>    
                     </div>
                 </form>
