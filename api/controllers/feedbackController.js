@@ -87,6 +87,46 @@ const retrieveByParams = (req,res)=>{
     }
   });
 }
+const retrieveCountByParams = (req, res) => {
+  const { col, val } = req.query;
+
+  const retrieveSpecific = 'SELECT COUNT(*) AS record_count FROM feedback WHERE ?? = ?';
+
+  db.query(retrieveSpecific, [col, val], (err, row) => {
+      if (err) {
+          console.error('Error retrieving records:', err);
+          return res.status(500).json({ status: 500, success: false, error: 'Error retrieving records' });
+      } else {
+          const recordCount = row[0].record_count;
+
+          return res.status(200).json({
+              status: 200,
+              success: true,
+              ratingCount: recordCount,
+          });
+      }
+  });
+};
+
+const retrieveAverage = (req,res)=>{
+  const { merch_id } = req.query; 
+
+  const retrieveSpecific = 'SELECT AVG(rating_value) FROM feedback WHERE merchant_id = ?';
+
+  db.query(retrieveSpecific, [merch_id],(err, result) => {
+    if (err) {
+      console.error('Error retrieving average:', err);
+      return res.status(500).json({ status: 500, success:false,error: 'Error retrieving records' });
+    }else{
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        average: result,
+      });
+    }
+  });
+}
+
 
 
 module.exports = {
@@ -94,4 +134,6 @@ module.exports = {
     updateFeedback,
     retrieveAll,
     retrieveByParams,
+    retrieveAverage,
+    retrieveCountByParams,
 }
