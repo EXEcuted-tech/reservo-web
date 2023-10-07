@@ -22,7 +22,7 @@ interface feedbackList {
   merchant_id: number;
   rating_value: number;
   comment: string;
-  account_name: string; // test
+  account_name: string;
 }
 
 const FeedbackList = () => {
@@ -30,8 +30,8 @@ const FeedbackList = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 4;
 
-  const admerchDetails = localStorage.getItem('admerchDetails');
-  const userID = admerchDetails ? JSON.parse(admerchDetails).userID : '0';
+  // const admerchDetails = localStorage.getItem('admerchDetails');
+  // const userID = admerchDetails ? JSON.parse(admerchDetails).userID : '0';
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
