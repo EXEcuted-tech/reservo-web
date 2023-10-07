@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
-import { BsFillPencilFill } from "react-icons/bs";
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom';
 import config from "../../../common/config"
 import GenSpinner from '../../../components/loaders/genSpinner';
+import EditUsername from './modals/editUsername';
 
 
 function UserProfilePage(){ 
@@ -65,7 +65,7 @@ function UserProfilePage(){
                         <br />
                         {data ? (
                             <>
-                                <h1 className="text-center font-bold text-[20pt]">{data.account_name}<button><BsFillPencilFill className="ml-1" /></button></h1>
+                                <h1 className="text-center font-bold text-[20pt]">{data.account_name}<EditUsername /></h1>
                                 <br />
                                 <br />
                                 <br />
