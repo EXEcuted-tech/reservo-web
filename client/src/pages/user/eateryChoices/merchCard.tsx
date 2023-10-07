@@ -85,7 +85,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                 </div>
                 <div className='flex justify-end mt-[9%] mr-[2%] w-[100%]'>
                     <button className='flex items-center text-white bg-[#FF8A00] mr-[5%] px-[3%] py-[1.5%] rounded-2xl
-                        hover:bg-[#FFD8AA] hover:text-black font-medium transition-colors delay-250 duration-[3000] ease-in'
+                        hover:bg-[#FFD8AA] hover:text-black font-medium'
                         onClick={()=>{
                             navigate('/eaterychoice/view')
                             sessionStorage.setItem('merch_idtoView', props.merchant_id.toString());
@@ -93,7 +93,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                         <AiOutlineFolderView className='text-[1.6em]'/>View More
                     </button>
                     <button className='w-[40%] flex items-center text-black bg-[#F4D147] px-[5%] py-[1.5%] rounded-2xl
-                        hover:bg-[#FFB800] font-medium transition-colors delay-250 duration-[3000] ease-in'
+                        hover:bg-[#FFB800] font-medium'
                         onClick={()=>{
                             navigate('/eaterychoice/book')
                             sessionStorage.setItem('merch_idtoEdit', props.merchant_id.toString());
