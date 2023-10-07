@@ -115,8 +115,8 @@ const retrieveByTwoParams = (req,res)=>{
       console.error('Error retrieving records:', err);
       return res.status(500).json({ status: 500, success:false,error: 'Error retrieving records' });
     }else{
-      console.log("ROWWWWWWSSS");
-      console.log(rows);
+      // console.log("ROWWWWWWSSS");
+      // console.log(rows);
       return res.status(200).json({
         status: 200,
         success: true,

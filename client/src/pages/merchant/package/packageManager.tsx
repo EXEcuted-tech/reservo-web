@@ -12,22 +12,6 @@ import config from '../../../common/config.ts'
 import axios from 'axios'
 import GenSpinner from '../../../components/loaders/genSpinner.tsx';
 
-interface PackageItem {
-    package_id: string;
-    package_name: string;
-    package_desc: string;
-    price: string;
-    tags: string[];
-    date_start: Date;
-    date_end: Date;
-    visibility: string;
-    item_list: string[];
-    image_filepath: string;
-    oneButton: boolean;
-    time_start: string;
-    time_end: string;
-  }
-
 const PackageManager = () => {
     const [packages, setPackages] = useState<PackageItem[]>([]);
     const [unpublishedPackages, setUnpublishedPackages] = useState<PackageItem[]>([]);
@@ -123,8 +107,8 @@ const PackageManager = () => {
       };
 
 
-    return (
-<div className={`bg-[#FFFFFF] h-[100vh] font-poppins overflow-y-auto overflow-x-hidden`}>
+return (
+<div className={`bg-[#FFFFFF] h-[100vh] font-poppins overflow-y-auto overflow-x-hidden animate-fade-in`}>
     <div className="w-[80vw]">
     <MerchAdHeader icon={BiPackage} title={'Package Manager'}/>
     <div className="SortFilterSubheader flex mb-4 text-lg bg-[#f0e5d8] w-[85vw]">
@@ -154,13 +138,13 @@ const PackageManager = () => {
     <div className='PublishedPackages ps-20'>
       <div className='grid grid-flow-col'>
         <div><p className={`text-3xl mx-20 my-3 font-bold`}>Published Packages</p></div>
-        <div className='flex justify-end items-center mx-10' ><button onClick={() => fetchData(sort)} className='w-[6vw] h-[3vh] p-2 bg-[#1b6e1e] text-white flex justify-center items-center rounded-lg hover:border-black border-solid border-2'><BiRefresh className='flex items-center justify-center'/>Refresh</button></div>
+        <div className='flex justify-end items-center mx-10' ><button onClick={() => fetchData(sort)} className='w-[6vw] h-[4vh] p-2 bg-[#1b6e1e] text-white text-lg flex justify-center items-center rounded-lg hover:bg-[#00962a] transition-colors delay-250 duration-[3000] ease-in'><BiRefresh className='flex items-center justify-center'/>Refresh</button></div>
         </div>
         <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl  ">
         {isLoading ? (
               <GenSpinner/>
             ) : packages.length === 0 ? (
-              <p>No packages to show for now.</p>
+              <p className="text-lg">No packages to show for now.</p>
             ) : (
               packages.map((packageItem) => (
                 <Card
@@ -171,16 +155,15 @@ const PackageManager = () => {
                   date_end={new Date(packageItem.date_end)}
                   description={packageItem.package_desc} // Make sure to use the correct property name
                   price={packageItem.price} // Make sure to use the correct property name
-                  tags={packageItem.tags ? packageItem.tags.split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags
+                  tags={packageItem.tags ? (packageItem.tags as any).split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags
                   visibility={packageItem.visibility}
-                  items={packageItem.item_list ? packageItem.item_list.split(',').map((item: string) => item.trim()) : []} // Handle empty or null item_list
+                  items={packageItem.item_list ? (packageItem.item_list as any).split(',').map((item: string) => item.trim()) : []} // Handle empty or null item_list
                   filePath={packageItem.image_filepath}
                   oneButton={false} 
                   time_start={packageItem.time_start} 
                   time_end={packageItem.time_end}                
                   />
               ))
-              
             )}
 
         </div>
@@ -199,7 +182,7 @@ const PackageManager = () => {
         {isLoading ? (
               <GenSpinner/>
             ) : unpublishedPackages.length === 0 ? (
-              <p>No packages to show for now.</p>
+              <p className="text-lg">No packages to show for now.</p>
             ) : (
               unpublishedPackages.map((packageItem) => (
                 <Card
@@ -210,10 +193,10 @@ const PackageManager = () => {
                   date_end={new Date(packageItem.date_end)}
                   description={packageItem.package_desc}
                   price={packageItem.price}
-                  tags={packageItem.tags ? packageItem.tags.split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags
+                  tags={packageItem.tags ? (packageItem.tags as any).split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags
                   visibility={packageItem.visibility}
                   filePath={packageItem.image_filepath}
-                  items={packageItem.item_list ? packageItem.item_list.split(',').map((item: string) => item.trim()) : []} // Handle empty or null item_list
+                  items={packageItem.item_list ? (packageItem.item_list as any).split(',').map((item: string) => item.trim()) : []} // Handle empty or null item_list
                   oneButton={false} 
                   time_start={packageItem.time_start} 
                   time_end={packageItem.time_end}                
