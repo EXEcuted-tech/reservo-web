@@ -11,9 +11,6 @@ import MerchDeetsLoad from '../../../components/loaders/merchDeetsLoad';
 import axios from 'axios';
 import config from '../../../common/config';
 
-
-/*Insertan panig back end para ma fully functional*/
-
 const MerchDeets = () =>{
     const [openRatingMod,setOpenRatingMod]= useState(false);
     return (
@@ -39,88 +36,128 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
     const [maxPrice,setMaxPrice] = useState(0);
     const [ratingCount,setRatingCount] = useState(0);
     const [avg,setAvg] = useState(0);
-    const merchantId = sessionStorage.getItem('merch_idtoView');
+    const [merchantData, setMerchantData] = useState<MerchCardProps | null>(null);
+    const [feedback, setFeedback] = useState<Feedback[]>([]);
+    const [packages, setPackages] = useState<PackageItem[]>([]);
+    const merchIdString = sessionStorage.getItem('merch_idtoView');
+    const merchantId = merchIdString !== null ? parseInt(merchIdString) : 0;
 
-  useEffect(() => {
-    // const address = (
-    //     (props.address?.barangay ? `${props.address.barangay}, ` : '') +
-    //     (props.address?.municipality ? `${props.address.municipality}, ` : '') +
-    //     (props.address?.province ? `${props.address.province}, ` : '') +
-    //     (props.address?.country ? props.address.country : '')
-    // );
-    // setConcAddress(address);
-    // retrievePriceRange();
-    // retrieveRatingCount();
-    // retrieveRatingAvg();
-    console.log("ID: ",merchantId);
-    retrieveMerchant();
-  }, []); 
+    useEffect(() => {
+        retrieveMerchant();
+      }, []); 
 
-  const retrieveMerchant = () =>{
+    useEffect(() => {
+        if (merchantData) {
+            const address = (
+                (merchantData.address?.barangay ? `${merchantData.address.barangay}, ` : '') +
+                (merchantData.address?.municipality ? `${merchantData.address.municipality}, ` : '') +
+                (merchantData.address?.province ? `${merchantData.address.province}, ` : '') +
+                (merchantData.address?.country ? merchantData.address.country : '')
+            );
+            setConcAddress(address);
+            retrieveRatingCount();
+            retrieveRatingAvg();
+            retrievePriceRange();
+            retrieveFeedbacks();
+            fetchData();
+            setTimeout(()=>{setIsLoading(true)},2200);
+        }
+    }, [merchantData]); 
+
+    const fetchData = async () =>{
+        const publishedPackages = await fetchPublishedPackages();
+        setPackages(publishedPackages)
+    }
+
+  const retrieveMerchant = async () =>{
     const col = "merchant_id";
     const val = merchantId;
 
     setIsLoading(false);
-    axios.get(`${config.API}/merchant/retrieve?col=${col}&val=${val}`)
+    await axios.get(`${config.API}/merchant/retrieve?col=${col}&val=${val}`)
     .then((res)=>{
         if(res.data.success == true){
-            console.log("RESULT: ",res);
-          const merchantMap = res.data.merchant;
+            const merchant = res.data.merchant;
 
-        //   const merchCardProps: MerchCardProps ={
-        //     merchant_id: merchant.merchant_id,
-        //     merchant_name: merchant.merchant_name,
-        //     email_address: merchant.email_address,
-        //     logo: merchant.logo,
-        //     contact_number: merchant.contact_number,
-        //     address: parsedAddress,
-        //     settings: parsedSettings,
-        //     sched_id: merchant.sched_id,
-        //     accounts: parsedAccounts
-        // };
-
-        //   setMerchantData(merchCardPropsArray);
-        //   setTimeout(()=>{setLoading(true)},2500);
+            const merchCard: MerchCardProps ={
+                merchant_id: merchant.merchant_id,
+                merchant_name: merchant.merchant_name,
+                email_address: merchant.email_address,
+                logo: merchant.logo,
+                contact_number: merchant.contact_number,
+                address: res.data.address,
+                settings: res.data.settings,
+                sched_id: merchant.sched_id,
+                accounts: res.data.settings
+            };
+          setMerchantData(merchCard);
         }
       }).catch((err)=>{
           setIsLoading(false);
       });
   }
 
-//   const retrievePriceRange = () =>{
-//     const merchId = props.merchant_id;
-//     axios.get(`${config.API}/package/retrieve_price?merch_id=${merchId}`)
-//     .then((res)=>{
-//        if(res.data.success === true){
-//         setMinPrice(res.data.minPrice);
-//         setMaxPrice(res.data.maxPrice);
-//        }
-//     }).catch((err)=>{
+  const retrievePriceRange = async () =>{
+    const merchId = merchantData?.merchant_id;
+    await axios.get(`${config.API}/package/retrieve_price?merch_id=${merchId}`)
+    .then((res)=>{
+       if(res.data.success === true){
+        setMinPrice(res.data.minPrice);
+        setMaxPrice(res.data.maxPrice);
+       }
+    })
+  }
 
-//     })
-//   }
+  const retrieveRatingCount = async () =>{
+    const col = "merchant_id" 
+    const val = merchantData?.merchant_id;
+    await axios.get(`${config.API}/feedback/retrieve_count?col=${col}&val=${val}`)
+    .then((res)=>{
+       if(res.data.success === true){
+        setRatingCount(res.data.ratingCount)
+       }
+    })
+  }
 
-//   const retrieveRatingCount = () =>{
-//     const col = "merchant_id" 
-//     const val = props.merchant_id;
-//     axios.get(`${config.API}/feedback/retrieve_count?col=${col}&val=${val}`)
-//     .then((res)=>{
-//        if(res.data.success === true){
-//         setRatingCount(res.data.ratingCount)
-//        }
-//     })
-//   }
+  const retrieveRatingAvg = async () =>{
+    const merchId = merchantData?.merchant_id;
+    await axios.get(`${config.API}/feedback/retrieve_avg?merch_id=${merchId}`)
+    .then((res)=>{
+       if(res.data.success === true){
+        setAvg(res.data.average);
+       }
+    })
+  }
 
-//   const retrieveRatingAvg = () =>{
-//     const merchId = props.merchant_id;
-//     axios.get(`${config.API}/feedback/retrieve_avg?merch_id=${merchId}`)
-//     .then((res)=>{
-//        if(res.data.success === true){
-//         setAvg(res.data.average);
-//        }
-//     })
-//   }
+  const retrieveFeedbacks = async () =>{
+    const col = "merchant_id"
+    const val = merchantData?.merchant_id;
+    await axios.get(`${config.API}/feedback/retrieve?col=${col}&val=${val}`)
+    .then((res)=>{
+        if(res.data.success == true){
+            setFeedback(res.data.records);
+        }
+    })
+  }
+
+  const fetchPublishedPackages = async () => {
+    try {
+      const response = await axios.get(`${config.API}/package/retrieveparams`, {
+        params: {
+          col1: 'merchant_id',
+          val1: merchantData?.merchant_id, // Replace with the actual merchant ID
+          col2: 'visibility',
+          val2: 'PUBLISHED',
+        },
+      });
   
+      return response.data.data;
+    } catch (error) {
+      console.error('Error fetching published packages:', error);
+      return [];
+    }
+  };
+
   return (
     <div className={`animate-fade-in font-poppins bg-[#F9F2EA] h-[100%] ${openRatingMod ? 'z-[-10]' : 'z-1'}`}>
        <div className='text-[#DD2803] ml-[2%]'>
@@ -140,35 +177,36 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
           {/* 1st Row of white container */}
           <div className='flex w-[100%] h-[30vh]'>
             <div className='mt-[2%] ml-[3%]'>
-                <img className='w-[262px] h-[219px] rounded-[50px]' src={"picture"}/>
+                <img className='w-[262px] h-[219px] rounded-[50px]' src={merchantData?.logo || ''}/>
             </div>
 
             <div className='ml-[2%] mt-[2.5%] w-[80vw]'>
-                <h1 className='font-bold text-[2em]'>{"businessName"}</h1>
+                <h1 className='font-bold text-[2em]'>{merchantData?.merchant_name}</h1>
                 <div className='flex'>
                 {/* Left Side */}
                     <div>
                         <div className='flex mt-[0.5%]'>
-                            <Rating className={`${openRatingMod ? 'z-[-1]' : 'z-1'}`} value={3} readOnly />
-                            <p className='ml-[1%]'>({"reviewCount"} Reviews)</p>
+                            <Rating className={`${openRatingMod ? 'z-[-1]' : 'z-1'}`} value={avg} readOnly />
+                            <p className='ml-[1%]'>({ratingCount} Reviews)</p>
                         </div>
                         <div className='flex items-center mt-[1%] text-[1.1em]'>
                             <GrLocation className='text-[1.3em] mr-[0.5%]'/>
-                            {"location"}
+                            {concAddress}
                         </div>
                         <div className='w-[50vw]'>
-                            <p className='mt-[1%] text-[1.1em]'><span className='font-bold mr-[0.5%]'>Description:</span>{"description"}</p>
+                            <p className='mt-[1%] text-[1.1em]'><span className='font-bold mr-[0.5%]'>Description:</span>
+                            {merchantData?.settings ? merchantData?.settings?.description : "Coming Soon!"}</p>
                         </div>
                         <div className='w-[30vw]'>
                         <p className='mt-[2%] text-[1.1em]'>
                             <span className='font-bold mr-[0.5%]'>Tags:</span>
-                            {/* {data.tags.map((tag:string, index:number) => (
+                            {merchantData?.settings?.tags.map((tag:string, index:number) => (
                                 <span key={index} 
                                  className='rounded-3xl bg-[#D9EFFF] border border-[#06F] text-[#06F] ml-[0.5%] mr-[1.5%]
                                             text-[0.9em] py-[0.5%] px-[1%]'>
                                     {tag}
                                 </span>
-                            ))} */}
+                            ))}
                         </p>
                     </div>
                     </div>
@@ -193,17 +231,18 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
           {/* 2nd Row of white container */}
           <div className='ml-[3%]'>
             <h1 className='text-[2em] font-bold'>MENU AND PACKAGES</h1>
-            <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Price Range:</span>{"priceRange"}</p>
+            <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Price Range:</span>{"₱ "+minPrice+" - "+"₱ "+maxPrice}</p>
             <div className='PublishedPackages mt-[-2%]'>
             <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl">
-                {/* <Card
+             {packages.map((packageItem)=>(
+                <Card
                   key={packageItem.package_id}
                   package_id={packageItem.package_id}
                   packageName={packageItem.package_name}
                   date_start={new Date(packageItem.date_start)}
                   date_end={new Date(packageItem.date_end)}
-                  description={packageItem.package_desc} // Make sure to use the correct property name
-                  price={packageItem.price} // Make sure to use the correct property name
+                  description={packageItem.package_desc}
+                  price={packageItem.price} 
                   tags={packageItem.tags ? (packageItem.tags as any).split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags
                   visibility={packageItem.visibility}
                   items={packageItem.item_list ? (packageItem.item_list as any).split(',').map((item: string) => item.trim()) : []} // Handle empty or null item_list
@@ -211,7 +250,8 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                   oneButton={false} 
                   time_start={packageItem.time_start} 
                   time_end={packageItem.time_end}                
-                  /> */}
+                  />
+                ))}
             </div> 
             </div>
           </div>
@@ -220,13 +260,13 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
            <hr className='h-[10px] mx-[3%] mt-[1%]'/>
            <div className='ml-[3%]'>
                 <h1 className='text-[2em] font-bold'>CUSTOMER REVIEWS</h1>
-                <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Average Rating:</span>4.5</p>
-                <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Total Reviews:</span>5,021 Total</p>
-                {/* {reviewData.map((review,index)=>(
+                <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Average Rating:</span>{avg}</p>
+                <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Total Reviews:</span>{ratingCount} Total</p>
+                {feedback.map((review,index)=>(
                     <div className={`my-[1%] ${openRatingMod ? 'opacity-0.5 z-[-1]' : 'z-1'}`}>
                         <CommentSec key={index} {...review}/>
                     </div>
-                ))} */}
+                ))}
            </div>   
         </div>   
         }     
