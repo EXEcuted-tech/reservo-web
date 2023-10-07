@@ -26,7 +26,7 @@ interface feedbackList {
 }
 
 const FeedbackList = () => {
-  const [feedback, setFeedback] = useState<feedbackList[]>([]);
+  const [feedback, setFeedback] = useState<Array<{feedback: feedbackList, clientName: String}>>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 4;
 
@@ -40,46 +40,42 @@ const FeedbackList = () => {
     setCurrentPage(page);
   };
   const averageRating = feedback.length > 0
-    ? feedback.reduce((acc, curr) => acc + curr.rating_value, 0) / feedback.length
+    ? feedback.reduce((acc, curr) => acc + curr.feedback.rating_value, 0) / feedback.length
     : 0;
 
   const fetchFeedback = async () => {
+    const col = 'merchant_id';
+    const val = 3;
     try {
-      const resFeedback = await axios.get(`${config.API}/feedback/retrieve`, {
-        params: {
-          col: 'merchant_id',
-          val: 3, // Temporarily set merchant id
-        },
-      });
-
+      const resFeedback = await axios.get(`${config.API}/feedback/retrieve?col=${col}&val=${val}`);
+      const feedbackRec = [];
       const feedbackData = resFeedback.data.records;
-      setFeedback(feedbackData);
-
-      // Fetch account names for feedback
-      // const promises = feedbackData.map(async (feedbackItem: feedbackList) => {
-      //   try {
-      //     const resAccount = await axios.get(`${config.API}/user/retrieve`, {
-      //       params: {
-      //         col: 'account_id',
-      //         val: feedbackItem.account_id,
-      //       },
-      //     });
-
-      //     return { ...feedbackItem, account_name: resAccount.data.account_name };
-      //   } catch (accountError) {
-      //     console.error('Error fetching account data:', accountError);
-      //     return feedbackItem;
-      //   }
-      // });
-
-      // const feedbackWithAccountNames = await Promise.all(promises);
-      // setFeedback(feedbackWithAccountNames);
-      // console.log(feedbackWithAccountNames); //account_name included 
-
+      for(const feedback of feedbackData){
+        const clientName = await getClient(feedback.account_id);
+        feedbackRec.push({feedback, clientName});
+      }
+      setFeedback(feedbackRec);
     } catch (err) {
       console.log(err);
     }
   };
+
+  const getClient = async (id: number) => {
+    try {
+      const col = 'account_id';
+      const val = id;
+      
+      const response = await axios.get(`${config.API}/user/retrieve?col=${col}&val=${val}`);
+
+      if(response.data.status === 200) {
+        return response.data.users[0].account_name;
+      }
+      return '';
+    }catch (error){
+      console.log(error);
+      return '';
+    }
+  }
 
   useEffect(() => {
     fetchFeedback();
@@ -97,16 +93,16 @@ const FeedbackList = () => {
           </div>
 
           {currentFeedbackPage.length > 0 ? (
-            currentFeedbackPage.map((fee) => (
-              <div className="bg-[#F0E5D8] bg-opacity-50 rounded-[3rem] mx-16 mb-3 px-12 py-4" key={fee.feedback_id}>
+            currentFeedbackPage.map(({feedback, clientName}, index) => (
+              <div className="bg-[#F0E5D8] bg-opacity-50 rounded-[3rem] mx-16 mb-3 px-12 py-4" key={feedback.feedback_id}>
                 <div className="flex font-poppins">
                   <BsFillPersonFill className="rounded-full bg-[#F4D147] text-4xl p-1" />
-                  <h3 className="text-2xl ml-2">{fee.account_name || 'Cannot Retrieve Name'}</h3>
+                  <h3 className="text-2xl ml-2">{clientName || 'Cannot Retrieve Name'}</h3>
                 </div>
                 <div className="pl-12">
-                  <Rating name="half-rating" defaultValue={fee.rating_value} precision={1} size="small" readOnly />
+                  <Rating name="half-rating" defaultValue={feedback.rating_value} precision={1} size="small" readOnly />
                   <p className="opacity-50 text-xs">2022-06-18 11:00</p>
-                  <p className="text-xl">{fee.comment}</p>
+                  <p className="text-xl">{feedback.comment}</p>
                 </div>
               </div>
             ))
