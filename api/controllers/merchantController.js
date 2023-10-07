@@ -89,14 +89,18 @@ const createMerchant = (req,res)=>{
 
 const updateMerchant = (req,res)=>{
     const updatedMerchant = req.body.merchant;
+
+    //objects
     const updatedAddress = JSON.stringify(req.body.address);
     const updatedSettings = JSON.stringify(req.body.settings);
+    const updatedAccounts = JSON.stringify(req.body.accounts);
 
     const merchantId = updatedMerchant.merchant_id;
     // console.log(updatedMerchant);
 
     updatedMerchant.settings = updatedSettings;
     updatedMerchant.address = updatedAddress;
+    updatedMerchant.accounts = updatedAccounts
 
     const columns = Object.keys(updatedMerchant);
     const values = Object.values(updatedMerchant);
@@ -142,18 +146,22 @@ const retrieveAll = (req,res)=>{
             //extracting objects
             const parsedAddressArray = [];
             const parsedSettingsArray = [];
+            const parsedAccountsArray = [];
             for(const result of results){
                 const parsedAddress = JSON.parse(result.address);
                 const parsedSettings = JSON.parse(result.settings);
+                const parsedAccounts = JSON.parse(result.accounts);
                 parsedSettingsArray.push(parsedSettings);
                 parsedAddressArray.push(parsedAddress);
+                parsedAccountsArray.push(parsedAccounts);
             }
 
             return res.json({
                 success:true,
                 merchant: results,
                 address: parsedAddressArray,
-                settings: parsedSettingsArray
+                settings: parsedSettingsArray,
+                accounts: parsedAccountsArray,
             })
         }
     })
@@ -169,13 +177,15 @@ const retrieveByParams = (req,res)=>{
         else{
             const parsedAddress = JSON.parse(result[0].address);
             const parsedSettings = JSON.parse(result[0].settings);
+            const parsedAccounts = JSON.parse(result[0].accounts);
 
             return res.status(200).json({
                 status: 200,
                 success: true,
                 merchant: result[0],
                 address: parsedAddress,
-                settings: parsedSettings
+                settings: parsedSettings,
+                accounts: parsedAccounts,
             })
         }
     })
