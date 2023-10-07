@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from '../../../components/card/card'
 import Rating from '@mui/material/Rating';
 import {GrLocation} from 'react-icons/gr'
@@ -7,6 +7,9 @@ import {BsBookFill} from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom';
 import CommentSec from './commentSec';
 import RatingModal from '../../../components/modals/ratingModal/RatingModal';
+import MerchDeetsLoad from '../../../components/loaders/merchDeetsLoad';
+import axios from 'axios';
+import config from '../../../common/config';
 
 
 /*Insertan panig back end para ma fully functional*/
@@ -27,55 +30,97 @@ const MerchDeets = () =>{
     )
 }
 
-
-  
-
 const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
     const { setOpenRatingMod, openRatingMod} = props;
+    const [isLoading,setIsLoading] = useState(false);
     const navigate = useNavigate();
-    const data=   {
-        merchId: 1,
-        picture: 'https://i.imgur.com/ht36TyH.jpg',
-        businessName: "Derf's Grill and Restaurant",
-        rating: 4,
-        reviewCount: 2002,
-        location: 'Maasin City, Leyte, Philippines',
-        description: 'Yummy, delicious food! Catering to all! Yummy, delicious food! Catering to all!',
-        priceRange: '₱ 500 - ₱ 10,000',
-        tags: ['Catering', 'On-Site','Off-Site' ]
-    }
+    const [concAddress,setConcAddress] = useState("");
+    const [minPrice,setMinPrice] = useState(0);
+    const [maxPrice,setMaxPrice] = useState(0);
+    const [ratingCount,setRatingCount] = useState(0);
+    const [avg,setAvg] = useState(0);
+    const merchantId = sessionStorage.getItem('merch_idtoView');
 
-    const reviewData: ReviewProps[] = [
-        {
-          reviewId: 1,
-          customerName: "Kathea Mari Mayol",
-          rating: 5,
-          comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        },
-        {
-            reviewId: 2,
-            customerName: "John Doe",
-            rating: 4,
-            comment: "Amazeballs!"
-        },
-        {
-            reviewId: 3,
-            customerName: "Minatozaki Sana",
-            rating: 2.5,
-            comment: "Amazeballs!"
-        },
-        {
-            reviewId: 3,
-            customerName: "Minatozaki Sana",
-            rating: 2.5,
-            comment: "Amazeballs!"
-        },
-      ];
+  useEffect(() => {
+    // const address = (
+    //     (props.address?.barangay ? `${props.address.barangay}, ` : '') +
+    //     (props.address?.municipality ? `${props.address.municipality}, ` : '') +
+    //     (props.address?.province ? `${props.address.province}, ` : '') +
+    //     (props.address?.country ? props.address.country : '')
+    // );
+    // setConcAddress(address);
+    // retrievePriceRange();
+    // retrieveRatingCount();
+    // retrieveRatingAvg();
+    console.log("ID: ",merchantId);
+    retrieveMerchant();
+  }, []); 
 
-  const navigateBack = () =>{
-    
+  const retrieveMerchant = () =>{
+    const col = "merchant_id";
+    const val = merchantId;
+
+    setIsLoading(false);
+    axios.get(`${config.API}/merchant/retrieve?col=${col}&val=${val}`)
+    .then((res)=>{
+        if(res.data.success == true){
+            console.log("RESULT: ",res);
+          const merchantMap = res.data.merchant;
+
+        //   const merchCardProps: MerchCardProps ={
+        //     merchant_id: merchant.merchant_id,
+        //     merchant_name: merchant.merchant_name,
+        //     email_address: merchant.email_address,
+        //     logo: merchant.logo,
+        //     contact_number: merchant.contact_number,
+        //     address: parsedAddress,
+        //     settings: parsedSettings,
+        //     sched_id: merchant.sched_id,
+        //     accounts: parsedAccounts
+        // };
+
+        //   setMerchantData(merchCardPropsArray);
+        //   setTimeout(()=>{setLoading(true)},2500);
+        }
+      }).catch((err)=>{
+          setIsLoading(false);
+      });
   }
 
+//   const retrievePriceRange = () =>{
+//     const merchId = props.merchant_id;
+//     axios.get(`${config.API}/package/retrieve_price?merch_id=${merchId}`)
+//     .then((res)=>{
+//        if(res.data.success === true){
+//         setMinPrice(res.data.minPrice);
+//         setMaxPrice(res.data.maxPrice);
+//        }
+//     }).catch((err)=>{
+
+//     })
+//   }
+
+//   const retrieveRatingCount = () =>{
+//     const col = "merchant_id" 
+//     const val = props.merchant_id;
+//     axios.get(`${config.API}/feedback/retrieve_count?col=${col}&val=${val}`)
+//     .then((res)=>{
+//        if(res.data.success === true){
+//         setRatingCount(res.data.ratingCount)
+//        }
+//     })
+//   }
+
+//   const retrieveRatingAvg = () =>{
+//     const merchId = props.merchant_id;
+//     axios.get(`${config.API}/feedback/retrieve_avg?merch_id=${merchId}`)
+//     .then((res)=>{
+//        if(res.data.success === true){
+//         setAvg(res.data.average);
+//        }
+//     })
+//   }
+  
   return (
     <div className={`font-poppins bg-[#F9F2EA] h-[100%] ${openRatingMod ? 'z-[-10]' : 'z-1'}`}>
        <div className='text-[#DD2803] ml-[2%]'>
@@ -86,40 +131,44 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
         </h1>
        </div>
 
+        {!isLoading
+        ?
+            <MerchDeetsLoad/>
+        :
        <div className='bg-white h-[100%]'>
 
           {/* 1st Row of white container */}
           <div className='flex w-[100%] h-[30vh]'>
             <div className='mt-[2%] ml-[3%]'>
-                <img className='w-[262px] h-[219px] rounded-[50px]' src={data.picture}/>
+                <img className='w-[262px] h-[219px] rounded-[50px]' src={"picture"}/>
             </div>
 
             <div className='ml-[2%] mt-[2.5%] w-[80vw]'>
-                <h1 className='font-bold text-[2em]'>{data.businessName}</h1>
+                <h1 className='font-bold text-[2em]'>{"businessName"}</h1>
                 <div className='flex'>
                 {/* Left Side */}
                     <div>
                         <div className='flex mt-[0.5%]'>
-                            <Rating className={`${openRatingMod ? 'z-[-1]' : 'z-1'}`} value={data.rating} readOnly />
-                            <p className='ml-[1%]'>({data.reviewCount} Reviews)</p>
+                            <Rating className={`${openRatingMod ? 'z-[-1]' : 'z-1'}`} value={3} readOnly />
+                            <p className='ml-[1%]'>({"reviewCount"} Reviews)</p>
                         </div>
                         <div className='flex items-center mt-[1%] text-[1.1em]'>
                             <GrLocation className='text-[1.3em] mr-[0.5%]'/>
-                            {data.location}
+                            {"location"}
                         </div>
                         <div className='w-[50vw]'>
-                            <p className='mt-[1%] text-[1.1em]'><span className='font-bold mr-[0.5%]'>Description:</span>{data.description}</p>
+                            <p className='mt-[1%] text-[1.1em]'><span className='font-bold mr-[0.5%]'>Description:</span>{"description"}</p>
                         </div>
                         <div className='w-[30vw]'>
                         <p className='mt-[2%] text-[1.1em]'>
                             <span className='font-bold mr-[0.5%]'>Tags:</span>
-                            {data.tags.map((tag:string, index:number) => (
+                            {/* {data.tags.map((tag:string, index:number) => (
                                 <span key={index} 
                                  className='rounded-3xl bg-[#D9EFFF] border border-[#06F] text-[#06F] ml-[0.5%] mr-[1.5%]
                                             text-[1em] py-[0.5%] px-[1%]'>
                                     {tag}
                                 </span>
-                            ))}
+                            ))} */}
                         </p>
                     </div>
                     </div>
@@ -144,40 +193,25 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
           {/* 2nd Row of white container */}
           <div className='ml-[3%]'>
             <h1 className='text-[2em] font-bold'>MENU AND PACKAGES</h1>
-            <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Price Range:</span>{data.priceRange}</p>
+            <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Price Range:</span>{"priceRange"}</p>
             <div className='PublishedPackages mt-[-2%]'>
             <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl">
-                <Card
-                    package_id='10379'
-                    packageName='Lechon Kawali'
-                    description='A lechon kawali served hot 1kg good for four people.'
-                    price='360.00'
-                    tags={["Best-Seller", "Popular"]}
-                    visibility='Visible'
-                    items={["Lechon 1KG"]}
-                    oneButton={true} key={''} date_start={''} date_end={''} time_start={''} time_end={''} filePath={''}/>
-
-                <Card
-                    package_id='10379'
-                    packageName='Lechon Kawali'
-                    description='A lechon kawali served hot 1kg good for four people.'
-                    price='360.00'
-                    tags={["Best-Seller", "Popular"]}
-                    visibility='Visible'
-                    items={[]}
-                    oneButton={true} key={''} date_start={''} date_end={''} time_start={''} time_end={''} filePath={''}/>
-
-                <Card
-                    package_id='10289'
-                    packageName='Combo Meal'
-                    description='A bang for the buck meal'
-                    price='190.00'
-                    tags={["Best-Seller", "Popular"]}
-                    visibility='Visible'
-                    items={["1pc Rice, 1pc Chicken, 16oz Drink"]}
-                    oneButton={true} key={''} date_start={''} date_end={''} time_start={''} time_end={''} filePath={''}/>
-
-
+                {/* <Card
+                  key={packageItem.package_id}
+                  package_id={packageItem.package_id}
+                  packageName={packageItem.package_name}
+                  date_start={new Date(packageItem.date_start)}
+                  date_end={new Date(packageItem.date_end)}
+                  description={packageItem.package_desc} // Make sure to use the correct property name
+                  price={packageItem.price} // Make sure to use the correct property name
+                  tags={packageItem.tags ? (packageItem.tags as any).split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags
+                  visibility={packageItem.visibility}
+                  items={packageItem.item_list ? (packageItem.item_list as any).split(',').map((item: string) => item.trim()) : []} // Handle empty or null item_list
+                  filePath={packageItem.image_filepath}
+                  oneButton={false} 
+                  time_start={packageItem.time_start} 
+                  time_end={packageItem.time_end}                
+                  /> */}
             </div> 
             </div>
           </div>
@@ -188,13 +222,14 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                 <h1 className='text-[2em] font-bold'>CUSTOMER REVIEWS</h1>
                 <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Average Rating:</span>4.5</p>
                 <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Total Reviews:</span>5,021 Total</p>
-                {reviewData.map((review,index)=>(
+                {/* {reviewData.map((review,index)=>(
                     <div className={`my-[1%] ${openRatingMod ? 'opacity-0.5 z-[-1]' : 'z-1'}`}>
                         <CommentSec key={index} {...review}/>
                     </div>
-                ))}
+                ))} */}
            </div>   
-        </div>        
+        </div>   
+        }     
     </div>
   )
 }
