@@ -1,15 +1,22 @@
 /*For dummy ni siya tanan and must be replaced*/
+interface Address {
+    country: string | null;
+    region: string | null;
+    province: string | null;
+    municipality: string | null;
+    barangay: string | null;
+}
 
 interface MerchCardProps {
-    merchId: number;
-    picture: string;
-    businessName: string;
-    rating: number,
-    reviewCount: number,
-    location: string,
-    description: string,
-    priceRange: string,
-    tags: string[]
+    merchant_id: number;
+    merchant_name: string;
+    email_address: string | null;
+    logo: string | null;
+    contact_number: string | null;
+    address: Address | null;
+    settings : Record<string,any> | null;
+    sched_id: null;
+    accounts: Record<string,any> | null;
 }
 
 interface ReserveCardProps {
