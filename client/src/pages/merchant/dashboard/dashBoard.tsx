@@ -12,27 +12,29 @@ import GenSpinner from '../../../components/loaders/genSpinner'
 
 const LineData = [
   ['x', 'Bookings'],
-  [0, 0,],
-  [1, 10],
-  [2, 23],
-  [3, 17],
-  [4, 18],
-  [5, 9],
-  [6, 11],
-  [7, 27],
+  [new Date(2023,0), 1 ],
+  [new Date(2023,1), 2],
+  [new Date(2023,2), 10],
+  [new Date(2023,3), 23],
+  [new Date(2023,4), 10],
+  [new Date(2023,5), 42],
+  [new Date(2023,6), 16],
+  [new Date(2023,7), 12],
+  [new Date(2023,8), 42],
+  [new Date(2023,9), 16],
+  [new Date(2023,10), 12],
+  [new Date(2023,11), 100],
 ]
 const LineChartOptions = {
-  chart: {
-    title: 'Average Temperatures and Daylight in Iceland Throughout the Year'
-  },
+  title: 'Rervations Graph',
   hAxis: {
-    title: 'Time',
+    title: 'Monthly',
     gridlines: {
-      color: 'transparent'
-    }
+      color: 'transparent',
+    },
   },
   vAxis: {
-    title: 'Popularity',
+    title: 'Caters',
     gridlines: {
       color: 'transparent'
     }

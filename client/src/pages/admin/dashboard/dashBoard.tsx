@@ -21,13 +21,13 @@ const LineChartOptions = {
     title: 'Average Temperatures and Daylight in Iceland Throughout the Year'
   },
   hAxis: {
-    title: 'Time',
+    title: 'Monthly',
     gridlines: {
       color: 'transparent'
     }
   },
   vAxis: {
-    title: 'Popularity',
+    title: 'Caters',
     gridlines: {
       color: 'transparent'
     }
