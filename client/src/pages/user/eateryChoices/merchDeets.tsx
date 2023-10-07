@@ -122,7 +122,7 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
 //   }
   
   return (
-    <div className={`font-poppins bg-[#F9F2EA] h-[100%] ${openRatingMod ? 'z-[-10]' : 'z-1'}`}>
+    <div className={`animate-fade-in font-poppins bg-[#F9F2EA] h-[100%] ${openRatingMod ? 'z-[-10]' : 'z-1'}`}>
        <div className='text-[#DD2803] ml-[2%]'>
          <h1 className='text-[2.5em] py-[1%] font-bold flex items-center'>
             <AiOutlineArrowLeft className='text-black mr-[1%] hover:text-[#DD2803]'
@@ -165,7 +165,7 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                             {/* {data.tags.map((tag:string, index:number) => (
                                 <span key={index} 
                                  className='rounded-3xl bg-[#D9EFFF] border border-[#06F] text-[#06F] ml-[0.5%] mr-[1.5%]
-                                            text-[1em] py-[0.5%] px-[1%]'>
+                                            text-[0.9em] py-[0.5%] px-[1%]'>
                                     {tag}
                                 </span>
                             ))} */}
@@ -174,13 +174,13 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                     </div>
 
                     <div className='flex flex-col relative justify-start mt-[-2.5%] mr-[2%] ml-[22%] w-[100%]'>
-                        <button className='w-[100%] flex items-center justify-center text-black bg-[#F4D147] mb-[4%] px-[3%] 
-                            py-[4%] rounded-3xl hover:bg-[#FFB800] font-medium text-[1.3em]'
+                        <button className='w-[100%] flex items-center justify-center text-black bg-[#f8c93f] mb-[4%] px-[3%] 
+                            py-[4%] rounded-3xl hover:bg-[#ffd950] font-medium text-[1.3em] transition-colors delay-250 duration-[3000] ease-in'
                             onClick={()=>{navigate('/eaterychoice/book')}}>
                             <BsBookFill className='text-center text-[1em] mr-[2%]'/>Book Now
                         </button>
                         <button className='w-[100%] flex items-center justify-center text-white bg-[#FF8A00] px-[3%] py-[4%] rounded-3xl
-                            hover:bg-[#FFD8AA] hover:text-black font-medium text-[1.3em]'
+                            hover:bg-[#df9148] hover:text-black font-medium text-[1.3em] transition-colors delay-250 duration-[3000] ease-in'
                             onClick={()=>{setOpenRatingMod(true)}}>
                             <AiFillStar className='text-[1.5em]'/>Rate Here
                         </button>

@@ -70,7 +70,7 @@ const SignupPage = () => {
 
             <a className='no-underline inline-block text-[#e72a2a] border text-lg relative cursor-pointer font-[bold] 
                           w-[190px] px-6 py-[11px] bg-white
-                          rounded-[100px] border-solid border-white font-poppins font-bold'
+                          rounded-[100px] font-poppins font-bold hover:bg-[#9a1a00] hover:border-[#9a1a00] hover:text-white transition-colors delay-250 duration-[3000] ease-in'
                           onClick={()=>{navigate('/uslogin')}}>
               Log In
             </a>
@@ -113,7 +113,7 @@ const SignupPage = () => {
           </div>
           <div className='flex justify-center mt-5'>
             <button type='submit' onClick={signUp} className='flex items-center justify-center no-underline inline-block text-[white] border text-lg relative cursor-pointer
-            shadow-[inset_0_0_0_white] w-[220px] px-6 py-[11px] rounded-[100px] border-solid border-[#e72a2a] font-poppins font-bold bg-[#DD2803]'>
+            shadow-[inset_0_0_0_white] w-[220px] px-6 py-[11px] rounded-[100px] border-solid border-[#e72a2a] font-poppins font-bold bg-[#DD2803] hover:bg-[#9a1a00] hover:border-[#9a1a00] hover:text-white transition-colors delay-250 duration-[3000] ease-in'>
                     {isLoading && <Spinner className='mr-[1%]'/>}
                     Sign Up                                                 
               </button> 

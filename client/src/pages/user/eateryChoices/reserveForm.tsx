@@ -38,7 +38,7 @@ const ReserveForm = () => {
     });
   }
   return (
-    <div className='font-poppins bg-[#F9F2EA] h-[100%]'>
+    <div className=' animate-fade-in font-poppins bg-[#F9F2EA] h-[100%]'>
        <div className='text-[#DD2803] ml-[2%]'>
          <h1 className='text-[2.5em] py-[1%] font-bold flex items-center'>
             <AiOutlineArrowLeft className='text-black mr-[1%] hover:text-[#DD2803]'
@@ -55,8 +55,8 @@ const ReserveForm = () => {
         <p className='italic text-center text-[1.1em]'>Fill the form to book for Derf’s Grill and Restaurant.</p>
        </div>
        <div className='flex items-center bg-[#840705] pl-[4%] py-[1%]'>
-        <SiGoogleforms className='text-white text-[2.5em]'/>
-        <h1 className='ml-[0.5%] text-[2.5em] text-white font-semibold'>GENERAL SECTION</h1>
+        <SiGoogleforms className='text-white text-[2.0em]'/>
+        <h1 className='ml-[0.5%] text-[2.0em] text-white font-semibold'>GENERAL SECTION</h1>
        </div>
        {/* General Form */}
        <div className='bg-white'>
@@ -207,8 +207,8 @@ const ReserveForm = () => {
          
        </div>
        <div className='flex items-center bg-[#840705] pl-[4%] py-[1%]'>
-            <SiFormstack className='text-white text-[2.5em]'/>
-            <h1 className='ml-[0.5%] text-[2.5em] text-white font-semibold'>ADDITIONAL DETAILS</h1>
+            <SiFormstack className='text-white text-[2.0em]'/>
+            <h1 className='ml-[0.5%] text-[2.0em] text-white font-semibold'>ADDITIONAL DETAILS</h1>
         </div>
         {/* Additional Form */}
         <div className='bg-white'>
@@ -231,7 +231,7 @@ const ReserveForm = () => {
 
         <div className='bg-white text-center'>
             <button className='w-[14%] bg-[#840705] text-white rounded-3xl py-[0.5%] mb-[2%] text-[1.3em]
-                hover:bg-[#DD2803]'
+                hover:bg-[#DD2803] transition-colors delay-250 duration-[3000] ease-in'
                 onClick={()=>{navigate('/eaterychoice')}}>Book Now</button>
         </div>
     </div>
