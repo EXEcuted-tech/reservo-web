@@ -27,7 +27,10 @@ export default function GeneralSettings() {
             branch: "",
             description: "",
         },
-        
+        accounts: {
+            email: "",
+            position: "",
+        }
     });
 
     const request = {
@@ -120,8 +123,7 @@ export default function GeneralSettings() {
                             </label>
                             <input
                                 type="text"
-                                value={data.merchant.merchant_name}
-                                placeholder="Enter your business name here"
+                                value={data.merchant.merchant_name || "Enter your business name here"}
                                 onChange={handleChange}
                                 name="merchant.merchant_name"
                                 className="m-2 ml-2 p-2 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
@@ -134,8 +136,7 @@ export default function GeneralSettings() {
                             </label>
                             <input
                                 type="text"
-                                value={data.settings.branch}
-                                placeholder="Enter your branch name here"
+                                value={data.settings.branch || "Enter your branch name here"}
                                 onChange={handleChange}
                                 name="settings.branch"
                                 className="m-2 ml-5 p-2 text w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
@@ -147,8 +148,7 @@ export default function GeneralSettings() {
                                 Description
                             </label>
                             <textarea
-                                value={data.settings.description}
-                                placeholder="Enter your business description here..."
+                                value={data.settings.description || "Enter your business description here..."}
                                 onChange={handleChange}
                                 name="settings.description"
                                 className="m-2 ml-9 p-2 text w-full flex border border-gray-300 rounded-md resize-none focus:outline-none focus:ring focus:ring-blue-500"
@@ -178,12 +178,11 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.country"
-                                value={data.address.country}
+                                value={data.address.country || "Select Country"}
                                 onChange={handleChange}
                                 className="m-2 p-2 ml-12 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
-                                <option>Select Country</option>
                                 <option value="Canada">Canada</option>
                                 <option value="Philippines">Philippines</option>
                                 <option value="US">United States</option>
@@ -195,12 +194,11 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.region"
-                                value={data.address.region}
+                                value={data.address.region || "Select Region"}
                                 onChange={handleChange}
                                 className="m-2 p-2 ml-14 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
-                                <option>Select Region</option>
                                 <option value="A">Region A</option>
                                 <option value="B">Region B</option>
                                 <option value="C">Region C</option>
@@ -212,12 +210,11 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.province"
-                                value={data.address.province}
+                                value={data.address.province || "Select Province"}
                                 onChange={handleChange}
                                 className="m-2 p-2 ml-11 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
-                                <option>Select Province</option>
                                 <option value="A">Province A</option>
                                 <option value="B">Province B</option>
                                 <option value="C">Province C</option>
@@ -229,12 +226,11 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.municipality"
-                                value={data.address.municipality}
+                                value={data.address.municipality || "Select Municipality"}
                                 onChange={handleChange}
                                 className="m-2 p-2 ml-5 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
-                                <option>Select Municipality</option>
                                 <option value="A">Municipality A</option>
                                 <option value="B">Municipality B</option>
                                 <option value="C">Municipality C</option>
@@ -246,12 +242,11 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.barangay"
-                                value={data.address.barangay}
+                                value={data.address.barangay || "Select Barangay"}
                                 onChange={handleChange}
                                 className="m-2 p-2 ml-9 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
-                                <option>Select Barangay</option>
                                 <option value="A">Barangay A</option>
                                 <option value="B">Barangay B</option>
                                 <option value="C">Barangay C</option>
@@ -281,9 +276,8 @@ export default function GeneralSettings() {
                             <input
                                 type="tel"
                                 maxLength={11}
-                                placeholder="+63"
                                 name="merchant.contact_number"
-                                value={data.merchant.contact_number}
+                                value={data.merchant.contact_number || "+63"}
                                 onChange={handleChange}
                                 className="m-2 ml-5 p-2 text w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
@@ -295,9 +289,8 @@ export default function GeneralSettings() {
                             </label>
                             <input
                                 type="email"
-                                placeholder="example@abc.com"
                                 name="merchant.email_address"
-                                value={data.merchant.email_address}
+                                value={data.merchant.email_address || "example@abc.com"}
                                 onChange={handleChange}
                                 className="m-2 ml-9 p-2 text w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required

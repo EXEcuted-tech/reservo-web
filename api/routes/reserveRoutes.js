@@ -6,10 +6,12 @@ const {createReserve,retrieveAll,retrieveByParams,updateReserve,deleteReserve, r
 router.post('/create',createReserveValidator,createReserve);
 router.post('/update',createReserveValidator,updateReserve);
 router.get('/retrieve',retrieveByParams);
+router.get('/retrieve_all',retrieveAll);
+router.post('/delete',deleteReserve);
+
 router.get('/retrievecount', retrieveCountByParams);
 router.get('/retrievecountparams', retrieveCountByTwoParams);
 router.get('retrievecount3params', retrieveCountByThreeParams);
-router.get('/retrieve_all',retrieveAll);
-router.post('/delete',deleteReserve);
+
 
 module.exports = router;

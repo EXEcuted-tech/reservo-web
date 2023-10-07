@@ -11,12 +11,26 @@ const MerchAdHeader: React.FC<MerchAdHeaderProps> = ({ icon: Icon, title }) => {
   const [username,setUsername] = useState("");
   const truncatedUsername = username.slice(0, 12);
   const storedAcc = localStorage.getItem('admerchDetails');
+  const [shortLet,setShortLet] = useState("");
 
   useEffect(() => {
     if(storedAcc) {
       setUsername(JSON.parse(storedAcc).user);
     }
-  }, []);
+
+    if(username){
+      getShortLetter(username);
+    }
+  }, [username]);
+
+  const getShortLetter = (name:string) => {
+    const nameParts = name.split(' ');
+    if (nameParts.length === 1) {
+      setShortLet(nameParts[0].charAt(0).toUpperCase());
+    } else if (nameParts.length > 1) {
+      setShortLet(nameParts[0].charAt(0).toUpperCase() + nameParts[1].charAt(0).toUpperCase());
+    }
+  };
 
   return (
     <div className='font-poppins flex items-center w-[100%] h-[5vh] py-[3%]'>
@@ -25,7 +39,14 @@ const MerchAdHeader: React.FC<MerchAdHeaderProps> = ({ icon: Icon, title }) => {
             <h1 className='font-medium text-[2.2em]'>{title}</h1>
         </div>
         <div className='flex items-center w-[15%]'>
-            <BiSolidUserCircle className='text-black text-[2.5em] mr-[2%]'/> 
+          {username 
+            ?
+              <div className="relative inline-flex items-center justify-center w-10 mr-[2%] h-10 overflow-hidden bg-[#840705] rounded-full dark:bg-gray-600">
+                  <span className="font-medium text-white dark:text-gray-300">{shortLet}</span>
+              </div>
+            :
+              <BiSolidUserCircle className='text-black text-[2.5em] mr-[2%]'/> 
+            }      
             <p className='text-[1.1em]'>{truncatedUsername}</p>
         </div>
     </div>
