@@ -12,22 +12,6 @@ import config from '../../../common/config.ts'
 import axios from 'axios'
 import GenSpinner from '../../../components/loaders/genSpinner.tsx';
 
-interface PackageItem {
-    package_id: string;
-    package_name: string;
-    package_desc: string;
-    price: string;
-    tags: string[];
-    date_start: Date;
-    date_end: Date;
-    visibility: string;
-    item_list: string[];
-    image_filepath: string;
-    oneButton: boolean;
-    time_start: string;
-    time_end: string;
-  }
-
 const PackageManager = () => {
     const [packages, setPackages] = useState<PackageItem[]>([]);
     const [unpublishedPackages, setUnpublishedPackages] = useState<PackageItem[]>([]);
@@ -171,16 +155,15 @@ return (
                   date_end={new Date(packageItem.date_end)}
                   description={packageItem.package_desc} // Make sure to use the correct property name
                   price={packageItem.price} // Make sure to use the correct property name
-                  tags={packageItem.tags ? packageItem.tags.split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags
+                  tags={packageItem.tags ? (packageItem.tags as any).split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags
                   visibility={packageItem.visibility}
-                  items={packageItem.item_list ? packageItem.item_list.split(',').map((item: string) => item.trim()) : []} // Handle empty or null item_list
+                  items={packageItem.item_list ? (packageItem.item_list as any).split(',').map((item: string) => item.trim()) : []} // Handle empty or null item_list
                   filePath={packageItem.image_filepath}
                   oneButton={false} 
                   time_start={packageItem.time_start} 
                   time_end={packageItem.time_end}                
                   />
               ))
-              
             )}
 
         </div>
@@ -210,10 +193,10 @@ return (
                   date_end={new Date(packageItem.date_end)}
                   description={packageItem.package_desc}
                   price={packageItem.price}
-                  tags={packageItem.tags ? packageItem.tags.split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags
+                  tags={packageItem.tags ? (packageItem.tags as any).split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags
                   visibility={packageItem.visibility}
                   filePath={packageItem.image_filepath}
-                  items={packageItem.item_list ? packageItem.item_list.split(',').map((item: string) => item.trim()) : []} // Handle empty or null item_list
+                  items={packageItem.item_list ? (packageItem.item_list as any).split(',').map((item: string) => item.trim()) : []} // Handle empty or null item_list
                   oneButton={false} 
                   time_start={packageItem.time_start} 
                   time_end={packageItem.time_end}                

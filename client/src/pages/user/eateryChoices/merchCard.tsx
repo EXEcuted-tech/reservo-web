@@ -13,6 +13,8 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
   const [concAddress,setConcAddress] = useState("");
   const [minPrice,setMinPrice] = useState(0);
   const [maxPrice,setMaxPrice] = useState(0);
+  const [ratingCount,setRatingCount] = useState(0);
+  const [avg,setAvg] = useState(0);
 
   useEffect(() => {
     sessionStorage.removeItem('merch_idtoView');
@@ -25,13 +27,14 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
     );
     setConcAddress(address);
     retrievePriceRange();
+    retrieveRatingCount();
+    retrieveRatingAvg();
   }, []); 
 
   const retrievePriceRange = () =>{
     const merchId = props.merchant_id;
     axios.get(`${config.API}/package/retrieve_price?merch_id=${merchId}`)
     .then((res)=>{
-        console.log("RESULT: ",res);
        if(res.data.success === true){
         setMinPrice(res.data.minPrice);
         setMaxPrice(res.data.maxPrice);
@@ -40,6 +43,28 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
 
     })
   }
+
+  const retrieveRatingCount = () =>{
+    const col = "merchant_id" 
+    const val = props.merchant_id;
+    axios.get(`${config.API}/feedback/retrieve_count?col=${col}&val=${val}`)
+    .then((res)=>{
+       if(res.data.success === true){
+        setRatingCount(res.data.ratingCount)
+       }
+    })
+  }
+
+  const retrieveRatingAvg = () =>{
+    const merchId = props.merchant_id;
+    axios.get(`${config.API}/feedback/retrieve_avg?merch_id=${merchId}`)
+    .then((res)=>{
+       if(res.data.success === true){
+        setAvg(res.data.average);
+       }
+    })
+  }
+
 
   return (
     <div className='flex h-[25vh]'>
@@ -53,8 +78,8 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                 {/* Left Side */}
                 <div>
                     <div className='flex'>
-                        <Rating value={5} readOnly />
-                        <p className='ml-[1%]'>({"reviewCount"} Reviews)</p>
+                        <Rating value={avg} readOnly />
+                        <p className='ml-[1%]'>({ratingCount} Reviews)</p>
                     </div>
                     <div className='flex items-center mt-[1%] text-[1.1em]'>
                         <GrLocation className='text-[1.3em] mr-[0.5%]'/>
