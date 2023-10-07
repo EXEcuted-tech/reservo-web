@@ -168,8 +168,8 @@ const retrieveAll = (req,res)=>{
 }
 
 const retrieveByParams = (req,res)=>{
-    const { column, value } = req.query;
-    db.query('SELECT * FROM merchant WHERE ?? = ?', [column, value], (error, result) => {
+    const { col, val } = req.query;
+    db.query('SELECT * FROM merchant WHERE ?? = ?', [col, val], (error, result) => {
         if(error){
             console.log("error retrieving data");
             res.status(500).json({error: 'Error retrieving data'})
@@ -213,11 +213,33 @@ const deleteMerchant = (req,res)=>{
     });
 }
 
+const retrieveCountByParams = (req, res) => {
+  const { col, val } = req.query;
+
+  const retrieveSpecific = 'SELECT COUNT(*) AS record_count FROM merchant WHERE ?? = ?';
+
+  db.query(retrieveSpecific, [col, val], (err, row) => {
+      if (err) {
+          console.error('Error retrieving records:', err);
+          return res.status(500).json({ status: 500, success: false, error: 'Error retrieving records' });
+      } else {
+          const recordCount = row[0].record_count;
+
+          return res.status(200).json({
+              status: 200,
+              success: true,
+              merchCount: recordCount,
+          });
+      }
+  });
+};
+
 
 module.exports = {
     createMerchant,
     updateMerchant,
     retrieveAll,
     retrieveByParams,
-    deleteMerchant
+    deleteMerchant,
+    retrieveCountByParams
 }
