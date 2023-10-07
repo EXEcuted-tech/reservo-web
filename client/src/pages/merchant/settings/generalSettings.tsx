@@ -28,7 +28,6 @@ export default function GeneralSettings() {
             description: "",
         },
         accounts: {
-            account_id: "",
             email: "",
             position: "",
         }

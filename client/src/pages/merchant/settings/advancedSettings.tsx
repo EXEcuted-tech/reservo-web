@@ -13,8 +13,7 @@ export default function AdvancedSettings(){
             console.log(response.data);
         })
         .catch((error) => {
-            console.log(error);
-        })
+            console.log(error);        })
     }
     return(
         <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg">
