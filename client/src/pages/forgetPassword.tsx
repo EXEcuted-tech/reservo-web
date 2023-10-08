@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import guykey from '../assets/usersign.png'
 import background from '../assets/background-pattern.png'
 import { FaEnvelope } from 'react-icons/fa';
@@ -15,14 +15,16 @@ const ForgetPassword = () => {
 
     const [email, setEmail] = useState('');
 
+    const [confirmMessage, setConfirmMessage] = useState(true);
+
     const handleResetPassword = async () => {
         setIsLoading(true)
         try {
             // Make a POST request to your backend API
             await axios.post(`${config.API}/forgetPassword/sendEmail`, { email }); // Replace '/api/reset-password' with your actual API endpoint
-            console.log("Apples!");
             // Optionally, display a success message to the user
-            alert('Reset email sent successfully');
+            // alert('Reset email sent successfully');
+            setConfirmMessage(false);
         } catch (error) {
             // Handle errors (e.g., display an error message)
             console.error(error);
@@ -31,10 +33,14 @@ const ForgetPassword = () => {
         setIsLoading(false);
     };
 
+    const backButton = () => {
+        window.location.reload();
+    }
+
     return (
-        <div className="font-poppins">
+        <div className="font-poppins" id='confirmBox'>
             <img className='absolute h-screen w-full' src={background} alt='background' />
-            <div className='w-[53%] h-[65%] absolute -translate-x-2/4 -translate-y-2/4 flex items-center shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4'>
+            {confirmMessage ? (<div className='bg-white w-[53%] h-[65%] absolute -translate-x-2/4 -translate-y-2/4 flex items-center shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4'>
                 <div className='w-[35%] h-full bg-[rgb(221,40,3)] flex flex-col p-[40px] pt-[70px] rounded-[7px_0px_0px_7px]'>
                     <img className='max-w-[40%] h-auto ml-[32%]' src={guykey} />
                     <div className='m-2.5 p-0 border-y-2 border-y-[white] border-solid  font-bold font-poppins'>
@@ -63,23 +69,35 @@ const ForgetPassword = () => {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     <>
-                    {
-                    isLoading? 
-                    <GenSpinner/> : 
-                    <button
-                    type="submit"
-                    className='bg-[rgb(221,40,3)] text-[white] w-[200px] float-right mt-[20px] p-1.5 rounded-[20px] text-xl font-extrabold'
-                    onClick={handleResetPassword}
-                    disabled = {isLoading}
-                >
-                    Reset Password
-                </button>
-                    }
+                        {
+                            isLoading ?
+                                <GenSpinner /> :
+                                <button
+                                    type="submit"
+                                    className='bg-[rgb(221,40,3)] text-[white] w-[200px] float-right mt-[20px] p-1.5 rounded-[20px] text-xl font-extrabold'
+                                    onClick={handleResetPassword}
+                                    disabled={isLoading}
+                                >
+                                    Reset Password
+                                </button>
+                        }
                     </>
-                    
+
 
                 </div>
-            </div>
+            </div>) : (<div className='bg-white w-[30%] h-[50%] absolute -translate-x-2/4 -translate-y-2/4 flex flex-col items-center justify-center shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 p-20 text-center'>
+                    <h1 className='text-5xl font-extrabold'>Email Sent!</h1><br/>
+                    <h3 className='text-2xl'>Check your email to retrieve your account</h3><br/>
+                    <button
+                        type="submit"
+                        className='bg-[rgb(221,40,3)] text-[white] w-[200px] float-right mt-[20px] p-1.5 rounded-[20px] text-xl font-extrabold'
+                        onClick={backButton}
+                    >
+                        Go back
+                    </button>
+                </div>
+            )}
+
         </div>
     );
 }
