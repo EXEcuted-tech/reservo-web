@@ -147,10 +147,32 @@ const deleteInventory = (req,res)=>{
   }
 }
 
+const retrieveCountByParams = (req, res) => {
+  const { col, val } = req.query;
+
+  const retrieveSpecific = 'SELECT COUNT(*) AS record_count FROM inventory WHERE ?? = ?';
+
+  db.query(retrieveSpecific, [col, val], (err, row) => {
+      if (err) {
+          console.error('Error retrieving records:', err);
+          return res.status(500).json({ status: 500, success: false, error: 'Error retrieving records' });
+      } else {
+          const recordCount = row[0].record_count;
+
+          return res.status(200).json({
+              status: 200,
+              success: true,
+              inventoryCount: recordCount,
+          });
+      }
+  });
+};
+
 module.exports = {
     createInventory,
     updateInventory,
     retrieveAll,
     retrieveByParams,
     deleteInventory,
+    retrieveCountByParams
 }

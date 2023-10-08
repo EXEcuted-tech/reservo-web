@@ -19,7 +19,7 @@ import Rating from '@mui/material/Rating';
 const LandingPage = () => {
   return (
     
-    <div className = "bg-[#F9F2EA] font-poppins">
+    <div className = "bg-[#F9F2EA] font-poppins animate-fade-in">
 
         {/* CAROUSEL */}
         <div className="container w-full h-full">
@@ -97,7 +97,7 @@ const LandingPage = () => {
         </div>
         <div className="flex items-center justify-center">
           <Link to="/eaterychoice">
-          <button className= " text-2xl p-5 mb-10 text-white bg-[#DD2803] hover:bg-[#A01B00] transition-colors delay-250 duration-[3000] ease-in">View Eatery Choices</button>
+          <button className= " text-2xl p-5 mb-10 rounded-2xl text-white bg-[#DD2803] hover:bg-[#A01B00] transition-colors delay-250 duration-[3000] ease-in">View Eatery Choices</button>
           </Link>
         </div>
         </div>

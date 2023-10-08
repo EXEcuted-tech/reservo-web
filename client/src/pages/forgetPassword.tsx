@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 const ForgetPassword = () => {
     const navigate = useNavigate();
     return (
-        <div className="font-poppins">
+        <div className="animate-fade-in font-poppins">
             <img className='absolute h-screen w-full' src={background} alt='background'/>
             <div className='w-[53%] h-[65%] absolute -translate-x-2/4 -translate-y-2/4 flex items-center shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4'>
                 <div className='w-[35%] h-full bg-[rgb(221,40,3)] flex flex-col p-[40px] pt-[70px] rounded-[7px_0px_0px_7px]'>
@@ -20,7 +20,7 @@ const ForgetPassword = () => {
                     <p className='text-[white] text-center'>Enter your email address <br/> and retrieve your account.</p>
                     <div className='mt-[20px]'>
                         <p className='text-[white] text-[1.17em] font-bold text-center mt-8'>Already have an<br/> existing account?</p>
-                        <button type="button" className='bg-[white] w-[80%] h-[50px] font-bold text-[rgb(221,40,3)] text-lg relative p-[1px] rounded-[30px] left-[30px] mt-[10px]'
+                        <button type="button" className='bg-[white] w-[80%] h-[50px] font-bold text-[rgb(221,40,3)] text-lg relative p-[1px] rounded-[30px] left-[30px] mt-[10px] hover:bg-[#9a1a00] hover:text-white transition-colors delay-250 duration-[3000] ease-in'
                         onClick={()=>{navigate('/uslogin')}}>Log In</button>
                     </div>
                 </div>
@@ -33,7 +33,7 @@ const ForgetPassword = () => {
                         <p className='ml-[5px]'>Email Address</p>
                     </div>
                     <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'/>
-                    <button type="submit" className='bg-[rgb(221,40,3)] text-[white] w-[200px] float-right mt-[20px] p-1.5 rounded-[20px] text-xl font-extrabold'>Reset Password</button>
+                    <button type="submit" className='bg-[rgb(221,40,3)] text-[white] w-[200px] float-right mt-[20px] p-1.5 rounded-[20px] text-lg font-extrabold hover:bg-[#9a1a00] transition-colors delay-250 duration-[3000] ease-in'>Reset Password</button>
                 </div>
             </div>
         </div>

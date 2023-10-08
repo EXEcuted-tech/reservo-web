@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import { useNavigate } from 'react-router'
 import starleft from '../../../assets/starleft.png'
@@ -25,6 +25,54 @@ const ReserveForm = () => {
   const [location,setLocation] = useState("");
   const [size,setSize] = useState(0);
   const [add,setAdd] = useState("");
+  const [packages, setPackages] = useState<PackageItem[]>([]);
+
+  const [name,setName] = useState("");
+  const merchIdString = sessionStorage.getItem('merch_idtoBook');
+  const merchantId = merchIdString !== null ? parseInt(merchIdString) : 0;
+
+  useEffect (()=>{
+    retrieveMerchant();
+  },[])
+
+  useEffect (()=>{
+    fetchData();
+    console.log("PACKAGES: ",packages);
+  },[name])
+
+  const fetchData = async () =>{
+    const publishedPackages = await retrievePackage();
+    setPackages(publishedPackages)
+  }
+
+  const retrieveMerchant = async () =>{
+    const col = "merchant_id";
+    const val = merchantId;
+
+    await axios.get(`${config.API}/merchant/retrieve?col=${col}&val=${val}`)
+    .then((res)=>{
+        if(res.data.success == true){
+            setName(res.data.merchant.merchant_name);
+        }
+      })
+  }
+
+  const retrievePackage = async () => {
+    try {
+        const response = await axios.get(`${config.API}/package/retrieveparams`, {
+          params: {
+            col1: 'merchant_id',
+            val1: merchantId, 
+            col2: 'visibility',
+            val2: 'PUBLISHED',
+          },
+        });
+        return response.data.data;
+      } catch (error) {
+        console.error('Error fetching published packages:', error);
+        return [];
+      }  
+  }
 
   const submitReservation = (event: { preventDefault: () => void }) =>{
     event.preventDefault();
@@ -38,25 +86,28 @@ const ReserveForm = () => {
     });
   }
   return (
-    <div className='font-poppins bg-[#F9F2EA] h-[100%]'>
+    <div className=' animate-fade-in font-poppins bg-[#F9F2EA] h-[100%]'>
        <div className='text-[#DD2803] ml-[2%]'>
          <h1 className='text-[2.5em] py-[1%] font-bold flex items-center'>
             <AiOutlineArrowLeft className='text-black mr-[1%] hover:text-[#DD2803]'
-            onClick={()=>{navigate('/eaterychoice')}}/>
+            onClick={()=>{
+                window.history.back(); 
+                // navigate('/eaterychoice')
+            }}/>
             Reservation Form
         </h1>
        </div>
        <div className='bg-white py-[1.5%]'>
         <div className='flex justify-center items-center'>
                 <img src={starleft}/>
-                <h1 className='text-[2em] font-bold mx-[1%]'>Derf's Grill and Restaurant</h1>
+                <h1 className='text-[2em] font-bold mx-[1%]'>{name}</h1>
                 <img src={starright}/>
         </div>
-        <p className='italic text-center text-[1.1em]'>Fill the form to book for Derf’s Grill and Restaurant.</p>
+        <p className='italic text-center text-[1.1em]'>Fill the form to book for {name}.</p>
        </div>
        <div className='flex items-center bg-[#840705] pl-[4%] py-[1%]'>
-        <SiGoogleforms className='text-white text-[2.5em]'/>
-        <h1 className='ml-[0.5%] text-[2.5em] text-white font-semibold'>GENERAL SECTION</h1>
+        <SiGoogleforms className='text-white text-[2.0em]'/>
+        <h1 className='ml-[0.5%] text-[2.0em] text-white font-semibold'>GENERAL SECTION</h1>
        </div>
        {/* General Form */}
        <div className='bg-white'>
@@ -207,8 +258,8 @@ const ReserveForm = () => {
          
        </div>
        <div className='flex items-center bg-[#840705] pl-[4%] py-[1%]'>
-            <SiFormstack className='text-white text-[2.5em]'/>
-            <h1 className='ml-[0.5%] text-[2.5em] text-white font-semibold'>ADDITIONAL DETAILS</h1>
+            <SiFormstack className='text-white text-[2.0em]'/>
+            <h1 className='ml-[0.5%] text-[2.0em] text-white font-semibold'>ADDITIONAL DETAILS</h1>
         </div>
         {/* Additional Form */}
         <div className='bg-white'>
@@ -231,7 +282,7 @@ const ReserveForm = () => {
 
         <div className='bg-white text-center'>
             <button className='w-[14%] bg-[#840705] text-white rounded-3xl py-[0.5%] mb-[2%] text-[1.3em]
-                hover:bg-[#DD2803]'
+                hover:bg-[#DD2803] transition-colors delay-250 duration-[3000] ease-in'
                 onClick={()=>{navigate('/eaterychoice')}}>Book Now</button>
         </div>
     </div>

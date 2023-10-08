@@ -81,17 +81,17 @@ const AdminLogin = () => {
                <div className="headline pb-[2rem]">
                     <div className="divider w-[100%] h-[2px] bg-[#840705]"></div>
                     <div className="headerL text-center flex flex-col justify-center m-[5.45%]">
-                        <span className='text-[28px] bg-red capitalize font-bold text-black'>Door to the</span><span className='text-[28px] font-bold text-[#840705]'>Admin Page</span>
+                        <span className='text-[28px] bg-red capitalize font-bold text-black'>Door to the</span><span className='text-[28px] font-bold text-[#840705]'>Merchant Page</span>
                     </div>
                     <div className="divider w-[100%] h-[2px] bg-[#840705]"></div>
                     <div className="subH text-center text-[#840705] mt-[5%]">
-                        <span className='text-[14px] font-light text-black'>Make a reservation in <br/>just a few click. Log in now!</span>
+                        <span className='text-[14px] font-light text-black'>Make a reservation in <br/>just a few clicks. Log in now!</span>
                     </div>
                </div>
 
                 <div className="footHeader flex flex-col ">
-                    <span className='text-[18px] font-bold text-black'>Not an Admin?</span>
-                    <Link to={'/uslogin'} className='bg-[#840705] font-bold text-center p-[0.7rem] rounded-full m-[0.5rem] text-white w-[20vh] ml-[3.5vh]'>User page</Link>
+                    <span className='text-[18px] font-bold text-black'>Not a Merchant?</span>
+                    <Link to={'/uslogin'} className='bg-[#840705] font-bold text-center p-[0.7rem] rounded-full m-[0.5rem] text-white w-[20vh] ml-[3.5vh] hover:bg-[#DD2803] transition-colors delay-250 duration-[3000] ease-in'>User Page</Link>
                 </div>
             </div>
             <div className="right w-[65%] h-[63vh] float-left pt-[4rem] bg-[#840705] rounded-[0px_7px_7px_0px] flex flex-col items-center">
@@ -112,17 +112,17 @@ const AdminLogin = () => {
                             <input type="password" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}}/>
                         </div>
                     </div>
-                    <div className="frgt text-right text-[12px] mb-[2rem] text-white ">
-                      <Link to={'#'}>Forgot Password?</Link>
+                    <div className="frgt text-right text-[12px] mb-[2rem] text-white  hover:text-black transition-colors delay-250 duration-[3000] ease-in ">
+                      <Link to={'/forgpass'}>Forgot Password?</Link>
                     </div>
                     <div className="buttons flex flex-col items-center space-y-5">
-                        <button type='submit' className='flex items-center justify-center bg-white text-[#840705] p-[0.5em] w-[50%] rounded-full font-bold'>
+                        <button type='submit' className='flex items-center justify-center bg-white text-[#840705] p-[0.5em] w-[50%] rounded-full font-bold  hover:text-[#DD2803]  transition-colors delay-250 duration-[3000] ease-in'>
                             {isLoading && <Spinner className='mr-[1%]'/>}
                             Sign in
                         </button>
                         <div className="signBox">
                             <span className='text-white font-extralight capitalize'>need an account ?</span>
-                            <Link to={'/merchregister'} className='text-white font-bold pl-1'>Sign Up</Link>
+                            <Link to={'/merchregister'} className='text-white font-bold pl-1  hover:text-black  transition-colors delay-250 duration-[3000] ease-in'>Sign Up</Link>
                         </div>
                     </div>
                 </form>
