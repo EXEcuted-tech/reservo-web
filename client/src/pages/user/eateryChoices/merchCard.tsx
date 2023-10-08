@@ -18,7 +18,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
 
   useEffect(() => {
     sessionStorage.removeItem('merch_idtoView');
-    sessionStorage.removeItem('merch_idtoEdit');
+    sessionStorage.removeItem('merch_idtoBook');
     const address = (
         (props.address?.barangay ? `${props.address.barangay}, ` : '') +
         (props.address?.municipality ? `${props.address.municipality}, ` : '') +
@@ -121,7 +121,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                         hover:bg-[#FFB800] font-medium'
                         onClick={()=>{
                             navigate('/eaterychoice/book')
-                            sessionStorage.setItem('merch_idtoEdit', props.merchant_id.toString());
+                            sessionStorage.setItem('merch_idtoBook', props.merchant_id.toString());
                         }}>
                         <BsBookFill className='text-[1em] mr-[2%]'/>Book Now
                     </button>
