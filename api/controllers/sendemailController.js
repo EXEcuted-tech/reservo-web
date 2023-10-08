@@ -3,7 +3,8 @@ const nodemailer = require('nodemailer');
 const router = express.Router();
 
 // Define a POST route for sending reset emails
-router.post(`../../../api/controllers`, async (req, res) => {
+
+const sendEmail = async (req, res) => {
   const { email } = req.body;
 
   // Create a Nodemailer transporter with your email service credentials
@@ -31,6 +32,8 @@ router.post(`../../../api/controllers`, async (req, res) => {
     console.error(error);
     res.status(500).json({ message: 'Error sending email' });
   }
-});
+}
 
-module.exports = router;
+module.exports = {
+  sendEmail
+}

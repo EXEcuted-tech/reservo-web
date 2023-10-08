@@ -16,7 +16,7 @@ const ForgetPassword = () => {
     const handleResetPassword = async () => {
         try {
             // Make a POST request to your backend API
-            await axios.post(`${config.API}/controllers/sendemailController`, { email }); // Replace '/api/reset-password' with your actual API endpoint
+            await axios.post(`${config.API}/forgetPassword/sendEmail`, { email }); // Replace '/api/reset-password' with your actual API endpoint
 
             // Optionally, display a success message to the user
             alert('Reset email sent successfully');
