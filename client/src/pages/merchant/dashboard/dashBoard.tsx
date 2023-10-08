@@ -4,6 +4,7 @@ import {IoCalendarSharp} from 'react-icons/io5'
 import {GiJuggler} from 'react-icons/gi'
 import {AiFillCloseCircle} from 'react-icons/ai'
 import {MdGroups2} from 'react-icons/md'
+import {MdRecentActors} from 'react-icons/md'
 import Chart from 'react-google-charts'
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
 import axios from 'axios'
@@ -119,13 +120,13 @@ const MerchDashboard = () => {
   
 
   return (
-    <div className='flex-col'>
+    <div className='flex-col animate-fade-in'>
       {/* Header Section */}
         <MerchAdHeader icon={RiDashboard3Line} title="Dashboard"/>
         {/* Welcome Section */}
-        <div className='bg-[#F3F3F3] h-[30vh] flex'>
+        <div className='bg-[#F3F3F3] h-[30vh] flex '>
            <div className='w-[60%] p-[1%] text-center'>
-              <div className='align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-b from-[#EC0000] to-black'>
+              <div className='align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-b from-[#9a1a00] to-black'>
                 <h1 className='text-[1.8em] text-white'>
                   Welcome, {userName}!
                 </h1>
@@ -191,7 +192,7 @@ const MerchDashboard = () => {
         <div className='bg-[#F3F3F3] h-[30vh] flex'>
             <div className='w-[75%] m-[1%] text-center bg-white rounded-3xl flex-col pt-0 p-[1%]'>
               <div className='text-left border-b-2 border-black'>
-                <p className='font-bold text-[1.5em]'>Recent Reservation <br/></p>
+              <p className='flex font-bold text-[1.5em]'> Recent Reservation <br/></p>
               </div>
               <table className='flex-col w-[100%] text-left bg-white rounded-3xl'>
               <tr>

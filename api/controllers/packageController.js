@@ -115,8 +115,8 @@ const retrieveByTwoParams = (req,res)=>{
       console.error('Error retrieving records:', err);
       return res.status(500).json({ status: 500, success:false,error: 'Error retrieving records' });
     }else{
-      console.log("ROWWWWWWSSS");
-      console.log(rows);
+      // console.log("ROWWWWWWSSS");
+      // console.log(rows);
       return res.status(200).json({
         status: 200,
         success: true,
@@ -147,6 +147,36 @@ const deletePackage = (req,res)=>{
     });
 }
 
+const retrieveMinMaxPrices = (req, res) => {
+  const {merch_id} = req.query;
+
+  const retrieveMinPriceQuery = `SELECT MIN(price) AS min_price FROM package WHERE merchant_id = ?`;
+  const retrieveMaxPriceQuery = `SELECT MAX(price) AS max_price FROM package WHERE merchant_id = ?`;
+
+ db.query(retrieveMinPriceQuery, [merch_id], (minPriceErr, minPriceRows) => {
+      if (minPriceErr) {
+          return res.status(500).json({ status: 500, success: false, error: 'Error retrieving min price' });
+      } else {
+          const minPrice = minPriceRows[0].min_price;
+
+          db.query(retrieveMaxPriceQuery, [merch_id], (maxPriceErr, maxPriceRows) => {
+              if (maxPriceErr) {
+                  return res.status(500).json({ status: 500, success: false, error: 'Error retrieving max price' });
+              } else {
+                  const maxPrice = maxPriceRows[0].max_price;
+
+                  return res.json({
+                      status: 200,
+                      success: true,
+                      minPrice: minPrice,
+                      maxPrice: maxPrice,
+                  });
+              }
+          });
+      }
+  });
+};
+
 module.exports = {
     createPackage,
     updatePackage,
@@ -154,4 +184,5 @@ module.exports = {
     retrieveByParams,
     deletePackage,
     retrieveByTwoParams,
+    retrieveMinMaxPrices,
 }

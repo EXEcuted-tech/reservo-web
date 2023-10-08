@@ -70,8 +70,8 @@ const retrieveByParams = (req,res)=>{
         const sql = "SELECT * FROM account WHERE ?? = ?"
         db.query(sql,[col, val], (err, results) => {
             if(err){
-                console.log("Error fetching data")
-                res.status(500).json({error: 'Internal server error'})
+                // console.log("Error fetching data")
+                res.status(201).json({error: 'Account does not exist'})
             }else{
                 res.status(200).json({
                     status: 200,
@@ -89,8 +89,30 @@ const retrieveByParams = (req,res)=>{
     }
 }
 
+const retrieveCountByParams = (req, res) => {
+    const { col, val } = req.query;
+  
+    const retrieveSpecific = 'SELECT COUNT(*) AS record_count FROM account WHERE ?? = ?';
+  
+    db.query(retrieveSpecific, [col, val], (err, row) => {
+        if (err) {
+            console.error('Error retrieving records:', err);
+            return res.status(500).json({ status: 500, success: false, error: 'Error retrieving records' });
+        } else {
+            const recordCount = row[0].record_count;
+  
+            return res.status(200).json({
+                status: 200,
+                success: true,
+                acctCount: recordCount,
+            });
+        }
+    });
+  };
+
 module.exports = {
     updateUser,
     retrieveAll,
     retrieveByParams,
+    retrieveCountByParams
 }

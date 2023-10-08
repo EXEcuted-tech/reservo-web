@@ -11,7 +11,7 @@ const NAV_BAR = [
 
 const reservationManager = () => {
   return (
-    <div>
+    <div className="animate-fade-in">
       <MerchAdHeader icon={RiReservedFill} title="Reservation Manager"/>
       <div className="h-screen font-poppins bg-[#F3F3F3] p-8">
         <nav className="flex gap-8 border-b-2 border-black">

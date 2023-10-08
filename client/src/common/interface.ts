@@ -1,15 +1,22 @@
 /*For dummy ni siya tanan and must be replaced*/
+interface Address {
+    country: string | null;
+    region: string | null;
+    province: string | null;
+    municipality: string | null;
+    barangay: string | null;
+}
 
 interface MerchCardProps {
-    merchId: number;
-    picture: string;
-    businessName: string;
-    rating: number,
-    reviewCount: number,
-    location: string,
-    description: string,
-    priceRange: string,
-    tags: string[]
+    merchant_id: number;
+    merchant_name: string;
+    email_address: string | null;
+    logo: string | null;
+    contact_number: string | null;
+    address: Address | null;
+    settings : Record<string,any> | null;
+    sched_id: null;
+    accounts: Record<string,any> | null;
 }
 
 interface ReserveCardProps {
@@ -31,11 +38,13 @@ interface ReserveCardProps {
     additional_details: string | null;
 }
 
-interface ReviewProps {
-    reviewId: number;
-    customerName: string;
-    rating: number,
-    comment: string;
+interface Inventory {
+    numberOfTables: number;
+    numberOfChairs: number;
+    numberOfPlates: number;
+    numberOfGlasses: number;
+    numberOfTableCloths: number;
+    numberOfChairCovers: number;
 }
 
 interface Inventory {
@@ -45,4 +54,28 @@ interface Inventory {
     numberOfGlasses: number;
     numberOfTableCloths: number;
     numberOfChairCovers: number;
-  }
+}
+
+interface PackageItem {
+    package_id: string;
+    package_name: string;
+    package_desc: string;
+    price: string;
+    tags: string[];
+    date_start: Date;
+    date_end: Date;
+    visibility: string;
+    item_list: string[];
+    image_filepath: string;
+    oneButton: boolean;
+    time_start: string;
+    time_end: string;
+}
+
+interface Feedback{
+    feedback_id: number;
+    account_id: number;
+    merchant_id: number;
+    rating_value: number;
+    comment: string;
+}
