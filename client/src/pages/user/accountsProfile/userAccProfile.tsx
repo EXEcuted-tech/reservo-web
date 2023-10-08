@@ -32,6 +32,7 @@ function UserProfilePage(){
                         }
                     })
                     setData(response.data.users[0]);
+                    
                     setReservations(result.data.reservations);
                     setIsLoading(false);
                 }catch(error){
@@ -47,6 +48,9 @@ function UserProfilePage(){
             useEffect(() => {
                 fetchData(); // Call the async function to fetch data
             },[]);
+
+            const userName = data?.account_name;
+            console.log(userName);
 
     return(
         <div className = "h-[100vh] bg-[#F9F2EA] font-[Poppins]">
@@ -65,7 +69,7 @@ function UserProfilePage(){
                         <br />
                         {data ? (
                             <>
-                                <h1 className="text-center font-bold text-[20pt]">{data.account_name}<EditUsername /></h1>
+                                <h1 className="text-center font-bold text-[20pt]">{data.account_name}<EditUsername userName={userName} /></h1>
                                 <br />
                                 <br />
                                 <br />
