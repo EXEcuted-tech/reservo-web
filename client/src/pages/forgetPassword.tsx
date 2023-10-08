@@ -20,7 +20,7 @@ const ForgetPassword = () => {
         try {
             // Make a POST request to your backend API
             await axios.post(`${config.API}/forgetPassword/sendEmail`, { email }); // Replace '/api/reset-password' with your actual API endpoint
-            console.log("Hello World!");
+            console.log("Apples!");
             // Optionally, display a success message to the user
             alert('Reset email sent successfully');
         } catch (error) {
