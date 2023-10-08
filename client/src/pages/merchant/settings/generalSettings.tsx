@@ -5,8 +5,11 @@ import {MdPhone} from 'react-icons/md'
 import colors from '../../../common/colors'
 import jjlogo from "../../../assets/jjlogo.png"
 import axios from 'axios'
+import GenSpinner from '../../../components/loaders/genSpinner'
 
 export default function GeneralSettings() {
+    const [isLoading, setIsLoading] = useState(false);
+
     const [data, setData] = useState({
         merchant: {
             merchant_id: 2,
@@ -41,6 +44,7 @@ export default function GeneralSettings() {
       }
 
     useEffect(() => {
+        setIsLoading(true);
         axios.get(`http://localhost:5000/merchant/retrieve`, request)
         .then(response => {
             setData(response.data);
@@ -48,6 +52,7 @@ export default function GeneralSettings() {
         .catch(error => {
             console.log(error);
         })
+        setIsLoading(false);
     }, []);
 
     const handleChange = (e) => {
@@ -115,7 +120,14 @@ export default function GeneralSettings() {
                         <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Business Logo
                             </label>
-                                <img src={jjlogo} className="ml-5"></img>
+                                {isLoading? <><span className='ml-5'><GenSpinner/></span></> // if we are still getting data from DB
+                                :
+                                <img src={jjlogo} onError={(e) => {
+                                    e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
+                                    e.currentTarget.src = 'https://i.imgur.com/YNoZzmJ.png'; // Use a placeholder image as a fallback
+                                    }} className="ml-5">
+                                </img>}
+                                
                         </div>
                         <div className="m-2 flex flex-row ">
                             <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
@@ -123,10 +135,11 @@ export default function GeneralSettings() {
                             </label>
                             <input
                                 type="text"
-                                value={data.merchant.merchant_name || "Enter your business name here"}
+                                value={isLoading? "Loading... ": data.merchant.merchant_name || "Enter your business name here..."}
+                                disabled = {isLoading}
                                 onChange={handleChange}
                                 name="merchant.merchant_name"
-                                className="m-2 ml-2 p-2 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                                className={`m-2 ml-2 p-2 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
                                 required
                             />
                         </div>
@@ -136,10 +149,11 @@ export default function GeneralSettings() {
                             </label>
                             <input
                                 type="text"
-                                value={data.settings.branch || "Enter your branch name here"}
+                                value={isLoading? "Loading... ": data.settings.branch || "Enter your branch name here... "}
+                                disabled = {isLoading}
                                 onChange={handleChange}
                                 name="settings.branch"
-                                className="m-2 ml-5 p-2 text w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                                className={`m-2 ml-5 p-2 text w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
                                 required
                             />
                         </div>
@@ -148,17 +162,19 @@ export default function GeneralSettings() {
                                 Description
                             </label>
                             <textarea
-                                value={data.settings.description || "Enter your business description here..."}
+                                value={isLoading? "Loading... ": data.settings.description || "Enter your business description here..."}
+                                disabled = {isLoading}
                                 onChange={handleChange}
                                 name="settings.description"
-                                className="m-2 ml-9 p-2 text w-full flex border border-gray-300 rounded-md resize-none focus:outline-none focus:ring focus:ring-blue-500"
+                                className={`m-2 ml-9 p-2 text w-full flex border border-gray-300 rounded-md resize-none focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
                                 required
                             />
                         </div>
                         <div className='m-4 flow-root'>
                             <button
                                 type="submit"
-                                className="px-10 py-1 mr-2 float-right bg-[#840705] text-white rounded-2xl hover:bg-[#660605] focus:outline-none focus:ring focus:ring-blue-500"
+                                disabled = {isLoading}
+                                className={`px-10 py-1 mr-2 float-right text-white rounded-2xl focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'bg-[#c58f8f] cursor-not-allowed' : ' bg-[#840705] hover:bg-[#660605]'}`}
                             >
                             Save
                             </button>
@@ -277,9 +293,10 @@ export default function GeneralSettings() {
                                 type="tel"
                                 maxLength={11}
                                 name="merchant.contact_number"
-                                value={data.merchant.contact_number || "+63"}
+                                value={isLoading? "Loading... " : data.merchant.contact_number || "+63"}
+                                disabled= {isLoading}
                                 onChange={handleChange}
-                                className="m-2 ml-5 p-2 text w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                                className={`m-2 ml-5 p-2 text w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed': ''} `}
                                 required
                             />
                         </div>
@@ -290,16 +307,17 @@ export default function GeneralSettings() {
                             <input
                                 type="email"
                                 name="merchant.email_address"
-                                value={data.merchant.email_address || "example@abc.com"}
+                                value={isLoading? "Loading... " : data.merchant.email_address || "example@abc.com"}
+                                disabled = {isLoading}
                                 onChange={handleChange}
-                                className="m-2 ml-9 p-2 text w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                                className={`m-2 ml-9 p-2 text w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed': ''}`}
                                 required
                             />
                         </div>
                         <div className='m-4 flow-root'>
                             <button
                                 type="submit"
-                                className="px-10 py-1 mr-2 float-right bg-[#840705] text-white rounded-2xl hover:bg-[#660605] focus:outline-none focus:ring focus:ring-blue-500"
+                                className={`px-10 py-1 mr-2 float-right text-white rounded-2xl focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'bg-[#c58f8f] cursor-not-allowed' : ' bg-[#840705] hover:bg-[#660605]'}`}
                             >
                             Save
                             </button>
