@@ -37,11 +37,13 @@ const ReserveForm = () => {
 
   useEffect (()=>{
     fetchData();
+    console.log("Merchant ID: ",merchantId);
     console.log("PACKAGES: ",packages);
   },[name])
 
   const fetchData = async () =>{
     const publishedPackages = await retrievePackage();
+    console.log("Published Packages: ",publishedPackages);
     setPackages(publishedPackages)
   }
 

@@ -109,7 +109,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                     </div>
                 </div>
                 <div className='flex justify-end mt-[9%] mr-[2%] w-[100%]'>
-                    <button className='flex items-center text-white bg-[#FF8A00] mr-[5%] px-[3%] py-[1.5%] rounded-2xl
+                    <button className='flex items-center text-white bg-[#FF8A00] mr-[2%] px-[3%] py-[1.5%] rounded-2xl
                         hover:bg-[#FFD8AA] hover:text-black font-medium'
                         onClick={()=>{
                             navigate('/eaterychoice/view')
