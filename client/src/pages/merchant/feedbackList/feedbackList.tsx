@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react'
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
 import {RiMegaphoneFill} from 'react-icons/ri'
@@ -82,4 +83,14 @@ const FeedbackList = () => {
   )
 }
 
+=======
+import React from 'react'
+
+const FeedbackList = () => {
+  return (
+    <div>F</div>
+  )
+}
+
+>>>>>>> 802eb6c58c81e931b06842bdf6bd99922a31a6dd
 export default FeedbackList

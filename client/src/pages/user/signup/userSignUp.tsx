@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { FormEvent, useState } from 'react'
 import colors from '../../../common/colors'
 import { BsFillPersonFill } from "react-icons/bs";
@@ -126,3 +127,14 @@ const SignupPage = () => {
 }
 
 export default SignupPage
+=======
+import React from 'react'
+
+const UserSignUp = () => {
+  return (
+    <div>U</div>
+  )
+}
+
+export default UserSignUp
+>>>>>>> 802eb6c58c81e931b06842bdf6bd99922a31a6dd

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -39,4 +40,23 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   height: 88.5vh;
+=======
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.bg-footer {
+  background-image: url('/src/assets/rectangle.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height:10vh;
+  /* position: relative;
+  bottom:0; */
+>>>>>>> 802eb6c58c81e931b06842bdf6bd99922a31a6dd
 }

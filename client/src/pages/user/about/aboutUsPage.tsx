@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react'
 import background from '../../../assets/bgpic.jpg'
 import {RiPhoneFill} from 'react-icons/ri'
@@ -75,4 +76,14 @@ Reservo, developed by the Cebu-based team EXEcuted, consists of talented BSIT st
   )
 }
 
+=======
+import React from 'react'
+
+const AboutUsPage = () => {
+  return (
+    <div>aboutUsPage</div>
+  )
+}
+
+>>>>>>> 802eb6c58c81e931b06842bdf6bd99922a31a6dd
 export default AboutUsPage

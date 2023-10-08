@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { FormEvent,useEffect,useState } from 'react'
 
 import background from '../../../assets/background-pattern.png'
@@ -128,4 +129,14 @@ const UserLogin = () => {
   )
 }
 
+=======
+import React from 'react'
+
+const UserLogin = () => {
+  return (
+    <div>U</div>
+  )
+}
+
+>>>>>>> 802eb6c58c81e931b06842bdf6bd99922a31a6dd
 export default UserLogin

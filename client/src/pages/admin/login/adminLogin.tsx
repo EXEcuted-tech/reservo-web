@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { FormEvent,useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -132,4 +133,14 @@ const AdminLogin = () => {
 )
 }
 
+=======
+import React from 'react'
+
+const AdminLogin = () => {
+  return (
+    <div>A</div>
+  )
+}
+
+>>>>>>> 802eb6c58c81e931b06842bdf6bd99922a31a6dd
 export default AdminLogin

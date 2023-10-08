@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 .Card{
     
@@ -72,3 +73,74 @@
 .description{
     overflow-wrap: break-word;
 }
+=======
+
+.Card{
+    background-color: rgb(255, 255, 255);
+    border-radius: 2vh;
+    box-shadow:
+    0px 0px 1px -1px rgba(0, 0, 0, 0.006),
+    0px 0px 2.3px -1px rgba(0, 0, 0, 0.011),
+    0px 0px 4.4px -1px rgba(0, 0, 0, 0.018),
+    0px 0px 7.8px -1px rgba(0, 0, 0, 0.026),
+    0px 0px 14.6px -1px rgba(0, 0, 0, 0.039),
+    0px 0px 35px -1px rgba(0, 0, 0, 0.08);
+    padding: 0.1rem 0.1rem 0.1rem 0.1rem;
+
+}
+.blur-transition {
+    backdrop-filter: blur(0); /* Initial blur value */
+    transition: backdrop-filter 0.3s ease-in-out; /* Adjust the transition duration and easing as needed */
+  }
+
+.CardEmpty{
+    width: 18vw;
+    background-color: #f9f2ea;
+    border: solid;
+    border-width: 1px;
+    border-color: rgba(0,0,0, 0.3);
+}
+
+.CardImage{
+    display: block;
+    background-color: #9f5d5d;
+    height: 18vh;
+    border-top-left-radius: 2vh;
+    border-top-right-radius: 2vh;
+}
+
+
+.CardButton{
+    display: flex;
+    
+    border-radius: 1vh;
+    height: 2.5rem;
+    transition: 0.5s;
+    width: 6vw;
+}
+
+.DetailsButton{
+    background-color: #ffbb38;
+}
+
+.DetailsButton:hover{
+    background-color: #fed17d;
+}
+
+
+.EditButton:hover{
+    background-color: #ffa879;
+}
+
+.EditButton{
+    background-color: #ff8e4f;
+}
+
+.detailsClose:hover{
+    color: rgb(50, 50, 50);
+}
+
+.detailsClose{
+    transition: 0.3s;
+}
+>>>>>>> 802eb6c58c81e931b06842bdf6bd99922a31a6dd

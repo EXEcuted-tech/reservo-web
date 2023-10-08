@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react'
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
@@ -144,3 +145,14 @@ function UserProfilePage(){
 }
 
 export default UserProfilePage
+=======
+import React from 'react'
+
+const UserAccProfile = () => {
+  return (
+    <div>U</div>
+  )
+}
+
+export default UserAccProfile
+>>>>>>> 802eb6c58c81e931b06842bdf6bd99922a31a6dd

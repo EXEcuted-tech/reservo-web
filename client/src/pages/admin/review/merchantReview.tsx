@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, {useState} from 'react'
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
 import {MdOutlineReviews} from 'react-icons/md'
@@ -27,4 +28,14 @@ const MerchantReview = () => {
   )
 }
 
+=======
+import React from 'react'
+
+const MerchantReview = () => {
+  return (
+    <div>merchantReview</div>
+  )
+}
+
+>>>>>>> 802eb6c58c81e931b06842bdf6bd99922a31a6dd
 export default MerchantReview

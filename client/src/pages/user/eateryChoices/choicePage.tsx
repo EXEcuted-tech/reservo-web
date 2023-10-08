@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react'
 import colors from '../../../common/colors'
 import MerchCard from './merchCard'
@@ -130,4 +131,27 @@ const ChoicePage = () => {
   )
 }
 
+=======
+import React from 'react'
+import colors from '../../../common/colors'
+
+const ChoicePage = () => {
+  return (
+    <div className={`font-poppins bg-[#F9F2EA] h-[80vh]`}>
+        <div className='text-center text-[#DD2803]'>
+          <h1 className='text-[2em] pt-[0.2%] font-bold'>Browse. Select. Reserve.</h1>
+          <p className='text-[1.2em] pb-[0.2%] '>Choose and book for your favorite occasion!</p>
+        </div>
+        <div className='bg-white h-[75vh]'>
+          <div>
+          </div>
+          <div>
+
+          </div>
+        </div>        
+    </div>
+  )
+}
+
+>>>>>>> 802eb6c58c81e931b06842bdf6bd99922a31a6dd
 export default ChoicePage

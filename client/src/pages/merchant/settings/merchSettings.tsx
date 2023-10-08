@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react'
 import { BsFillBuildingFill } from "react-icons/bs";
 import MerchAdHeader from '../../../components/headers/MerchAdHeader.tsx';
@@ -49,4 +50,14 @@ const MerchSettings = () => {
 
 
 
+=======
+import React from 'react'
+
+const MerchSettings = () => {
+  return (
+    <div>M</div>
+  )
+}
+
+>>>>>>> 802eb6c58c81e931b06842bdf6bd99922a31a6dd
 export default MerchSettings

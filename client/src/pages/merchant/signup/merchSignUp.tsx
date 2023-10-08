@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { FormEvent, useEffect, useState } from 'react'
 import colors from '../../../common/colors'
 import { BsFillPersonFill } from "react-icons/bs";
@@ -182,3 +183,14 @@ const MerchSignUp = () => {
 
 export default MerchSignUp
 
+=======
+import React from 'react'
+
+const MerchSignUp = () => {
+  return (
+    <div>merchSignUp</div>
+  )
+}
+
+export default MerchSignUp
+>>>>>>> 802eb6c58c81e931b06842bdf6bd99922a31a6dd

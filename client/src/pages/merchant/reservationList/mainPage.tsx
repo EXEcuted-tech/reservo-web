@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react'
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
 import Calendar from '../../../components/calendar/Calendar'
@@ -101,4 +102,14 @@ const ReserveList = () => {
   )
 }
 
+=======
+import React from 'react'
+
+const ReserveList = () => {
+  return (
+    <div>mainPage</div>
+  )
+}
+
+>>>>>>> 802eb6c58c81e931b06842bdf6bd99922a31a6dd
 export default ReserveList

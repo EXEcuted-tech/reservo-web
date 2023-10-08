@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect } from 'react'
 import {Link} from 'react-router-dom'
 import logo from '../assets/temp-logo-2.png'
@@ -33,4 +34,14 @@ const LogoutPage = () => {
   )
 }
 
+=======
+import React from 'react'
+
+const LogoutPage = () => {
+  return (
+    <div>L</div>
+  )
+}
+
+>>>>>>> 802eb6c58c81e931b06842bdf6bd99922a31a6dd
 export default LogoutPage

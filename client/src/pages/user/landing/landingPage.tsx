@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react'
 import colors from '../../../common/colors.ts'
 
@@ -109,4 +110,14 @@ const LandingPage = () => {
   );
 }
 
+=======
+import React from 'react'
+
+const LandingPage = () => {
+  return (
+    <div>L</div>
+  )
+}
+
+>>>>>>> 802eb6c58c81e931b06842bdf6bd99922a31a6dd
 export default LandingPage

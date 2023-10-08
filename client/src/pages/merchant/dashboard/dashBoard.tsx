@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react'
 import {RiDashboard3Line} from 'react-icons/ri'
 import {IoCalendarSharp} from 'react-icons/io5'
@@ -223,4 +224,18 @@ const MerchDashboard = () => {
   )
 }
 
+=======
+import React from 'react'
+import MerchAdHeader from '../../../components/headers/MerchAdHeader'
+import { RiDashboard3Line } from 'react-icons/ri';
+
+const MerchDashboard = () => {
+  return (
+    <div className='w-[100%]'>
+      <MerchAdHeader icon={RiDashboard3Line} title="Dashboard"/>
+    </div>
+  )
+}
+
+>>>>>>> 802eb6c58c81e931b06842bdf6bd99922a31a6dd
 export default MerchDashboard

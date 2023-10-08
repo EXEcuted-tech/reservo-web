@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react'
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
 import { RiUserFill } from 'react-icons/ri';
@@ -98,4 +99,14 @@ const AccountList = () => {
   )
 }
 
+=======
+import React from 'react'
+
+const AccountList = () => {
+  return (
+    <div>A</div>
+  )
+}
+
+>>>>>>> 802eb6c58c81e931b06842bdf6bd99922a31a6dd
 export default AccountList
