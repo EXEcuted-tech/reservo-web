@@ -104,7 +104,7 @@ export default function GeneralSettings() {
     }
     return (
         <>
-            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg">
+            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in">
                 <div className='flex flex-row mr-5 ml-5'>
                     <PiBinoculars size={40} />
                     <h3 className='text-2xl mb-2 p-1'><strong>Business Overview</strong></h3>
@@ -112,13 +112,13 @@ export default function GeneralSettings() {
                 
                 <form className="mt-2 mr-5 ml-5" onSubmit={handleSubmit}> 
                     <div className="m-2 flex flex-row ">
-                        <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
+                        <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Business Logo
                             </label>
                                 <img src={jjlogo} className="ml-5"></img>
                         </div>
                         <div className="m-2 flex flex-row ">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
+                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Business Name
                             </label>
                             <input
@@ -131,7 +131,7 @@ export default function GeneralSettings() {
                             />
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
+                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Branch Name
                             </label>
                             <input
@@ -144,7 +144,7 @@ export default function GeneralSettings() {
                             />
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
+                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Description
                             </label>
                             <textarea
@@ -158,7 +158,7 @@ export default function GeneralSettings() {
                         <div className='m-4 flow-root'>
                             <button
                                 type="submit"
-                                className="px-10 py-1 mr-2 float-right bg-[#840705] text-white rounded-2xl hover:bg-[#660605] focus:outline-none focus:ring focus:ring-blue-500"
+                                className="px-10 py-1 mr-2 float-right bg-[#840705] text-white text-m rounded-2xl hover:bg-[#660605] focus:outline-none focus:ring focus:ring-blue-500 transition-colors delay-250 duration-[3000] ease-in"
                             >
                             Save
                             </button>
@@ -173,7 +173,7 @@ export default function GeneralSettings() {
                 </div>
                 <form className="mt-2 mr-5 ml-5" onSubmit={handleSubmit}> 
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
                                 Country
                             </label>
                             <select
@@ -189,7 +189,7 @@ export default function GeneralSettings() {
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
                                 Region
                             </label>
                             <select
@@ -205,7 +205,7 @@ export default function GeneralSettings() {
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
                                 Province
                             </label>
                             <select
@@ -221,7 +221,7 @@ export default function GeneralSettings() {
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
                                 Municipality
                             </label>
                             <select
@@ -237,7 +237,7 @@ export default function GeneralSettings() {
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
                                 Barangay
                             </label>
                             <select
@@ -255,7 +255,7 @@ export default function GeneralSettings() {
                         <div className='m-4 flow-root'>
                             <button
                                 type="submit"
-                                className="px-10 py-1 mr-2 float-right bg-[#840705] text-white rounded-2xl hover:bg-[#660605] focus:outline-none focus:ring focus:ring-blue-500"
+                                className="px-10 py-1 mr-2 float-right bg-[#840705] text-white text-m rounded-2xl hover:bg-[#660605] focus:outline-none focus:ring focus:ring-blue-500 transition-colors delay-250 duration-[3000] ease-in"
                             >
                             Save
                             </button>
@@ -270,7 +270,7 @@ export default function GeneralSettings() {
                 </div>
                 <form className="mt-2 mr-5 ml-5" onSubmit={handleSubmit}> 
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
+                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Contact Number
                             </label>
                             <input
@@ -284,7 +284,7 @@ export default function GeneralSettings() {
                             />
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-sm p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
+                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Email Address
                             </label>
                             <input
@@ -299,7 +299,7 @@ export default function GeneralSettings() {
                         <div className='m-4 flow-root'>
                             <button
                                 type="submit"
-                                className="px-10 py-1 mr-2 float-right bg-[#840705] text-white rounded-2xl hover:bg-[#660605] focus:outline-none focus:ring focus:ring-blue-500"
+                                className="px-10 py-1 mr-2 float-right bg-[#840705] text-white rounded-2xl text-m hover:bg-[#660605] focus:outline-none focus:ring focus:ring-blue-500 transition-colors delay-250 duration-[3000] ease-in"
                             >
                             Save
                             </button>

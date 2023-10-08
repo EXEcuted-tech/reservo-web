@@ -53,7 +53,7 @@ function UserProfilePage(){
             console.log(userName);
 
     return(
-        <div className = "h-[100vh] bg-[#F9F2EA] font-[Poppins]">
+        <div className = "animate-fade-in h-[100vh] bg-[#F9F2EA] font-[Poppins]">
 
             <div className="mx-auto w-[90vw] border-b-[1px] border-black">
                 <p className="pt-10 text-[30pt] font-bold">User Information</p>
@@ -69,7 +69,7 @@ function UserProfilePage(){
                         <br />
                         {data ? (
                             <>
-                                <h1 className="text-center font-bold text-[20pt]">{data.account_name}<EditUsername userName={userName} /></h1>
+                                <h1 className="text-center font-bold text-[20pt]">{data.account_name}<button><BsFillPencilFill className="ml-1 hover:text-[#FFA800] transition-colors delay-250 duration-[3000] ease-in" /></button></h1>
                                 <br />
                                 <br />
                                 <br />
@@ -84,7 +84,7 @@ function UserProfilePage(){
                                             <td className="w-[250px]">{data.contact_number}</td>
                                         </tr>
                                         <tr>
-                                            <td><button onClick={handleLogout} className="p-[7px] w-[3.2cm] mt-[0.8cm] flex flex-row items-center bg-[#FFA800] rounded-3xl"><MdOutlineLogout className="mr-[0.5cm]" />Logout</button></td>
+                                            <td><button onClick={handleLogout} className="p-[7px] w-[3.2cm] mt-[0.8cm] flex flex-row items-center bg-[#FFA800] rounded-3xl hover:bg-[#ec8600] transition-colors delay-250 duration-[3000] ease-in"><MdOutlineLogout className="mr-[0.5cm]" />Logout</button></td>
                                         </tr>
                                     </tbody>
                                 </table>
