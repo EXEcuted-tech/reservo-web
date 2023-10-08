@@ -144,7 +144,7 @@ export default function GeneralSettings() {
                             />
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
+                            <label className="text-lg mr-4 p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Branch Name
                             </label>
                             <input
@@ -158,7 +158,7 @@ export default function GeneralSettings() {
                             />
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
+                            <label className="text-lg mr-9 p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Description
                             </label>
                             <textarea
@@ -189,14 +189,14 @@ export default function GeneralSettings() {
                 </div>
                 <form className="mt-2 mr-5 ml-5" onSubmit={handleSubmit}> 
                         <div className="m-2 flex flex-row">
-                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-lg mr-16 p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
                                 Country
                             </label>
                             <select
                                 name="address.country"
                                 value={data.address.country || "Select Country"}
                                 onChange={handleChange}
-                                className="m-2 p-2 ml-12 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                                className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
                                 <option value="Canada">Canada</option>
@@ -205,14 +205,14 @@ export default function GeneralSettings() {
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-lg p-2 mr-16 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
                                 Region
                             </label>
                             <select
                                 name="address.region"
                                 value={data.address.region || "Select Region"}
                                 onChange={handleChange}
-                                className="m-2 p-2 ml-14 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                                className="m-2 p-2 ml-[1.1rem] text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
                                 <option value="A">Region A</option>
@@ -221,14 +221,14 @@ export default function GeneralSettings() {
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-lg p-2 mr-[3.6rem] w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
                                 Province
                             </label>
                             <select
                                 name="address.province"
                                 value={data.address.province || "Select Province"}
                                 onChange={handleChange}
-                                className="m-2 p-2 ml-11 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                                className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
                                 <option value="A">Province A</option>
@@ -237,14 +237,14 @@ export default function GeneralSettings() {
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-lg p-2 mr-6 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
                                 Municipality
                             </label>
                             <select
                                 name="address.municipality"
                                 value={data.address.municipality || "Select Municipality"}
                                 onChange={handleChange}
-                                className="m-2 p-2 ml-5 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                                className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
                                 <option value="A">Municipality A</option>
@@ -253,14 +253,14 @@ export default function GeneralSettings() {
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-lg p-2 mr-[2.85rem] w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
                                 Barangay
                             </label>
                             <select
                                 name="address.barangay"
                                 value={data.address.barangay || "Select Barangay"}
                                 onChange={handleChange}
-                                className="m-2 p-2 ml-9 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                                className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
                                 <option value="A">Barangay A</option>
@@ -301,7 +301,7 @@ export default function GeneralSettings() {
                             />
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
+                            <label className="text-lg p-2 mr-[2.15rem] w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Email Address
                             </label>
                             <input
