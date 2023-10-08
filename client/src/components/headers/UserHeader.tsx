@@ -9,6 +9,7 @@ const UserHeader = () => {
   const [showMenu,setShowMenu] = useState(false);
   const [username,setUsername] = useState("");
   const [urlPart, setUrlPart] = useState('');
+  const [shortLet,setShortLet] = useState("");
 
   const storedAcc = localStorage.getItem('userDetails');
   const navigate = useNavigate();
@@ -23,10 +24,23 @@ const UserHeader = () => {
     if (storedAcc) {
       setUsername(JSON.parse(storedAcc).user);
     }
-  }, [window.location.pathname]);
+
+    if(username){
+      getShortLetter(username);
+    }
+  }, [window.location.pathname,username]);
 
   const truncatedUsername = username.slice(0, 6);
 
+  const getShortLetter = (name:string) => {
+    const nameParts = name.split(' ');
+    if (nameParts.length === 1) {
+      setShortLet(nameParts[0].charAt(0).toUpperCase());
+    } else if (nameParts.length > 1) {
+      setShortLet(nameParts[0].charAt(0).toUpperCase() + nameParts[1].charAt(0).toUpperCase());
+    }
+  };
+  
   const handleMenuItemClick = (path:string, status:boolean) => {
     navigate(path);
   };
@@ -52,7 +66,14 @@ const UserHeader = () => {
           </nav>
         </div>
         <div className='flex items-center relative'>
-          <BiSolidUserCircle className='text-black text-[2.5em]'/> {/*To be changed*/}
+          {username 
+          ?
+            <div className="relative inline-flex items-center justify-center w-11 h-10 overflow-hidden bg-[#DD2803] rounded-full dark:bg-gray-600">
+                <span className="font-medium text-white dark:text-gray-300">{shortLet}</span>
+            </div>
+          :
+            <BiSolidUserCircle className='text-black text-[2.5em]'/> 
+          }
           <AiOutlineDown className='text-black mt-[6%] ml-[6%] text-[1.3em] hover:cursor-pointer hover:text-[#DD2803]'
            onClick={()=>{setShowMenu(!showMenu)}}/>
           {showMenu && 
@@ -75,7 +96,10 @@ const UserHeader = () => {
                   <li className='flex hover:text-[#DD2803] cursor-pointer py-[8%] hover:animate-zoom-in'
                   onClick={()=>navigate('/accprofile')}>My Profile</li> 
                   <li className='flex hover:text-[#DD2803] cursor-pointer py-[8%] hover:animate-zoom-in'
-                  onClick={()=>navigate('/logout')}>Log Out<BiSolidLogOutCircle className='ml-[2%] mt-[2%] text-[1.3em]'/></li>   
+                  onClick={()=>{
+                    localStorage.removeItem('userDetails');
+                    navigate('/logout');
+                  }}>Log Out<BiSolidLogOutCircle className='ml-[2%] mt-[2%] text-[1.3em]'/></li>   
                 </>           
                 :
                   <li className='flex hover:text-[#DD2803] cursor-pointer py-[8%] hover:animate-zoom-in'

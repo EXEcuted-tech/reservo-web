@@ -15,8 +15,8 @@ interface DetailsModalProps {
     packageID: string;
     packageName: string;
     description: string;
-    date_start: string;
-    date_end: string;
+    date_start: Date;
+    date_end: Date;
     tags: string[];
     price: string;
     visibility: string;
@@ -35,7 +35,6 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
     const handleDeleteClick = () => {
       setDeleteModal(true);
     };
-  
     const handleConfirmDelete = async () => {
       try {
           const response = await axios.post(`${config.API}/package/delete/`,{
@@ -94,8 +93,8 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
             <div className='h-[40vh] '>
                 <p><b>Package Name: </b>{packageName}</p>
                 <p><b>Total Price: </b> {price}</p>
-                <p><b>Available From: </b>{date_start}</p>
-                <p><b>Expiry Date: </b>{date_end}</p>
+                <p><b>Available From: </b>{date_start.toDateString()}</p>
+                <p><b>Expiry Date: </b>{date_end.toDateString()}</p>
                 <p><b>Tags: </b>{tags.map((tag, index) => (
                                             <span key={index}>{tag}{index < tags.length - 1 ? ', ' : ''}</span>
                                         ))}
@@ -131,8 +130,8 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
 
             </div>
             <div className='flex justify-end items-center h-[5vh]'>{/*This is the footer*/}
-                <button className='w-[5vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center duration-75 hover:border-black border-2' onClick={handleDeleteClick}><AiFillDelete/>Delete</button>
-                <button className='w-[5vw] h-[4vh] bg-[#efb953] mx-5 rounded-md flex items-center justify-center duration-75 hover:border-black border-2' onClick={openEditModal}><HiMiniPencilSquare/>Edit</button>
+                <button className='w-[8vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center duration-75 hover:border-black border-2' onClick={handleDeleteClick}><AiFillDelete/>Delete</button>
+                <button className='w-[8vw] h-[4vh] bg-[#efb953] mx-5 rounded-md flex items-center justify-center duration-75 hover:border-black border-2' onClick={openEditModal}><HiMiniPencilSquare/>Edit</button>
                 {isEditModalOpen && 
                 <EditDetailsModal 
                 onClose={closeEditModal}

@@ -15,7 +15,7 @@ const ReserveManager = () => {
   }, [window.location.pathname]);
 
   return (
-    <div>
+    <div className="animate-fade-in">
       <MerchAdHeader icon={RiReservedFill} title="Reservation Manager"/>
         {urlPart == 'reservationmanager' && <ReservationManager/>}
     </div>

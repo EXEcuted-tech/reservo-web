@@ -21,7 +21,7 @@ const CompleteList: React.FC<ReserveProps> = (props) => {
     });
   }, []);
   return (
-    <div className='h-[82.5vh] overflow-y-auto'>
+    <div className='h-[82.5vh] overflow-y-auto animate-fade-in'>
       <div className='font-poppins mx-[3%] mt-[1%] mb-[1%]'>
         <ReserveCard bookings={reservations} openModal={openModal}/>
       </div>
