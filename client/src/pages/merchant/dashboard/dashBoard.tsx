@@ -39,7 +39,7 @@ const MerchDashboard = () => {
     }
   }
 
-  const formattedData = graphList.map(item => [new Date(2023,item.month-1 ), item.books])
+  const formattedData = graphList.map(item => [new Date(item.year,item.month-1 ), item.books])
   const LineData = [
     [
       { type: "date", label: 'Day'},
@@ -49,7 +49,7 @@ const MerchDashboard = () => {
   ]
   const LineChartOptions = {
     title: 'Rervations Graph',
-    linewidth: 12,
+    linewidth: graphList.length,
     hAxis: {
       title: 'Monthly',
       format: "MMM yyyy",
