@@ -114,6 +114,30 @@ const retrieveCountByParams = (req, res) => {
   });
 };
 
+const retrieveBookingsByMonth = (req, res) =>{
+  const { year, merchID } = req.query
+
+  const retrieveYear = 'SELECT MONTH(date_received) as month, COUNT(*) as books FROM reservation WHERE YEAR(date_received) = ? AND merchant_id = ? GROUP BY reservation.date_received;'
+
+  db.query(retrieveYear,[year , merchID], (err,books) => {
+    if (err) {
+      console.error('Error retrieving records:', err)
+      return res.status(500).json({
+        status: 500,
+        success: false,
+        error: err.message()
+      })
+    }else{
+      const count = books
+
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        count: count,
+      })
+    }
+  })
+}
 
 const retrieveCountByTwoParams = (req, res) => {
   const { col1, val1, col2, val2 } = req.query;
@@ -194,5 +218,6 @@ module.exports = {
     deleteReserve,
     retrieveCountByParams,
     retrieveCountByTwoParams,
-    retrieveCountByThreeParams
+    retrieveCountByThreeParams,
+    retrieveBookingsByMonth
 }

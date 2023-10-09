@@ -11,44 +11,9 @@ import axios from 'axios'
 import config from '../../../common/config'
 import GenSpinner from '../../../components/loaders/genSpinner'
 
-const LineData = [
-  ['x', 'Bookings'],
-  [new Date(2023,0), 1 ],
-  [new Date(2023,1), 2],
-  [new Date(2023,2), 10],
-  [new Date(2023,3), 23],
-  [new Date(2023,4), 10],
-  [new Date(2023,5), 42],
-  [new Date(2023,6), 16],
-  [new Date(2023,7), 12],
-  [new Date(2023,8), 42],
-  [new Date(2023,9), 16],
-  [new Date(2023,10), 12],
-  [new Date(2023,11), 100],
-]
-const LineChartOptions = {
-  title: 'Rervations Graph',
-  hAxis: {
-    title: 'Monthly',
-    gridlines: {
-      color: 'transparent',
-    },
-  },
-  vAxis: {
-    title: 'Caters',
-    gridlines: {
-      color: 'transparent'
-    }
-  },
-  backgroundColor: 'transparent',
-  colors:['#660605'],
-  titleTextStyle: {
-
-  }
-}
-
-
 const MerchDashboard = () => {
+  const storedAcc = localStorage.getItem('admerchDetails')
+
   const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState<any[]>([]);
   const userDetails = localStorage.getItem('userDetails');
@@ -58,7 +23,53 @@ const MerchDashboard = () => {
   const [cateredCount, setCateredCount] = useState(0);
   const [cancelledCount, setCancelledCount] = useState(0);
   const [todayCount, setTodayCount] = useState(0);
+  const [graphList, setgraphList] = useState([{}]);
   
+  const fetchGraphInfo = async() => {
+    try {
+      const responseBooks = await axios.get(`${config.API}/reserve/retrievebooks`,{
+        params: {
+          year: "2023",
+          merchID: 2
+        }
+      })
+      setgraphList(responseBooks.data.count)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const formattedData = graphList.map(item => [new Date(2023,item.month-1 ), item.books])
+  const LineData = [
+    [
+      { type: "date", label: 'Day'},
+      'Bookings'
+    ],
+    ...formattedData
+  ]
+  const LineChartOptions = {
+    title: 'Rervations Graph',
+    linewidth: 12,
+    hAxis: {
+      title: 'Monthly',
+      format: "MMM yyyy",
+      gridlines: {
+        color: 'transparent',
+      },
+    },
+    vAxis: {
+      title: 'Caters',
+      gridlines: {
+        color: 'transparent'
+      }
+    },
+    backgroundColor: 'transparent',
+    colors:['#660605'],
+    titleTextStyle: {
+  
+    }
+  }
+
   function getTodaysDate() {
     const today = new Date();
     const year = today.getFullYear();
@@ -118,6 +129,7 @@ const MerchDashboard = () => {
 
   useEffect(() => {
     fetchInfo();
+    fetchGraphInfo();
   }, []);
   
 
@@ -183,7 +195,7 @@ const MerchDashboard = () => {
           width={'100%'}
           height={'100%'}
           chartType="LineChart"
-          loader={<div>Loading Chart</div>}
+          loader={<div>Loading Chart...</div>}
           data={LineData}
           options={LineChartOptions}
           rootProps={{ 'data-testid': '2' }}
