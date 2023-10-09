@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Card from '../../../components/card/card'
+import Card from '../../../components/card/viewCard'
 import Rating from '@mui/material/Rating';
 import {GrLocation} from 'react-icons/gr'
 import {AiOutlineFolderView, AiFillStar, AiOutlineArrowLeft} from 'react-icons/ai'
@@ -244,6 +244,7 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
             <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Price Range:</span>{"₱ "+minPrice+" - "+"₱ "+maxPrice}</p>
             <div className='PublishedPackages mt-[-2%]'>
             <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl">
+                
              {packages.map((packageItem)=>(
                 <Card
                   key={packageItem.package_id}
