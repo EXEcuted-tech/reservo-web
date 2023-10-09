@@ -49,7 +49,7 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         setRecord(res.data.records)
        }
     })
-    setTimeout(()=>{setIsLoading(true)},500);
+    setTimeout(()=>{setIsLoading(true)},2500);
   }
 
   const getClientInfo = () => {
@@ -65,7 +65,7 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         setEmail(user?.email_address);
         setContactNo(user?.contact_number);
        }
-       setTimeout(()=>{setIsLoading(true)},500);
+       setTimeout(()=>{setIsLoading(true)},2500);
     })
   }
 

@@ -49,7 +49,7 @@ const MerchantSide = () => {
                     onClick={()=>{handleMenuItemClick('/reservationlist/all',false)}}>
                     <IoCalendar className='mr-[4%] text-[1.5em]'/> Reservations List</li>
                 { showMore || urlPart==='reservationlist'  &&
-                   <ul className='text-white ml-[15%] mr-[5%] text-[1.2em] bg-[#912D2C] pl-[10%] py-[5%] rounded-b-2xl'>
+                   <ul className='text-white ml-[15%] mr-[5%] mb-[10%] text-[1.2em] bg-[#912D2C] pl-[10%] py-[5%] rounded-b-2xl'>
                     <li className={`my-[5%] hover:cursor-pointer hover:bg-[#660605] hover:ml-[-15%] hover:pl-[15%] hover:py-[1%]
                         ${ urlSecPart ==='all' ? 'bg-[#660605] ml-[-15%] pl-[15%]': ''}`}
                         onClick={()=>{navigate('/reservationlist/all')}}>All Bookings</li>

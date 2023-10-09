@@ -1,8 +1,9 @@
-import React from 'react'
-import react, {useEffect, useState} from 'react'
+import React, { useState } from 'react'
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
 import {RiDashboard3Line} from 'react-icons/ri'
 import Chart from 'react-google-charts'
+import config from '../../../common/config'
+import axios from 'axios'
 
 
 // const AdminDashboard = () => {

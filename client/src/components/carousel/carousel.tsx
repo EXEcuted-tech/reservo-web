@@ -41,7 +41,7 @@ const Carousel: React.FC = () => {
               <h1 className="text-8xl mt-4 md:text-2xl lg:text-8xl text-[#DD2803] font-bold">SAVE YOUR TIME</h1>
               <h2 className="text-5xl md:text-2xl lg:text-5xl p-3 font-semibold text-white">YOUR CONVENIENCE, OUR PRIORITY</h2>
               <Link to="/eaterychoice">
-              <button className="text-2xl p-5 mt-6 text-white bg-[#DD2803] hover:bg-[#A01B00] transition-colors delay-250 duration-[3000] ease-in">
+              <button className="text-2xl p-5 mt-6 text-white rounded-2xl bg-[#DD2803] hover:bg-[#A01B00] transition-colors delay-250 duration-[3000] ease-in">
                 Reserve Online
               </button>
               </Link>

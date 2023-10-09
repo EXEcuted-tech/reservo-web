@@ -88,6 +88,85 @@ const retrieveByParams = (req,res)=>{
   });
 }
 
+const retrieveCountByParams = (req, res) => {
+  const { col, val } = req.query;
+
+  const retrieveSpecific = 'SELECT COUNT(*) as count FROM reservation WHERE ?? = ?';
+
+  db.query(retrieveSpecific, [col, val], (err, rows) => {
+    if (err) {
+      console.error('Error retrieving records:', err);
+      return res.status(500).json({
+         status: 500, 
+         success: false, 
+         error: 'Error retrieving records' 
+        });
+    } else {
+      // Extract the count from the result
+      const count = rows[0].count;
+
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        count: count,
+      });
+    }
+  });
+};
+
+
+const retrieveCountByTwoParams = (req, res) => {
+  const { col1, val1, col2, val2 } = req.query;
+
+  const retrieveSpecific = 'SELECT COUNT(*) as count FROM reservation WHERE ?? = ? AND ?? = ?';
+
+  db.query(retrieveSpecific, [col1, val1, col2, val2], (err, rows) => {
+    if (err) {
+      console.error('Error retrieving records:', err);
+      return res.status(500).json({
+         status: 500, 
+         success: false, 
+         error: 'Error retrieving records' 
+        });
+    } else {
+      // Extract the count from the result
+      const count = rows[0].count;
+
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        count: count,
+      });
+    }
+  });
+};
+
+const retrieveCountByThreeParams = (req, res) => {
+  const { col1, val1, col2, val2, col3, val3 } = req.query;
+
+  const retrieveSpecific = 'SELECT COUNT(*) as count FROM reservation WHERE ?? = ? AND ?? = ? AND ??  = ?';
+
+  db.query(retrieveSpecific, [col1, val1, col2, val2, col3, val3], (err, rows) => {
+    if (err) {
+      console.error('Error retrieving records:', err);
+      return res.status(500).json({
+         status: 500, 
+         success: false, 
+         error: 'Error retrieving records' 
+        });
+    } else {
+      // Extract the count from the result
+      const count = rows[0].count;
+
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        count: count,
+      });
+    }
+  });
+};
+
 const deleteReserve = (req,res)=>{
   const {res_id} = req.body;
 
@@ -113,4 +192,7 @@ module.exports = {
     retrieveAll,
     retrieveByParams,
     deleteReserve,
+    retrieveCountByParams,
+    retrieveCountByTwoParams,
+    retrieveCountByThreeParams
 }
