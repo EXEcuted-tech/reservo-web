@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Card from '../../../components/card/card'
+import Card from '../../../components/card/viewCard'
 import Rating from '@mui/material/Rating';
 import {GrLocation} from 'react-icons/gr'
 import {AiOutlineFolderView, AiFillStar, AiOutlineArrowLeft} from 'react-icons/ai'
@@ -214,12 +214,22 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                     <div className='flex flex-col relative justify-start mt-[-2.5%] mr-[2%] ml-[22%] w-[100%]'>
                         <button className='w-[100%] flex items-center justify-center text-black bg-[#f8c93f] mb-[4%] px-[3%] 
                             py-[4%] rounded-3xl hover:bg-[#ffd950] font-medium text-[1.3em] transition-colors delay-250 duration-[3000] ease-in'
-                            onClick={()=>{navigate('/eaterychoice/book')}}>
+                            onClick={()=>{
+                                navigate('/eaterychoice/book');
+                                if (typeof merchIdString === 'string') {
+                                    sessionStorage.setItem('merch_idtoBook', merchIdString);
+                                }
+                            }}>
                             <BsBookFill className='text-center text-[1em] mr-[2%]'/>Book Now
                         </button>
                         <button className='w-[100%] flex items-center justify-center text-white bg-[#FF8A00] px-[3%] py-[4%] rounded-3xl
                             hover:bg-[#df9148] hover:text-black font-medium text-[1.3em] transition-colors delay-250 duration-[3000] ease-in'
-                            onClick={()=>{setOpenRatingMod(true)}}>
+                            onClick={()=>{
+                                setOpenRatingMod(true)
+                                if (typeof merchIdString === 'string') {
+                                    sessionStorage.setItem('merch_idtoRate', merchIdString);
+                                }
+                            }}>
                             <AiFillStar className='text-[1.5em]'/>Rate Here
                         </button>
                     </div>
@@ -234,6 +244,7 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
             <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Price Range:</span>{"₱ "+minPrice+" - "+"₱ "+maxPrice}</p>
             <div className='PublishedPackages mt-[-2%]'>
             <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl">
+                
              {packages.map((packageItem)=>(
                 <Card
                   key={packageItem.package_id}
