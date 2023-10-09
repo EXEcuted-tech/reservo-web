@@ -6,6 +6,7 @@ import colors from '../../../common/colors'
 import jjlogo from "../../../assets/jjlogo.png"
 import axios from 'axios'
 import GenSpinner from '../../../components/loaders/genSpinner'
+import config from '../../../common/config'
 
 export default function GeneralSettings() {
     const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +46,7 @@ export default function GeneralSettings() {
 
     useEffect(() => {
         setIsLoading(true);
-        axios.get(`http://localhost:5000/merchant/retrieve`, request)
+        axios.get(`${config.API}/merchant/retrieve`, request)
         .then(response => {
             setData(response.data);
         })
@@ -99,7 +100,7 @@ export default function GeneralSettings() {
         const formData = data;
         console.log(formData);
 
-        axios.post(`http://localhost:5000/merchant/update`, formData)
+        axios.post(`${config.API}/merchant/update`, formData)
         .then(function(response){
             console.log(response);
         })

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import colors from '../../../common/colors'
+import config from '../../../common/config'
 
 export default function AdvancedSettings(){
     const request = {
@@ -8,7 +9,7 @@ export default function AdvancedSettings(){
     }
     
     const HandleEvent = () => {
-        axios.post(`http://localhost:5000/merchant/delete`, { data: request})
+        axios.post(`${config.API}/merchant/delete`, { data: request})
         .then((response) => {
             console.log(response.data);
         })
