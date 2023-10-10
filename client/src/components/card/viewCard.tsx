@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import colors from '../../common/colors'
 import { FaIcons } from 'react-icons/fa'
 import { AiFillDownCircle } from "react-icons/ai";
 import { HiOutlineMagnifyingGlass, HiMiniPencilSquare } from "react-icons/hi2";
 import "../../assets/css/card.css"
-import DetailsModal from '../modals/package-modal/DetailsModal';
-import EditDetailsModal from '../modals/package-modal/EditDetailsModal';
+import DetailsModal from '../modals/package-modal/viewDetailsModal';
+
 
 
 
@@ -53,6 +53,13 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     setIsModalOpen(false);
   };
 
+  useEffect(()=>{
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+  })
+
 
     return (
         <div className='Card mx-5 my-5 min-w-[18vw] max-w-[18vw] min-h-[50vh] max-h-[50vh] truncate'>
@@ -71,15 +78,11 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
                 </div>
                 <div className='flex h-5 justify-center my-2 items-center'>
                 <p className="text-xl my-5 text-center font-bold">PHP {price}</p></div>
-                <div className="mx-10 flex space-x-5 items-center">
-                <button className='CardButton flex DetailsButton w-1/2 items-center justify-center  ' onClick={openModal}><HiOutlineMagnifyingGlass/>Details</button>
+                <div className="flex items-center justify-center">
+                <button className='CardButton DetailsButton items-center justify-center' onClick={openModal}><HiOutlineMagnifyingGlass/>Details</button>
                 {isModalOpen && <DetailsModal onClose={closeModal} packageID={package_id} packageName={packageName} date_start={date_start} date_end={date_end} price={price} description={description} tags={tags} visibility={visibility} items={items} time_start={time_start} time_end={time_end} filePath={filePath} openEditModal={function (): void {
                 throw new Error('Function not implemented.');
               } }/>}
-                {oneButton === false &&
-                  <button className='CardButton flex EditButton w-1/2 items-center justify-center' onClick={openEditModal} ><HiMiniPencilSquare/>Edit</button>
-                }
-                {isEditModalOpen && <EditDetailsModal  onClose={closeEditModal} dateStart={date_start} timeStart={time_start} timeEnd={time_end} dateEnd={date_end} packageID={package_id} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items} filePath={filePath}/>}
                 </div>
                 </div>
           </div>

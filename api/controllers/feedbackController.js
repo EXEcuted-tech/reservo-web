@@ -111,17 +111,18 @@ const retrieveCountByParams = (req, res) => {
 const retrieveAverage = (req,res)=>{
   const { merch_id } = req.query; 
 
-  const retrieveSpecific = 'SELECT AVG(rating_value) FROM feedback WHERE merchant_id = ?';
+  const retrieveSpecific = 'SELECT AVG(rating_value) AS average_rating FROM feedback WHERE merchant_id = ?';
 
   db.query(retrieveSpecific, [merch_id],(err, result) => {
     if (err) {
       console.error('Error retrieving average:', err);
       return res.status(500).json({ status: 500, success:false,error: 'Error retrieving records' });
     }else{
+      const avg = result[0].average_rating;
       return res.status(200).json({
         status: 200,
         success: true,
-        average: result,
+        average: avg,
       });
     }
   });

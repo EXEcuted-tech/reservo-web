@@ -10,6 +10,7 @@ const createReserve = (req,res)=>{
     const date_received = new Date();
     const status = "Ongoing";
     const data = [date,timestart,location,date_received,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id,status]
+    try{
     db.query(insertQuery, data, (err, result) => {
       if (err) {
         console.error('Error inserting data:', err);
@@ -26,6 +27,10 @@ const createReserve = (req,res)=>{
         return res.status(500).json({ status: 500, success: false, error: 'Record insertion failed' });
       }
     });
+  } catch (error) {
+    console.error('Error:', error);
+    return res.status(500).json({ status: 500, success: false, error: 'An error occurred' });
+  }
 }
 
 const updateReserve = (req,res)=>{
@@ -114,6 +119,30 @@ const retrieveCountByParams = (req, res) => {
   });
 };
 
+const retrieveBookingsByMonth = (req, res) =>{
+  const { year, merchID } = req.query
+
+  const retrieveYear = 'SELECT YEAR(date_received) as year, MONTH(date_received) as month, COUNT(*) as books FROM reservation WHERE YEAR(date_received) = ? AND merchant_id = ? GROUP BY reservation.date_received;'
+
+  db.query(retrieveYear,[year , merchID], (err,books) => {
+    if (err) {
+      console.error('Error retrieving records:', err)
+      return res.status(500).json({
+        status: 500,
+        success: false,
+        error: err.message()
+      })
+    }else{
+      const count = books
+
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        count: count,
+      })
+    }
+  })
+}
 
 const retrieveCountByTwoParams = (req, res) => {
   const { col1, val1, col2, val2 } = req.query;
@@ -194,5 +223,6 @@ module.exports = {
     deleteReserve,
     retrieveCountByParams,
     retrieveCountByTwoParams,
-    retrieveCountByThreeParams
+    retrieveCountByThreeParams,
+    retrieveBookingsByMonth
 }
