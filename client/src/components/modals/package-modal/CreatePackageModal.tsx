@@ -168,8 +168,8 @@ interface CreatePackageModal{
     <div className='flex justify-center align-center my-20'>
         <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl">
             <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'> {/*this is the header for the modal*/}
-                <div className='flex start items-center'><p><b>Add a New Package</b></p></div>
-                <div className='flex justify-end'><button className='flex items-center text-3xl ' onClick={closeCreatePackageModal}><AiFillCloseCircle className='mx-2 detailsClose'/></button></div>
+                <div className='text-2xl flex start items-center mb-4'><p><b>Add a New Package</b></p></div>
+                <div className='flex justify-end mb-4'><button className='flex items-center text-3xl ' onClick={closeCreatePackageModal}><AiFillCloseCircle className='mx-2 detailsClose'/></button></div>
             </div>
             <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
             <div>
@@ -189,7 +189,7 @@ interface CreatePackageModal{
                     </select>
                     </p>
                 <p><b>Description:<span className='text-red-600'>*</span> </b></p>
-                <textarea value={packageDesc} onChange={handlePackageDescChange} placeholder="Your Description Here" className="w-[80%] h-[25%] p-2 overflow-y-auto my-4 border-solid border-[#000000] border-2 rounded-md mx-4"></textarea>
+                <textarea value={packageDesc} onChange={handlePackageDescChange} placeholder="Your Description Here" className="w-[80%] h-[25%] p-2 overflow-y-auto my-4 border-solid border-[#000000] border-2 rounded-md"></textarea>
             </div>
             
             </div>

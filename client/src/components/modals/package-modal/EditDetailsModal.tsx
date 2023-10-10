@@ -179,17 +179,17 @@ function formatDateToMMDDYYYY(date: string) {
         />
       )}
             <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'>
-              <div className='flex start items-center'>
-                <p><b>Package ID:</b>{packageID}</p>
+              <div className='flex start items-center text-2xl mb-4'>
+                <p><b>Package ID: </b>{packageID}</p>
               </div>
               <div className='flex justify-end'>
-                <button onClick={onClose} className='flex items-center text-3xl '><AiFillCloseCircle className='mx-2 detailsClose' /></button>
+                <button onClick={onClose} className='flex items-center text-3xl mb-4 '><AiFillCloseCircle className='mx-2 detailsClose' /></button>
               </div>
             </div>
             <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
               <div>
                 <div className='h-[40vh] '>
-                <p><span className='text-red-600 text-xs'>Fields with * are required.</span></p>
+                <p><span className='text-red-600 text-m'>Fields with * are required.</span></p>
                   <p><b>Package Name: <span className='text-red-600'>*</span></b><input onChange={handlePackageNameChange} type="text" value={editedPackageName} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
                   <p><b>Total Price: <span className='text-red-600'>*</span></b> <input type="text" value={editedPrice} onChange={handlePriceChange} className="h-[4vh] my-2 border-solid border-[#000000] border-2 p-2 rounded-md mx-4 pl-2"></input></p>
                   <p><b>Available From: <span className='text-red-600'>*</span></b> <input type="date" value={editedDateStart.toISOString().split('T')[0]} onChange={handleDateStartChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>

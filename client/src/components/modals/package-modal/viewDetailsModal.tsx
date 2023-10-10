@@ -38,8 +38,8 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
     <div className='flex justify-center align-center my-20'>
           <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl">
             <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'> {/*this is the header for the modal*/}
-                <div className='flex start items-center'><p><b>Package ID:</b> {packageID}</p></div>
-                <div className='flex justify-end'><button onClick={onClose} className='flex items-center text-3xl '><AiFillCloseCircle className='mx-2 detailsClose'/></button></div>
+                <div className='flex start items-center text-2xl mb-4'><p><b>Package ID: </b> {packageID}</p></div>
+                <div className='flex justify-end mb-4'><button onClick={onClose} className='flex items-center text-3xl '><AiFillCloseCircle className='mx-2 detailsClose'/></button></div>
             </div>
             <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
             <div>
