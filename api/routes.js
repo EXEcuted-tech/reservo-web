@@ -12,7 +12,6 @@ const inventoryRoutes = require('./routes/inventoryRoutes')
 const paymentRoutes = require('./routes/paymentRoutes')
 const packageRoutes = require('./routes/packageRoutes')
 const feedbackRoutes = require('./routes/feedbackRoutes')
-const feedbackRoutes = require('./routes/feedbackRoutes')
 const forgetPasswordRoutes = require('./routes/forgetPasswordRoutes')
 
 app.use(cors({
