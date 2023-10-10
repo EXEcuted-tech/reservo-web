@@ -1,8 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Rating from '@mui/material/Rating';
 
 const RatingModal: React.FC<MerchDeetsBackProps> = (props) => {
   const {setOpenRatingMod} = props;
+  const [urlPart, setUrlPart] = useState('');
+  
+  useEffect(() => {
+    const pathParts = window.location.pathname.split('/');
+    if (pathParts.length >= 3) {
+      setUrlPart(pathParts[2]);
+    }
+  }, [window.location.pathname,urlPart]);
+  
   return (
     <div>
        <form className='animate-fade-in font-poppins fixed left-[35%] top-[35%] w-[100%] h-[100%] overflow-auto drop-shadow bg-[rgba(0, 0, 0, 0.5)]  rounded-lg z-100'>
@@ -14,7 +23,14 @@ const RatingModal: React.FC<MerchDeetsBackProps> = (props) => {
             <div>
             <span className="float-right font-bold text-[#aaa] text-[1.9em]
                 hover:text-black hover:no-underline hover:cursor-pointer transition-colors delay-450 duration-[3000] ease-in-out transform scale-100"
-                onClick={()=>{setOpenRatingMod(false)}}>&times;</span>
+                onClick={()=>{
+                  if(urlPart === 'book'){
+                    window.location.reload();
+                  }else{
+                    setOpenRatingMod(false)
+                  }
+                }}
+                >&times;</span>
             </div>
           </div>
           <div>

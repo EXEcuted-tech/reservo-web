@@ -10,6 +10,7 @@ const createReserve = (req,res)=>{
     const date_received = new Date();
     const status = "Ongoing";
     const data = [date,timestart,location,date_received,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id,status]
+    try{
     db.query(insertQuery, data, (err, result) => {
       if (err) {
         console.error('Error inserting data:', err);
@@ -26,6 +27,10 @@ const createReserve = (req,res)=>{
         return res.status(500).json({ status: 500, success: false, error: 'Record insertion failed' });
       }
     });
+  } catch (error) {
+    console.error('Error:', error);
+    return res.status(500).json({ status: 500, success: false, error: 'An error occurred' });
+  }
 }
 
 const updateReserve = (req,res)=>{

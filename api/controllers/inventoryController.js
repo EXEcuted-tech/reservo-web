@@ -2,7 +2,6 @@ const express = require('express');
 const db = require('./a_db'); 
 
 const createInventory = (req,res)=>{
-    console.log("DATABSE: ",db);
     const {numTables, numChairs, numPlates, numGlasses, numTableCloth, numChairCovers} = req.body;
  
       const insertQuery = 'INSERT INTO inventory (no_of_tables, no_of_chairs, no_of_plates, no_of_glasses, no_of_tableCloths, no_of_chairCovers) VALUES (?,?,?,?,?,?)';
