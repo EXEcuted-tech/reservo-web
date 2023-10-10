@@ -74,7 +74,7 @@ const ReservationManager = () => {
   };
 
   return (
-    <div className="h-screen font-poppins bg-[#F3F3F3] p-8 h-[90vh]">
+    <div className="h-[90vh] font-poppins bg-[#F3F3F3] p-8 h-[90vh]">
       <nav className="flex gap-8 border-b-2 border-black">
         {NAV_BAR.map(({ title, url }, index) => (
           <Fragment key={index}>

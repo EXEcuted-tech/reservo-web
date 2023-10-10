@@ -1,45 +1,59 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
 import {RiDashboard3Line} from 'react-icons/ri'
 import Chart from 'react-google-charts'
 import config from '../../../common/config'
 import axios from 'axios'
 
-const LineData = [
-  ['x', 'Merchants', 'Users'],
-  [0, 0, 0],
-  [1, 10, 4],
-  [2, 23, 7],
-  [3, 17, 19],
-  [4, 18, 1],
-  [5, 9, 20],
-  [6, 11, 25],
-  [7, 27, 12],
-]
-const LineChartOptions = {
-  chart: {
-    title: 'Average Temperatures and Daylight in Iceland Throughout the Year'
-  },
-  hAxis: {
-    title: 'Time',
-    gridlines: {
-      color: 'transparent'
-    }
-  },
-  vAxis: {
-    title: 'Popularity',
-    gridlines: {
-      color: 'transparent'
-    }
-  },
-  backgroundColor: 'transparent',
-  colors:['#660605', '#EC0000'],
-  titleTextStyle: {
-
-  }
-}
-
 const AdminDashboard = () => {
+  const [adgraphList, setadgraphList] = useState([{}])
+
+  const fetchGraphInfo = async() => {
+    try {
+      const responseAccounts = await axios.get(`${config.API}/user/retrieve_accounts`,{
+        params: {
+          year: "2023",
+        }
+      })
+      setadgraphList(responseAccounts.data.acctCount)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const formattedAccountsData = adgraphList.map(item => [new Date(item.signup_year,item.signup_month),item.count_merchant,item.count_user])
+
+  const LineData = [
+    ['x', 'Merchants', 'Users'],
+    ...formattedAccountsData
+  ]
+  const LineChartOptions = {
+    chart: {
+      title: 'Average Temperatures and Daylight in Iceland Throughout the Year'
+    },
+    hAxis: {
+      title: 'Monthly',
+      format: "MMM yyyy",
+      gridlines: {
+        color: 'transparent',
+      },
+    },
+    vAxis: {
+      title: 'New Accounts',
+      gridlines: {
+        color: 'transparent'
+      }
+    },
+    backgroundColor: 'transparent',
+    colors:['#660605','#EC0000'],
+    titleTextStyle: {
+
+    }
+  }
+
+  useEffect(() => {
+    fetchGraphInfo();
+  }, []);
   return (
     <div className='flex-col'>
       {/* Header Section */}

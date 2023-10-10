@@ -14,21 +14,21 @@ const MerchSettings = () => {
 
     return (
         <div className={`bg-[#FFFFFF] h-[100vh] font-poppins overflow-y-auto overflow-x-hidden animate-fade-in`}>
-        <div className="w-[80vw]">
+        <div className="w-full">
         <MerchAdHeader icon={BsFillBuildingFill} title={'Merchant Settings'}/>
 
             <div className="bg-[#F3F3F3] h-full w-full">
  
                 <div style={{fontFamily: 'Poppins, sans-serif'}} className="flex ml-10 mr-10 text-xl">
                     <div
-                        className={`hover:underline tab-item cursor-pointer p-4 transition duration-300 ease-in-out ${activeTab === 0 ? 'font-bold' : ''}`}
+                        className={`hover:underline hover:font-bold tab-item cursor-pointer p-4 transition duration-300 ease-in-out ${activeTab === 0 ? 'font-bold' : ''}`}
                         onClick={() => handleTabClick(1)}
                     >
                         General Settings
                     </div>
                    
                     <div
-                        className={`hover:underline tab-item cursor-pointer p-4 transition duration-300 ease-in-out ${activeTab === 0 ? 'font-bold' : ''}`}
+                        className={`hover:underline hover:font-bold tab-item cursor-pointer p-4 transition duration-300 ease-in-out ${activeTab === 0 ? 'font-bold' : ''}`}
                         onClick={() => handleTabClick(2)}
                     >
                         Advanced
