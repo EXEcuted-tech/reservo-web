@@ -168,13 +168,13 @@ interface CreatePackageModal{
     <div className='flex justify-center align-center my-20'>
         <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl">
             <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'> {/*this is the header for the modal*/}
-                <div className='flex start items-center'><p><b>Add a new Package</b></p></div>
+                <div className='flex start items-center'><p><b>Add a New Package</b></p></div>
                 <div className='flex justify-end'><button className='flex items-center text-3xl ' onClick={closeCreatePackageModal}><AiFillCloseCircle className='mx-2 detailsClose'/></button></div>
             </div>
             <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
             <div>
             <div className='h-[40vh]'>
-            <p><span className='text-red-600 text-xs'>Fields with * are required.</span></p>
+            <p><span className='text-red-600 text-m'>Fields with * are required.</span></p>
                 <p><b>Package Name:<span className='text-red-600'>*</span> </b><input type="text"  value={packageName} onChange={handlePackageNameChange}className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input></p>
                 <p><b>Total Price:<span className='text-red-600'>*</span> </b> <input type="text" value= {price} onChange={handlePriceChange} className="h-[4vh] my-2 border-solid p-2 border-[#000000] border-2 rounded-md mx-4"></input></p>
                 <p><b>Available From:<span className='text-red-600'>*</span> </b> <input type="date" value={dateStart} onChange={handleDateStartChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input></p>
@@ -194,9 +194,9 @@ interface CreatePackageModal{
             
             </div>
             <div>
-            <div className='IMAGE_PLACEHOLDER bg-slate-600 block w-3/5 h-3/5 rounded-2xl'>
+            <div className='IMAGE_PLACEHOLDER bg-slate-600 block w-3/5 h-3/5 mb-5 rounded-2xl'>
             </div>
-            <label htmlFor="packageImage">Upload Image Here:<span className='text-red-600'>*</span> </label>
+            <label htmlFor="packageImage">Upload Image Here:<span className='text-red-600 '>*</span> </label>
             <input className="my-2 w-[50%] px-4 border-black border-solid rounded-lg border-2" value={filePath} onChange={handleFilePathChange} type="text" name="packageImage" placeholder='Paste Link Here'/>
             <div className="my-2">
         
@@ -211,8 +211,8 @@ interface CreatePackageModal{
         <div className='flex flex-row item'>
         <button
             onClick={addItem}
-            className="w-[5vw] h-[4vh] rounded-md bg-[#7dc72d] flex items-center justify-center">
-            <IoMdAddCircleOutline/>Add Item
+            className="w-[6vw] h-[4vh] rounded-md bg-[#7dc72d] flex items-center justify-center hover:bg-[#6ba230] transition-colors delay-250 duration-[3000] ease-in">
+            <IoMdAddCircleOutline/> Add Item
           </button><input
             type="text"
             value={itemName}
@@ -228,10 +228,10 @@ interface CreatePackageModal{
 
             </div>
             <div className='flex justify-end items-center h-[5vh]'>{/*This is the footer*/}
-                <button className='w-[8vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center' onClick={onClose}><AiFillDelete/>Cancel</button>
+                <button className='w-[8vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center hover:bg-[#A01B00] transition-colors delay-250 duration-[3000] ease-in' onClick={onClose}><AiFillDelete/>Cancel</button>
                 <button
                   className={`w-[8vw] h-[4vh] mx-5 rounded-md duration-300 ${
-                    isLoading || incompleteAlert? 'bg-[#bbd89e] cursor-not-allowed' : 'bg-[#7ac033]'
+                    isLoading || incompleteAlert? 'bg-[#bbd89e] cursor-not-allowed' : 'bg-[#7ac033] hover:bg-[#639e27] transition-colors delay-250 duration-[3000] ease-in'
                   } flex items-center justify-center`}
                   disabled={isLoading}
                   onClick={createPackage}

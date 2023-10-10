@@ -101,7 +101,7 @@ const MerchSignUp = () => {
 
               <button onClick={()=>{navigate('/adlogin')}} className='no-underline inline-block text-[white] border text-lg relative cursor-pointer 
                             w-[190px] px-6 py-[11px] bg-[#840705]
-                            rounded-[100px] border-solid border-white font-poppins font-bold'>
+                            rounded-[100px] border-solid border-white font-poppins font-bold hover:bg-[#DD2803] transition-colors delay-250 duration-[3000] ease-in'>
                 Log In
               </button>
             </div>
@@ -130,9 +130,9 @@ const MerchSignUp = () => {
                   <BsPersonAdd className='float-left text-[21px]'/>
                   <label className='float-left ml-[4px]'>Proof of Employment</label>
                   
-                  <label className='flex cursor-pointer mt-2.5 ml-7 bg-white hover:bg-[#ffb9b8] text-white text-centerpy-2 px-4 rounded-lg shadow-md float-left align-middle w-[75%] '>
-                    <BsFillImageFill className='float-left text-[50px] mr-[10px] text-[#840705] ml-2'/>
-                    <input type="file" id="fileInput" accept="image/*" className='float-left cursor-pointer mt-[13px] text-[#840705] inline-block border-solid border-[#ccc] file:hidden'></input>
+                  <label className='group flex cursor-pointer mt-2.5 ml-7 bg-white text-white text-centerpy-2 px-4 rounded-lg shadow-md float-left align-middle w-[75%]  '>
+                    <BsFillImageFill className='float-left text-[50px] mr-[10px] text-[#840705] group-hover:text-black ml-2 transition-colors delay-250 duration-[3000] ease-in'/>
+                    <input type="file" id="fileInput" accept="image/*" className='float-left cursor-pointer mt-[13px] text-[#840705] group-hover:text-black inline-block border-solid border-[#ccc] file:hidden transition-colors delay-250 duration-[3000] ease-in'></input>
                   </label>
                 </div>
               
@@ -165,7 +165,7 @@ const MerchSignUp = () => {
             <div className='flex justify-center w-full text-center mt-5'>
               {/* <div className='flex items-center justify-center'>{passwordMismatch ? <><p className='text-white font-poppins float-left animate-pulse'>Passwords Do Not Match.</p></>:<></>}</div> */}
                 <button type='submit' onClick={handleSubmit} className='flex items-center justify-center no-underline inline-block text-[#840705] border text-lg relative cursor-pointer
-                  shadow-[inset_0_0_0_white] w-[220px] px-6 py-[11px] rounded-[100px] border-solid border-[#e72a2a] font-poppins font-bold bg-[white]' value='Sign Up'>
+                  shadow-[inset_0_0_0_white] w-[220px] px-6 py-[11px] rounded-[100px] font-poppins font-bold bg-[white]  hover:text-[#DD2803]  transition-colors delay-250 duration-[3000] ease-in' value='Sign Up'>
                     {isLoading && <Spinner className='mr-[1%]'/>}
                     Submit                                                  
                 </button>   

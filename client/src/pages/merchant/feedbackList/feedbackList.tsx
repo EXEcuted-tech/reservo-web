@@ -82,9 +82,9 @@ const FeedbackList = () => {
   }, []);
 
   return (
-    <div>
+    <div className="animate-fade-in">
       <MerchAdHeader icon={RiMegaphoneFill} title="Feedback List" />
-      <div className="bg-[#F3F3F3] h-[90vh] px-12 py-7">
+      <div className="bg-[#F3F3F3] h-[90vh] px-12 py-7 ">
         <div className="bg-[#FFFFFF] h-[85vh] p-4 rounded-[2rem] relative">
           <div className="flex font-poppins px-10 py-10">
             <h1 className="text-3xl font-bold">Merchant Rating</h1>

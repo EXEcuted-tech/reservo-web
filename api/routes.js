@@ -12,6 +12,8 @@ const inventoryRoutes = require('./routes/inventoryRoutes')
 const paymentRoutes = require('./routes/paymentRoutes')
 const packageRoutes = require('./routes/packageRoutes')
 const feedbackRoutes = require('./routes/feedbackRoutes')
+const feedbackRoutes = require('./routes/feedbackRoutes')
+const forgetPasswordRoutes = require('./routes/forgetPasswordRoutes')
 
 app.use(cors({
     origin: [process.env.CORS_ORIGIN],
@@ -46,5 +48,6 @@ app.use('/inventory',inventoryRoutes);
 app.use('/payment',paymentRoutes);
 app.use('/package',packageRoutes);
 app.use('/feedback',feedbackRoutes);
+app.use('/forgetPassword',forgetPasswordRoutes);
 
 module.exports = app;

@@ -29,7 +29,7 @@ const ReserveList = () => {
   }, [window.location.pathname]);
 
   return (
-    <div>
+    <div className="animate-fade-in">
       {(openModalView || openModalEdit) &&
         <>
          <div className='fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,0.5)] opacity-0.5 z-100'></div>
@@ -45,7 +45,7 @@ const ReserveList = () => {
       <div className='flex items-center bg-[#F0E5D8]'>
         <div className='w-[80%] py-[1%] pl-[2%]'>
             <label className={`font-bold mx-2 w-[4vw] text-[1.1em]`}>Period: </label>
-            <select id="sortDropdown" name="sortDropdown" className={`bg-transparent rounded-md h-10 w-[20vw]  hover:bg-white transition duration-150 ease-out hover:ease-in`}>
+            <select id="sortDropdown" name="sortDropdown" className={`bg-transparent rounded-md h-10 w-[21vw]  hover:bg-white transition duration-150 ease-out hover:ease-in`}>
               <option value="option1">1 Week (September 23, 2023 - September 30, 2023) </option>                
               <option value="option2">1 Month (September 1, 2023 - September 30, 2023) </option>
             </select>

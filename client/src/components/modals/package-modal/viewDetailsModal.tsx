@@ -32,58 +32,11 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
 
-    const handleDeleteClick = () => {
-      setDeleteModal(true);
-    };
-    const handleConfirmDelete = async () => {
-      try {
-          const response = await axios.post(`${config.API}/package/delete/`,{
-              package_id: packageID,
-  
-          }).then(response=>{
-              console.log(response);
-          })
-  
-          console.log('Delete request successful:', response);}
-      catch(error:any|undefined){
-          console.log('Error deleting package:', error);
-          console.log('Status Code:', error.response?.status);
-      }
-      onClose();
-      setDeleteModal(false);
-      
-    };
-  
-  
-    const handleCloseDeleteModal = () => {
-      setDeleteModal(false);
-    };
-
-      const closeModal = () => {
-        setIsModalOpen(false);
-      };
-    
-    const openEditModal = ()=>{
-        setIsModalOpen(false);
-        setIsEditModalOpen(true);
-      };
-    
-      const closeEditModal = ()=>{
-        setIsEditModalOpen(false);
-      };
-
-
     return (
     <div>
-    <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-full overflow-x-hidden backdrop-blur-sm animate-zoom-in overflow-hidden'>
+    <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100%] backdrop-blur-sm animate-zoom-in overflow-hidden'>
     <div className='flex justify-center align-center my-20'>
           <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl">
-          {deleteModal && (
-        <DeleteConfirmationModal
-          onClose={handleCloseDeleteModal}
-          onConfirmDelete={handleConfirmDelete}
-        />
-      )}
             <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'> {/*this is the header for the modal*/}
                 <div className='flex start items-center'><p><b>Package ID:</b> {packageID}</p></div>
                 <div className='flex justify-end'><button onClick={onClose} className='flex items-center text-3xl '><AiFillCloseCircle className='mx-2 detailsClose'/></button></div>
@@ -130,23 +83,10 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
 
             </div>
             <div className='flex justify-end items-center h-[5vh]'>{/*This is the footer*/}
-                <button className='w-[8vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center duration-75 hover:border-black border-2' onClick={handleDeleteClick}><AiFillDelete/>Delete</button>
-                <button className='w-[8vw] h-[4vh] bg-[#efb953] mx-5 rounded-md flex items-center justify-center duration-75 hover:border-black border-2' onClick={openEditModal}><HiMiniPencilSquare/>Edit</button>
-                {isEditModalOpen && 
-                <EditDetailsModal    
-                onClose={closeEditModal}
-                packageID={packageID} 
-                packageName={packageName} 
-                price={price} 
-                description={description} 
-                tags={tags} 
-                visibility={visibility} 
-                items={items} // Handle empty or null item_list 
-                dateStart={date_start} 
-                dateEnd={date_end} 
-                timeStart={time_start} 
-                timeEnd={time_end} 
-                filePath={filePath}/>}
+               
+                
+                
+
             </div>
         </div>
 

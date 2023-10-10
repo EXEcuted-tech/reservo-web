@@ -89,14 +89,18 @@ const createMerchant = (req,res)=>{
 
 const updateMerchant = (req,res)=>{
     const updatedMerchant = req.body.merchant;
+
+    //objects
     const updatedAddress = JSON.stringify(req.body.address);
     const updatedSettings = JSON.stringify(req.body.settings);
+    const updatedAccounts = JSON.stringify(req.body.accounts);
 
     const merchantId = updatedMerchant.merchant_id;
     // console.log(updatedMerchant);
 
     updatedMerchant.settings = updatedSettings;
     updatedMerchant.address = updatedAddress;
+    updatedMerchant.accounts = updatedAccounts
 
     const columns = Object.keys(updatedMerchant);
     const values = Object.values(updatedMerchant);
@@ -135,47 +139,53 @@ const updateMerchant = (req,res)=>{
 const retrieveAll = (req,res)=>{
     db.query('SELECT * FROM merchant', (error, results) => {
         if(error){
-            console.log("error retrieving data");
+            console.log("error retrieving data",error);
             res.status(500).json({error: 'Internal server error'})
         }
         else{
             //extracting objects
             const parsedAddressArray = [];
             const parsedSettingsArray = [];
+            const parsedAccountsArray = [];
             for(const result of results){
                 const parsedAddress = JSON.parse(result.address);
                 const parsedSettings = JSON.parse(result.settings);
+                const parsedAccounts = JSON.parse(result.accounts);
                 parsedSettingsArray.push(parsedSettings);
                 parsedAddressArray.push(parsedAddress);
+                parsedAccountsArray.push(parsedAccounts);
             }
 
             return res.json({
                 success:true,
                 merchant: results,
                 address: parsedAddressArray,
-                settings: parsedSettingsArray
+                settings: parsedSettingsArray,
+                accounts: parsedAccountsArray,
             })
         }
     })
 }
 
 const retrieveByParams = (req,res)=>{
-    const { column, value } = req.query;
-    db.query('SELECT * FROM merchant WHERE ?? = ?', [column, value], (error, result) => {
+    const { col, val } = req.query;
+    db.query('SELECT * FROM merchant WHERE ?? = ?', [col, val], (error, result) => {
         if(error){
-            console.log("error retrieving data");
+            console.log("error retrieving data",error);
             res.status(500).json({error: 'Error retrieving data'})
         }
         else{
             const parsedAddress = JSON.parse(result[0].address);
             const parsedSettings = JSON.parse(result[0].settings);
+            const parsedAccounts = JSON.parse(result[0].accounts);
 
             return res.status(200).json({
                 status: 200,
                 success: true,
                 merchant: result[0],
                 address: parsedAddress,
-                settings: parsedSettings
+                settings: parsedSettings,
+                accounts: parsedAccounts,
             })
         }
     })
@@ -203,11 +213,33 @@ const deleteMerchant = (req,res)=>{
     });
 }
 
+const retrieveCountByParams = (req, res) => {
+  const { col, val } = req.query;
+
+  const retrieveSpecific = 'SELECT COUNT(*) AS record_count FROM merchant WHERE ?? = ?';
+
+  db.query(retrieveSpecific, [col, val], (err, row) => {
+      if (err) {
+          console.error('Error retrieving records:', err);
+          return res.status(500).json({ status: 500, success: false, error: 'Error retrieving records' });
+      } else {
+          const recordCount = row[0].record_count;
+
+          return res.status(200).json({
+              status: 200,
+              success: true,
+              merchCount: recordCount,
+          });
+      }
+  });
+};
+
 
 module.exports = {
     createMerchant,
     updateMerchant,
     retrieveAll,
     retrieveByParams,
-    deleteMerchant
+    deleteMerchant,
+    retrieveCountByParams
 }
