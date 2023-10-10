@@ -19,6 +19,7 @@ export default function EditUsername(props: { userName : string }){
 
     const handleSaveClick = () => {
         // to write code for updating the database (i honestly dont wanna touch the controller, halppp)
+        
         setIsEdit(false);
     }
 

@@ -40,6 +40,35 @@ function UserProfilePage(){
                 }
             }
 
+            const updateData = async () => {
+                try{
+                    // const response = await axios.post(`${config.API}/user/edit`, {
+                    //     params:{
+                    //         col: 'account_id'
+                    //         val: userID
+                    //     },
+                    // })
+                    // const result = await axios.post(`${config.API}/user/edit`, {
+                    //     params:{
+                    //         col: 'account_id'
+                    //         val: userID
+                    //     }
+                    // })
+                    const result = await axios.post(`${config.API}/user/edit`,{body: {
+                        userUpdate : {'account_name' : "userName"}
+                        },
+                        params:{
+                            col : 'account_id',
+                            val: userID,
+                        },
+                    });
+
+                    console.log(result);
+            }catch (error) {
+                console.error(error);
+            }
+        }
+
             const handleLogout = () =>{
                 localStorage.removeItem('userDetails');
                 Navigate('/logout');
