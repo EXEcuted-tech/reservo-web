@@ -234,7 +234,6 @@ const retrieveCountByParams = (req, res) => {
   });
 };
 
-
 module.exports = {
     createMerchant,
     updateMerchant,

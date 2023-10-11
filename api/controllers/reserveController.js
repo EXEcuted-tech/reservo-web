@@ -75,8 +75,7 @@ const retrieveAll = (req,res)=>{
 }
 
 const retrieveByParams = (req,res)=>{
-  const { col, val } = req.query; 
-  const { orderVal, order }= req.body;
+  const { col, val, orderVal, order } = req.query; 
 
   const orderValue = orderVal ? orderVal : col;
   const orderBy = order ? order : 'ASC';
@@ -84,6 +83,28 @@ const retrieveByParams = (req,res)=>{
   const retrieveSpecific = `SELECT * FROM reservation WHERE ?? = ? ORDER BY ${orderValue} ${orderBy}`;
 
   db.query(retrieveSpecific, [col,val],(err, row) => {
+    if (err) {
+      console.error('Error retrieving records:', err);
+      return res.status(500).json({ status: 500, success:false,error: 'Error retrieving records' });
+    }else{
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        records: row,
+      });
+    }
+  });
+}
+
+const retrieveByTwoParams = (req,res)=>{
+  const { col1, val1, col2,val2,orderVal, order } = req.params; 
+
+  const orderValue = orderVal ? orderVal : col;
+  const orderBy = order ? order : 'ASC';
+  console.log("SQL Syntax: ", col,val,orderValue,orderBy);
+  const retrieveSpecific = `SELECT * FROM reservation WHERE ?? = ? AND ?? = ? ORDER BY ${orderValue} ${orderBy}`;
+
+  db.query(retrieveSpecific, [col1,val1,col2,val2],(err, row) => {
     if (err) {
       console.error('Error retrieving records:', err);
       return res.status(500).json({ status: 500, success:false,error: 'Error retrieving records' });
@@ -224,6 +245,7 @@ module.exports = {
     updateReserve,
     retrieveAll,
     retrieveByParams,
+    retrieveByTwoParams,
     deleteReserve,
     retrieveCountByParams,
     retrieveCountByTwoParams,
