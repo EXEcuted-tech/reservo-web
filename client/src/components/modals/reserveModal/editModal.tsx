@@ -5,6 +5,21 @@ import axios from 'axios';
 import config from '../../../common/config';
 
 const EditModal:React.FC<EditModalProps> = (props) => {
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/reserve/retrieve_all").then((res) => {
+      // Parse date strings into Date objects
+      const parsedReservations = res.data.records.map((record: any) => ({
+        ...record,
+        res_date: new Date(record.res_date),
+      }));
+
+      // Set the reservations in state
+      setReservations(parsedReservations);
+    });
+  }, []);
+
+
   const {setOpenModalEdit} = props;
   const [record,setRecord]=useState<ReserveCardProps[]>([]);
   const editId = Number(sessionStorage.getItem('res_id'));
