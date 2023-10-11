@@ -47,7 +47,7 @@ export default function EditUsername(props: { userName : string, userID : number
                     <button className="h-[15pt] text-[18pt] row flex justify-center items-center text-[#383838]" onClick={handleCancelClick}><MdCancel/></button>
                 </div>
             ) : (
-                <h1>{userName}<button onClick={handleEditClick}><BsFillPencilFill className="ml-1"/></button></h1>
+                <div className='flex flex-row w-[100%] justify-center'><h1>{userName}</h1><button onClick={handleEditClick}><BsFillPencilFill className="ml-1"/></button></div>
             )}
             
         </>
