@@ -1,8 +1,24 @@
 import React from 'react'
 import {GrUpdate} from 'react-icons/gr'
 import {AiFillCloseCircle, AiFillSave} from 'react-icons/ai'
+import axios from 'axios'
 
 const EditModal:React.FC<EditModalProps> = (props) => {
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/reserve/retrieve_all").then((res) => {
+      // Parse date strings into Date objects
+      const parsedReservations = res.data.records.map((record: any) => ({
+        ...record,
+        res_date: new Date(record.res_date),
+      }));
+
+      // Set the reservations in state
+      setReservations(parsedReservations);
+    });
+  }, []);
+
+
   const {setOpenModalEdit} = props;
   return (
     <div className="animate-slide-up font-poppins fixed top-[8%] left-[18%] right-0 bg-white z-50 bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
@@ -29,52 +45,48 @@ const EditModal:React.FC<EditModalProps> = (props) => {
                 <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
             <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
+                <p className='my-[1%] mr-[1%]'>Time</p>
+                <input type="time" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
             <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
+                <p className='my-[1%] mr-[1%]'>Location</p>
+                <input type="text" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
             <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
+                <p className='my-[1%] mr-[1%]'>Event Size</p>
+                <input type="number" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
           </div>
           <div className='w-[33%]'>
           <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
+                <p className='my-[1%] mr-[1%]'>Package</p>
+                <input type="text" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
             <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
+                <p className='my-[1%] mr-[1%]'>Customer Name</p>
+                <input type="text" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
             <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
+                <p className='my-[1%] mr-[1%]'>Email Address</p>
+                <input type="email" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
             <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
+                <p className='my-[1%] mr-[1%]'>Amount Payment</p>
+                <input type="text" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
           </div>
           <div className='w-[33%]'>
           <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
+                <p className='my-[1%] mr-[1%]'>Payment Status</p>
+                <input type="text" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
             <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
+                <p className='my-[1%] mr-[1%]'>Additional Requests</p>
+                <input type="text" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
             <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
-            </div>
-            <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
+                <p className='my-[1%] mr-[1%]'>Reservation Status</p>
+                <input type="text" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
           </div>
         </div>
@@ -84,50 +96,38 @@ const EditModal:React.FC<EditModalProps> = (props) => {
         <div className='flex mx-[2%] text-[1.2em]'>
           <div className='w-[33%]'>
             <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
+                <p className='my-[1%] mr-[1%]'>No. of Tables</p>
+                <input type="number" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
             <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
+                <p className='my-[1%] mr-[1%]'>No. of Chars</p>
+                <input type="number" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
             <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
+                <p className='my-[1%] mr-[1%]'>No. of Plates</p>
+                <input type="number" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
           </div>
           <div className='w-[33%]'>
           <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
+                <p className='my-[1%] mr-[1%]'>No. of Glasses</p>
+                <input type="number" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
             <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
+                <p className='my-[1%] mr-[1%]'>No. of Table Cloths</p>
+                <input type="number" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
             <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
+                <p className='my-[1%] mr-[1%]'>No. of Chair Covers</p>
+                <input type="number" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
             </div>
           </div>
-          <div className='w-[33%]'>
-          <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
-            </div>
-            <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
-            </div>
-            <div className='flex mb-[1%]'>
-                <p className='my-[1%] mr-[1%]'>Date</p>
-                <input type="date" className='border border-gray-500 w-[70%] pl-[1%] rounded-lg text-[0.9em]'/>
-            </div>
-          </div>
+          
         </div>  
 
         {/* Additional Details */}
         <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block text-white px-[1%] mt-[2%] rounded-lg mb-[0.5%]'>Additional Details</h1>
+          
         <div className='flex mx-[2%] text-[1.2em]'>
         <h1 className='font-medium text-[1.4em] italic'>Coming Soon</h1>
           {/* <div className='w-[33%]'>
