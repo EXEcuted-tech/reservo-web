@@ -25,7 +25,7 @@ const updateUser = (req,res)=>{
             } else{
                 res.status(200).json({
                     status: 200,
-                    success: false,
+                    success: true,
                     message: "Successfully updated account",
                     data: results
                 })

@@ -25,6 +25,7 @@ const AdminLogin = () => {
         
         setIsLoading(true);
         checkEmail();
+        console.log("Account Type: ",accountType);
         if(email === '' || pass === ''){
             setIsLoading(false);
             setErrMess("Fill all the fields required!");
