@@ -199,7 +199,7 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                         </div>
                         <div className='w-[30vw]'>
                         <p className='mt-[2%] text-[1.1em]'>
-                            <span className='font-bold mr-[0.5%]'>Tags:</span>
+                            <span className='font-bold mr-[0.8%]'>Tags:</span>
                             {merchantData?.settings?.tags.map((tag:string, index:number) => (
                                 <span key={index} 
                                  className='rounded-3xl bg-[#D9EFFF] border border-[#06F] text-[#06F] ml-[0.5%] mr-[1.5%]

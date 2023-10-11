@@ -34,7 +34,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
 
     return (
     <div>
-    <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100%] backdrop-blur-sm animate-zoom-in overflow-hidden'>
+    <div className='z-1000 fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100%] h-[100%] backdrop-blur-sm animate-zoom-in overflow-y-hidden '>
     <div className='flex justify-center align-center my-20'>
           <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl">
             <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'> {/*this is the header for the modal*/}
@@ -43,7 +43,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
             </div>
             <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
             <div>
-            <div className='h-[40vh] '>
+            <div className='h-[40vh] text-xl'>
                 <p><b>Package Name: </b>{packageName}</p>
                 <p><b>Total Price: </b> {price}</p>
                 <p><b>Available From: </b>{date_start.toDateString()}</p>
@@ -57,9 +57,9 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
                 <p><b>Visibility: </b>{visibility}</p>
                 <p><b>Description: </b></p><p>{description}</p>
             </div>
-            <div className='my-4'>
+            <div className='my-4 text-xl'>
                     <p><b>Items: </b>
-                    <ul className='list-disc'>
+                    <ul className='list-disc ml-[6%]'>
                     {items.map((tag, index) => (
                                             <li key={index} className=''>{tag}</li>
                                         ))}
