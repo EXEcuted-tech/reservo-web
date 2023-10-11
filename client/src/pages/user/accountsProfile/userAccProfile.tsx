@@ -98,7 +98,7 @@ function UserProfilePage(){
                         <br />
                         {data ? (
                             <>
-                                <h1 className="text-center font-bold text-[20pt]"><EditUsername userName={userName} /></h1>
+                                <h1 className="text-center font-bold text-[20pt]"><EditUsername userName={userName} userID={userID}/></h1>
                                 <br />
                                 <br />
                                 <br />

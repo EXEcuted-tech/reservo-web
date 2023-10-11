@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { BsFillPencilFill } from "react-icons/bs";
 import { HiCheck } from "react-icons/hi";
 import { MdCancel } from "react-icons/md";
+import axios from 'axios';
+import config from "../../../../common/config"
 
 
-export default function EditUsername(props: { userName : string }){
+export default function EditUsername(props: { userName : string, userID : number }){
     const [isEdit, setIsEdit] = useState(false);
     const [userName, setUserName] = useState(props.userName);
+    const [userID, setUserID] = useState(props.userID);
 
     const handleEditClick = () => {
         setIsEdit(true);
@@ -17,9 +20,16 @@ export default function EditUsername(props: { userName : string }){
         setIsEdit(false);
     }
 
+    const editProfile = async () => {
+        const result = await axios.post(`${config.API}/user/edit`, {
+            "account_name" : userName,
+        }, {params: {userID: userID}}
+        );
+    }
+
     const handleSaveClick = () => {
         // to write code for updating the database (i honestly dont wanna touch the controller, halppp)
-        
+        editProfile();
         setIsEdit(false);
     }
 
