@@ -3,7 +3,7 @@ const db = require('./a_db');
 
 const updateUser = (req,res)=>{
     try {
-        const {userID} = req.params
+        const {userID} = req.query
         const userUpdate = req.body
 
         const cols = Object.keys(userUpdate)
@@ -13,7 +13,7 @@ const updateUser = (req,res)=>{
 
       const sql = `UPDATE account SET ${setClause} WHERE account_id = ?`
 
-        db.query(sql,[userUpdate,userID],(err,results) =>{
+        db.query(sql,[values,userID],(err,results) =>{
             if(err){
                 console.error('Error Getting data:', err)
                 res.status(500).json({
@@ -25,7 +25,7 @@ const updateUser = (req,res)=>{
             } else{
                 res.status(200).json({
                     status: 200,
-                    success: false,
+                    success: true,
                     message: "Successfully updated account",
                     data: results
                 })

@@ -76,8 +76,12 @@ const retrieveAll = (req,res)=>{
 
 const retrieveByParams = (req,res)=>{
   const { col, val } = req.query; 
+  const { orderVal, order }= req.body;
 
-  const retrieveSpecific = 'SELECT * FROM reservation WHERE ?? = ?';
+  const orderValue = orderVal ? orderVal : col;
+  const orderBy = order ? order : 'ASC';
+  console.log("SQL Syntax: ", col,val,orderValue,orderBy);
+  const retrieveSpecific = `SELECT * FROM reservation WHERE ?? = ? ORDER BY ${orderValue} ${orderBy}`;
 
   db.query(retrieveSpecific, [col,val],(err, row) => {
     if (err) {
