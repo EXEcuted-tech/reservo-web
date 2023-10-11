@@ -123,7 +123,6 @@ const ReserveForm = () => {
     if(date=='' || timestart=='' || location == '' || size==0 || email=='' || payment==0 || packId==0 ){
         setErrMess("Please fill in all the details.")
     }
-    console.log("MERCHANT:",merchantId);
 
     if(email == matchEmail){
         await createPayment();
