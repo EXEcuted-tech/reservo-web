@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {IoLocation} from 'react-icons/io5'
+import {IoLocation, IoCameraSharp} from 'react-icons/io5'
 import {PiBinoculars} from 'react-icons/pi'
 import {MdPhone} from 'react-icons/md'
 import {FiEdit} from 'react-icons/fi'
@@ -140,18 +140,20 @@ export default function GeneralSettings() {
                         <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Business Logo
                             </label>
+                            <input type="button" id="logoInput" onClick={openEditModal} className=''></input>
                                 {isLoading? <><span className='ml-5'><GenSpinner/></span></> // if we are still getting data from DB
                                 :
-                                <img src={jjlogo} alt="Business Logo" onError={(e) => {
-                                    e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
-                                    e.currentTarget.src = 'https://i.imgur.com/YNoZzmJ.png'; // Use a placeholder image as a fallback
-                                    }} className="ml-6 h-[9rem]">
-                                </img>}
-
-                                <FiEdit 
-                                    className= "text-lg w-[1.7rem] h-[1.7rem] m-4 mt-[3rem] ml-[2rem]  opacity-60 hover:opacity-90 transition-opacity delay-450 duration-[3000] ease-in-out "
-                                    onClick={openEditModal}
-                                 />
+                                <label htmlFor="logoInput" className='relative cursor-pointer flex items-center justify-center'>
+                                    <img src={jjlogo} onError={(e) => {
+                                        e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
+                                        e.currentTarget.src = 'https://i.imgur.com/YNoZzmJ.png'; // Use a placeholder image as a fallback
+                                        }} className="ml-5 overflow-hidden w-[15vh]">
+                                    </img>                                    
+                                    <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 opacity-0 hover:opacity-80 bg-white'>
+                                        <IoCameraSharp className='relative text-[50px] left-[39%] bottom-[10%]'/>
+                                        <p className='relative text-black font-bold text-[14px] top-[10%] right-[8%]'>Change Image</p>
+                                    </div>                                  
+                                </label>}
 
                                 <ImageEditModal
                                     isOpen={isEditModalOpen}
