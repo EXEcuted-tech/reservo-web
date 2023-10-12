@@ -18,7 +18,7 @@ const MerchDeets = () =>{
             
             {openRatingMod && 
             <>
-                <div className='fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,0.5)] opacity-0.5 z-100'></div>
+                <div className='fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,0.5)] opacity-0.5 z-[100]'></div>
                 <RatingModal setOpenRatingMod={setOpenRatingMod} openRatingMod={openRatingMod}/>
             </>
             }
@@ -211,7 +211,7 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                     </div>
                     </div>
 
-                    <div className='flex flex-col relative justify-start mt-[-2.5%] mr-[2%] ml-[22%] w-[100%]'>
+                    <div className='flex flex-col relative justify-start mt-[-2.5%] mr-[2%] ml-[22%] w-[100%] z-[50]'>
                         <button className='w-[100%] flex items-center justify-center text-black bg-[#f8c93f] mb-[4%] px-[3%] 
                             py-[4%] rounded-3xl hover:bg-[#ffd950] font-medium text-[1.3em] transition-colors delay-250 duration-[3000] ease-in'
                             onClick={()=>{
@@ -222,7 +222,7 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                             }}>
                             <BsBookFill className='text-center text-[1em] mr-[2%]'/>Book Now
                         </button>
-                        <button className='w-[100%] flex items-center justify-center text-white bg-[#FF8A00] px-[3%] py-[4%] rounded-3xl
+                        <button className='w-[100%] flex items-center justify-center text-white bg-[#FF8A00] px-[3%] py-[4%] z-[50] rounded-3xl
                             hover:bg-[#df9148] hover:text-black font-medium text-[1.3em] transition-colors delay-250 duration-[3000] ease-in'
                             onClick={()=>{
                                 setOpenRatingMod(true)

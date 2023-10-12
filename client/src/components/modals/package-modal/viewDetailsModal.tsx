@@ -34,7 +34,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
 
     return (
     <div>
-    <div className='z-1000 fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100%] h-[100%] backdrop-blur-sm animate-zoom-in overflow-y-hidden '>
+    <div className='z-[100] fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100%] h-[100%] backdrop-blur-sm animate-zoom-in overflow-y-hidden '>
     <div className='flex justify-center align-center my-20'>
           <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl">
             <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'> {/*this is the header for the modal*/}
