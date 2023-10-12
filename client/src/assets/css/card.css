@@ -32,6 +32,8 @@
     height: 18vh;
     border-top-left-radius: 2vh;
     border-top-right-radius: 2vh;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 

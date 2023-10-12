@@ -64,7 +64,7 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
                   e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
                   e.currentTarget.src = 'https://i.imgur.com/YNoZzmJ.png'; // Use a placeholder image as a fallback
                 }}
-                className="w-full h-full object-cover rounded-2xl"/></div>
+                className="w-full h-full object-cover"/></div>
                 <p className="text-xl my-1 text-center font-bold flex flex-col">{packageName}</p>
                 <div className='text-sm mx-8 h-[15vh] indent-5 break-words'>
                 {description}
