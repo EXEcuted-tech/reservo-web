@@ -1,6 +1,7 @@
 import colors from '../../../common/colors'
 import React, {useState} from 'react'
 import {AiFillCloseCircle, AiFillDelete} from "react-icons/ai"
+import {LuPackage2} from "react-icons/lu";
 import { HiOutlineMagnifyingGlass, HiMiniPencilSquare } from "react-icons/hi2";
 import "../../../assets/css/card.css"
 import { BsDot } from "react-icons/bs";
@@ -38,7 +39,10 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
     <div className='flex justify-center align-center my-20'>
           <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl">
             <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'> {/*this is the header for the modal*/}
-                <div className='flex start items-center text-2xl mb-4'><p><b>Package ID: </b> {packageID}</p></div>
+                <div className='flex start items-center text-2xl mb-4'>
+                  <LuPackage2 className="text-4xl mr-[2%]"/>
+                  <p><b>Package ID: </b> {packageID}</p>
+                </div>
                 <div className='flex justify-end mb-4'><button onClick={onClose} className='flex items-center text-3xl '><AiFillCloseCircle className='mx-2 detailsClose'/></button></div>
             </div>
             <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
@@ -68,7 +72,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
                     </p>
                 </div>
             </div>
-            <div className='IMAGE_PLACEHOLDER bg-slate-600 block w-[20vw] h-[40vh] rounded-2xl'>
+            <div className='IMAGE_PLACEHOLDER bg-slate-600 block w-[50%] h-[50%] rounded-2xl'>
             <img
                 src={filePath} // Use your image URL from the DB here
                 alt="Package Image"
@@ -83,10 +87,6 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
 
             </div>
             <div className='flex justify-end items-center h-[5vh]'>{/*This is the footer*/}
-               
-                
-                
-
             </div>
         </div>
 

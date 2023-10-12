@@ -3,6 +3,7 @@ import { AiFillCloseCircle, AiFillDelete } from "react-icons/ai";
 import { HiOutlineMagnifyingGlass, HiMiniPencilSquare } from "react-icons/hi2";
 import "../../../assets/css/card.css";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import {LuPackage2} from "react-icons/lu";
 import { BsDot } from "react-icons/bs";
 import axios from 'axios';
 import config from '../../../common/config'
@@ -180,6 +181,7 @@ function formatDateToMMDDYYYY(date: string) {
       )}
             <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'>
               <div className='flex start items-center text-2xl mb-4'>
+                <LuPackage2 className="text-4xl mr-[2%]"/>
                 <p><b>Package ID: </b>{packageID}</p>
               </div>
               <div className='flex justify-end'>
@@ -188,8 +190,8 @@ function formatDateToMMDDYYYY(date: string) {
             </div>
             <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
               <div>
-                <div className='h-[40vh] '>
-                <p><span className='text-red-600 text-m'>Fields with * are required.</span></p>
+                <div className='h-[40vh] text-xl'>
+                <p><span className='text-red-600 text-base'>Fields with * are required.</span></p>
                   <p><b>Package Name: <span className='text-red-600'>*</span></b><input onChange={handlePackageNameChange} type="text" value={editedPackageName} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
                   <p><b>Total Price: <span className='text-red-600'>*</span></b> <input type="text" value={editedPrice} onChange={handlePriceChange} className="h-[4vh] my-2 border-solid border-[#000000] border-2 p-2 rounded-md mx-4 pl-2"></input></p>
                   <p><b>Available From: <span className='text-red-600'>*</span></b> <input type="date" value={editedDateStart.toISOString().split('T')[0]} onChange={handleDateStartChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
@@ -205,11 +207,11 @@ function formatDateToMMDDYYYY(date: string) {
                     </select>
                   </p>
                   <p><b>Description: <span className='text-red-600'>*</span></b></p>
-                  <textarea onChange={handleDescriptionChange} className="w-[80%] p-2 h-[25%] overflow-y-auto border-black border-2" value={editedDescription}></textarea>
+                  <textarea onChange={handleDescriptionChange} className="w-[80%] p-2 h-[25%] overflow-y-auto border-black border-2 rounded-md" value={editedDescription}></textarea>
                 </div>
               </div>
               <div className='flex flex-col w-[100%] h-[100%]'>
-              <div className='IMAGE_PLACEHOLDER bg-slate-600 block w-[20vw] h-[40vh] rounded-2xl'>
+          <div className='IMAGE_PLACEHOLDER block w-[50%] h-[50%] rounded-2xl text-xl'>
               <img
                 src={editedFilePath} // Use your image URL from the DB here
                 alt="Package Image"
@@ -220,13 +222,15 @@ function formatDateToMMDDYYYY(date: string) {
                 
                 className="w-full h-full object-cover rounded-2xl"
                 />
-<label htmlFor="packageImage">Upload Image Here: <span className='text-red-600'>*</span></label>
-            <input className="my-2 w-[50%] px-2 border-black border-solid rounded-lg border-2" value={editedFilePath} onChange={handleFilePathChange} type="text" name="packageImage" placeholder='Paste Link Here'/>
-              </div>
+            <div className="mt-[3%]">
+              <label htmlFor="packageImage">Upload Image Here: <span className='text-red-600 font-bold'>*</span></label>
+                <input className="my-2 w-[100%] px-2 ml-[4%] border-black border-solid rounded-lg border-2" value={editedFilePath} onChange={handleFilePathChange} type="text" name="packageImage" placeholder='Paste Link Here'/>
+            </div>
+             </div>
 
-                <div className='my-8 block '>
+                <div className='my-8 block text-xl mt-14'>
                   <b>Items: <span className='text-red-600'>*</span></b>
-                  <div className='overflow-y-auto h-[8vh]'>
+                  <div className='overflow-y-auto h-[8vh] mb-6'>
                     <ul>
                       {editedItems.split(',').map((item, index) => (
                         <li key={index}>{item.trim()}</li>
@@ -236,8 +240,8 @@ function formatDateToMMDDYYYY(date: string) {
                   <div className='flex flex-row items-center'>
                     <button
                       onClick={handleAddItemClick}
-                      className="w-[5vw] h-[4vh] rounded-md bg-[#7dc72d] flex items-center justify-center duration-75 hover:border-black border-2">
-                      <IoMdAddCircleOutline />Add Item
+                      className="w-[20%] h-[4vh] rounded-md text-[1.1rem] text-white bg-[#1f8022] flex items-center justify-center hover:bg-[#00962a] transition-colors delay-250 duration-[3000] ease-in">
+                      <IoMdAddCircleOutline className="mr-[3%]"/>Add Item
                     </button>
                     <input
                       type="text"
@@ -250,14 +254,15 @@ function formatDateToMMDDYYYY(date: string) {
               
               </div>
             </div>
-            <div className='flex justify-end items-center h-[5vh]'>
-              <button className='w-[8vw] h-[4vh] mx-5 rounded-md bg-[#e14f4c] flex items-center justify-center duration-75 hover:border-black border-2'  onClick={handleDeleteClick}><AiFillDelete />Delete</button>
+            <div className='flex justify-end items-center h-[3vh]'>
+              <button className='w-[8vw] h-[4vh] mx-3 rounded-md text-[1.1rem] bg-[#e14f4c] flex items-center justify-center hover:bg-[#ff5d5b] transition-colors delay-250 duration-[3000] ease-in'
+                onClick={handleDeleteClick}><AiFillDelete className="mr-[3%]"/>Delete</button>
               <button
-                    className='w-[8vw] h-[4vh] bg-[#7dc72d] mx-5 rounded-md flex items-center justify-center duration-75  hover:border-black border-2'
+                    className='w-[8vw] h-[4vh] mx-3 text-[1.1rem] bg-[#1f8022] text-white rounded-md flex items-center justify-center hover:bg-[#00962a] transition-colors delay-250 duration-[3000] ease-in'
                     disabled={isLoading}
                     onClick={editInfo}
                     >
-                    {isLoading ? 'Loading...' : <><HiMiniPencilSquare /> Save</>}
+                    {isLoading ? 'Loading...' : <><HiMiniPencilSquare className="mr-[3%]" /> Save</>}
                     </button>
             </div>
           </div>

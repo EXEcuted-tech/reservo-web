@@ -21,7 +21,7 @@ const ImageEditModal: React.FC<ImageEditModalProps> = ({ isOpen, onClose, onSave
       <div className="modal-container">
 
         <div className="modal-body pl-4 ">
-          <label className="block mb-2">New Image URL:</label>
+          <label className="block mb-2 text-lg">New Image URL:</label>
           <input
             type="text"
             value={newImageUrl}

@@ -103,8 +103,8 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
             <div className='flex items-center w-[96%] mt-[0.5%]'>
                 <RiNewspaperFill className='text-[2.8em] ml-[1%] mr-[1%]'/>
                 <div>
-                    <h1 className='font-bold text-[1.2em]'>Reservation Details</h1>   
-                    <p className='mt-[-1%]'>ID: {resId}</p>
+                    <h1 className='font-bold text-[1.5em]'>Reservation Details</h1>   
+                    <p className='mt-[-1%] text-[1.2em]'>ID: {resId}</p>
                 </div>
             </div>
             <div className='mt-[0.5%]'>
@@ -167,8 +167,8 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         <div className='fixed bottom-[2%] ml-[-1%] w-[100%]'>
           <hr className=' w-[100%] h-[1px] bg-black border-0'/>       
           <div className='flex justify-end mr-[3%] mt-[1%]'>
-            <button className='flex text-white text-[1.1em] bg-[#DD2803] px-[2%] py-[0.5%] rounded-2xl hover:bg-[#840705]'><BsFillTrashFill className='mt-[2%]'/>Delete</button>
-            
+            <button className='flex text-white text-[1.1em] bg-[#DD2803] px-[2%] py-[0.5%] rounded-2xl hover:bg-[#840705] transition-colors delay-450 duration-[3000] ease-in-out'>
+              <BsFillTrashFill className='mt-[2%]'/>Delete</button>
           </div>
         </div>
         </>

@@ -80,7 +80,8 @@ function UserProfilePage(){
                                             <td className="w-[250px]">{data.contact_number}</td>
                                         </tr>
                                         <tr>
-                                            <td><button onClick={handleLogout} className="p-[7px] w-[3.2cm] mt-[0.8cm] flex flex-row items-center bg-[#FFA800] rounded-3xl hover:bg-[#ec8600] transition-colors delay-250 duration-[3000] ease-in"><MdOutlineLogout className="mr-[0.5cm]" />Logout</button></td>
+                                            <td><button onClick={handleLogout} className="p-[7px] w-[3.2cm] mt-[0.8cm] flex flex-row items-center justify-center bg-[#FFA800] rounded-3xl hover:bg-[#ec8600] transition-colors delay-250 duration-[3000] ease-in">
+                                                <MdOutlineLogout className="mr-[1.5%]" />Logout</button></td>
                                         </tr>
                                     </tbody>
                                 </table>

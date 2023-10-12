@@ -66,18 +66,20 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
                 }}
                 className="w-full h-full object-cover rounded-2xl"/></div>
                 <p className="text-xl my-1 text-center font-bold flex flex-col">{packageName}</p>
-                <div className='text-sm mx-8 h-[15vh] indent-5 break-words'>
+                <div className='text-l mx-8 h-[15vh] indent-5 break-words'>
                 {description}
                 </div>
                 <div className='flex h-5 justify-center my-2 items-center'>
                 <p className="text-xl my-5 text-center font-bold">PHP {price}</p></div>
                 <div className="mx-10 flex space-x-5 items-center">
-                <button className='CardButton flex DetailsButton w-1/2 items-center justify-center  ' onClick={openModal}><HiOutlineMagnifyingGlass/>Details</button>
+                <button className='CardButton flex DetailsButton text-[1.1rem] w-1/2 items-center justify-center  ' 
+                  onClick={openModal}><HiOutlineMagnifyingGlass className="mr-[3%]"/>Details</button>
                 {isModalOpen && <DetailsModal onClose={closeModal} packageID={package_id} packageName={packageName} date_start={date_start} date_end={date_end} price={price} description={description} tags={tags} visibility={visibility} items={items} time_start={time_start} time_end={time_end} filePath={filePath} openEditModal={function (): void {
                 throw new Error('Function not implemented.');
               } }/>}
                 {oneButton === false &&
-                  <button className='CardButton flex EditButton w-1/2 items-center justify-center' onClick={openEditModal} ><HiMiniPencilSquare/>Edit</button>
+                  <button className='CardButton flex EditButton text-[1.1rem] w-1/2 items-center justify-center' 
+                    onClick={openEditModal} ><HiMiniPencilSquare className="mr-[3%]"/>Edit</button>
                 }
                 {isEditModalOpen && <EditDetailsModal  onClose={closeEditModal} dateStart={date_start} timeStart={time_start} timeEnd={time_end} dateEnd={date_end} packageID={package_id} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items} filePath={filePath}/>}
                 </div>
