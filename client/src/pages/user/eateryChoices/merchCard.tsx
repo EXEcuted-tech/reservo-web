@@ -18,7 +18,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
 
   useEffect(() => {
     sessionStorage.removeItem('merch_idtoView');
-    sessionStorage.removeItem('merch_idtoEdit');
+    sessionStorage.removeItem('merch_idtoBook');
     const address = (
         (props.address?.barangay ? `${props.address.barangay}, ` : '') +
         (props.address?.municipality ? `${props.address.municipality}, ` : '') +
@@ -109,19 +109,19 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                     </div>
                 </div>
                 <div className='flex justify-end mt-[9%] mr-[2%] w-[100%]'>
-                    <button className='flex items-center text-white bg-[#FF8A00] mr-[5%] px-[3%] py-[1.5%] rounded-2xl
+                    <button className='flex items-center text-white bg-[#FF8A00] mr-[2%] px-[3%] py-[1.5%] rounded-2xl
                         hover:bg-[#FFD8AA] hover:text-black font-medium'
                         onClick={()=>{
                             navigate('/eaterychoice/view')
                             sessionStorage.setItem('merch_idtoView', props.merchant_id.toString());
                         }}>
-                        <AiOutlineFolderView className='text-[1.6em]'/>View More
+                        <AiOutlineFolderView className='text-[1.6em] mt-[-0.1rem]'/>View More
                     </button>
                     <button className='w-[40%] flex items-center text-black bg-[#F4D147] px-[5%] py-[1.5%] rounded-2xl
                         hover:bg-[#FFB800] font-medium'
                         onClick={()=>{
                             navigate('/eaterychoice/book')
-                            sessionStorage.setItem('merch_idtoEdit', props.merchant_id.toString());
+                            sessionStorage.setItem('merch_idtoBook', props.merchant_id.toString());
                         }}>
                         <BsBookFill className='text-[1em] mr-[2%]'/>Book Now
                     </button>

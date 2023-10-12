@@ -11,42 +11,9 @@ import axios from 'axios'
 import config from '../../../common/config'
 import GenSpinner from '../../../components/loaders/genSpinner'
 
-const LineData = [
-  ['x', 'Bookings'],
-  [0, 0,],
-  [1, 10],
-  [2, 23],
-  [3, 17],
-  [4, 18],
-  [5, 9],
-  [6, 11],
-  [7, 27],
-]
-const LineChartOptions = {
-  chart: {
-    title: 'Average Temperatures and Daylight in Iceland Throughout the Year'
-  },
-  hAxis: {
-    title: 'Time',
-    gridlines: {
-      color: 'transparent'
-    }
-  },
-  vAxis: {
-    title: 'Popularity',
-    gridlines: {
-      color: 'transparent'
-    }
-  },
-  backgroundColor: 'transparent',
-  colors:['#660605'],
-  titleTextStyle: {
-
-  }
-}
-
-
 const MerchDashboard = () => {
+  const storedAcc = localStorage.getItem('admerchDetails')
+
   const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState<any[]>([]);
   const userDetails = localStorage.getItem('userDetails');
@@ -56,7 +23,53 @@ const MerchDashboard = () => {
   const [cateredCount, setCateredCount] = useState(0);
   const [cancelledCount, setCancelledCount] = useState(0);
   const [todayCount, setTodayCount] = useState(0);
+  const [graphList, setgraphList] = useState([{}]);
   
+  const fetchGraphInfo = async() => {
+    try {
+      const responseBooks = await axios.get(`${config.API}/reserve/retrievebooks`,{
+        params: {
+          year: "2023",
+          merchID: 2
+        }
+      })
+      setgraphList(responseBooks.data.count)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const formattedData = graphList.map(item => [new Date(item.year,item.month-1 ), item.books])
+  const LineData = [
+    [
+      { type: "date", label: 'Day'},
+      'Bookings'
+    ],
+    ...formattedData
+  ]
+  const LineChartOptions = {
+    title: 'Rervations Graph',
+    linewidth: graphList.length,
+    hAxis: {
+      title: 'Monthly',
+      format: "MMM yyyy",
+      gridlines: {
+        color: 'transparent',
+      },
+    },
+    vAxis: {
+      title: 'Caters',
+      gridlines: {
+        color: 'transparent'
+      }
+    },
+    backgroundColor: 'transparent',
+    colors:['#660605'],
+    titleTextStyle: {
+  
+    }
+  }
+
   function getTodaysDate() {
     const today = new Date();
     const year = today.getFullYear();
@@ -116,6 +129,7 @@ const MerchDashboard = () => {
 
   useEffect(() => {
     fetchInfo();
+    fetchGraphInfo();
   }, []);
   
 
@@ -181,7 +195,7 @@ const MerchDashboard = () => {
           width={'100%'}
           height={'100%'}
           chartType="LineChart"
-          loader={<div>Loading Chart</div>}
+          loader={<div>Loading Chart...</div>}
           data={LineData}
           options={LineChartOptions}
           rootProps={{ 'data-testid': '2' }}
@@ -189,21 +203,20 @@ const MerchDashboard = () => {
            </div>
         </div>
         {/* Reservation Section */}
-        <div className='bg-[#F3F3F3] h-[30vh] flex'>
-            <div className='w-[75%] m-[1%] text-center bg-white rounded-3xl flex-col pt-0 p-[1%]'>
+        <div className='bg-[#F3F3F3] h-[30vh] flex overflow-auto'>
+            <div className='w-[75%] m-[1%] text-center bg-white rounded-3xl flex-col pt-0 p-[1%] overflow-auto'>
               <div className='text-left border-b-2 border-black'>
               <p className='flex font-bold text-[1.5em]'> Recent Reservation <br/></p>
               </div>
-              <table className='flex-col w-[100%] text-left bg-white rounded-3xl'>
+              <table className='flex-col w-[100%] text-left bg-white rounded-3xl overflow-auto'>
               <tr>
                 <th>Client Name</th>
                 <th>Event</th>
                 <th>Date</th>
                 <th>Time</th>
               </tr>
-              <tr className='border-t-2 border-black'>
-                {/* Input Data from Database here */}
-              </tr>
+              <tbody id="data-table-row">
+              </tbody>
               </table> 
             </div>
             <div className='w-[35%] m-[1%] text-center bg-white rounded-3xl px-[1%]'>

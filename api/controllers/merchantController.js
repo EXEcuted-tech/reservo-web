@@ -139,7 +139,7 @@ const updateMerchant = (req,res)=>{
 const retrieveAll = (req,res)=>{
     db.query('SELECT * FROM merchant', (error, results) => {
         if(error){
-            console.log("error retrieving data");
+            console.log("error retrieving data",error);
             res.status(500).json({error: 'Internal server error'})
         }
         else{
@@ -171,7 +171,7 @@ const retrieveByParams = (req,res)=>{
     const { col, val } = req.query;
     db.query('SELECT * FROM merchant WHERE ?? = ?', [col, val], (error, result) => {
         if(error){
-            console.log("error retrieving data");
+            console.log("error retrieving data",error);
             res.status(500).json({error: 'Error retrieving data'})
         }
         else{
@@ -233,7 +233,6 @@ const retrieveCountByParams = (req, res) => {
       }
   });
 };
-
 
 module.exports = {
     createMerchant,

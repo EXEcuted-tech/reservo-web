@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { IconType } from 'react-icons/lib';
 import { BiSolidUserCircle } from 'react-icons/bi';
+import config from '../../common/config';
+import axios from 'axios';
 
 interface MerchAdHeaderProps {
   icon: IconType; // React icon component type
@@ -14,6 +16,7 @@ const MerchAdHeader: React.FC<MerchAdHeaderProps> = ({ icon: Icon, title }) => {
   const [shortLet,setShortLet] = useState("");
 
   useEffect(() => {
+    console.log("STORED ACC: ",storedAcc);
     if(storedAcc) {
       setUsername(JSON.parse(storedAcc).user);
     }
@@ -23,6 +26,10 @@ const MerchAdHeader: React.FC<MerchAdHeaderProps> = ({ icon: Icon, title }) => {
     }
   }, [username]);
 
+  useEffect(()=>{
+    getMerchantID();
+  },[])
+
   const getShortLetter = (name:string) => {
     const nameParts = name.split(' ');
     if (nameParts.length === 1) {
@@ -31,6 +38,30 @@ const MerchAdHeader: React.FC<MerchAdHeaderProps> = ({ icon: Icon, title }) => {
       setShortLet(nameParts[0].charAt(0).toUpperCase() + nameParts[1].charAt(0).toUpperCase());
     }
   };
+
+  const getMerchantID = () =>{
+    let userID:number;
+    if(storedAcc!==null){
+     userID = JSON.parse(storedAcc).userID;
+    }
+    axios.get(`${config.API}/merchant/retrieve_all`)
+    .then((res)=>{
+      if(res.data.success==true){
+        const merchants = res.data.merchant;
+
+        for (const merchant of merchants) {
+          const accounts = JSON.parse(merchant.accounts);
+          
+          if (accounts.hasOwnProperty(userID.toString())) {
+            const merchantID = merchant.merchant_id;
+            console.log(`User with userID ${userID} is associated with merchant ID ${merchantID}`);
+            localStorage.setItem('merch_id', JSON.stringify(merchantID));
+            break; 
+          }
+        }
+      }
+    })
+  }
 
   return (
     <div className='font-poppins flex items-center w-[100%] h-[5vh] py-[3%]'>

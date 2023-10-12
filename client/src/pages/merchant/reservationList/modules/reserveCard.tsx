@@ -14,8 +14,11 @@ const ReserveCard:
 
     useEffect(() => {
       setDate(new Date());
+    }, []);
+
+    useEffect(() => {
       getNewRecs();
-    }, [newRecs]);
+    }, [bookings]);
   
     const getNewRecs = async () => {
       const updatedNewRecs = [];
