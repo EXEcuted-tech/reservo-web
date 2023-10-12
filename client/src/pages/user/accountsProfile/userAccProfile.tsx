@@ -62,45 +62,16 @@ function UserProfilePage() {
             const result = await axios.get(`${config.API}/reserve/retrieve`, {
                 params: {
                     col: 'account_id',
-                    val: userID
+                    val: userID,
+                    orderVal:"res_date",
+                    order: 'DESC'
                 }
             })
             setData(response.data.users[0]);
-            console.log(result.data);
             setReservations(result.data.records);
             setIsLoading(false);
         } catch (error) {
             console.log(error);
-        }
-    }
-
-    const updateData = async () => {
-        try {
-            // const response = await axios.post(`${config.API}/user/edit`, {
-            //     params:{
-            //         col: 'account_id'
-            //         val: userID
-            //     },
-            // })
-            // const result = await axios.post(`${config.API}/user/edit`, {
-            //     params:{
-            //         col: 'account_id'
-            //         val: userID
-            //     }
-            // })
-            const result = await axios.post(`${config.API}/user/edit`, {
-                body: {
-                    userUpdate: { 'account_name': "userName" }
-                },
-                params: {
-                    col: 'account_id',
-                    val: userID,
-                },
-            });
-
-            console.log(result);
-        } catch (error) {
-            console.error(error);
         }
     }
 
@@ -114,9 +85,6 @@ function UserProfilePage() {
     }, []);
 
     const userName = data?.account_name;
-    console.log(userName);
-
-    console.log(reservations);
 
     return (
         <div className="h-[100vh] bg-[#F9F2EA] ">
@@ -158,7 +126,6 @@ function UserProfilePage() {
                         ) : (
                             <p>Loading...</p>
                         )}
-
 
                     </div>
 
@@ -203,52 +170,12 @@ function UserProfilePage() {
                         </TableContainer>
                         <TablePagination
                             component="div"
-                            count={50}
+                            count={10}
                             page={page}
                             onPageChange={handleChangePage}
                             rowsPerPage={rowsPerPage}
                             onRowsPerPageChange={handleChangeRowsPerPage}
                         />
-
-
-                        {/* <table className="flex flex-col items-center">
-                                <thead>
-                                    <tr className="text-[15pt] border-b-2 border-black">
-                                        <th className="py-1 px-[3vw] text-center">Date</th>
-                                        <th className="py-1 px-[3vw] text-center">Time</th>
-                                        <th className="py-1 px-[3vw] text-center">Organizer</th>
-                                        <th className="py-1 px-[3vw] text-center">Event Size</th>
-                                        <th className="py-1 px-[3vw] text-center">Status</th>
-                                    </tr>
-                                
-                                
-                                    
-                                </thead>
-                                <tbody>
-                                    {isLoading == true?  <tr><td colSpan={5}><GenSpinner/></td></tr> :
-                                        <>
-                                        {reservations && reservations.length > 0 ? (
-                                            reservations.map((reservation: any, index: number) => (
-                                            <tr key={index} className="text-[12pt] text-center">
-                                                <td className="py-1 px-[1vw] text-center">{reservation.date}</td>
-                                                <td className="py-1 px-[1vw] text-center">{reservation.time}</td>
-                                                <td className="py-1 px-[1vw] text-center">{reservation.organizer}</td>
-                                                <td className="py-1 px-[1vw] text-center">{reservation.eventSize}</td>
-                                                <td className="py-1 px-[1vw] row flex justify-center items-center">
-                                                    {reservation.status == "Finished"? <><div className="m-2 bg-[#CCFFD1] text-[#00A310] wx-[50px] ">Ongoing</div></>:<div className="m-2 bg-[#50b0d6] text-[#000000] wx-[50px] ">Ongoing</div>}
-                                                
-                                                </td>
-                                            </tr>
-                                            ))
-                                        ) : (
-                                            <tr>
-                                            <td colSpan={5}>No reservations found.</td>
-                                            </tr>
-                                        )}</>
-
-                                }
-                            </tbody>
-                            </table> */}
 
                     </div>
 
