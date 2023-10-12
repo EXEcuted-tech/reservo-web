@@ -7,9 +7,51 @@ import jjlogo from "../../../assets/jjlogo.png"
 import axios from 'axios'
 import GenSpinner from '../../../components/loaders/genSpinner'
 import config from '../../../common/config'
+import { searchProvince, searchRegion, searchBaranggay, searchMunicipality} from 'ph-geo-admin-divisions'
+import { AdminRegion } from 'ph-geo-admin-divisions/lib/dtos'
+import { LuSearchX } from 'react-icons/lu'
 
 export default function GeneralSettings() {
     const [isLoading, setIsLoading] = useState(false);
+    const regionNames = [
+        "NCR",
+        "CAR ",
+        "Region I (Ilocos Region)",
+        "Region II (Cagayan Valley)",
+        "Region III (Central Luzon)",
+        "Region IV-A (CALABARZON)",
+        "Region IV-B (MIMAROPA)",
+        "Region V (Bicol Region)",
+        "Region VI (Western Visayas)",
+        "Region VII (Central Visayas)",
+        "Region VIII (Eastern Visayas)",
+        "Region IX (Zamboanga Peninsula)",
+        "Region X (Northern Mindanao)",
+        "Region XI (Davao Region)",
+        "Region XII (SOCCSKSARGEN)",
+        "Region XIII (Caraga)",
+        "Bangsamoro Autonomous Region in Muslim Mindanao (BARMM)",
+      ];
+    
+      //these are the info to be used on completing the form data
+      const [selectedRegion, setSelectedRegion] = useState<any>();
+      const [selectedBarangay, setSelectedBarangay] = useState("");
+      const [selectedMunicipality, setSelectedMunicipality] = useState("");
+      const [selectedProvince, setSelectedProvince] = useState("");
+
+      //these are the IDs to be used for query
+      const [selectedRegionId, setSelectedRegionId] = useState("");
+      const [selectedProvinceId, setSelectedProvinceId] = useState("000");
+      const [selectedMunicipalityId, setSelectedMunicipalityId] = useState("000");
+      const [selectedBarangayId, setSelectedBarangayId] = useState("000");
+      
+      
+    //these are the geolocation names, these will dynamically change based on inputs
+    const [provinceNames, setProvinceNames] = useState([]);
+    const [municipalityNames, setMunicipalityNames] = useState([]);
+    const [barangayNames, setBarangayNames] = useState([]);
+    
+
 
     const [data, setData] = useState({
         merchant: {
@@ -39,8 +81,8 @@ export default function GeneralSettings() {
 
     const request = {
         params: {
-          column: 'merchant_id',
-          value: 2
+          col: 'merchant_id',
+          val: 2
         }
       }
 
@@ -56,43 +98,201 @@ export default function GeneralSettings() {
         setIsLoading(false);
     }, []);
 
-    const handleChange = (e:any) => {
+    const handleChange = async (e:any) => {
         const { name, value } = e.target;
 
-        setData((prevData: any) => {
+       await setData((prevData: any) => {
 
             //if input data is from object settings
-            if(name.startsWith('settings.')) {
-                const settingsKey = name.split('.')[1];
+            if (name.startsWith('settings.')) {
+                const settingsKey = name.split('.')[1]
                 return {
                     ...prevData,
                     settings: {
                         ...prevData.settings,
                         [settingsKey]: value,
                     },
-                };
+                }
             }
-            else if(name.startsWith('address.')) {
-                const addressKey = name.split('.')[1];
+            else if (name.startsWith('address.')) {
+                const addressKey = name.split('.')[1]
+
+                if (addressKey === 'region') {
+                    if (value === ""){
+                        setSelectedRegion('');
+                        setSelectedProvince('');
+                        setSelectedProvinceId('');
+                        setSelectedMunicipality('');
+                        setSelectedMunicipalityId('');
+                        setSelectedBarangay('');
+                        setSelectedBarangayId('');
+                        setProvinceNames([]);
+                        setBarangayNames([]);
+                        setMunicipalityNames([]);
+                        return {
+                            ...prevData,
+                            address: {
+                                ...prevData.address,
+                                [addressKey]: '',
+                                province: '',
+                                municipality: '',
+                                barangay: '', 
+                            },
+                        }
+                    }
+                    // Update the selected region
+                    setSelectedRegion(value)
+                    //clear lower fields
+                    setSelectedProvince('');
+                    setSelectedProvinceId('');
+                    setSelectedMunicipality('');
+                    setSelectedMunicipalityId('');
+                    setSelectedBarangay('');
+                    setSelectedBarangayId('');
+                    const currentRegion = searchRegion({ name: value })
+                        if (currentRegion) {
+                            setSelectedRegionId(currentRegion[0].regionId)
+                            const provinces = searchProvince({ regionId: selectedRegionId })
+                            const result = provinces.map(AdminRegion => ({
+                                provinceId: AdminRegion.provinceId,
+                                name: AdminRegion.name
+                            }))
+
+                            setProvinceNames(result)
+
+
+                        }
+                return {
+                    ...prevData,
+                    address: {
+                        ...prevData.address,
+                        [addressKey]: value,
+                        province: '',
+                        municipality: '',
+                        barangay: '',
+                    },
+                }
+                }
+                if (addressKey === 'province') {
+                    if (value === ""){
+                     setSelectedProvince(value)
+                     setSelectedMunicipality('');
+                     setSelectedMunicipalityId('');
+                     setSelectedBarangay('');
+                     setSelectedBarangayId('');
+                     setBarangayNames([]);
+                     setMunicipalityNames([]);
+                    return {
+                        ...prevData,
+                        address: {
+                            ...prevData.address,
+                            [addressKey]: '',
+                            municipality: '',
+                            barangay: '',
+                        },
+                    }
+                    }
+                    
+                     const currentProvince = searchProvince({ name: value, regionId: selectedRegionId });
+                     setSelectedProvinceId(currentProvince[0].provinceId);
+                     const municipality = searchMunicipality({ regionId: selectedRegionId, provinceId: selectedProvinceId});
+                        if (municipality) {
+                            const result = municipality.map(AdminRegion => ({
+                                municipalityId: AdminRegion.municipalityId,
+                                name: AdminRegion.name
+                            }))
+                             setMunicipalityNames(result)
+                        }
+                return {
+                    ...prevData,
+                    address: {
+                        ...prevData.address,
+                        [addressKey]: value,
+                        municipality: '',
+                        barangay: '',
+                    },
+                }
+            
+                }
+
+                if (addressKey === 'municipality') {
+                    if (value === ""){
+                        
+                        setBarangayNames([]);
+                        setSelectedBarangay('');
+                        setSelectedBarangayId('');
+                        return{
+                            ...prevData,
+                        address: {
+                            ...prevData.address,
+                            [addressKey]: '',
+                            barangay: '',
+                        },
+                        }
+                    }
+                    setSelectedMunicipality(value)
+                    setSelectedBarangay('');
+                    const currentMunicipality = searchMunicipality({ name: value, provinceId: selectedProvinceId})
+                    setSelectedMunicipalityId(currentMunicipality[0].municipalityId)
+                    const currentBaranggay = searchBaranggay({municipalityId: selectedMunicipalityId, provinceId: selectedProvinceId})
+                        if (currentBaranggay) {
+                            const result = currentBaranggay.map(AdminRegion => ({
+                                barangayId: AdminRegion.baranggayId,
+                                name: AdminRegion.name
+                            }))
+                            setBarangayNames(result);
+                        }
+                return {
+                    ...prevData,
+                    address: {
+                        ...prevData.address,
+                        [addressKey]: value,
+                        barangay: '',
+                    },
+                }
+                }
+
+
+                if (addressKey === 'barangay') {
+                    if (value === ""){
+                        return {
+                            ...prevData,
+                            address: {
+                                ...prevData.address,
+                                [addressKey]: '',
+                            },
+                        }
+                    }
+                    setSelectedBarangay(value);
                 return {
                     ...prevData,
                     address: {
                         ...prevData.address,
                         [addressKey]: value,
                     },
-                };
+                }
+                }
+
+                return {
+                    ...prevData,
+                    address: {
+                        ...prevData.address,
+                        [addressKey]: value,
+                    },
+                }
             }
-            else if(name.startsWith('merchant.')){
-                const merchantKey = name.split('.')[1];
+            else if (name.startsWith('merchant.')) {
+                const merchantKey = name.split('.')[1]
                 return {
                     ...prevData,
                     merchant: {
                         ...prevData.merchant,
                         [merchantKey]: value,
                     },
-                };
+                }
             }
         });
+        console.log(data.address);
     };
 
     const handleSubmit = (e: any) => {
@@ -195,14 +395,12 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.country"
-                                value={data.address.country || "Select Country"}
+                                value={data.address.country || "Philippines"}
                                 onChange={handleChange}
                                 className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
-                                <option value="Canada">Canada</option>
                                 <option value="Philippines">Philippines</option>
-                                <option value="US">United States</option>
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
@@ -211,14 +409,17 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.region"
-                                value={data.address.region || "Select Region"}
+                                value={data.address.region || ""}
                                 onChange={handleChange}
                                 className="m-2 p-2 ml-[1.1rem] text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
-                                <option value="A">Region A</option>
-                                <option value="B">Region B</option>
-                                <option value="C">Region C</option>
+                                  <option value="">Select Region</option>
+                                {regionNames.map((regionName:string) => (
+                                    <option key={regionName} value={regionName}>
+                                    {regionName}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
@@ -227,14 +428,17 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.province"
-                                value={data.address.province || "Select Province"}
+                                value={data.address.province || ""}
                                 onChange={handleChange}
                                 className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
-                                <option value="A">Province A</option>
-                                <option value="B">Province B</option>
-                                <option value="C">Province C</option>
+                                <option value="">Select Province</option>
+                                {provinceNames.map((province:AdminRegion) => (
+                                    <option key={province.provinceId} value={province.name}>
+                                    {province.name}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
@@ -243,14 +447,17 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.municipality"
-                                value={data.address.municipality || "Select Municipality"}
+                                value={data.address.municipality || ""}
                                 onChange={handleChange}
                                 className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
-                                <option value="A">Municipality A</option>
-                                <option value="B">Municipality B</option>
-                                <option value="C">Municipality C</option>
+                                <option value="">Select Municipality</option>
+                                {municipalityNames.map((municipality:AdminRegion) => (
+                                    <option key={municipality.municipalityId} value={municipality.name}>
+                                    {municipality.name}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
@@ -264,9 +471,12 @@ export default function GeneralSettings() {
                                 className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
-                                <option value="A">Barangay A</option>
-                                <option value="B">Barangay B</option>
-                                <option value="C">Barangay C</option>
+                                 <option value="">Select Barangay</option>
+                                {barangayNames.map((barangay:AdminRegion) => (
+                                    <option key={barangay.baranggayId} value={barangay.name}>
+                                    {barangay.name}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                         <div className='m-4 flow-root'>
