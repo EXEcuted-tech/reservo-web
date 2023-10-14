@@ -15,7 +15,7 @@ const ImageEditModal: React.FC<ImageEditModalProps> = ({ isOpen, onClose, onSave
   };
 
   return (
-    <div className={`modal ${isOpen ? 'block animate-fade-in h-[9rem] w-[40%] pr-[2%]' : 'hidden'}`}>
+    <div className={`modal ${isOpen ? 'block animate-fade-in h-[7rem] w-[40%] ml-[2%] ' : 'hidden'}`}>
       <div className="modal-overlay" onClick={onClose}></div>
 
       <div className="modal-container">
@@ -31,7 +31,7 @@ const ImageEditModal: React.FC<ImageEditModalProps> = ({ isOpen, onClose, onSave
           />
         </div>
 
-        <div className="modal-footer p-3 ml-[57%] ">
+        <div className="modal-footer mt-[2%] ml-[63%] ">
           <button 
                 type="submit"
                 className="btn btn-primary w-[5rem] text-white bg-[#1B6E1E] p-[0.30rem] text-[1.1rem] items-center rounded-lg hover:bg-[#00962a] transition-colors delay-250 duration-[3000] ease-in" 
