@@ -2,6 +2,29 @@ import React, { useState } from "react";
 import MerchAdHeader from "../../../components/headers/MerchAdHeader";
 import { RiDashboard3Line } from "react-icons/ri";
 import Chart from "react-google-charts";
+import config from "../../../common/config";
+import axios from "axios";
+
+// const AdminDashboard = () => {
+
+//   const [merchants, setMerchants] = useState({})
+//   const [users, setUsers] = useState({})
+//   const [active, setActive] = useState({})
+
+//   useEffect(() => {
+//     axios.get(`http://localhost:5000/reserve/retrieve`, {
+//       params: {
+//         column: "status",
+//         value: "Ongoing"
+//       }
+//     })
+//     .then(response => {
+//         setReservations(response.data);
+//     })
+//     .catch(error => {
+//         console.log(error);
+//     })
+//   }, []);
 
 const LineData = [
 	["x", "Merchants", "Users"],

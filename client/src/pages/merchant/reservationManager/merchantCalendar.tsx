@@ -3,6 +3,7 @@ import { Fragment, useRef, useState } from "react";
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
 import { RiReservedFill } from 'react-icons/ri'
 import MerchantLayout from '../../../components/layout/MerchantLayout';
+import Calendar from '../../../components/calendar/Calendar';
 
 const NAV_BAR = [
   { title: "Reservation Form", url: "reservationmanager" },
@@ -13,7 +14,7 @@ const reservationManager = () => {
   return (
     <div className="animate-fade-in">
       <MerchAdHeader icon={RiReservedFill} title="Reservation Manager"/>
-      <div className="h-screen font-poppins bg-[#F3F3F3] p-8">
+      <div className="h-[90vh] font-poppins bg-[#F3F3F3] p-8">
         <nav className="flex gap-8 border-b-2 border-black">
           {NAV_BAR.map(({ title, url }, index) => (
             <Fragment key={index}>
@@ -24,7 +25,6 @@ const reservationManager = () => {
           ))}
         </nav>
       </div>
-      <MerchantLayout/>
     </div>
 
   )
