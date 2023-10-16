@@ -29,12 +29,13 @@ const createPayment = (req,res)=>{
 }
 
 const updatePayment = (req,res)=>{
+  const {payId} = req.query;
   const {total_expense,balance,payment_status,payment_date} = req.body;
     
   const updatePay = 
   'UPDATE payment SET total_expense=?,balance=?,payment_status=?,payment_date=? WHERE payment_id=?';
 
-  const data = [total_expense,balance,payment_status,payment_date]
+  const data = [total_expense,balance,payment_status,payment_date,payId]
   db.query(updatePay, data, (err, result) => {
     if (err) {
       console.error('Error inserting data:', err);

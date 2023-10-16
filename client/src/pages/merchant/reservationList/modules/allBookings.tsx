@@ -16,13 +16,11 @@ const AllBookings: React.FC<ReserveProps> = (props) => {
 
     axios.get(`${config.API}/reserve/retrieve?col=${col}&val=${val}&orderVal=${orderCol}&order=${order}`)
       .then((res) => {
-      // Parse date strings into Date objects
       const parsedReservations = res.data.records.map((record: any) => ({
         ...record,
         res_date: new Date(record.res_date),
       }));
 
-      // Set the reservations in state
       setReservations(parsedReservations);
     });
   }, []);

@@ -29,17 +29,16 @@ const createInventory = (req,res)=>{
 
 const updateInventory = (req,res)=>{
     try{
-      const {inventoryID} = req.params
-      const inventoryUpdate = req.body
-
-      const cols = Object.keys(inventoryUpdate)
-      const values = Object.values(inventoryUpdate)
-
-      const setClause = cols.map((col) => `${col} = ?`).join(', ')
-
-      const sql = `UPDATE inventory SET ${setClause} WHERE inventory_id = ?`
-
-      db.query(sql,[inventoryUpdate,inventoryID],(err,results) => {
+      const { inventoryID } = req.query;
+      const {no_of_tables,no_of_chairs,no_of_plates,no_of_glasses,no_of_tableCloths,no_of_chairCovers} = req.body;
+  
+      const sql = `UPDATE inventory SET no_of_tables=?,no_of_chairs=?,no_of_plates=?,no_of_glasses=?,
+                   no_of_tableCloths=?,no_of_chairCovers=? WHERE inventory_id = ?`;
+      
+      const values=[no_of_tables,no_of_chairs,no_of_plates,no_of_glasses,no_of_tableCloths,no_of_chairCovers,inventoryID];
+      console.log("Inventory : ",values);
+      db.query(sql, values, (err, results) => {
+        console.log("RESULTS: ",results);
         if(err){
           console.error('Error Getting data:', err)
                 res.status(500).json({
@@ -51,7 +50,7 @@ const updateInventory = (req,res)=>{
         }else{
           res.status(200).json({
             status: 200,
-            success: false,
+            success: true,
             message: "Successfully updated inventory",
             data: results
         })
