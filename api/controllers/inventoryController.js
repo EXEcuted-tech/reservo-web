@@ -39,7 +39,7 @@ const updateInventory = (req,res)=>{
 
       const sql = `UPDATE inventory SET ${setClause} WHERE inventory_id = ?`
 
-      db.query(sql,[inventoryUpdate,inventoryID],(err,results) => {
+      db.query(sql,[values,inventoryID],(err,results) => {
         if(err){
           console.error('Error Getting data:', err)
                 res.status(500).json({
