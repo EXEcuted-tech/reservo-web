@@ -13,28 +13,18 @@ import { LuSearchX } from 'react-icons/lu'
 
 export default function GeneralSettings() {
     const [isLoading, setIsLoading] = useState(false);
-    const regionNames = [
-        "NCR",
-        "CAR ",
-        "Region I (Ilocos Region)",
-        "Region II (Cagayan Valley)",
-        "Region III (Central Luzon)",
-        "Region IV-A (CALABARZON)",
-        "Region IV-B (MIMAROPA)",
-        "Region V (Bicol Region)",
-        "Region VI (Western Visayas)",
-        "Region VII (Central Visayas)",
-        "Region VIII (Eastern Visayas)",
-        "Region IX (Zamboanga Peninsula)",
-        "Region X (Northern Mindanao)",
-        "Region XI (Davao Region)",
-        "Region XII (SOCCSKSARGEN)",
-        "Region XIII (Caraga)",
-        "Bangsamoro Autonomous Region in Muslim Mindanao (BARMM)",
-      ];
+    const merchID = Number(localStorage.getItem("merch_id"))
+
+    //These are the masterlist from API
+    const [regionNames, setRegionNames] = useState([]);
+    const [provincesList, setProvincesList] = useState([]);
+    const [municipalityList, setMunicipalityList] = useState<any>([]);
+
     
+
+
       //these are the info to be used on completing the form data
-      const [selectedRegion, setSelectedRegion] = useState<any>();
+      const [selectedRegion, setSelectedRegion] = useState("");
       const [selectedBarangay, setSelectedBarangay] = useState("");
       const [selectedMunicipality, setSelectedMunicipality] = useState("");
       const [selectedProvince, setSelectedProvince] = useState("");
@@ -48,14 +38,14 @@ export default function GeneralSettings() {
       
     //these are the geolocation names, these will dynamically change based on inputs
     const [provinceNames, setProvinceNames] = useState([]);
-    const [municipalityNames, setMunicipalityNames] = useState([]);
+    const [municipalityNames, setMunicipalityNames] = useState<any>([]);
     const [barangayNames, setBarangayNames] = useState([]);
     
 
 
     const [data, setData] = useState({
         merchant: {
-            merchant_id: 2,
+            merchant_id: "", //to be changed
             merchant_name: "",
             email_address: "",
             logo: "",
@@ -82,26 +72,213 @@ export default function GeneralSettings() {
     const request = {
         params: {
           col: 'merchant_id',
-          val: 2
+          val: merchID
         }
       }
 
+    const fetchData = async ()=>{
+        /*get DB data*/
+            const dbResponse = await axios.get(`${config.API}/merchant/retrieve`, request)
+            const response = dbResponse.data;
+            setData(response);
+            setSelectedRegion(data.address.region);
+            setSelectedProvince(data.address.province);
+            setSelectedMunicipality(data.address.municipality);
+            setSelectedBarangay(data.address.barangay);
+            console.log("DATAAAAa => ", data);
+
+    }
+
+    const loadRegions = async()=>{
+            const response = await axios.get("https://psgc.gitlab.io/api/regions/")
+            const regionNames = response.data.map((region: { name: string; code: string, regionName: string})=>({
+                        regionName: region.regionName,
+                        name: region.name,
+                        regionId: region.code
+                    })) 
+            setRegionNames(regionNames);
+            const region:{name: string, regionId: string, regionName: string} = regionNames.find((reg: {name: string, regionId:string, regionName: string})=> reg.name === selectedRegion) || {name: '', regionId: '', regionName: ''};
+            setSelectedRegionId(region.regionId);
+            //console.log("DATA REGIONS : ", regionNames);
+
+    }
+
+    
+    useEffect(()=>{
+        fetchData();
+    }, [merchID])
+
     useEffect(() => {
-        setIsLoading(true);
-        axios.get(`${config.API}/merchant/retrieve`, request)
-        .then(response => {
-            setData(response.data);
-        })
-        .catch(error => {
-            console.log(error);
-        })
-        setIsLoading(false);
-    }, []);
+       loadRegions();
+       console.log("slay")
+            
+    }, [data]);
+                
+                
+                /*2nd Step to load data*/
+                
+                
+        //        if (selectedRegionId!= undefined) {
+        //          axios.get("https://psgc.gitlab.io/api/provinces/")
+        //         .then((response) => {
+        //           const result = response.data.map((province:{name: string, code: string, regionCode: string}) => ({
+        //             name: province.name,
+        //             provinceId: province.code,
+        //             regionId: province.regionCode,
+        //           }));
+        //           setProvincesList(result);
+        //           const  provinces = result.filter((prov:{name: string, provinceId: string, regionId: string}) =>
+        //           prov.regionId === selectedRegionId
+        //         ) || [];
+        //         setProvinceNames(provinces);
+        //         const province:any = provinces.find((prov:any)=> prov.name === selectedProvince) || {};
+        //         setSelectedProvinceId(province.provinceId);
+        //         console.log("PROVID: ", province.provinceId)
+        //         })
+        //         .catch((error) => {
+        //           console.log("Failed to fetch province data:", error);
+        //         });
+        //     }
+                
+
+        //         if (selectedProvinceId!= undefined) {
+        //          axios.get("https://psgc.gitlab.io/api/cities-municipalities/")
+        //          .then((response) => {
+        //            const result = response.data.map((municipality:{name: string, code: string, provinceCode: string ,regionCode: string}) => ({
+        //             name: municipality.name,
+        //             municipalityId: municipality.code,
+        //             provinceId: municipality.provinceCode,
+        //             regionId: municipality.regionCode
+        //           }));
+        //           setMunicipalityList(result);
+                 
+        //           const  municipality = result.filter((muni:{name: string, municipalityId: string, provinceId: string, regionId: string})=> 
+               
+        //             muni.provinceId === selectedProvinceId
+        //           ) || [];
+
+        //             setMunicipalityNames(municipality);
+        //             const m:any = municipality.find((res:any)=> res.name === selectedMunicipality) || {};
+        //             setSelectedMunicipalityId(m.municipalityId);
+        //             console.log("MUNICIPALITY ID: ", m.municipalityId)
+        //         })
+        //         .catch((error) => {
+        //           console.log("Failed to fetch municipality data:", error);
+        //         });
+        //     }
+
+        //         if (selectedMunicipalityId!= undefined) {
+        //         await axios.get("https://psgc.gitlab.io/api/cities-municipalities/"+ selectedMunicipalityId +"/barangays/")
+        //          .then((response) => {
+        //            const result = response.data.map((barangay:{name: string, code: string}) => ({
+        //             name: barangay.name,
+        //             barangayId: barangay.code,
+        //           }));
+        //           setBarangayNames(result);
+        //           console.log("DATA BARANGaAY : ", result);
+        //           const  barangay = result.filter((brgy:{name: string, municipalityId: string, provinceId: string, regionId: string})=> 
+        //           brgy.name === selectedBarangay
+        //           ) || [];
+        //           setSelectedBarangayId(barangay.code);
+        //         })
+        //         .catch((error) => {
+        //           console.log("Failed to fetch barangay data:", error);
+        //         });
+        //     }
+        //         setIsLoading(false);
+                        
+        //    }
+        //    catch(e){
+        //        console.log("API ERROR");
+        //        console.log(e)
+                
+        //    }
+        
+        
+
+    const handleRegionChange = (e:any)=>{
+        const {value} = e.target.value;
+        if (value === ""){
+            setSelectedRegion('');
+            setSelectedProvince('');
+            setSelectedProvinceId('');
+            setSelectedMunicipality('');
+            setSelectedMunicipalityId('');
+            setSelectedBarangay('');
+            setSelectedBarangayId('');
+            setProvinceNames([]);
+            setBarangayNames([]);
+            setMunicipalityNames([]);
+            setData((prevData: any)=>{
+                return {
+                    ...prevData,
+                    address: {
+                        ...prevData.address,
+                        region: '',
+                        province: '',
+                        municipality: '',
+                        barangay: '', 
+                    },
+                }
+            })
+            
+        }else{
+            // Update the selected region
+            setSelectedRegion(value)
+            //clear lower fields
+            setSelectedProvince('');
+            setSelectedProvinceId('');
+            setSelectedMunicipality('');
+            setSelectedMunicipalityId('');
+            setSelectedBarangay('');
+            setSelectedBarangayId('');
+            axios.get(`https://psgc.gitlab.io/api/regions/`)
+            .then(
+                response=>{
+                    
+                    const region = response.data.find((res : {regionName: string, code: string, islandGroupCode: string}) => res.regionName === value);
+                    console.log("RESPONSE DATA")
+                    
+                    console.log("CHANGE - REGIONSSSS");
+                    console.log(region);
+                    setSelectedRegionId(region.code);
+                }
+            )
+                    axios.get(`https://psgc.gitlab.io/api/regions/`+ selectedRegionId + `/provinces/`)
+                    .then(response=>{
+                        const provinceNames = response.data.map((province: { name: string; code: string })=>({
+                            name: province.name,
+                            provinceId: province.code
+                        }))
+                        console.log("CHANGE - PROVINCENAMESSS");
+                        console.log(provinceNames);
+                        setProvinceNames(provinceNames);
+                        
+                        });
+            setData((prevData: any)=>{
+                return {
+                    ...prevData,
+                    address: {
+                        ...prevData.address,
+                        region: value,
+                        province: '',
+                        municipality: '',
+                        barangay: '',
+                    },
+                }
+            })
+        }
+        
+    }
+
+    const handleProvinceChange = async (e:any) => {
+        const {value} = e.target.value;
+    }
 
     const handleChange = async (e:any) => {
         const { name, value } = e.target;
 
-       await setData((prevData: any) => {
+       setData((prevData: any) => {
 
             //if input data is from object settings
             if (name.startsWith('settings.')) {
@@ -152,15 +329,13 @@ export default function GeneralSettings() {
                     const currentRegion = searchRegion({ name: value })
                         if (currentRegion) {
                             setSelectedRegionId(currentRegion[0].regionId)
-                            const provinces = searchProvince({ regionId: selectedRegionId })
-                            const result = provinces.map(AdminRegion => ({
+                                const provinces = searchProvince({ regionId: selectedRegionId })
+                                const result = provinces.map(AdminRegion => ({
                                 provinceId: AdminRegion.provinceId,
                                 name: AdminRegion.name
                             }))
 
                             setProvinceNames(result)
-
-
                         }
                 return {
                     ...prevData,
@@ -194,8 +369,10 @@ export default function GeneralSettings() {
                     }
                     
                      const currentProvince = searchProvince({ name: value, regionId: selectedRegionId });
+                    console.log("CURRENT PROV")
+                     console.log(currentProvince)
                      setSelectedProvinceId(currentProvince[0].provinceId);
-                     const municipality = searchMunicipality({ regionId: selectedRegionId, provinceId: selectedProvinceId});
+                     const municipality = searchMunicipality({ regionId: selectedRegionId, provinceId: currentProvince[0].provinceId});
                         if (municipality) {
                             const result = municipality.map(AdminRegion => ({
                                 municipalityId: AdminRegion.municipalityId,
@@ -409,17 +586,23 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.region"
-                                value={data.address.region || ""}
-                                onChange={handleChange}
+                                value={isLoading? "Loading ..." : selectedRegion || ""}
+                                onChange={handleRegionChange}
                                 className="m-2 p-2 ml-[1.1rem] text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
+                                {!isLoading ? 
+                                <>
                                   <option value="">Select Region</option>
-                                {regionNames.map((regionName:string) => (
-                                    <option key={regionName} value={regionName}>
-                                    {regionName}
+                                {regionNames.map((regionName: {name:string, code: string, regionName: string}) => (
+                                    
+                                    <option key={regionName.code} value={regionName.name}>
+                                        
+                                    {regionName.regionName + " - " + regionName.name}
                                     </option>
                                 ))}
+                                </>
+                                : <></>}
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
@@ -428,17 +611,22 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.province"
-                                value={data.address.province || ""}
-                                onChange={handleChange}
+                                value={isLoading? "Loading ..." : selectedProvince || ""}
+                                onChange={handleProvinceChange}
                                 className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
+                                {!isLoading ? 
+                                <>
                                 <option value="">Select Province</option>
-                                {provinceNames.map((province:AdminRegion) => (
-                                    <option key={province.provinceId} value={province.name}>
+                                {provinceNames.map((province:{name: string, code:string}, idx) => (
+                                    <option key={province.code} value={province.name}>
                                     {province.name}
                                     </option>
                                 ))}
+                                </>:<></>
+                                
+                                }
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
@@ -447,17 +635,21 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.municipality"
-                                value={data.address.municipality || ""}
+                                value={isLoading? "Loading ..." : selectedMunicipality || ""}
                                 onChange={handleChange}
                                 className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
+                                {!isLoading ? 
+                                <>
                                 <option value="">Select Municipality</option>
-                                {municipalityNames.map((municipality:AdminRegion) => (
-                                    <option key={municipality.municipalityId} value={municipality.name}>
+                                {municipalityNames.map((municipality:AdminRegion, idx) => (
+                                    <option key={idx} value={municipality.name}>
                                     {municipality.name}
                                     </option>
-                                ))}
+                                    
+                                ))}</>:<></>
+                                };
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
@@ -466,23 +658,26 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.barangay"
-                                value={data.address.barangay || "Select Barangay"}
+                                value={isLoading? "Loading ..." : data.address.barangay || "Select Barangay"}
                                 onChange={handleChange}
                                 className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
+                                {!isLoading ? 
+                                <>
                                  <option value="">Select Barangay</option>
-                                {barangayNames.map((barangay:AdminRegion) => (
-                                    <option key={barangay.baranggayId} value={barangay.name}>
+                                {barangayNames.map((barangay:AdminRegion, idx) => (
+                                    <option key={idx} value={barangay.name}>
                                     {barangay.name}
                                     </option>
-                                ))}
+                                ))}</>:<></>
+                                }
                             </select>
                         </div>
                         <div className='m-4 flow-root'>
                             <button
                                 type="submit"
-                                className="px-10 py-1 mr-2 float-right bg-[#840705] text-white text-m rounded-2xl hover:bg-[#660605] focus:outline-none focus:ring focus:ring-blue-500 transition-colors delay-250 duration-[3000] ease-in"
+                                className={`px-10 py-1 mr-2 float-right text-white rounded-2xl focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'bg-[#c58f8f] cursor-not-allowed' : ' bg-[#840705] hover:bg-[#660605]'}`}
                             >
                             Save
                             </button>
@@ -529,6 +724,7 @@ export default function GeneralSettings() {
                             <button
                                 type="submit"
                                 className={`px-10 py-1 mr-2 float-right text-white rounded-2xl focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'bg-[#c58f8f] cursor-not-allowed' : ' bg-[#840705] hover:bg-[#660605]'}`}
+                                disabled = {isLoading}
                             >
                             Save
                             </button>
