@@ -147,7 +147,7 @@ export default function GeneralSettings() {
                                     <img src={jjlogo} onError={(e) => {
                                         e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
                                         e.currentTarget.src = 'https://i.imgur.com/YNoZzmJ.png'; // Use a placeholder image as a fallback
-                                        }} className="ml-5 overflow-hidden w-[15vh]">
+                                        }} className="ml-5 overflow-hidden w-[9rem]">
                                     </img>                                    
                                     <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 opacity-0 hover:opacity-80 bg-white'>
                                         <IoCameraSharp className='relative text-[50px] left-[39%] bottom-[10%]'/>
