@@ -26,4 +26,25 @@ const createMerchantValidator = (req,res,next)=>{
     next();
 }
 
-module.exports = createMerchantValidator;
+const editMerchantValidator = (req, res, next) =>{
+    if(!req.body.merchant.merchant_name || req.body.merchant.merchant_name.length < 8){
+        errors.business_name= 'Merchant name is invalid'
+    }
+    // if(req.body.password < 8 || !req.body.password){
+    //     return res.status(400).json({
+    //         success:false,
+    //         error:{text:['account name is invalid']},
+    //     })
+    // }
+
+    // if (Object.keys(errors).length > 0) {
+    //     return res.json({
+    //         status: 404,
+    //         success: false,
+    //         error: errors,
+    //     });
+    // }
+    next();
+}
+
+module.exports = [createMerchantValidator, editMerchantValidator]
