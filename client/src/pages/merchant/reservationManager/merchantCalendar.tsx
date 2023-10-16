@@ -5,29 +5,15 @@ import { RiReservedFill } from 'react-icons/ri'
 import MerchantLayout from '../../../components/layout/MerchantLayout';
 import Calendar from '../../../components/calendar/Calendar';
 
-const NAV_BAR = [
-  { title: "Reservation Form", url: "reservationmanager" },
-  { title: "Merchant Calendar", url: "merchantcalendar" },
-];
-
-const reservationManager = () => {
+const merchantCalendar = () => {
   return (
     <div className="animate-fade-in">
-      <MerchAdHeader icon={RiReservedFill} title="Reservation Manager"/>
       <div className="h-[90vh] font-poppins bg-[#F3F3F3] p-8">
-        <nav className="flex gap-8 border-b-2 border-black">
-          {NAV_BAR.map(({ title, url }, index) => (
-            <Fragment key={index}>
-              <a href={url} className={`font-xl text-[1.5em] font-semibold p-2 cursor:pointer ${index === 1 && `border-b-4 border-red-900`}`}>
-                {title}
-              </a>
-            </Fragment>
-          ))}
-        </nav>
+       
       </div>
     </div>
 
   )
 }
 
-export default reservationManager
+export default merchantCalendar
