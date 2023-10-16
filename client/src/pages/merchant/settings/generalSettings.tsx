@@ -9,15 +9,15 @@ import axios from 'axios'
 import GenSpinner from '../../../components/loaders/genSpinner'
 import config from '../../../common/config'
 import ImageEditModal from '../../../components/modals/settingsModal/imageEditModal.tsx';
-
-import { searchProvince, searchRegion, searchBaranggay, searchMunicipality} from 'ph-geo-admin-divisions'
-import { AdminRegion } from 'ph-geo-admin-divisions/lib/dtos'
-import { LuSearchX } from 'react-icons/lu'
+import Notification from '../../../components/alerts/Notification.tsx'
 
 export default function GeneralSettings() {
     const [isLoading, setIsLoading] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [newImageUrl, setNewImageUrl] = useState('');
+    const [lookForRegions, setLookForRegions] = useState(true);
+    const [notification, setNotification] = useState('');
+    const [color, setColor] = useState('#660605');
   
     const openEditModal = () => {
       setIsEditModalOpen(true);
@@ -34,23 +34,20 @@ export default function GeneralSettings() {
 
     //These are the masterlist from API
     const [regionNames, setRegionNames] = useState([]);
-    const [provincesList, setProvincesList] = useState([]);
     const [municipalityList, setMunicipalityList] = useState<any>([]);
-
-    
-
 
       //these are the info to be used on completing the form data
       const [selectedRegion, setSelectedRegion] = useState("");
       const [selectedBarangay, setSelectedBarangay] = useState("");
       const [selectedMunicipality, setSelectedMunicipality] = useState("");
       const [selectedProvince, setSelectedProvince] = useState("");
+      const [requiredFields, setRequiredFields] = useState(true);
 
       //these are the IDs to be used for query
       const [selectedRegionId, setSelectedRegionId] = useState("");
-      const [selectedProvinceId, setSelectedProvinceId] = useState("000");
-      const [selectedMunicipalityId, setSelectedMunicipalityId] = useState("000");
-      const [selectedBarangayId, setSelectedBarangayId] = useState("000");
+      const [selectedProvinceId, setSelectedProvinceId] = useState("");
+      const [selectedMunicipalityId, setSelectedMunicipalityId] = useState("");
+      const [selectedBarangayId, setSelectedBarangayId] = useState("");
       
       
     //these are the geolocation names, these will dynamically change based on inputs
@@ -93,40 +90,60 @@ export default function GeneralSettings() {
         }
       }
 
+      
+      
       useEffect(() => {
         fetchData();
     }, [merchID]);
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         loadRegions();
-    }, [merchID,data])
+    }, [selectedRegion, data]);
 
     useEffect(()=>{
         loadProvinces();
-    }, [merchID,selectedRegionId])
+    }, [selectedProvince, selectedRegionId])
 
     useEffect(()=>{
         loadMunicipality();
-    }, [selectedProvinceId])
+    }, [selectedMunicipality, selectedProvinceId])
 
     useEffect(()=>{
-        loadBarangay();
+        if (selectedMunicipalityId) {
+            loadBarangay();
+        }
     }, [selectedMunicipalityId])
+
+    useEffect(()=>{
+        setTimeout(()=>{
+            setNotification('');
+            setColor('#660605')
+        }, 5200)
+    }, [notification]);
 
     const fetchData = async ()=>{
         /*get DB data*/
-            const dbResponse = await axios.get(`${config.API}/merchant/retrieve`, request)
-            const response = dbResponse.data;
-            setData(response);
-            setSelectedRegion(response.address.region);
-            setSelectedProvince(response.address.province);
-            setSelectedMunicipality(response.address.municipality);
-            setSelectedBarangay(response.address.barangay);
-           // console.log("DATAAAAa => ", data);
-
+        try{
+            await axios.get(`${config.API}/merchant/retrieve`, request).then((res)=>{
+                const response = res.data;
+                setData(response);
+                setSelectedRegion(response.address.region);
+                setSelectedProvince(response.address.province);
+                setSelectedMunicipality(response.address.municipality);
+                setSelectedBarangay(response.address.barangay);
+                //console.log("DATAAAAa => ", data);
+    
+            })
+        }catch(error){
+            setColor('#660605')
+            setNotification("API: Failed to fetch merchant data")
+            
+        }
+           
     }
 
     const loadRegions = async()=>{
+            try{
             const response = await axios.get("https://psgc.gitlab.io/api/regions/")
             const regionNames = response.data.map((region: { name: string; code: string, regionName: string})=>({
                         regionName: region.regionName,
@@ -135,35 +152,50 @@ export default function GeneralSettings() {
                     })) 
             setRegionNames(regionNames);
             const region:{name: string, regionId: string, regionName: string} = regionNames.find((reg: {name: string, regionId:string, regionName: string})=> reg.name === selectedRegion) || {name: '', regionId: '', regionName: ''};
+            if (selectedRegion === ''){
+                setSelectedRegionId('');
+            }
+            else{
             setSelectedRegionId(region.regionId);
             //console.log("DATA REGIONS : ", regionNames);
+            }
+        }
+        catch(error){
+            setColor('#660605')
+            setNotification("API: Failed to get region data")
+        }
 
     }
 
     const loadProvinces = async ()=>{
-            axios.get("https://psgc.gitlab.io/api/provinces/")
+        //console.log("REGION ID : ", selectedRegionId);
+        if (selectedRegionId === ''){
+            setProvinceNames([]);
+            setSelectedProvinceId('');
+        }else{
+            axios.get("https://psgc.gitlab.io/api/regions/"+selectedRegionId+"/provinces")
            .then((response) => {
              const result = response.data.map((province:{name: string, code: string, regionCode: string}) => ({
                name: province.name,
                provinceId: province.code,
                regionId: province.regionCode,
              }));
-             setProvincesList(result);
-             const  provinces = result.filter((prov:{name: string, provinceId: string, regionId: string}) =>
-             prov.regionId === selectedRegionId
-           ) || [];
-           setProvinceNames(provinces);
-           const province:any = provinces.find((prov:any)=> prov.name === selectedProvince) || {};
+           setProvinceNames(result);
+           const province:any = result.find((prov:any)=> prov.name === selectedProvince) || {};
            setSelectedProvinceId(province.provinceId);
            //console.log("PROVID: ", province.provinceId)
            })
            .catch((error) => {
-             console.log("Failed to fetch province data:", error);
+             //console.log("Failed to fetch province data:", error);
+             setColor('#660605')
+             setNotification("API: Failed to get province data")
            });
-
+        }
     }
 
+
     const loadMunicipality = async () => {
+        if (selectedProvinceId != ""){
                  axios.get("https://psgc.gitlab.io/api/cities-municipalities/")
                  .then((response) => {
                    const result = response.data.map((municipality:{name: string, code: string, provinceCode: string ,regionCode: string}) => ({
@@ -180,16 +212,23 @@ export default function GeneralSettings() {
                     setMunicipalityNames(municipality);
                     const m:any = municipality.find((res:any)=> res.name === selectedMunicipality) || {};
                     setSelectedMunicipalityId(m.municipalityId);
-                    //console.log("MUNICIPALITY : ", m)
+                   // console.log("MUNICIPALITY : ", selectedMunicipalityId)
                 })
                 .catch((error) => {
-                  console.log("Failed to fetch municipality data:", error);
+                  //console.log("Failed to fetch municipality data:", error);
+                  setColor('#660605')
+                  setNotification("API: Failed to fetch municipality data")
                 });
+            }else{
+                setMunicipalityNames([]);
+                setSelectedMunicipalityId("");
+            }
 
         }
     
     const loadBarangay = async () => {
-        await axios.get("https://psgc.gitlab.io/api/cities-municipalities/"+ selectedMunicipalityId +"/barangays/")
+        if (selectedMunicipalityId != ''){
+        axios.get("https://psgc.gitlab.io/api/cities-municipalities/"+ selectedMunicipalityId +"/barangays/")
                  .then((response) => {
                    const result = response.data.map((barangay:{name: string, code: string}) => ({
                     name: barangay.name,
@@ -201,91 +240,18 @@ export default function GeneralSettings() {
                   brgy.name === selectedBarangay
                   ) || [];
                   setSelectedBarangayId(barangay.code);
+                  setRequiredFields(false);
                 })
                 .catch((error) => {
-                  console.log("Failed to fetch barangay data:", error);
+                  //console.log("Failed to fetch barangay data:", error);
+                  setColor('#660605')
+                  setNotification("API: Failed to fetch barangay data")
                 });
-    }
-        
-        
-
-    const handleRegionChange = (e:any)=>{
-        const {value} = e.target.value;
-        if (value === ""){
-            setSelectedRegion('');
-            setSelectedProvince('');
-            setSelectedProvinceId('');
-            setSelectedMunicipality('');
-            setSelectedMunicipalityId('');
-            setSelectedBarangay('');
-            setSelectedBarangayId('');
-            setProvinceNames([]);
-            setBarangayNames([]);
-            setMunicipalityNames([]);
-            setData((prevData: any)=>{
-                return {
-                    ...prevData,
-                    address: {
-                        ...prevData.address,
-                        region: '',
-                        province: '',
-                        municipality: '',
-                        barangay: '', 
-                    },
-                }
-            })
-            
-        }else{
-            // Update the selected region
-            setSelectedRegion(value)
-            //clear lower fields
-            setSelectedProvince('');
-            setSelectedProvinceId('');
-            setSelectedMunicipality('');
-            setSelectedMunicipalityId('');
-            setSelectedBarangay('');
-            setSelectedBarangayId('');
-            axios.get(`https://psgc.gitlab.io/api/regions/`)
-            .then(
-                response=>{
-                    
-                    const region = response.data.find((res : {regionName: string, code: string, islandGroupCode: string}) => res.regionName === value);
-                    console.log("RESPONSE DATA")
-                    
-                    console.log("CHANGE - REGIONSSSS");
-                    console.log(region);
-                    setSelectedRegionId(region.code);
-                }
-            )
-                    axios.get(`https://psgc.gitlab.io/api/regions/`+ selectedRegionId + `/provinces/`)
-                    .then(response=>{
-                        const provinceNames = response.data.map((province: { name: string; code: string })=>({
-                            name: province.name,
-                            provinceId: province.code
-                        }))
-                        console.log("CHANGE - PROVINCENAMESSS");
-                        console.log(provinceNames);
-                        setProvinceNames(provinceNames);
-                        
-                        });
-            setData((prevData: any)=>{
-                return {
-                    ...prevData,
-                    address: {
-                        ...prevData.address,
-                        region: value,
-                        province: '',
-                        municipality: '',
-                        barangay: '',
-                    },
-                }
-            })
-        }
-        
-    }
-
-    const handleProvinceChange = async (e:any) => {
-        const {value} = e.target.value;
+            }else{
+                setSelectedBarangay('');
+                setSelectedBarangayId('');
+                setRequiredFields(true);
+            }
     }
 
     const handleChange = async (e:any) => {
@@ -296,6 +262,7 @@ export default function GeneralSettings() {
             //if input data is from object settings
             if (name.startsWith('settings.')) {
                 const settingsKey = name.split('.')[1]
+                //console.log("CURRENTLY CHANGING ==> ", settingsKey)
                 return {
                     ...prevData,
                     settings: {
@@ -307,8 +274,8 @@ export default function GeneralSettings() {
             else if (name.startsWith('address.')) {
                 const addressKey = name.split('.')[1]
 
-                if (addressKey === 'region') {
-                    if (value === ""){
+                if (addressKey === 'region'){
+                    if (value === '') {
                         setSelectedRegion('');
                         setSelectedProvince('');
                         setSelectedProvinceId('');
@@ -319,148 +286,162 @@ export default function GeneralSettings() {
                         setProvinceNames([]);
                         setBarangayNames([]);
                         setMunicipalityNames([]);
-                        return {
+                        // Clear lower fields
+                        setData((prevData: any) => ({
                             ...prevData,
                             address: {
-                                ...prevData.address,
-                                [addressKey]: '',
+                                region: '',
                                 province: '',
                                 municipality: '',
-                                barangay: '', 
+                                barangay: '',
                             },
-                        }
+                        }));
+                    } else {
+                        //console.log("I AM HEREE!! BETCH!!");
+                        // Update the selected region
+                        setSelectedRegion(value);
+                        setSelectedProvince('');
+                        setSelectedProvinceId('');
+                        setSelectedMunicipality('');
+                        setSelectedMunicipalityId('');
+                        setSelectedBarangay('');
+                        setSelectedBarangayId('');
+                        setBarangayNames([]);
+                        setMunicipalityNames([]);
+                
+                        
+                
+                            // Update data state
+                            setData((prevData: any) => ({
+                                ...prevData,
+                                address: {
+                                    region: value,
+                                    province: '',
+                                    municipality: '',
+                                    barangay: '',
+                                },
+                            }));
+                
+                      
                     }
-                    // Update the selected region
-                    setSelectedRegion(value)
-                    //clear lower fields
-                    setSelectedProvince('');
-                    setSelectedProvinceId('');
-                    setSelectedMunicipality('');
-                    setSelectedMunicipalityId('');
-                    setSelectedBarangay('');
-                    setSelectedBarangayId('');
-                    const currentRegion = searchRegion({ name: value })
-                        if (currentRegion) {
-                            setSelectedRegionId(currentRegion[0].regionId)
-                                const provinces = searchProvince({ regionId: selectedRegionId })
-                                const result = provinces.map(AdminRegion => ({
-                                provinceId: AdminRegion.provinceId,
-                                name: AdminRegion.name
-                            }))
-
-                            setProvinceNames(result)
-                        }
-                return {
-                    ...prevData,
-                    address: {
-                        ...prevData.address,
-                        [addressKey]: value,
-                        province: '',
-                        municipality: '',
-                        barangay: '',
-                    },
-                }
+                    setRequiredFields(true);
                 }
                 if (addressKey === 'province') {
-                    if (value === ""){
-                     setSelectedProvince(value)
-                     setSelectedMunicipality('');
-                     setSelectedMunicipalityId('');
-                     setSelectedBarangay('');
-                     setSelectedBarangayId('');
-                     setBarangayNames([]);
-                     setMunicipalityNames([]);
-                    return {
-                        ...prevData,
-                        address: {
-                            ...prevData.address,
-                            [addressKey]: '',
-                            municipality: '',
-                            barangay: '',
-                        },
+                    if (value === '') {
+                        setSelectedProvince('');
+                        setSelectedProvinceId('');
+                        setSelectedMunicipality('');
+                        setSelectedMunicipalityId('');
+                        setSelectedBarangay('');
+                        setSelectedBarangayId('');
+                        setBarangayNames([]);
+                        setMunicipalityNames([]);
+                        // Clear lower fields
+                        setData((prevData: any) => ({
+                            ...prevData,
+                            address: {
+                                province: '',
+                                municipality: '',
+                                barangay: '',
+                            },
+                        }));
+                    } else {
+                        // Update the selected region
+                        setSelectedProvince(value);
+                        setSelectedProvinceId('');
+                        setSelectedMunicipality('');
+                        setSelectedMunicipalityId('');
+                        setSelectedBarangay('');
+                        setSelectedBarangayId('');
+                        setBarangayNames([]);
+                        setMunicipalityNames([]);
+                
+                        
+                
+                            // Update data state
+                            setData((prevData: any) => ({
+                                ...prevData,
+                                address: {
+                                    ...prevData.address,
+                                    province: value,
+                                    municipality: '',
+                                    barangay: '',
+                                },
+                            }));
+                
+                      
                     }
-                    }
-                    
-                     const currentProvince = searchProvince({ name: value, regionId: selectedRegionId });
-                    console.log("CURRENT PROV")
-                     console.log(currentProvince)
-                     setSelectedProvinceId(currentProvince[0].provinceId);
-                     const municipality = searchMunicipality({ regionId: selectedRegionId, provinceId: currentProvince[0].provinceId});
-                        if (municipality) {
-                            const result = municipality.map(AdminRegion => ({
-                                municipalityId: AdminRegion.municipalityId,
-                                name: AdminRegion.name
-                            }))
-                             setMunicipalityNames(result)
-                        }
-                return {
-                    ...prevData,
-                    address: {
-                        ...prevData.address,
-                        [addressKey]: value,
-                        municipality: '',
-                        barangay: '',
-                    },
-                }
+                    setRequiredFields(true);
             
                 }
 
                 if (addressKey === 'municipality') {
-                    if (value === ""){
-                        
-                        setBarangayNames([]);
+                    if (value === '') {
+                        setSelectedMunicipality('');
+                        setSelectedMunicipalityId('');
                         setSelectedBarangay('');
                         setSelectedBarangayId('');
-                        return{
+                        setBarangayNames([]);
+                        // Clear lower fields
+                        setData((prevData: any) => ({
                             ...prevData,
-                        address: {
-                            ...prevData.address,
-                            [addressKey]: '',
-                            barangay: '',
-                        },
-                        }
+                            address: {
+                                municipality: '',
+                                barangay: '',
+                            },
+                        }));
+                    } else {
+                        // Update the selected region
+                        setSelectedMunicipality(value);
+                        setSelectedMunicipalityId('');
+                        setSelectedBarangay('');
+                        setSelectedBarangayId('');
+                        setBarangayNames([]);
+                            // Update data state
+                            setData((prevData: any) => ({
+                                ...prevData,
+                                address: {
+                                    ...prevData.address,
+                                    municipality: value,
+                                    barangay: '',
+                                },
+                            }));
+                
+                      
                     }
-                    setSelectedMunicipality(value)
-                    setSelectedBarangay('');
-                    const currentMunicipality = searchMunicipality({ name: value, provinceId: selectedProvinceId})
-                    setSelectedMunicipalityId(currentMunicipality[0].municipalityId)
-                    const currentBaranggay = searchBaranggay({municipalityId: selectedMunicipalityId, provinceId: selectedProvinceId})
-                        if (currentBaranggay) {
-                            const result = currentBaranggay.map(AdminRegion => ({
-                                barangayId: AdminRegion.baranggayId,
-                                name: AdminRegion.name
-                            }))
-                            setBarangayNames(result);
-                        }
-                return {
-                    ...prevData,
-                    address: {
-                        ...prevData.address,
-                        [addressKey]: value,
-                        barangay: '',
-                    },
-                }
+                    setRequiredFields(true);
+
                 }
 
 
                 if (addressKey === 'barangay') {
-                    if (value === ""){
-                        return {
+
+                    if (value === '') {
+                        setSelectedBarangay('');
+                        setSelectedBarangayId('');
+                        setData((prevData: any) => ({
                             ...prevData,
                             address: {
-                                ...prevData.address,
-                                [addressKey]: '',
+                                barangay: '',
                             },
-                        }
+                        }));
+                        setRequiredFields(true);
+                    } else {
+                        // Update the selected region
+                        setSelectedBarangay(value);
+                       // console.log("CURRENT BRGY SEL ==> ", value)
+                        setSelectedBarangayId('');
+                            // Update data state
+                            setData((prevData: any) => ({
+                                ...prevData,
+                                address: {
+                                    ...prevData.address,
+                                    barangay: value,
+                                },
+                            }));
+                
+                        setRequiredFields(false);
                     }
-                    setSelectedBarangay(value);
-                return {
-                    ...prevData,
-                    address: {
-                        ...prevData.address,
-                        [addressKey]: value,
-                    },
-                }
                 }
 
                 return {
@@ -470,6 +451,7 @@ export default function GeneralSettings() {
                         [addressKey]: value,
                     },
                 }
+               // console.log("CURRENT ADDRESS ==> ", data.address);
             }
             else if (name.startsWith('merchant.')) {
                 const merchantKey = name.split('.')[1]
@@ -482,26 +464,38 @@ export default function GeneralSettings() {
                 }
             }
         });
-        console.log(data.address);
+        
     };
     
     
     const handleSubmit = (e: any) => {
+        setIsLoading(true)
         e.preventDefault();
         const formData = data;
-        console.log(formData);
+       // console.log("FORMDATA ==> ", formData);
 
         axios.post(`${config.API}/merchant/update`, formData)
         .then(function(response){
-            console.log(response);
+        //console.log("SERVER RESPONDED WITH ==> ", response);
+          if (response.data.success === true){
+            setNotification("Successfully Saved!");
+          }else{
+            setNotification("Error with code: "+response.data.status);
+          }
         })
         .catch(function(error){
-            console.log(error);
+            //console.log(error.request.status);
+            setNotification("Error with code "+ error.request.status);
         })
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 500);
     }
     
     return (
         <>
+        {(notification === '')? <></>:  <Notification message={notification} color={color}/>}
+       
             <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in   ">
                 <div className='flex flex-row mr-5 ml-5'>
                     <PiBinoculars size={40} />
@@ -513,11 +507,11 @@ export default function GeneralSettings() {
                         <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Business Logo
                             </label>
-                            <input type="button" id="logoInput" onClick={openEditModal} className=''></input>
+                            <input name="settings.logo" type="button" id="logoInput" onClick={openEditModal} className=''></input>
                                 {isLoading? <><span className='ml-5'><GenSpinner/></span></> // if we are still getting data from DB
                                 :
                                 <label htmlFor="logoInput" className='relative cursor-pointer flex items-center justify-center'>
-                                    <img src={jjlogo} onError={(e) => {
+                                    <img src={data.merchant.logo} onError={(e) => {
                                         e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
                                         e.currentTarget.src = 'https://i.imgur.com/YNoZzmJ.png'; // Use a placeholder image as a fallback
                                         }} className="ml-5 overflow-hidden w-[9rem]">
@@ -540,7 +534,7 @@ export default function GeneralSettings() {
                             </label>
                             <input
                                 type="text"
-                                placeholder={isLoading? "": "Enter your business name here..."}
+                                placeholder={isLoading? "Loading...": "Enter your business name here..."}
                                 value={data.merchant.merchant_name}
                                 disabled = {isLoading}
                                 onChange={handleChange}
@@ -555,13 +549,13 @@ export default function GeneralSettings() {
                             </label>
                             <input
                                 type="text"
-                                placeholder={isLoading? "": "Enter your branch name here... "}
+                                placeholder={isLoading? "Loading...": "Enter your branch name here... "}
                                 value= {data.settings.branch}
                                 disabled = {isLoading}
                                 onChange={handleChange}
                                 name="settings.branch"
                                 className={`m-2 p-2 text w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
-                                required
+                                
                             />
                         </div>
                         <div className="m-2 flex flex-row">
@@ -569,7 +563,7 @@ export default function GeneralSettings() {
                                 Description
                             </label>
                             <textarea
-                                placeholder={isLoading? "":  "Enter your business description here..."}
+                                placeholder={isLoading? "Loading...":  "Enter your business description here..."}
                                 value={data.settings.description}
                                 disabled = {isLoading}
                                 onChange={handleChange}
@@ -579,13 +573,7 @@ export default function GeneralSettings() {
                             />
                         </div>
                         <div className='m-4 flow-root'>
-                            <button
-                                type="submit"
-                                disabled = {isLoading}
-                                className={`px-10 py-1 mr-2 float-right text-white rounded-2xl focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'bg-[#c58f8f] cursor-not-allowed' : ' bg-[#840705] hover:bg-[#660605]'}`}
-                            >
-                            Save
-                            </button>
+                           
                         </div>
                 </form>
             </div>
@@ -604,10 +592,11 @@ export default function GeneralSettings() {
                                 name="address.country"
                                 value={data.address.country}
                                 onChange={handleChange}
-                                className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                                disabled={isLoading}
+                                className={`m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500  ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
                                 required
                             >
-                                <option value="Philippines">Philippines</option>
+                                <option value="Philippines">{isLoading? "Loading...":"Philippines"}</option>
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
@@ -617,8 +606,9 @@ export default function GeneralSettings() {
                             <select
                                 name="address.region"
                                 value={isLoading? "Loading ..." : selectedRegion || ""}
-                                onChange={handleRegionChange}
-                                className="m-2 p-2 ml-[1.1rem] text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                                onChange={handleChange}
+                                disabled={isLoading}
+                                className={`m-2 p-2 ml-[1.1rem] text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500  ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
                                 required
                             >
                                 {!isLoading ? 
@@ -632,29 +622,30 @@ export default function GeneralSettings() {
                                     </option>
                                 ))}
                                 </>
-                                : <></>}
+                                : <><option value="">Loading...</option></>}
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-lg p-2 mr-[3.6rem] w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
+                            <label className=" text-lg p-2 mr-[3.6rem] w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '2.5rem' }}>
                                 Province
                             </label>
                             <select
                                 name="address.province"
-                                value={data.address.province}
+                                value={selectedProvince}
                                 onChange={handleChange}
-                                className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                                disabled={isLoading}
+                                className={`m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
                                 required
                             >
                                 {!isLoading ? 
                                 <>
                                 <option value="">Select Province</option>
-                                {provinceNames.map((province:{name: string, code:string}, idx) => (
+                                {provinceNames.map((province:{name: string, code:string}) => (
                                     <option key={province.code} value={province.name}>
                                     {province.name}
                                     </option>
                                 ))}
-                                </>:<></>
+                                </>:<> <option value="">Loading...</option></>
                                 
                                 }
                             </select>
@@ -665,20 +656,21 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.municipality"
-                                value={data.address.municipality}
+                                value={selectedMunicipality}
                                 onChange={handleChange}
-                                className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                                disabled={isLoading}
+                                className={`m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
                                 required
                             >
                                 {!isLoading ? 
                                 <>
                                 <option value="">Select Municipality</option>
-                                {municipalityNames.map((municipality:AdminRegion, idx) => (
-                                    <option key={idx} value={municipality.name}>
+                                {municipalityNames.map((municipality: {name: string,code: string}) => (
+                                    <option key={municipality.code} value={municipality.name}>
                                     {municipality.name}
                                     </option>
                                     
-                                ))}</>:<></>
+                                ))}</>:<><option value="">Loading...</option></>
                                 };
                             </select>
                         </div>
@@ -688,29 +680,25 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.barangay"
-                                value={data.address.barangay}
+                                value={selectedBarangay}
                                 onChange={handleChange}
-                                className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                                disabled={isLoading}
+                                className={`m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
                                 required
                             >
                                 {!isLoading ? 
                                 <>
                                  <option value="">Select Barangay</option>
-                                {barangayNames.map((barangay:AdminRegion, idx) => (
-                                    <option key={idx} value={barangay.name}>
+                                {barangayNames.map((barangay:{name:string, code:string}) => (
+                                    <option key={barangay.code} value={barangay.name}>
                                     {barangay.name}
                                     </option>
-                                ))}</>:<></>
+                                ))}</>:<><option value="">Loading...</option></>
                                 }
                             </select>
                         </div>
                         <div className='m-4 flow-root'>
-                            <button
-                                type="submit"
-                                className={`px-10 py-1 mr-2 float-right text-white rounded-2xl focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'bg-[#c58f8f] cursor-not-allowed' : ' bg-[#840705] hover:bg-[#660605]'}`}
-                            >
-                            Save
-                            </button>
+                            
                         </div>
                 </form>
             </div>
@@ -753,12 +741,13 @@ export default function GeneralSettings() {
                             />
                         </div>
                         <div className='m-4 flow-root'>
+
                             <button
                                 type="submit"
-                                className={`px-10 py-1 mr-2 float-right text-white rounded-2xl focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'bg-[#c58f8f] cursor-not-allowed' : ' bg-[#840705] hover:bg-[#660605]'}`}
-                                disabled = {isLoading}
+                                disabled={isLoading || requiredFields}
+                                className={`px-10 py-1 mr-2 float-right text-white rounded-2xl focus:outline-none focus:ring focus:ring-blue-500 ${isLoading || requiredFields? 'bg-[#c58f8f] cursor-not-allowed' : ' bg-[#840705] hover:bg-[#660605]'}`}
                             >
-                            Save
+                             {isLoading? "Loading...":"Save"}
                             </button>
                         </div>
                 </form>
