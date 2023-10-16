@@ -29,10 +29,7 @@ const FeedbackList = () => {
   const [feedback, setFeedback] = useState<Array<{feedback: feedbackList, clientName: String}>>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 4;
-
-  // const admerchDetails = localStorage.getItem('admerchDetails');
-  // const userID = admerchDetails ? JSON.parse(admerchDetails).userID : '0';
-
+  const merchID = Number(localStorage.getItem('merch_id'));
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentFeedbackPage = feedback.slice(indexOfFirstItem, indexOfLastItem);
@@ -45,7 +42,7 @@ const FeedbackList = () => {
 
   const fetchFeedback = async () => {
     const col = 'merchant_id';
-    const val = 3;
+    const val = merchID;
     try {
       const resFeedback = await axios.get(`${config.API}/feedback/retrieve?col=${col}&val=${val}`);
       const feedbackRec = [];
@@ -79,8 +76,9 @@ const FeedbackList = () => {
 
   useEffect(() => {
     fetchFeedback();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  
   return (
     <div className="animate-fade-in">
       <MerchAdHeader icon={RiMegaphoneFill} title="Feedback List" />
