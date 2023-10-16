@@ -3,10 +3,31 @@ import {SlOptions} from 'react-icons/sl'
 import {IoPeopleOutline} from 'react-icons/io5'
 import Logo from '../../assets/jjlogo.png'
 import MerchantTeamDeets from './MerchantTeamDeets'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Pagination from '@mui/material/Pagination';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#DD2803',
+    },
+  },
+});
+
 
 sessionStorage.setItem('viewDetails', 'false')
 
 const MerchantTeams = () => {
+
+// const [currentPage, setCurrentPage] = useState<number>(1);
+  // const itemsPerPage = 3;
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentMerchTeams = merchTeams.slice(indexOfFirstItem, indexOfLastItem);
+  // const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
+  //   setCurrentPage(page);
+  // };
+
     const [buttonStatus, setbuttonStatus] = useState(false)
 
     return (
@@ -34,8 +55,26 @@ const MerchantTeams = () => {
                     </div>
                 </div>
               </div>
-            : <MerchantTeamDeets/>
+            : <MerchantTeamDeets/> 
             }
+            {/* <div className="flex justify-center mt-10 w-[100%] h-[0%]">
+              <ThemeProvider theme={theme}>
+                <Pagination
+                  count={Math.ceil(merchTeams.length / itemsPerPage)}
+                  shape="rounded"
+                  showFirstButton
+                  showLastButton
+                  color="primary"
+                  className="absolute bottom-8"
+                  onChange={handlePageChange}
+                  page={currentPage}
+                />
+              </ThemeProvider>
+              <div className="text-[#969696] text-xs absolute bottom-3">
+                Page {1} of {1}
+                Page {currentPage} of {Math.ceil(merchTeams.length / itemsPerPage)}
+              </div>
+            </div>  */}
         </div>
     )
 }

@@ -1,15 +1,35 @@
-import React, {useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import {AiOutlineArrowLeft} from 'react-icons/ai'
 import {IoPeopleOutline} from 'react-icons/io5'
 import {BsFolder, BsTrash} from 'react-icons/bs'
 import Logo from '../../assets/jjlogo.png'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Pagination from '@mui/material/Pagination';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#DD2803',
+    },
+  },
+});
 
 const MerchantTeamDeets = () => {
+
+  // const [currentPage, setCurrentPage] = useState<number>(1);
+  // const itemsPerPage = 5;
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentMerchTeamDetails = merchTeamDetails.slice(indexOfFirstItem, indexOfLastItem);
+  // const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
+  //   setCurrentPage(page);
+  // };
+
     const [buttonStatus, setbuttonStatus] = useState(false)
 
     return (
         <div className='w-[100%] bg-white h-[90%] mt-[1%] rounded-ss-2xl flex-row align-center overflow-y-auto'>
-          {/* Dummy Conten 1 */}
+          {/* Dummy Content 1 */}
           <div className='bg-white h-[10%] flex-row rounded-ss-2xl py-[1%] px-[2%] text-black border-[#F3F3F3] border-b-2 flex font-bold text-[1.4em] items-center hover:cursor-pointer'>
           <AiOutlineArrowLeft className='text-[1.4em] text-[#838383] mr-[1%]' onClick={()=>sessionStorage.setItem('viewDetails','false')}/><p>Merchant Team Details</p>
           </div>
@@ -47,20 +67,39 @@ const MerchantTeamDeets = () => {
                       <td>Kathea Mari Mayol</td>
                       <td>@kathemari@abc.com</td>
                       <td>Manager</td>
-                      <div className='bg-[#DD2803] items-center text-white p-[1%] m-[7%] rounded-md'>
-                        <p className='flex items-center text-center justify-center text-[1em]'><BsTrash className='text-[1em]'/> Delete</p>
-                      </div>
+                      <button className='bg-[#DD2803] items-center text-white p-[1%] m-[7%] rounded-md'>
+                        <p className='flex items-center text-center justify-center text-[1em]'><BsTrash className='text-[1em]' /> Delete</p>
+                      </button>
                     </tr>
                     <tr className='border-[#F3F3F3] border-t-2 p-[1%] my-[2%]'>
                       <td>John Doe</td>
                       <td>@johndoe@abc.com</td>
                       <td>Employee</td>
-                      <div className='bg-[#DD2803] items-center text-white p-[1%] m-[7%] rounded-md'>
-                        <p className='flex items-center text-center justify-center text-[1em]'><BsTrash className='text-[1em]'/> Delete</p>
-                      </div>
+                      <button className='bg-[#DD2803] items-center text-white p-[1%] m-[7%] rounded-md'>
+                        <p className='flex items-center text-center justify-center text-[1em]'><BsTrash className='text-[1em]' /> Delete</p>
+                      </button>
                     </tr>
+                    
                   </table>
+            </div>
+            <div className="flex justify-center mt-10 w-[100%] h-[0%]">
+              <ThemeProvider theme={theme}>
+                <Pagination
+                  // count={Math.ceil(merchTeamDetails.length / itemsPerPage)}
+                  shape="rounded"
+                  showFirstButton
+                  showLastButton
+                  color="primary"
+                  className="absolute bottom-8"
+                  // onChange={handlePageChange}
+                  // page={currentPage}
+                />
+              </ThemeProvider>
+              <div className="text-[#969696] text-xs absolute bottom-3">
+                Page {1} of {1}
+                {/* Page {currentPage} of {Math.ceil(merchTeamDetails.length / itemsPerPage)} */}
               </div>
+            </div> 
         </div> 
     )
 }
