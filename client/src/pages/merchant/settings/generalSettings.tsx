@@ -93,15 +93,23 @@ export default function GeneralSettings() {
         }
       }
 
+      useEffect(() => {
+        fetchData();
+    }, [merchID]);
+    
+    useEffect(()=>{
+        loadRegions();
+    }, [merchID,data])
+
     const fetchData = async ()=>{
         /*get DB data*/
             const dbResponse = await axios.get(`${config.API}/merchant/retrieve`, request)
             const response = dbResponse.data;
             setData(response);
-            setSelectedRegion(data.address.region);
-            setSelectedProvince(data.address.province);
-            setSelectedMunicipality(data.address.municipality);
-            setSelectedBarangay(data.address.barangay);
+            setSelectedRegion(response.address.region);
+            setSelectedProvince(response.address.province);
+            setSelectedMunicipality(response.address.municipality);
+            setSelectedBarangay(response.address.barangay);
             console.log("DATAAAAa => ", data);
 
     }
@@ -119,17 +127,6 @@ export default function GeneralSettings() {
             //console.log("DATA REGIONS : ", regionNames);
 
     }
-
-    
-    useEffect(()=>{
-        fetchData();
-    }, [merchID])
-
-    useEffect(() => {
-       loadRegions();
-       console.log("slay")
-            
-    }, [data]);
                 
                 
                 /*2nd Step to load data*/
