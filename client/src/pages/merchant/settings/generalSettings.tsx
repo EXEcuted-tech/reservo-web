@@ -30,7 +30,7 @@ export default function GeneralSettings() {
     const handleSaveImageUrl = (imageUrl: string) => {
       setNewImageUrl(imageUrl);
     };
-    const merchID = Number(localStorage.getItem("merch_id"))
+     const merchID = Number(localStorage.getItem("merch_id"))
 
     //These are the masterlist from API
     const [regionNames, setRegionNames] = useState([]);
@@ -101,6 +101,18 @@ export default function GeneralSettings() {
         loadRegions();
     }, [merchID,data])
 
+    useEffect(()=>{
+        loadProvinces();
+    }, [merchID,selectedRegionId])
+
+    useEffect(()=>{
+        loadMunicipality();
+    }, [selectedProvinceId])
+
+    useEffect(()=>{
+        loadBarangay();
+    }, [selectedMunicipalityId])
+
     const fetchData = async ()=>{
         /*get DB data*/
             const dbResponse = await axios.get(`${config.API}/merchant/retrieve`, request)
@@ -110,7 +122,7 @@ export default function GeneralSettings() {
             setSelectedProvince(response.address.province);
             setSelectedMunicipality(response.address.municipality);
             setSelectedBarangay(response.address.barangay);
-            console.log("DATAAAAa => ", data);
+           // console.log("DATAAAAa => ", data);
 
     }
 
@@ -127,86 +139,73 @@ export default function GeneralSettings() {
             //console.log("DATA REGIONS : ", regionNames);
 
     }
-                
-                
-                /*2nd Step to load data*/
-                
-                
-        //        if (selectedRegionId!= undefined) {
-        //          axios.get("https://psgc.gitlab.io/api/provinces/")
-        //         .then((response) => {
-        //           const result = response.data.map((province:{name: string, code: string, regionCode: string}) => ({
-        //             name: province.name,
-        //             provinceId: province.code,
-        //             regionId: province.regionCode,
-        //           }));
-        //           setProvincesList(result);
-        //           const  provinces = result.filter((prov:{name: string, provinceId: string, regionId: string}) =>
-        //           prov.regionId === selectedRegionId
-        //         ) || [];
-        //         setProvinceNames(provinces);
-        //         const province:any = provinces.find((prov:any)=> prov.name === selectedProvince) || {};
-        //         setSelectedProvinceId(province.provinceId);
-        //         console.log("PROVID: ", province.provinceId)
-        //         })
-        //         .catch((error) => {
-        //           console.log("Failed to fetch province data:", error);
-        //         });
-        //     }
-                
 
-        //         if (selectedProvinceId!= undefined) {
-        //          axios.get("https://psgc.gitlab.io/api/cities-municipalities/")
-        //          .then((response) => {
-        //            const result = response.data.map((municipality:{name: string, code: string, provinceCode: string ,regionCode: string}) => ({
-        //             name: municipality.name,
-        //             municipalityId: municipality.code,
-        //             provinceId: municipality.provinceCode,
-        //             regionId: municipality.regionCode
-        //           }));
-        //           setMunicipalityList(result);
-                 
-        //           const  municipality = result.filter((muni:{name: string, municipalityId: string, provinceId: string, regionId: string})=> 
-               
-        //             muni.provinceId === selectedProvinceId
-        //           ) || [];
+    const loadProvinces = async ()=>{
+            axios.get("https://psgc.gitlab.io/api/provinces/")
+           .then((response) => {
+             const result = response.data.map((province:{name: string, code: string, regionCode: string}) => ({
+               name: province.name,
+               provinceId: province.code,
+               regionId: province.regionCode,
+             }));
+             setProvincesList(result);
+             const  provinces = result.filter((prov:{name: string, provinceId: string, regionId: string}) =>
+             prov.regionId === selectedRegionId
+           ) || [];
+           setProvinceNames(provinces);
+           const province:any = provinces.find((prov:any)=> prov.name === selectedProvince) || {};
+           setSelectedProvinceId(province.provinceId);
+           //console.log("PROVID: ", province.provinceId)
+           })
+           .catch((error) => {
+             console.log("Failed to fetch province data:", error);
+           });
 
-        //             setMunicipalityNames(municipality);
-        //             const m:any = municipality.find((res:any)=> res.name === selectedMunicipality) || {};
-        //             setSelectedMunicipalityId(m.municipalityId);
-        //             console.log("MUNICIPALITY ID: ", m.municipalityId)
-        //         })
-        //         .catch((error) => {
-        //           console.log("Failed to fetch municipality data:", error);
-        //         });
-        //     }
+    }
 
-        //         if (selectedMunicipalityId!= undefined) {
-        //         await axios.get("https://psgc.gitlab.io/api/cities-municipalities/"+ selectedMunicipalityId +"/barangays/")
-        //          .then((response) => {
-        //            const result = response.data.map((barangay:{name: string, code: string}) => ({
-        //             name: barangay.name,
-        //             barangayId: barangay.code,
-        //           }));
-        //           setBarangayNames(result);
-        //           console.log("DATA BARANGaAY : ", result);
-        //           const  barangay = result.filter((brgy:{name: string, municipalityId: string, provinceId: string, regionId: string})=> 
-        //           brgy.name === selectedBarangay
-        //           ) || [];
-        //           setSelectedBarangayId(barangay.code);
-        //         })
-        //         .catch((error) => {
-        //           console.log("Failed to fetch barangay data:", error);
-        //         });
-        //     }
-        //         setIsLoading(false);
-                        
-        //    }
-        //    catch(e){
-        //        console.log("API ERROR");
-        //        console.log(e)
-                
-        //    }
+    const loadMunicipality = async () => {
+                 axios.get("https://psgc.gitlab.io/api/cities-municipalities/")
+                 .then((response) => {
+                   const result = response.data.map((municipality:{name: string, code: string, provinceCode: string ,regionCode: string}) => ({
+                    name: municipality.name,
+                    municipalityId: municipality.code,
+                    provinceId: municipality.provinceCode,
+                    regionId: municipality.regionCode
+                  }));
+                  setMunicipalityList(result);
+                  const  municipality = result.filter((muni:{name: string, municipalityId: string, provinceId: string, regionId: string})=> 
+                    muni.provinceId === selectedProvinceId
+                  ) || [];
+                    //console.log("MUNICIPALITIES ==> ", selectedMunicipality)
+                    setMunicipalityNames(municipality);
+                    const m:any = municipality.find((res:any)=> res.name === selectedMunicipality) || {};
+                    setSelectedMunicipalityId(m.municipalityId);
+                    //console.log("MUNICIPALITY : ", m)
+                })
+                .catch((error) => {
+                  console.log("Failed to fetch municipality data:", error);
+                });
+
+        }
+    
+    const loadBarangay = async () => {
+        await axios.get("https://psgc.gitlab.io/api/cities-municipalities/"+ selectedMunicipalityId +"/barangays/")
+                 .then((response) => {
+                   const result = response.data.map((barangay:{name: string, code: string}) => ({
+                    name: barangay.name,
+                    barangayId: barangay.code,
+                  }));
+                  setBarangayNames(result);
+                  //console.log("DATA BARANGaAY : ", result);
+                  const  barangay = result.filter((brgy:{name: string, municipalityId: string, provinceId: string, regionId: string})=> 
+                  brgy.name === selectedBarangay
+                  ) || [];
+                  setSelectedBarangayId(barangay.code);
+                })
+                .catch((error) => {
+                  console.log("Failed to fetch barangay data:", error);
+                });
+    }
         
         
 
