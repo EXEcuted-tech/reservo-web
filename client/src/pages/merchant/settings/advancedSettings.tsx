@@ -4,8 +4,10 @@ import colors from '../../../common/colors'
 import config from '../../../common/config'
 
 export default function AdvancedSettings(){
+    const merchID = Number(localStorage.getItem('merch_id'));
+
     const request = {
-        merchant_id: 3
+        merchant_id: merchID
     }
     
     const HandleEvent = () => {
@@ -16,6 +18,20 @@ export default function AdvancedSettings(){
         .catch((error) => {
             console.log(error);        })
     }
+
+    const HandleDeactivate = () => {
+        const updateData = {
+            account_status: "abolished",
+        };
+        axios.post(`${config.API}/merch/edit?userID=${merchID}`, updateData )
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.log(error);        
+        })
+    }
+    
     return(
         <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in">
                 <h1 className='text-2xl mr-5 ml-5 mb-2'><strong>Account Deletion or Deactivation</strong></h1>
@@ -32,7 +48,7 @@ export default function AdvancedSettings(){
                     </button>
                     <button
                         onClick={HandleEvent}
-                        className="px-8 py-1 mr-2 float-right bg-[#DD2803] text-white rounded-2xl hover:bg-[#660605] focus:outline-none focus:ring focus:ring-blue-500 transition-colors delay-250 duration-[3000] ease-in"
+                        className="px-8 py-1 mr-6 float-right bg-[#DD2803] text-white rounded-2xl hover:bg-[#660605] focus:outline-none focus:ring focus:ring-blue-500 transition-colors delay-250 duration-[3000] ease-in"
                     >
                     Deactivate
                     </button>

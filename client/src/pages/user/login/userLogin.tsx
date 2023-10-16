@@ -114,7 +114,7 @@ const UserLogin = () => {
                                 {isLoading && <Spinner className='mr-[1%]'/>}
                                     Sign in
                         </button>
-                        <button type='submit' onClick={guestHandler} className='font-poppins button text-[#DD2803] p-[0.5em] font-[bold] w-[50%] rounded-full border-solid border-2 border-[#DD2803] font-bold hover:bg-[#DD2803] hover:text-white transition-colors delay-250 duration-[3000] ease-in '>Log in as Guest</button>
+                        <button type='submit' onClick={guestHandler} className='font-poppins button text-[#DD2803] p-[0.5em] w-[50%] rounded-full border-solid border-2 border-[#DD2803] font-bold hover:bg-[#DD2803] hover:text-white transition-colors delay-250 duration-[3000] ease-in '>Log in as Guest</button>
                         <div className="signBox">
                             <span className='capitalize'>need an account ?</span>
                             <Link to={'/usregister'} className='link text-[#DD2803] font-bold pl-1 hover:text-[#9a1a00] transition-colors delay-250 duration-[3000] ease-in'>Sign Up</Link>

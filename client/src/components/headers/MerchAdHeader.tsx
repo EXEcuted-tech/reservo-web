@@ -78,7 +78,7 @@ const MerchAdHeader: React.FC<MerchAdHeaderProps> = ({ icon: Icon, title }) => {
             :
               <BiSolidUserCircle className='text-black text-[2.5em] mr-[2%]'/> 
             }      
-            <p className='text-[1.1em]'>{truncatedUsername}</p>
+            <p className='ml-[0.8rem] text-[1.1em]'>{truncatedUsername}</p>
         </div>
     </div>
   );
