@@ -1,7 +1,6 @@
 import { Fragment, useRef, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
-
 import { IoCalendarOutline } from "react-icons/io5";
 import { LiaEdit } from "react-icons/lia";
 import { BsPerson } from "react-icons/bs";
@@ -9,15 +8,8 @@ import { MdFormatListNumbered } from "react-icons/md";
 import { HiOutlineMail } from "react-icons/hi";
 import { AiOutlinePhone } from "react-icons/ai";
 import { LiaCommentSolid } from "react-icons/lia";
-
 import { FiClock } from "react-icons/fi";
-import {RiReservedFill} from 'react-icons/ri'
-import MerchAdHeader from "../../../components/headers/MerchAdHeader";
 
-const NAV_BAR = [
-  { title: "Reservation Form", url: "reservationManager" },
-  { title: "Merchant Calendar", url: "merchantCalendar" },
-];
 
 const PAGE_MODE = {
   READ: 0,
@@ -74,19 +66,9 @@ const ReservationManager = () => {
   };
 
   return (
-    <div className="h-[90vh] font-poppins bg-[#F3F3F3] p-8 h-[90vh]">
-      <nav className="flex gap-8 border-b-2 border-black">
-        {NAV_BAR.map(({ title, url }, index) => (
-          <Fragment key={index}>
-            <a href={url} className={`font-xl text-[1.5em] font-semibold p-2 cursor:pointer ${index === 0 && `border-b-4 border-red-900`}`}>
-              {title}
-            </a>
-          </Fragment>
-        ))}
-      </nav>
-
+    <div className="animate-fade-in font-poppins bg-[#F3F3F3] p-8 ">
       <div className="flex items-center justify-center">
-        <div className="rounded-lg bg-[#FFFFFF] w-full p-5 mt-[6rem]">
+        <div className="rounded-lg bg-[#FFFFFF] w-full p-5 mt-[1rem]">
           <div className="flex w-full ">
             <h1 className="text-[1.5em] font-bold">Current Reservation Form</h1>
             <button
@@ -101,17 +83,16 @@ const ReservationManager = () => {
             <div className="flex p-10">
               <div className="flex flex-col gap-5 w-1/2 font-bold">
                 <div className="flex items-center gap-1">
-                  <IoCalendarOutline className="text-[22px]"/> <h3 className="">Date:</h3>
+                  <IoCalendarOutline className="text-[22px] mr-[0.5rem]"/> <h3 className="">Date:</h3>
                 </div>
                 <div className="flex items-center gap-1">
-                  <FiClock />
-                  <h3>Time:</h3>
+                  <FiClock className="mr-[0.5rem]" /> <h3>Time:</h3>
                 </div>
                 <div className="flex items-center">
-                  <BsPerson className="text-[22px]"/> <h3>Client Name:</h3>
+                  <BsPerson className="text-[22px] mr-[0.5rem]"/> <h3>Client Name:</h3>
                 </div>
                 <div className="flex items-center mt-[10%]">
-                  <LiaCommentSolid className="text-[22px]"/><h3> Remarks:</h3>
+                  <LiaCommentSolid className="text-[22px] mr-[0.5rem]"/><h3> Remarks:</h3>
                 </div>
                 {pageMode === PAGE_MODE.READ &&
                   !!fieldList.length &&
@@ -125,19 +106,19 @@ const ReservationManager = () => {
               </div>
               <div className="flex flex-col gap-5 w-1/2 font-bold">
                 <div className="flex items-center">
-                  <MdFormatListNumbered className="text-[22px]"/> <h3>Event Size:</h3>
+                  <MdFormatListNumbered className="text-[22px] mr-[0.5rem]"/> <h3>Event Size:</h3>
                 </div>
                 <div className="flex items-center">
-                  <HiOutlineMail className="text-[22px]"/> <h3>Email:</h3>
+                  <HiOutlineMail className="text-[22px] mr-[0.5rem]"/> <h3>Email:</h3>
                 </div>
                 <div className="flex items-center">
-                  <AiOutlinePhone className="text-[22px]"/> <h3>Contact Number:</h3>
+                  <AiOutlinePhone className="text-[22px] mr-[0.5rem]"/> <h3>Contact Number:</h3>
                 </div>
               </div>
             </div>
 
             {pageMode === PAGE_MODE.UPDATE && (
-              <div className="p-10">
+              <div className="p-5 ml-[1rem] animate-fade-in">
                 <button
                   onClick={() => {
                     dialogRef.current?.showModal();
@@ -163,7 +144,7 @@ const ReservationManager = () => {
         </div>
       </div>
       <dialog ref={dialogRef}>
-        <div className=" animate-fade-in">
+        <div className="animate-fade-in">
           <div className="flex font-bold bg-red-900 text-white p-3">
             <h1 className="">Field Info</h1>
             <button

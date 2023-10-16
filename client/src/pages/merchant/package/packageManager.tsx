@@ -138,7 +138,8 @@ return (
     <div className='PublishedPackages ps-20'>
       <div className='grid grid-flow-col'>
         <div><p className={`text-3xl mx-20 my-3 font-bold`}>Published Packages</p></div>
-        <div className='flex justify-end items-center mx-10' ><button onClick={() => fetchData(sort)} className='w-[6vw] h-[4vh] p-2 bg-[#1b6e1e] text-white text-lg flex justify-center items-center rounded-lg hover:bg-[#00962a] transition-colors delay-250 duration-[3000] ease-in'><BiRefresh className='flex items-center justify-center'/>Refresh</button></div>
+        <div className='flex justify-end items-center mx-10' ><button onClick={() => fetchData(sort)} 
+        className='w-[6vw] h-[4vh] p-2 bg-[#1b6e1e] text-white text-lg flex justify-center items-center rounded-lg hover:bg-[#00962a] transition-colors delay-250 duration-[3000] ease-in'><BiRefresh className='flex items-center justify-center'/>Refresh</button></div>
         </div>
         <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl  ">
         {isLoading ? (

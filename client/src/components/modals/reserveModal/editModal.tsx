@@ -193,7 +193,8 @@ const EditModal:React.FC<EditModalProps> = (props) => {
         <div className='relative bottom-[2%] top-[2%] mb-[2%] w-[100%]'>
           <hr className=' w-[100%] h-[1px] bg-black border-0'/>       
           <div className='flex justify-end mr-[3%] mt-[1%]'>
-            <button className='flex text-white text-[1.1em] bg-[#17A200] px-[2%] py-[0.5%] rounded-2xl hover:bg-[#117600]'><AiFillSave className='mt-[2%] text-[1.2em] mr-[1%]'/>Save</button>
+            <button className='flex text-white text-[1.1em] bg-[#17A200] px-[2%] py-[0.5%] rounded-2xl hover:bg-[#117600] transition-colors delay-450 duration-[3000] ease-in-out '>
+              <AiFillSave className='mt-[2%] text-[1.2em] mr-[1%]'/> Save</button>
             
           </div>
         </div>
