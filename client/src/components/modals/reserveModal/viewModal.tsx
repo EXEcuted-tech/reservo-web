@@ -79,17 +79,28 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         console.log("RESULT: ",res.data);
         const inventoryData = res.data.records[0];
         setInventory({
-          numberOfTables: inventoryData?.no_of_tables,
-          numberOfChairs: inventoryData?.no_of_chairs,
-          numberOfPlates: inventoryData?.no_of_plates,
-          numberOfGlasses: inventoryData?.no_of_glasses,
-          numberOfTableCloths: inventoryData?.no_of_tableCloths,
-          numberOfChairCovers: inventoryData?.no_of_chairCovers,
+          no_of_tables: inventoryData?.no_of_tables,
+          no_of_chairs: inventoryData?.no_of_chairs,
+          no_of_plates: inventoryData?.no_of_plates,
+          no_of_glasses: inventoryData?.no_of_glasses,
+          no_of_tableCloths: inventoryData?.no_of_tableCloths,
+          no_of_chairCovers: inventoryData?.no_of_chairCovers,
         });
        }
        setTimeout(()=>{setIsLoading(true)},500);
     })
   }
+
+  const formatDate = (date: Date) => {
+    if (date instanceof Date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0'); 
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+    return '';
+  };
+  
   return (
     <div className="animate-slide-up font-poppins fixed top-[8%] left-[18%] right-0 bg-white z-50 bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
       {!isLoading 
@@ -120,14 +131,14 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block text-white px-[1%] rounded-lg mb-[0.5%]'>General Information</h1>
         <div className='flex mx-[2%] text-[1.2em]'>
           <div className='w-[50%]'>
-            <p className='my-[1%]'><span className='font-bold'>Event Date: </span>{record[0]?.res_date}</p>
+            <p className='my-[1%]'><span className='font-bold'>Event Date: </span>{formatDate(new Date(record[0]?.res_date))}</p>
             <p className='my-[1%]'><span className='font-bold'>Event Time: </span>{record[0]?.res_time}</p>
             <p className='my-[1%]'><span className='font-bold'>Event Size: </span>{record[0]?.party_size}</p>
             <p className='my-[1%]'><span className='font-bold'>Location: </span>{record[0]?.res_location}</p>
             <p className='my-[1%]'><span className='font-bold'>Remarks: </span>{record[0]?.additional_details}</p>
           </div>
           <div className='w-[50%]'>
-            <p className='my-[1%]'><span className='font-bold'>Date Booked: </span>{record[0]?.date_received}</p>
+            <p className='my-[1%]'><span className='font-bold'>Date Booked: </span>{formatDate(new Date(record[0]?.date_received))}</p>
             <p className='my-[1%]'><span className='font-bold'>Client Name: </span>{name}</p>
             <p className='my-[1%]'><span className='font-bold'>Email: </span>{email}</p>
             <p className='my-[1%]'><span className='font-bold'>Contact Number: </span>{contactNo}</p>
@@ -139,14 +150,14 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block px-[1%] mt-[2%] text-white rounded-lg mb-[0.5%]'>Inventory</h1>
         <div className='flex mx-[2%] text-[1.2em]'>
           <div className='w-[33%]'>
-            <p className='my-[1%]'><span className='font-bold'>No. of Tables: </span>{inventory?.numberOfTables}</p>
-            <p className='my-[1%]'><span className='font-bold'>No. of Chairs: </span>{inventory?.numberOfChairs}</p>
-            <p className='my-[1%]'><span className='font-bold'>No. of Plates: </span>{inventory?.numberOfPlates}</p>
+            <p className='my-[1%]'><span className='font-bold'>No. of Tables: </span>{inventory?.no_of_tables}</p>
+            <p className='my-[1%]'><span className='font-bold'>No. of Chairs: </span>{inventory?.no_of_chairs}</p>
+            <p className='my-[1%]'><span className='font-bold'>No. of Plates: </span>{inventory?.no_of_plates}</p>
           </div>
           <div className='w-[33%]'>
-            <p className='my-[1%]'><span className='font-bold'>No. of Glasses: </span>{inventory?.numberOfGlasses}</p>
-            <p className='my-[1%]'><span className='font-bold'>No. of Table Cloths: </span>{inventory?.numberOfTables}</p>
-            <p className='my-[1%]'><span className='font-bold'>No. of Chair Covers: </span>{inventory?.numberOfChairCovers}</p>
+            <p className='my-[1%]'><span className='font-bold'>No. of Glasses: </span>{inventory?.no_of_glasses}</p>
+            <p className='my-[1%]'><span className='font-bold'>No. of Table Cloths: </span>{inventory?.no_of_tableCloths}</p>
+            <p className='my-[1%]'><span className='font-bold'>No. of Chair Covers: </span>{inventory?.no_of_chairCovers}</p>
           </div>
         </div>
 

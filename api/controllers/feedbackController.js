@@ -2,14 +2,11 @@ const express = require('express');
 const db = require('./a_db'); 
 
 const createFeedback = (req,res)=>{
-    const {date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id} = req.body;
+    const {acc_id,merch_id,value,comment} = req.body;
     
-    const insertQuery = 
-    'INSERT INTO reservation (res_date,res_time,res_location,date_received,party_size,settings,additional_details,account_id,merchant_id,sched_id,package_id,payment_id,inventory_id,status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+    const insertQuery = 'INSERT INTO feedback (account_id,merchant_id,rating_value,comment) VALUES (?,?,?,?)';
 
-    const date_received = new Date();
-    const status = "Ongoing";
-    const data = [date,timestart,location,date_received,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id,status]
+    const data = [acc_id,merch_id,value,comment]
     db.query(insertQuery, data, (err, result) => {
       if (err) {
         console.error('Error inserting data:', err);
@@ -29,27 +26,27 @@ const createFeedback = (req,res)=>{
 }
 
 const updateFeedback = (req,res)=>{
-  const {date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,res_id,invent_id,status} = req.body;
+  // const {date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,res_id,invent_id,status} = req.body;
     
-  const updateQuery = 'UPDATE reservation SET res_date=?,res_time=?,res_location=?,party_size=?,settings=?,additional_details=?,account_id=?,merchant_id=?,sched_id=?,package_id=?,payment_id=?,inventory_id=?,status=? WHERE reservation_id=?'
+  // const updateQuery = 'UPDATE reservation SET res_date=?,res_time=?,res_location=?,party_size=?,settings=?,additional_details=?,account_id=?,merchant_id=?,sched_id=?,package_id=?,payment_id=?,inventory_id=?,status=? WHERE reservation_id=?'
 
-  const data = [date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id,status,res_id]
-  db.query(updateQuery, data, (err, result) => {
-    if (err) {
-      console.error('Error updating data:', err);
-      return res.status(500).json({ status: 500, success:false,error: 'Error updating data' });
-    }
+  // const data = [date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id,status,res_id]
+  // db.query(updateQuery, data, (err, result) => {
+  //   if (err) {
+  //     console.error('Error updating data:', err);
+  //     return res.status(500).json({ status: 500, success:false,error: 'Error updating data' });
+  //   }
 
-    if (result.affectedRows > 0) {
-      return res.status(200).json({
-        status: 200,
-        success: true,
-        data: result,
-      });
-    } else {
-      return res.status(500).json({ status: 500, success: false, error: 'Updating record failed' });
-    }
-  });
+  //   if (result.affectedRows > 0) {
+  //     return res.status(200).json({
+  //       status: 200,
+  //       success: true,
+  //       data: result,
+  //     });
+  //   } else {
+  //     return res.status(500).json({ status: 500, success: false, error: 'Updating record failed' });
+  //   }
+  // });
 }
 
 const retrieveAll = (req,res)=>{   
