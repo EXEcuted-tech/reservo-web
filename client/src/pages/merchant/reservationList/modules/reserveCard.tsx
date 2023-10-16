@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {HiOutlineUsers} from 'react-icons/hi'
 import {LiaSearchSolid} from 'react-icons/lia'
-import {ImPencil} from 'react-icons/im'
+import {GoPencil} from 'react-icons/go'
 import config from '../../../../common/config'
 import axios from 'axios'
 
@@ -86,26 +86,26 @@ const ReserveCard:
                 <td>
                     <div className='flex justify-center'>
                         <button className='flex items-center bg-[#ffbb38] py-[3%] px-[15%] mt-[5%] mb-[2%] rounded-3xl
-                                hover:bg-[#ffe7ba]'
+                                hover:bg-[#ffe7ba] transition-colors delay-450 duration-[3000] ease-in-out'
                                 onClick={()=>{
                                   console.log("Before: ",booking.reservation_id.toString())
                                   sessionStorage.setItem('res_id',booking.reservation_id.toString())
                                   // localStorage.setItem('res_id',`${booking.account_id}`);
                                   setOpenModalView(true)
                                 }}>
-                            <LiaSearchSolid/>
+                            <LiaSearchSolid className="mr-[0.3rem]"/>
                             View
                         </button>
                     </div>
                     <div className='flex justify-center'>
                         <button className='flex items-center bg-[#ff8e4f] py-[3%] px-[17%] mb-[5%] rounded-3xl
-                               hover:bg-[#ffbe9b]'
+                               hover:bg-[#ffbe9b] transition-colors delay-450 duration-[3000] ease-in-out'
                                onClick={()=>{
                                 sessionStorage.setItem('res_id',booking.account_id.toString())
                                 console.log(sessionStorage.getItem('res_id'))
                                 setOpenModalEdit(true)
                                }}>
-                            <ImPencil/>
+                            <GoPencil className="ml-[-0.5rem] mr-[0.4rem]"/>
                             Edit
                         </button>
                     </div>

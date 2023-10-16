@@ -1,18 +1,35 @@
 import React, { useState, useEffect } from 'react'
-import {IoLocation} from 'react-icons/io5'
+import {IoLocation, IoCameraSharp} from 'react-icons/io5'
 import {PiBinoculars} from 'react-icons/pi'
 import {MdPhone} from 'react-icons/md'
+import {FiEdit} from 'react-icons/fi'
 import colors from '../../../common/colors'
 import jjlogo from "../../../assets/jjlogo.png"
 import axios from 'axios'
 import GenSpinner from '../../../components/loaders/genSpinner'
 import config from '../../../common/config'
+import ImageEditModal from '../../../components/modals/settingsModal/imageEditModal.tsx';
+
 import { searchProvince, searchRegion, searchBaranggay, searchMunicipality} from 'ph-geo-admin-divisions'
 import { AdminRegion } from 'ph-geo-admin-divisions/lib/dtos'
 import { LuSearchX } from 'react-icons/lu'
 
 export default function GeneralSettings() {
     const [isLoading, setIsLoading] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [newImageUrl, setNewImageUrl] = useState('');
+  
+    const openEditModal = () => {
+      setIsEditModalOpen(true);
+    };
+  
+    const closeEditModal = () => {
+      setIsEditModalOpen(false);
+    };
+  
+    const handleSaveImageUrl = (imageUrl: string) => {
+      setNewImageUrl(imageUrl);
+    };
     const merchID = Number(localStorage.getItem("merch_id"))
 
     //These are the masterlist from API
@@ -471,7 +488,8 @@ export default function GeneralSettings() {
         });
         console.log(data.address);
     };
-
+    
+    
     const handleSubmit = (e: any) => {
         e.preventDefault();
         const formData = data;
@@ -485,27 +503,40 @@ export default function GeneralSettings() {
             console.log(error);
         })
     }
+    
     return (
         <>
-            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in">
+            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in   ">
                 <div className='flex flex-row mr-5 ml-5'>
                     <PiBinoculars size={40} />
                     <h3 className='text-2xl mb-2 p-1'><strong>Business Overview</strong></h3>
                 </div>
                 
                 <form className="mt-2 mr-5 ml-5" onSubmit={handleSubmit}> 
-                    <div className="m-2 flex flex-row ">
+                    <div className="m-2 mb-8 flex flex-row  ">
                         <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
                                 Business Logo
                             </label>
+                            <input type="button" id="logoInput" onClick={openEditModal} className=''></input>
                                 {isLoading? <><span className='ml-5'><GenSpinner/></span></> // if we are still getting data from DB
                                 :
-                                <img src={jjlogo} onError={(e) => {
-                                    e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
-                                    e.currentTarget.src = 'https://i.imgur.com/YNoZzmJ.png'; // Use a placeholder image as a fallback
-                                    }} className="ml-5">
-                                </img>}
-                                
+                                <label htmlFor="logoInput" className='relative cursor-pointer flex items-center justify-center'>
+                                    <img src={jjlogo} onError={(e) => {
+                                        e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
+                                        e.currentTarget.src = 'https://i.imgur.com/YNoZzmJ.png'; // Use a placeholder image as a fallback
+                                        }} className="ml-5 overflow-hidden w-[9rem]">
+                                    </img>                                    
+                                    <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 opacity-0 hover:opacity-80 bg-white'>
+                                        <IoCameraSharp className='relative text-[50px] left-[39%] bottom-[10%]'/>
+                                        <p className='relative text-black font-bold text-[14px] top-[10%] right-[8%]'>Change Image</p>
+                                    </div>                                  
+                                </label>}
+
+                                <ImageEditModal
+                                    isOpen={isEditModalOpen}
+                                    onClose={closeEditModal}
+                                    onSave={handleSaveImageUrl}
+                                />
                         </div>
                         <div className="m-2 flex flex-row ">
                             <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black" style={{ lineHeight: '3.0rem' }}>
@@ -513,7 +544,8 @@ export default function GeneralSettings() {
                             </label>
                             <input
                                 type="text"
-                                value={isLoading? "Loading... ": data.merchant.merchant_name || "Enter your business name here..."}
+                                placeholder={isLoading? "": "Enter your business name here..."}
+                                value={data.merchant.merchant_name}
                                 disabled = {isLoading}
                                 onChange={handleChange}
                                 name="merchant.merchant_name"
@@ -527,11 +559,12 @@ export default function GeneralSettings() {
                             </label>
                             <input
                                 type="text"
-                                value={isLoading? "Loading... ": data.settings.branch || "Enter your branch name here... "}
+                                placeholder={isLoading? "": "Enter your branch name here... "}
+                                value= {data.settings.branch}
                                 disabled = {isLoading}
                                 onChange={handleChange}
                                 name="settings.branch"
-                                className={`m-2 ml-5 p-2 text w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
+                                className={`m-2 p-2 text w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
                                 required
                             />
                         </div>
@@ -540,11 +573,12 @@ export default function GeneralSettings() {
                                 Description
                             </label>
                             <textarea
-                                value={isLoading? "Loading... ": data.settings.description || "Enter your business description here..."}
+                                placeholder={isLoading? "":  "Enter your business description here..."}
+                                value={data.settings.description}
                                 disabled = {isLoading}
                                 onChange={handleChange}
                                 name="settings.description"
-                                className={`m-2 ml-9 p-2 text w-full flex border border-gray-300 rounded-md resize-none focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
+                                className={`m-2 p-2 text w-full flex border border-gray-300 rounded-md resize-none focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
                                 required
                             />
                         </div>
@@ -572,7 +606,7 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.country"
-                                value={data.address.country || "Philippines"}
+                                value={data.address.country}
                                 onChange={handleChange}
                                 className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
@@ -611,8 +645,8 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.province"
-                                value={isLoading? "Loading ..." : selectedProvince || ""}
-                                onChange={handleProvinceChange}
+                                value={data.address.province}
+                                onChange={handleChange}
                                 className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
@@ -635,7 +669,7 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.municipality"
-                                value={isLoading? "Loading ..." : selectedMunicipality || ""}
+                                value={data.address.municipality}
                                 onChange={handleChange}
                                 className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
@@ -658,7 +692,7 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.barangay"
-                                value={isLoading? "Loading ..." : data.address.barangay || "Select Barangay"}
+                                value={data.address.barangay}
                                 onChange={handleChange}
                                 className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
@@ -699,7 +733,8 @@ export default function GeneralSettings() {
                                 type="tel"
                                 maxLength={11}
                                 name="merchant.contact_number"
-                                value={isLoading? "Loading... " : data.merchant.contact_number || "+63"}
+                                placeholder={isLoading? "":  "+63"}
+                                value={data.merchant.contact_number}
                                 disabled= {isLoading}
                                 onChange={handleChange}
                                 className={`m-2 ml-5 p-2 text w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed': ''} `}
@@ -713,10 +748,11 @@ export default function GeneralSettings() {
                             <input
                                 type="email"
                                 name="merchant.email_address"
-                                value={isLoading? "Loading... " : data.merchant.email_address || "example@abc.com"}
+                                placeholder={isLoading? "":  "example@abc.com"}
+                                value={data.merchant.email_address}
                                 disabled = {isLoading}
                                 onChange={handleChange}
-                                className={`m-2 ml-9 p-2 text w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed': ''}`}
+                                className={`m-2 p-2 text w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed': ''}`}
                                 required
                             />
                         </div>

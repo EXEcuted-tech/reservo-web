@@ -47,8 +47,8 @@ export default function AdvancedSettings(){
                     Delete Account
                     </button>
                     <button
-                        onClick={HandleDeactivate}
-                        className="px-8 py-1 mr-2 float-right bg-[#DD2803] text-white rounded-2xl hover:bg-[#660605] focus:outline-none focus:ring focus:ring-blue-500 transition-colors delay-250 duration-[3000] ease-in"
+                        onClick={HandleEvent}
+                        className="px-8 py-1 mr-6 float-right bg-[#DD2803] text-white rounded-2xl hover:bg-[#660605] focus:outline-none focus:ring focus:ring-blue-500 transition-colors delay-250 duration-[3000] ease-in"
                     >
                     Deactivate
                     </button>
