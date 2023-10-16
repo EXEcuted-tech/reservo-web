@@ -5,6 +5,7 @@ import {TbArrowsExchange} from 'react-icons/tb'
 import axios from 'axios';
 import config from '../../../common/config';
 import GenSpinner from '../../loaders/genSpinner';
+import Spinner from '@material-tailwind/react/components/Spinner';
 
 const EditModal:React.FC<EditModalProps> = (props) => {
   const {setOpenModalEdit} = props;
@@ -18,7 +19,8 @@ const EditModal:React.FC<EditModalProps> = (props) => {
 
   const editId = Number(sessionStorage.getItem('res_id'));
   const merchId = Number(localStorage.getItem('merch_id'));
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loading,setLoading] = useState(false);
   const [retrieved, setRetrieved] = useState(false);
 
   useEffect(() => {
@@ -30,6 +32,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
     retrievePayment();
     retrieveAccount();
     retrieveInventory();
+    setTimeout(()=>{setIsLoading(true)},2500);
   }, [retrieved]);
 
   // Retrieve Area
@@ -41,7 +44,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
   const retrieveExisting = () =>{
     const col = "reservation_id";
     const val = editId;
-    // setIsLoading(false);
+    setIsLoading(false);
     axios.get(`${config.API}/reserve/retrieve?col=${col}&val=${val}`)
     .then((res)=>{
        if(res.data.success === true){
@@ -174,18 +177,24 @@ const EditModal:React.FC<EditModalProps> = (props) => {
   // handleUpdates
   const updateRecord = (event: { preventDefault: () => void }) => {
     event.preventDefault();
+    setLoading(false);
     updateRes();
     updatePayment();
     updateInventory();
     updateContact();
+    setTimeout(()=>{
+      setLoading(true);
+    },2500)
+    alert("Updated record successfully!");
+    window.location.reload();
   }
 
   const updateRes = () => {
     const res_id = editId;
     console.log("RECORD: ",record[0])
-    axios.post(`${config.API}/reserve/update`,record[0])
+    axios.post(`${config.API}/reserve/update?res_id=${res_id}`,record[0])
     .then((res)=>{
-      console.log(res);
+      console.log("Reservation Update: ",res);
     })
   }
 
@@ -194,7 +203,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
     console.log("PAYMENT: ",payment[0])
     axios.post(`${config.API}/payment/update?payId=${payId}`,payment[0])
     .then((res)=>{
-      console.log(res);
+      console.log("Payment Update: ",res);
     })
   }
 
@@ -203,7 +212,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
     console.log("INVENTORY: ",inventory[0])
     axios.post(`${config.API}/inventory/update?inventoryID=${inventoryID}`,inventory[0])
     .then((res)=>{
-      console.log(res);
+      console.log("Inventory Update: " ,res);
     })
   }
 
@@ -219,13 +228,13 @@ const EditModal:React.FC<EditModalProps> = (props) => {
 
   return (
     <div className="animate-slide-up font-poppins fixed top-[7%] left-[18%] right-0 bg-white z-50 bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
-      {/* {isLoading 
+      {!isLoading 
        ?
         <div className='flex justify-center ml-[-2%] mt-[25%]'>
           <GenSpinner/>
         </div>
       :
-      <> */}
+      <>
         <div className='flex w-full h-[5vh]'>
             <div className='flex items-center w-[96%] mt-[0.5%]'>
                 <div className='flex items-center w-[100%] ml-[1%]'>
@@ -471,17 +480,26 @@ const EditModal:React.FC<EditModalProps> = (props) => {
             </div>
           </div> */}
         </div>  
-        {/* </>
-        } */}
+
         <div className='relative bottom-[2%] top-[2%] mb-[2%] w-[100%]'>
           <hr className=' w-[100%] h-[1px] bg-black border-0'/>       
           <div className='flex justify-end mr-[3%] mt-[1%]'>
             <button className='flex text-white text-[1.1em] bg-[#17A200] px-[2%] py-[0.5%] rounded-2xl hover:bg-[#117600]'
             onClick={updateRecord}
-            ><AiFillSave className='mt-[2%] text-[1.2em] mr-[1%]'/>Save</button>
+            >
+              {loading 
+              ?
+              <Spinner/>
+              :
+              <AiFillSave className='mt-[2%] text-[1.2em] mr-[1%]'/>
+              }
+              Save</button>
             
           </div>
         </div>
+
+        </>
+        }
     </div>
   )
 }

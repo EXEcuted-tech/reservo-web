@@ -35,11 +35,14 @@ const createReserve = (req,res)=>{
 
 const updateReserve = (req,res)=>{
   const {res_id} = req.query
-  const {date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id,status} = req.body;
+  const {res_date,res_time,res_location,party_size,settings,additional_details,account_id,merchant_id,sched_id,package_id,
+        payment_id,inventory_id,status} = req.body;
     
   const updateQuery = 'UPDATE reservation SET res_date=?,res_time=?,res_location=?,party_size=?,settings=?,additional_details=?,account_id=?,merchant_id=?,sched_id=?,package_id=?,payment_id=?,inventory_id=?,status=? WHERE reservation_id=?'
 
-  const data = [date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id,status,res_id]
+  const data = [res_date,res_time,res_location,party_size,settings,additional_details,account_id,
+                merchant_id,sched_id,package_id,payment_id,inventory_id,status,res_id]
+  
   db.query(updateQuery, data, (err, result) => {
     if (err) {
       console.error('Error updating data:', err);

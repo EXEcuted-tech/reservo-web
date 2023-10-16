@@ -186,7 +186,7 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                 {/* Left Side */}
                     <div>
                         <div className='flex mt-[0.5%]'>
-                            <Rating className={`${openRatingMod ? 'z-[-1]' : 'z-1'}`} value={avg} readOnly />
+                            <Rating value={avg} readOnly />
                             <p className='ml-[1%]'>({ratingCount} Reviews)</p>
                         </div>
                         <div className='flex items-center mt-[1%] text-[1.1em]'>
@@ -273,11 +273,13 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                 <h1 className='text-[2em] font-bold'>CUSTOMER REVIEWS</h1>
                 <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Average Rating:</span>{avg}</p>
                 <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Total Reviews:</span>{ratingCount} Total</p>
+                <div className='max-h-[82vh] my-[1.1%] w-[85%] ml-[5%] overflow-auto'>
                 {feedback.map((review,index)=>(
-                    <div className={`my-[1%] ${openRatingMod ? 'opacity-0.5 z-[-1]' : 'z-1'}`}>
+                    <div className={`my-[1%] ${openRatingMod ? 'opacity-0.5 z-[-1]' : 'z-1'}`} >
                         <CommentSec key={index} {...review}/>
                     </div>
                 ))}
+                </div>
            </div>   
         </div>   
         }     
