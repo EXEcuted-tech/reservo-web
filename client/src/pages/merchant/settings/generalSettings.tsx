@@ -10,6 +10,9 @@ import GenSpinner from '../../../components/loaders/genSpinner'
 import config from '../../../common/config'
 import ImageEditModal from '../../../components/modals/settingsModal/imageEditModal.tsx';
 
+import { searchProvince, searchRegion, searchBaranggay, searchMunicipality} from 'ph-geo-admin-divisions'
+import { AdminRegion } from 'ph-geo-admin-divisions/lib/dtos'
+import { LuSearchX } from 'react-icons/lu'
 
 export default function GeneralSettings() {
     const [isLoading, setIsLoading] = useState(false);
@@ -27,10 +30,39 @@ export default function GeneralSettings() {
     const handleSaveImageUrl = (imageUrl: string) => {
       setNewImageUrl(imageUrl);
     };
+     const merchID = Number(localStorage.getItem("merch_id"))
+
+    //These are the masterlist from API
+    const [regionNames, setRegionNames] = useState([]);
+    const [provincesList, setProvincesList] = useState([]);
+    const [municipalityList, setMunicipalityList] = useState<any>([]);
+
+    
+
+
+      //these are the info to be used on completing the form data
+      const [selectedRegion, setSelectedRegion] = useState("");
+      const [selectedBarangay, setSelectedBarangay] = useState("");
+      const [selectedMunicipality, setSelectedMunicipality] = useState("");
+      const [selectedProvince, setSelectedProvince] = useState("");
+
+      //these are the IDs to be used for query
+      const [selectedRegionId, setSelectedRegionId] = useState("");
+      const [selectedProvinceId, setSelectedProvinceId] = useState("000");
+      const [selectedMunicipalityId, setSelectedMunicipalityId] = useState("000");
+      const [selectedBarangayId, setSelectedBarangayId] = useState("000");
+      
+      
+    //these are the geolocation names, these will dynamically change based on inputs
+    const [provinceNames, setProvinceNames] = useState([]);
+    const [municipalityNames, setMunicipalityNames] = useState<any>([]);
+    const [barangayNames, setBarangayNames] = useState([]);
+    
+
 
     const [data, setData] = useState({
         merchant: {
-            merchant_id: 2,
+            merchant_id: "", //to be changed
             merchant_name: "",
             email_address: "",
             logo: "",
@@ -56,60 +88,401 @@ export default function GeneralSettings() {
 
     const request = {
         params: {
-          column: 'merchant_id',
-          value: 2
+          col: 'merchant_id',
+          val: merchID
         }
       }
 
-    useEffect(() => {
-        setIsLoading(true);
-        axios.get(`${config.API}/merchant/retrieve`, request)
-        .then(response => {
-            setData(response.data);
-        })
-        .catch(error => {
-            console.log(error);
-        })
-        setIsLoading(false);
-    }, []);
+      useEffect(() => {
+        fetchData();
+    }, [merchID]);
+    
+    useEffect(()=>{
+        loadRegions();
+    }, [merchID,data])
 
-    const handleChange = (e:any) => {
+    useEffect(()=>{
+        loadProvinces();
+    }, [merchID,selectedRegionId])
+
+    useEffect(()=>{
+        loadMunicipality();
+    }, [selectedProvinceId])
+
+    useEffect(()=>{
+        loadBarangay();
+    }, [selectedMunicipalityId])
+
+    const fetchData = async ()=>{
+        /*get DB data*/
+            const dbResponse = await axios.get(`${config.API}/merchant/retrieve`, request)
+            const response = dbResponse.data;
+            setData(response);
+            setSelectedRegion(response.address.region);
+            setSelectedProvince(response.address.province);
+            setSelectedMunicipality(response.address.municipality);
+            setSelectedBarangay(response.address.barangay);
+           // console.log("DATAAAAa => ", data);
+
+    }
+
+    const loadRegions = async()=>{
+            const response = await axios.get("https://psgc.gitlab.io/api/regions/")
+            const regionNames = response.data.map((region: { name: string; code: string, regionName: string})=>({
+                        regionName: region.regionName,
+                        name: region.name,
+                        regionId: region.code
+                    })) 
+            setRegionNames(regionNames);
+            const region:{name: string, regionId: string, regionName: string} = regionNames.find((reg: {name: string, regionId:string, regionName: string})=> reg.name === selectedRegion) || {name: '', regionId: '', regionName: ''};
+            setSelectedRegionId(region.regionId);
+            //console.log("DATA REGIONS : ", regionNames);
+
+    }
+
+    const loadProvinces = async ()=>{
+            axios.get("https://psgc.gitlab.io/api/provinces/")
+           .then((response) => {
+             const result = response.data.map((province:{name: string, code: string, regionCode: string}) => ({
+               name: province.name,
+               provinceId: province.code,
+               regionId: province.regionCode,
+             }));
+             setProvincesList(result);
+             const  provinces = result.filter((prov:{name: string, provinceId: string, regionId: string}) =>
+             prov.regionId === selectedRegionId
+           ) || [];
+           setProvinceNames(provinces);
+           const province:any = provinces.find((prov:any)=> prov.name === selectedProvince) || {};
+           setSelectedProvinceId(province.provinceId);
+           //console.log("PROVID: ", province.provinceId)
+           })
+           .catch((error) => {
+             console.log("Failed to fetch province data:", error);
+           });
+
+    }
+
+    const loadMunicipality = async () => {
+                 axios.get("https://psgc.gitlab.io/api/cities-municipalities/")
+                 .then((response) => {
+                   const result = response.data.map((municipality:{name: string, code: string, provinceCode: string ,regionCode: string}) => ({
+                    name: municipality.name,
+                    municipalityId: municipality.code,
+                    provinceId: municipality.provinceCode,
+                    regionId: municipality.regionCode
+                  }));
+                  setMunicipalityList(result);
+                  const  municipality = result.filter((muni:{name: string, municipalityId: string, provinceId: string, regionId: string})=> 
+                    muni.provinceId === selectedProvinceId
+                  ) || [];
+                    //console.log("MUNICIPALITIES ==> ", selectedMunicipality)
+                    setMunicipalityNames(municipality);
+                    const m:any = municipality.find((res:any)=> res.name === selectedMunicipality) || {};
+                    setSelectedMunicipalityId(m.municipalityId);
+                    //console.log("MUNICIPALITY : ", m)
+                })
+                .catch((error) => {
+                  console.log("Failed to fetch municipality data:", error);
+                });
+
+        }
+    
+    const loadBarangay = async () => {
+        await axios.get("https://psgc.gitlab.io/api/cities-municipalities/"+ selectedMunicipalityId +"/barangays/")
+                 .then((response) => {
+                   const result = response.data.map((barangay:{name: string, code: string}) => ({
+                    name: barangay.name,
+                    barangayId: barangay.code,
+                  }));
+                  setBarangayNames(result);
+                  //console.log("DATA BARANGaAY : ", result);
+                  const  barangay = result.filter((brgy:{name: string, municipalityId: string, provinceId: string, regionId: string})=> 
+                  brgy.name === selectedBarangay
+                  ) || [];
+                  setSelectedBarangayId(barangay.code);
+                })
+                .catch((error) => {
+                  console.log("Failed to fetch barangay data:", error);
+                });
+    }
+        
+        
+
+    const handleRegionChange = (e:any)=>{
+        const {value} = e.target.value;
+        if (value === ""){
+            setSelectedRegion('');
+            setSelectedProvince('');
+            setSelectedProvinceId('');
+            setSelectedMunicipality('');
+            setSelectedMunicipalityId('');
+            setSelectedBarangay('');
+            setSelectedBarangayId('');
+            setProvinceNames([]);
+            setBarangayNames([]);
+            setMunicipalityNames([]);
+            setData((prevData: any)=>{
+                return {
+                    ...prevData,
+                    address: {
+                        ...prevData.address,
+                        region: '',
+                        province: '',
+                        municipality: '',
+                        barangay: '', 
+                    },
+                }
+            })
+            
+        }else{
+            // Update the selected region
+            setSelectedRegion(value)
+            //clear lower fields
+            setSelectedProvince('');
+            setSelectedProvinceId('');
+            setSelectedMunicipality('');
+            setSelectedMunicipalityId('');
+            setSelectedBarangay('');
+            setSelectedBarangayId('');
+            axios.get(`https://psgc.gitlab.io/api/regions/`)
+            .then(
+                response=>{
+                    
+                    const region = response.data.find((res : {regionName: string, code: string, islandGroupCode: string}) => res.regionName === value);
+                    console.log("RESPONSE DATA")
+                    
+                    console.log("CHANGE - REGIONSSSS");
+                    console.log(region);
+                    setSelectedRegionId(region.code);
+                }
+            )
+                    axios.get(`https://psgc.gitlab.io/api/regions/`+ selectedRegionId + `/provinces/`)
+                    .then(response=>{
+                        const provinceNames = response.data.map((province: { name: string; code: string })=>({
+                            name: province.name,
+                            provinceId: province.code
+                        }))
+                        console.log("CHANGE - PROVINCENAMESSS");
+                        console.log(provinceNames);
+                        setProvinceNames(provinceNames);
+                        
+                        });
+            setData((prevData: any)=>{
+                return {
+                    ...prevData,
+                    address: {
+                        ...prevData.address,
+                        region: value,
+                        province: '',
+                        municipality: '',
+                        barangay: '',
+                    },
+                }
+            })
+        }
+        
+    }
+
+    const handleProvinceChange = async (e:any) => {
+        const {value} = e.target.value;
+    }
+
+    const handleChange = async (e:any) => {
         const { name, value } = e.target;
 
-        setData((prevData: any) => {
+       setData((prevData: any) => {
 
             //if input data is from object settings
-            if(name.startsWith('settings.')) {
-                const settingsKey = name.split('.')[1];
+            if (name.startsWith('settings.')) {
+                const settingsKey = name.split('.')[1]
                 return {
                     ...prevData,
                     settings: {
                         ...prevData.settings,
                         [settingsKey]: value,
                     },
-                };
+                }
             }
-            else if(name.startsWith('address.')) {
-                const addressKey = name.split('.')[1];
+            else if (name.startsWith('address.')) {
+                const addressKey = name.split('.')[1]
+
+                if (addressKey === 'region') {
+                    if (value === ""){
+                        setSelectedRegion('');
+                        setSelectedProvince('');
+                        setSelectedProvinceId('');
+                        setSelectedMunicipality('');
+                        setSelectedMunicipalityId('');
+                        setSelectedBarangay('');
+                        setSelectedBarangayId('');
+                        setProvinceNames([]);
+                        setBarangayNames([]);
+                        setMunicipalityNames([]);
+                        return {
+                            ...prevData,
+                            address: {
+                                ...prevData.address,
+                                [addressKey]: '',
+                                province: '',
+                                municipality: '',
+                                barangay: '', 
+                            },
+                        }
+                    }
+                    // Update the selected region
+                    setSelectedRegion(value)
+                    //clear lower fields
+                    setSelectedProvince('');
+                    setSelectedProvinceId('');
+                    setSelectedMunicipality('');
+                    setSelectedMunicipalityId('');
+                    setSelectedBarangay('');
+                    setSelectedBarangayId('');
+                    const currentRegion = searchRegion({ name: value })
+                        if (currentRegion) {
+                            setSelectedRegionId(currentRegion[0].regionId)
+                                const provinces = searchProvince({ regionId: selectedRegionId })
+                                const result = provinces.map(AdminRegion => ({
+                                provinceId: AdminRegion.provinceId,
+                                name: AdminRegion.name
+                            }))
+
+                            setProvinceNames(result)
+                        }
+                return {
+                    ...prevData,
+                    address: {
+                        ...prevData.address,
+                        [addressKey]: value,
+                        province: '',
+                        municipality: '',
+                        barangay: '',
+                    },
+                }
+                }
+                if (addressKey === 'province') {
+                    if (value === ""){
+                     setSelectedProvince(value)
+                     setSelectedMunicipality('');
+                     setSelectedMunicipalityId('');
+                     setSelectedBarangay('');
+                     setSelectedBarangayId('');
+                     setBarangayNames([]);
+                     setMunicipalityNames([]);
+                    return {
+                        ...prevData,
+                        address: {
+                            ...prevData.address,
+                            [addressKey]: '',
+                            municipality: '',
+                            barangay: '',
+                        },
+                    }
+                    }
+                    
+                     const currentProvince = searchProvince({ name: value, regionId: selectedRegionId });
+                    console.log("CURRENT PROV")
+                     console.log(currentProvince)
+                     setSelectedProvinceId(currentProvince[0].provinceId);
+                     const municipality = searchMunicipality({ regionId: selectedRegionId, provinceId: currentProvince[0].provinceId});
+                        if (municipality) {
+                            const result = municipality.map(AdminRegion => ({
+                                municipalityId: AdminRegion.municipalityId,
+                                name: AdminRegion.name
+                            }))
+                             setMunicipalityNames(result)
+                        }
+                return {
+                    ...prevData,
+                    address: {
+                        ...prevData.address,
+                        [addressKey]: value,
+                        municipality: '',
+                        barangay: '',
+                    },
+                }
+            
+                }
+
+                if (addressKey === 'municipality') {
+                    if (value === ""){
+                        
+                        setBarangayNames([]);
+                        setSelectedBarangay('');
+                        setSelectedBarangayId('');
+                        return{
+                            ...prevData,
+                        address: {
+                            ...prevData.address,
+                            [addressKey]: '',
+                            barangay: '',
+                        },
+                        }
+                    }
+                    setSelectedMunicipality(value)
+                    setSelectedBarangay('');
+                    const currentMunicipality = searchMunicipality({ name: value, provinceId: selectedProvinceId})
+                    setSelectedMunicipalityId(currentMunicipality[0].municipalityId)
+                    const currentBaranggay = searchBaranggay({municipalityId: selectedMunicipalityId, provinceId: selectedProvinceId})
+                        if (currentBaranggay) {
+                            const result = currentBaranggay.map(AdminRegion => ({
+                                barangayId: AdminRegion.baranggayId,
+                                name: AdminRegion.name
+                            }))
+                            setBarangayNames(result);
+                        }
+                return {
+                    ...prevData,
+                    address: {
+                        ...prevData.address,
+                        [addressKey]: value,
+                        barangay: '',
+                    },
+                }
+                }
+
+
+                if (addressKey === 'barangay') {
+                    if (value === ""){
+                        return {
+                            ...prevData,
+                            address: {
+                                ...prevData.address,
+                                [addressKey]: '',
+                            },
+                        }
+                    }
+                    setSelectedBarangay(value);
                 return {
                     ...prevData,
                     address: {
                         ...prevData.address,
                         [addressKey]: value,
                     },
-                };
+                }
+                }
+
+                return {
+                    ...prevData,
+                    address: {
+                        ...prevData.address,
+                        [addressKey]: value,
+                    },
+                }
             }
-            else if(name.startsWith('merchant.')){
-                const merchantKey = name.split('.')[1];
+            else if (name.startsWith('merchant.')) {
+                const merchantKey = name.split('.')[1]
                 return {
                     ...prevData,
                     merchant: {
                         ...prevData.merchant,
                         [merchantKey]: value,
                     },
-                };
+                }
             }
         });
+        console.log(data.address);
     };
     
     
@@ -234,9 +607,7 @@ export default function GeneralSettings() {
                                 className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
-                                <option value="Canada">Canada</option>
                                 <option value="Philippines">Philippines</option>
-                                <option value="US">United States</option>
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
@@ -245,14 +616,23 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.region"
-                                value={data.address.region}
-                                onChange={handleChange}
+                                value={isLoading? "Loading ..." : selectedRegion || ""}
+                                onChange={handleRegionChange}
                                 className="m-2 p-2 ml-[1.1rem] text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
-                                <option value="A">Region A</option>
-                                <option value="B">Region B</option>
-                                <option value="C">Region C</option>
+                                {!isLoading ? 
+                                <>
+                                  <option value="">Select Region</option>
+                                {regionNames.map((regionName: {name:string, code: string, regionName: string}) => (
+                                    
+                                    <option key={regionName.code} value={regionName.name}>
+                                        
+                                    {regionName.regionName + " - " + regionName.name}
+                                    </option>
+                                ))}
+                                </>
+                                : <></>}
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
@@ -266,9 +646,17 @@ export default function GeneralSettings() {
                                 className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
-                                <option value="A">Province A</option>
-                                <option value="B">Province B</option>
-                                <option value="C">Province C</option>
+                                {!isLoading ? 
+                                <>
+                                <option value="">Select Province</option>
+                                {provinceNames.map((province:{name: string, code:string}, idx) => (
+                                    <option key={province.code} value={province.name}>
+                                    {province.name}
+                                    </option>
+                                ))}
+                                </>:<></>
+                                
+                                }
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
@@ -282,9 +670,16 @@ export default function GeneralSettings() {
                                 className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
-                                <option value="A">Municipality A</option>
-                                <option value="B">Municipality B</option>
-                                <option value="C">Municipality C</option>
+                                {!isLoading ? 
+                                <>
+                                <option value="">Select Municipality</option>
+                                {municipalityNames.map((municipality:AdminRegion, idx) => (
+                                    <option key={idx} value={municipality.name}>
+                                    {municipality.name}
+                                    </option>
+                                    
+                                ))}</>:<></>
+                                };
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
@@ -298,15 +693,21 @@ export default function GeneralSettings() {
                                 className="m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                                 required
                             >
-                                <option value="A">Barangay A</option>
-                                <option value="B">Barangay B</option>
-                                <option value="C">Barangay C</option>
+                                {!isLoading ? 
+                                <>
+                                 <option value="">Select Barangay</option>
+                                {barangayNames.map((barangay:AdminRegion, idx) => (
+                                    <option key={idx} value={barangay.name}>
+                                    {barangay.name}
+                                    </option>
+                                ))}</>:<></>
+                                }
                             </select>
                         </div>
                         <div className='m-4 flow-root'>
                             <button
                                 type="submit"
-                                className="px-10 py-1 mr-2 float-right bg-[#840705] text-white text-m rounded-2xl hover:bg-[#660605] focus:outline-none focus:ring focus:ring-blue-500 transition-colors delay-250 duration-[3000] ease-in"
+                                className={`px-10 py-1 mr-2 float-right text-white rounded-2xl focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'bg-[#c58f8f] cursor-not-allowed' : ' bg-[#840705] hover:bg-[#660605]'}`}
                             >
                             Save
                             </button>
@@ -355,6 +756,7 @@ export default function GeneralSettings() {
                             <button
                                 type="submit"
                                 className={`px-10 py-1 mr-2 float-right text-white rounded-2xl focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'bg-[#c58f8f] cursor-not-allowed' : ' bg-[#840705] hover:bg-[#660605]'}`}
+                                disabled = {isLoading}
                             >
                             Save
                             </button>
