@@ -141,48 +141,49 @@ const MerchDashboard = () => {
         <div className='bg-[#F3F3F3] h-[30vh] flex '>
            <div className='w-[60%] p-[1%] text-center'>
               <div className='align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-b from-[#9a1a00] to-black'>
-                <h1 className='text-[1.8em] text-white'>
+                <h1 className='text-[1.8em] text-white xl:max-2xl:text-[1.5em]'>
                   Welcome, {userName}!
                 </h1>
-                <p className='text-[1.3em] text-white'><br/>Lorem ipsum dolor sit amet, <br/>consectetur adipiscing elit!</p>
+                <p className='text-[1.3em] text-white xl:max-2xl:text-[1em]'><br/>Lorem ipsum dolor sit amet, <br/>consectetur adipiscing elit!</p>
               </div>
             </div>
+
             <div className='w-[40%] p-[1%] text-center'>
               <div className='p-[0.5%] h-[100%] rounded-3xl bg-black grid-cols-2 grid-rows-2 grid gap-1'>
                 <div className='bg-[#660605] rounded-tl-2xl flex'>
                   <div className='w-[70%]'>
-                    <p className="text-white mt-[-5%] text-[5em] font-bold display">{reservationCount}</p>
-                    <p className='text-white text-[1.2em] mt-[-13%]'>RESERVATION</p>
+                    <p className="text-white mt-[-5%] text-[5em] font-bold display xl:max-2xl:text-[3em]">{reservationCount}</p>
+                    <p className='text-white text-[1.2em] mt-[-13%] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>RESERVATION</p>
                   </div>
                   <div className='w-[30%] pt-[10%] text-center'>
-                      <IoCalendarSharp className='text-white text-[4em]'/>
+                      <IoCalendarSharp className='text-white text-[4em] xl:max-2xl:text-[2.5em]'/>
                   </div>
                 </div>
                 <div className='bg-[#660605] rounded-tr-2xl flex'>
                 <div className='w-[70%]'>
-                    <p className='text-white mt-[-5%] text-[5em] font-bold display'>{todayCount}</p>
-                    <p className='text-white text-[1.2em] mt-[-13%]'>TODAY'S TABLE</p>
+                    <p className='text-white mt-[-5%] text-[5em] font-bold display xl:max-2xl:text-[3em]'>{todayCount}</p>
+                    <p className='text-white text-[1.2em] mt-[-13%] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>TODAY'S TABLE</p>
                   </div>
                   <div className='w-[30%] pt-[10%] text-center'>
-                      <MdGroups2 className='text-white text-[4em]'/>
+                      <MdGroups2 className='text-white text-[4em] xl:max-2xl:text-[2.5em]'/>
                   </div>
                 </div>
                 <div className='bg-[#660605] rounded-bl-2xl flex'>
                 <div className='w-[70%]'>
-                    <p className='text-white mt-[-5%] text-[5em] font-bold display'>{cateredCount}</p>
-                    <p className='text-white text-[1.2em] mt-[-13%]'>CATERED</p>
+                    <p className='text-white mt-[-5%] text-[5em] font-bold display xl:max-2xl:text-[3em]'>{cateredCount}</p>
+                    <p className='text-white text-[1.2em] mt-[-13%] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>CATERED</p>
                   </div>
                   <div className='w-[30%] pt-[10%] text-center'>
-                      <GiJuggler className='text-white text-[4em]'/>
+                      <GiJuggler className='text-white text-[4em] xl:max-2xl:text-[2.5em]'/>
                   </div>
                 </div>
                 <div className='bg-[#660605] rounded-br-2xl flex'>
                 <div className='w-[70%]'>
-                    <p className='text-white mt-[-5%] text-[5em] font-bold display'>{cancelledCount}</p>
-                    <p className='text-white text-[1.2em] mt-[-13%]'>CANCELLED</p>
+                    <p className='text-white mt-[-5%] text-[5em] font-bold display xl:max-2xl:text-[3em]'>{cancelledCount}</p>
+                    <p className='text-white text-[1.2em] mt-[-13%] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>CANCELLED</p>
                   </div>
                   <div className='w-[30%] pt-[10%] text-center'>
-                      <AiFillCloseCircle className='text-white text-[4em]'/>
+                      <AiFillCloseCircle className='text-white text-[4em] xl:max-2xl:text-[2.5em]'/>
                   </div>
                 </div>
               </div>
@@ -206,9 +207,9 @@ const MerchDashboard = () => {
         <div className='bg-[#F3F3F3] h-[30vh] flex overflow-auto'>
             <div className='w-[75%] m-[1%] text-center bg-white rounded-3xl flex-col pt-0 p-[1%] overflow-auto'>
               <div className='text-left border-b-2 border-black'>
-              <p className='flex font-bold text-[1.5em]'> Recent Reservation <br/></p>
+              <p className='flex font-bold text-[1.5em] xl:max-2xl:text-[1.2em]'> Recent Reservation <br/></p>
               </div>
-              <table className='flex-col w-[100%] text-left bg-white rounded-3xl overflow-auto'>
+              <table className='flex-col w-[100%] text-left bg-white rounded-3xl overflow-auto xl:max-2xl:text-[0.8em]'>
               <tr>
                 <th>Client Name</th>
                 <th>Event</th>
@@ -221,13 +222,13 @@ const MerchDashboard = () => {
             </div>
             <div className='w-[35%] m-[1%] text-center bg-white rounded-3xl px-[1%]'>
               <table className='flex-col w-[100%] text-center bg-white rounded-3xl'>
-                <tr className='border-b-2 border-black text-[1.5em]'>
+                <tr className='border-b-2 border-black text-[1.5em] xl:max-2xl:text-[1.2em]'>
                   <th>Time In</th>
                   <th>Time Out</th>
                 </tr>
                 <tr>
-                  <td className='h-[100%] border-black border-r-2'>Time In</td>
-                  <td className='h-[100%]'>Time Out</td>
+                  <td className='h-[100%] border-black border-r-2 xl:max-2xl:text-[0.8em]'>Time In</td>
+                  <td className='h-[100%] xl:max-2xl:text-[0.8em]'>Time Out</td>
                 </tr>
               </table>
             </div> 

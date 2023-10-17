@@ -161,7 +161,7 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
   return (
     <div className={`animate-fade-in font-poppins bg-[#F9F2EA] h-[100%] ${openRatingMod ? 'z-[-10]' : 'z-1'}`}>
        <div className='text-[#DD2803] ml-[2%]'>
-         <h1 className='text-[2.5em] py-[1%] font-bold flex items-center'>
+         <h1 className='text-[2.5em] py-[1%] font-bold flex items-center xl:max-2xl:text-[1.7em] xl:max-2xl:py-[0.5%]'>
             <AiOutlineArrowLeft className='text-black mr-[1%] hover:text-[#DD2803]'
             onClick={()=>{navigate('/eaterychoice')}}/>
             Merchant Details
@@ -175,35 +175,35 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
        <div className='bg-white h-[100%]'>
 
           {/* 1st Row of white container */}
-          <div className='flex w-[100%] h-[30vh]'>
+          <div className='flex w-[100%] h-[30vh] xl:max-2xl:h-[35vh]'>
             <div className='mt-[2%] ml-[3%]'>
-                <img className='w-[262px] h-[219px] rounded-[50px]' src={merchantData?.logo || ''}/>
+                <img className='w-[262px] h-[219px] rounded-[50px] xl:max-2xl:w-[180px] xl:max-2xl:h-[150px]' src={merchantData?.logo || ''}/>
             </div>
 
             <div className='ml-[2%] mt-[2.5%] w-[80vw]'>
-                <h1 className='font-bold text-[2em]'>{merchantData?.merchant_name}</h1>
+                <h1 className='font-bold text-[2em] xl:max-2xl:text-[1.5em]'>{merchantData?.merchant_name}</h1>
                 <div className='flex'>
                 {/* Left Side */}
                     <div>
                         <div className='flex mt-[0.5%]'>
-                            <Rating className={`${openRatingMod ? 'z-[-1]' : 'z-1'}`} value={avg} readOnly />
-                            <p className='ml-[1%]'>({ratingCount} Reviews)</p>
+                            <Rating className={`${openRatingMod ? 'z-[-1]' : 'z-1'} xl:max-2xl:scale-[0.70] xl:max-2xl:ml-[-3%]`} value={avg} readOnly />
+                            <p className='ml-[1%] xl:max-2xl:text-[0.9em] xl:max-2xl:pt-1 xl:max-2xl:ml-[-2%] '>({ratingCount} Reviews)</p>
                         </div>
-                        <div className='flex items-center mt-[1%] text-[1.1em]'>
-                            <GrLocation className='text-[1.3em] mr-[0.5%]'/>
+                        <div className='flex items-center mt-[1%] text-[1.1em] xl:max-2xl:text-[0.8em]'>
+                            <GrLocation className='text-[1.3em] mr-[0.5%] xl:max-2xl:text-[1em]'/>
                             {concAddress}
                         </div>
                         <div className='w-[50vw]'>
-                            <p className='mt-[1%] text-[1.1em]'><span className='font-bold mr-[0.5%]'>Description:</span>
+                            <p className='mt-[1%] text-[1.1em] xl:max-2xl:text-[0.8em]'><span className='font-bold mr-[0.5%]'>Description:</span>
                             {merchantData?.settings ? merchantData?.settings?.description : "Coming Soon!"}</p>
                         </div>
                         <div className='w-[30vw]'>
-                        <p className='mt-[2%] text-[1.1em]'>
+                        <p className='mt-[2%] text-[1.1em] xl:max-2xl:text-[0.8em]'>
                             <span className='font-bold mr-[0.8%]'>Tags:</span>
                             {merchantData?.settings?.tags.map((tag:string, index:number) => (
                                 <span key={index} 
                                  className='rounded-3xl bg-[#D9EFFF] border border-[#06F] text-[#06F] ml-[0.5%] mr-[1.5%]
-                                            text-[0.9em] py-[0.5%] px-[1%]'>
+                                            text-[0.9em] py-[0.5%] px-[1%] xl:max-2xl:mx-[1%]'>
                                     {tag}
                                 </span>
                             ))}
@@ -213,7 +213,7 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
 
                     <div className='flex flex-col relative justify-start mt-[-2.5%] mr-[2%] ml-[22%] w-[100%] z-[50]'>
                         <button className='w-[100%] flex items-center justify-center text-black bg-[#f8c93f] mb-[4%] px-[3%] 
-                            py-[4%] rounded-3xl hover:bg-[#ffd950] font-medium text-[1.3em] transition-colors delay-250 duration-[3000] ease-in'
+                            py-[4%] rounded-3xl hover:bg-[#ffd950] font-medium text-[1.3em] transition-colors delay-250 duration-[3000] ease-in xl:max-2xl:text-[0.9em] xl:max-2xl:h-[2.5rem]'
                             onClick={()=>{
                                 navigate('/eaterychoice/book');
                                 if (typeof merchIdString === 'string') {
@@ -223,7 +223,7 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                             <BsBookFill className='text-center text-[1em] mr-[2%]'/>Book Now
                         </button>
                         <button className='w-[100%] flex items-center justify-center text-white bg-[#FF8A00] px-[3%] py-[4%] z-[50] rounded-3xl
-                            hover:bg-[#df9148] hover:text-black font-medium text-[1.3em] transition-colors delay-250 duration-[3000] ease-in'
+                            hover:bg-[#df9148] hover:text-black font-medium text-[1.3em] transition-colors delay-250 duration-[3000] ease-in xl:max-2xl:text-[0.9em] xl:max-2xl:h-[2.5rem]'
                             onClick={()=>{
                                 setOpenRatingMod(true)
                                 if (typeof merchIdString === 'string') {
@@ -240,8 +240,8 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
           <hr className='h-[10px] mx-[3%]'/>
           {/* 2nd Row of white container */}
           <div className='ml-[3%]'>
-            <h1 className='text-[2em] font-bold'>MENU AND PACKAGES</h1>
-            <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Price Range:</span>{"₱ "+minPrice+" - "+"₱ "+maxPrice}</p>
+            <h1 className='text-[2em] font-bold xl:max-2xl:text-[1.3em]'>MENU AND PACKAGES</h1>
+            <p className='text-[1.1em] xl:max-2xl:text-[0.8em]'><span className='font-bold mr-[0.5%]'>Price Range:</span>{"₱ "+minPrice+" - "+"₱ "+maxPrice}</p>
             <div className='PublishedPackages mt-[-2%]'>
             <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl">
                 
@@ -270,9 +270,9 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
            {/* 3rd Row of white container */}
            <hr className='h-[10px] mx-[3%] mt-[1%]'/>
            <div className='ml-[3%]'>
-                <h1 className='text-[2em] font-bold'>CUSTOMER REVIEWS</h1>
-                <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Average Rating:</span>{avg}</p>
-                <p className='text-[1.1em]'><span className='font-bold mr-[0.5%]'>Total Reviews:</span>{ratingCount} Total</p>
+                <h1 className='text-[2em] font-bold xl:max-2xl:text-[1.3em]'>CUSTOMER REVIEWS</h1>
+                <p className='text-[1.1em] xl:max-2xl:text-[0.8em]'><span className='font-bold mr-[0.5%]'>Average Rating:</span>{avg} Stars</p>
+                <p className='text-[1.1em] xl:max-2xl:text-[0.8em]'><span className='font-bold mr-[0.5%]'>Total Reviews:</span>{ratingCount} Total</p>
                 {feedback.map((review,index)=>(
                     <div className={`my-[1%] ${openRatingMod ? 'opacity-0.5 z-[-1]' : 'z-1'}`}>
                         <CommentSec key={index} {...review}/>

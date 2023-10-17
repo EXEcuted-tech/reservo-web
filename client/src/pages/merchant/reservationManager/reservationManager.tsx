@@ -70,29 +70,29 @@ const ReservationManager = () => {
       <div className="flex items-center justify-center">
         <div className="rounded-lg bg-[#FFFFFF] w-full p-5 mt-[1rem]">
           <div className="flex w-full ">
-            <h1 className="text-[1.5em] font-bold">Current Reservation Form</h1>
+            <h1 className="text-[1.5em] font-bold xl:max-2xl:text-[1.2em]">Current Reservation Form</h1>
             <button
               type="button"
               onClick={() => (pageMode === PAGE_MODE.READ ? setPageMode(PAGE_MODE.UPDATE) : setPageMode(PAGE_MODE.READ))}
               className="text-black p-0 cursor-pointer ml-auto"
             >
-              <LiaEdit size={40} />
+              <LiaEdit className="text-4xl xl:max-2xl:text-2xl" />
             </button>
           </div>
-          <div className="flex flex-col text-xl text-black w-full h-full bg-[#F0E5D8] rounded mt-5">
+          <div className="flex flex-col text-xl text-black w-full h-full bg-[#F0E5D8] rounded mt-5 xl:max-2xl:mt-2">
             <div className="flex p-10">
               <div className="flex flex-col gap-5 w-1/2 font-bold">
                 <div className="flex items-center gap-1">
-                  <IoCalendarOutline className="text-[22px] mr-[0.5rem]"/> <h3 className="">Date:</h3>
+                  <IoCalendarOutline className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Date:</h3>
                 </div>
                 <div className="flex items-center gap-1">
-                  <FiClock className="mr-[0.5rem]" /> <h3>Time:</h3>
+                  <FiClock className="mr-[0.5rem] xl:max-2xl:text-[1.1em]" /> <h3 className="xl:max-2xl:text-[0.8em]">Time:</h3>
                 </div>
                 <div className="flex items-center">
-                  <BsPerson className="text-[22px] mr-[0.5rem]"/> <h3>Client Name:</h3>
+                  <BsPerson className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Client Name:</h3>
                 </div>
                 <div className="flex items-center mt-[10%]">
-                  <LiaCommentSolid className="text-[22px] mr-[0.5rem]"/><h3> Remarks:</h3>
+                  <LiaCommentSolid className="text-[22px] mr-[0.5rem]"/><h3 className="xl:max-2xl:text-[0.8em]"> Remarks:</h3>
                 </div>
                 {pageMode === PAGE_MODE.READ &&
                   !!fieldList.length &&
@@ -106,13 +106,13 @@ const ReservationManager = () => {
               </div>
               <div className="flex flex-col gap-5 w-1/2 font-bold">
                 <div className="flex items-center">
-                  <MdFormatListNumbered className="text-[22px] mr-[0.5rem]"/> <h3>Event Size:</h3>
+                  <MdFormatListNumbered className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Event Size:</h3>
                 </div>
                 <div className="flex items-center">
-                  <HiOutlineMail className="text-[22px] mr-[0.5rem]"/> <h3>Email:</h3>
+                  <HiOutlineMail className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Email:</h3>
                 </div>
                 <div className="flex items-center">
-                  <AiOutlinePhone className="text-[22px] mr-[0.5rem]"/> <h3>Contact Number:</h3>
+                  <AiOutlinePhone className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Contact Number:</h3>
                 </div>
               </div>
             </div>
@@ -123,7 +123,8 @@ const ReservationManager = () => {
                   onClick={() => {
                     dialogRef.current?.showModal();
                   }}
-                  className="p-3 text-xl bg-[#008927] text-white rounded-lg hover:bg-[#077827] transition-colors delay-250 duration-[3000] ease-in"
+                  className="p-3 text-xl bg-[#008927] text-white rounded-lg  xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
+                    hover:bg-[#077827] transition-colors delay-250 duration-[3000] ease-in"
                 >
                   Add Field
                 </button>

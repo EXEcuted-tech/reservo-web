@@ -62,7 +62,7 @@ const AdminDashboard = () => {
         <div className='bg-[#F3F3F3] h-[30vh] flex'>
            <div className='w-[35%] p-[1%] items-center'>
               <div className='align-center text-left p-[3%] h-[100%] rounded-3xl bg-gradient-to-b from-[#EC0000] to-black pl-10 pt-7'>
-                <h1 className='text-[1.8em] text-white'>
+                <h1 className='text-[1.8em] text-white xl:max-2xl:'>
                   Welcome, Kathea Marie!
                 </h1>
                 <p className='text-[1.3em] text-white'><br/>Lorem ipsum dolor sit amet, <br/>consectetur adipiscing elit!</p>
