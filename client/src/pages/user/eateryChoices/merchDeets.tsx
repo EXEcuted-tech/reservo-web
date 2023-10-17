@@ -243,7 +243,7 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
             <h1 className='text-[2em] font-bold xl:max-2xl:text-[1.3em]'>MENU AND PACKAGES</h1>
             <p className='text-[1.1em] xl:max-2xl:text-[0.8em]'><span className='font-bold mr-[0.5%]'>Price Range:</span>{"₱ "+minPrice+" - "+"₱ "+maxPrice}</p>
             <div className='PublishedPackages mt-[-2%]'>
-            <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl">
+            <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl xl:max-2xl:h-[66vh]">
                 
              {packages.map((packageItem)=>(
                 <Card

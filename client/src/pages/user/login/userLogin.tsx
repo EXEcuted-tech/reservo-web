@@ -88,14 +88,15 @@ const UserLogin = () => {
                         hover:bg-[#9a1a00] hover:text-white transition-colors delay-250 duration-[3000] ease-in xl:max-2xl:text-[0.7em] xl:max-2xl:ml-[3.5vh]'>Merchant Page</Link>
                 </div>
             </div>
-            <div className="right w-[65%] h-[63vh] float-left bg-white shadow-[4px_15px_10px_4px_gray] rounded-[0px_7px_7px_0px] flex flex-col justify-center items-center">
-                <div className="TitleHeader space-y-5 text-center">
+
+            <div className="right w-[65%] h-[63vh] float-left bg-white shadow-[4px_15px_10px_4px_gray] rounded-[0px_7px_7px_0px] flex flex-col justify-center items-center xl:max-2xl:pt-6 ">
+                <div className="TitleHeader space-y-5 text-center xl:max-2xl:scale-90">
                     <span className='text-[28px] capitalize font-bold xl:max-2xl:text-[1rem]'>Login to your Account</span>
                     {/* <div className="invalid p-[5px]">
                         <span className= {(!invalid) ? 'text-[#FF2D2D] hidden' : 'text-[#FF2D2D]'}>{errMess}. Please try again!</span>
                     </div> */}
                 </div>
-                <form className='formBox w-[70%] flex flex-col'>
+                <form className='formBox w-[70%] flex flex-col xl:max-2xl:scale-90'>
                     <div className="inputs">
                         <div className="I-Box flex flex-col space-y-2 mb-[20px]">
                             <label htmlFor="email" className='font-thin xl:max-2xl:text-[0.8em]'>Email</label>

@@ -66,7 +66,7 @@ const ReservationManager = () => {
   };
 
   return (
-    <div className="animate-fade-in font-poppins bg-[#F3F3F3] p-8 ">
+    <div className="animate-fade-in font-poppins bg-[#F3F3F3] p-8 overflow-y-auto">
       <div className="flex items-center justify-center">
         <div className="rounded-lg bg-[#FFFFFF] w-full p-5 mt-[1rem]">
           <div className="flex w-full ">
@@ -147,9 +147,9 @@ const ReservationManager = () => {
       <dialog ref={dialogRef}>
         <div className="animate-fade-in">
           <div className="flex font-bold bg-red-900 text-white p-3">
-            <h1 className="">Field Info</h1>
+            <h1 className="xl:max-2xl:text-[0.8em]">Field Info</h1>
             <button
-              className="ml-auto"
+              className="ml-auto xl:max-2xl:text-[0.8em]"
               onClick={() => {
                 dialogRef.current?.close();
               }}
@@ -159,23 +159,23 @@ const ReservationManager = () => {
           </div>
           <div className="p-3 w-[100%]">
             <form onSubmit={(event) => handleSubmit(event)} ref={formRef}>
-              <div className="flex flex-col gap-1">
-                <label htmlFor="label">Input Label</label>
-                <input type="text" name="label" className="border p-2" onChange={handleChange} />
+              <div className="flex flex-col gap-1 ">
+                <label htmlFor="label" className="xl:max-2xl:text-[0.8em]">Input Label</label>
+                <input type="text" name="label" className="border p-2 xl:max-2xl:text-[0.7em]" onChange={handleChange} />
               </div>
               <div className="flex gap-5 mt-3">
                 <div className="flex gap-1">
                   <input type="radio" name="type" value="text" className="border p-2" onChange={handleChange} />
-                  <label htmlFor="label">Text</label>
+                  <label htmlFor="label" className="xl:max-2xl:text-[0.7em]">Text</label>
                 </div>
                 <div className="flex gap-1">
                   <input type="radio" name="type" value="number" className="border p-2" onChange={handleChange} />
-                  <label htmlFor="label">Number</label>
+                  <label htmlFor="label" className="xl:max-2xl:text-[0.7em]">Number</label>
                 </div>
               </div>
               <div className="flex gap-2 text-white mt-5">
                 <button
-                  className="ml-auto bg-red-900 p-2 rounded-lg hover:bg-[#A01B00] transition-colors delay-250 duration-[3000] ease-in"
+                  className="ml-auto bg-red-900 p-2 rounded-lg hover:bg-[#A01B00] transition-colors delay-250 duration-[3000] ease-in xl:max-2xl:text-[0.6em] xl:max-2xl:p-1"
                   type="reset"
                   onClick={() => {
                     dialogRef.current?.close();
@@ -183,7 +183,7 @@ const ReservationManager = () => {
                 >
                   Cancel
                 </button>
-                <button className="bg-[#189A3D] p-2 rounded-lg hover:bg-[#077827] transition-colors delay-250 duration-[3000] ease-in" type="submit">
+                <button className="bg-[#189A3D] p-2 rounded-lg hover:bg-[#077827] transition-colors delay-250 duration-[3000] ease-in xl:max-2xl:text-[0.6em] xl:max-2xl:p-1" type="submit">
                   Confirm
                 </button>
               </div>

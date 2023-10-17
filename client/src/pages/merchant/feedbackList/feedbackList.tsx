@@ -97,11 +97,13 @@ const FeedbackList = () => {
                   <BsFillPersonFill className="rounded-full bg-[#F4D147] text-4xl p-1 xl:max-2xl:text-2xl" />
                   <h3 className="text-2xl ml-2 xl:max-2xl:text-[1em] xl:max-2xl:mt-[-0.5%]">{clientName || 'Cannot Retrieve Name'}</h3>
                 </div>
-                <div className="pl-12">
-                  <Rating className="half-rating xl:max-2xl:scale-75 xl:max-2xl:ml-[-4%]" defaultValue={feedback.rating_value} precision={1} size="small" readOnly />
-                  <p className="opacity-50 text-xs  xl:max-2xl:ml-[-2%]">2022-06-18 11:00</p>
-                  <p className="text-xl  xl:max-2xl:text-[1em]  xl:max-2xl:ml-[-2%]">{feedback.comment}</p>
+
+                <div className="flex items-center pl-12">
+                  <Rating className="half-rating xl:max-2xl:scale-75 ml-[-5%]" defaultValue={feedback.rating_value} precision={1} size="small" readOnly />
+                  <p className="opacity-50 text-xs"> 2022-06-18 11:00</p>
                 </div>
+
+                <p className="text-xl xl:max-2xl:text-[1em] ml-[5%]">{feedback.comment}</p>
               </div>
             ))
           ) : (

@@ -27,7 +27,7 @@ const CommentSec: React.FC<Feedback> = (props) => {
             <Rating value={props.rating_value} className="xl:max-2xl:scale-[0.70] xl:max-2xl:ml-[-2%]" readOnly />
             <p className='ml-[0.5%] text-slate-400 text-[0.8em] xl:max-2xl:text-[0.67em] xl:max-2xl:ml-[-1%]'>({props.rating_value} out of 5)</p>
         </div>
-        <p className={`${!props.comment && 'text-gray-400 italic xl:max-2xl:text-[0.8em]'}`}>{props.comment ? props.comment : "User did not leave a comment."}</p>
+        <p className={`${!props.comment && 'text-gray-400 italic xl:max-2xl:text-[0.7em]'}`}>{props.comment ? props.comment : "User did not leave a comment."}</p>
     </div>
   )
 }

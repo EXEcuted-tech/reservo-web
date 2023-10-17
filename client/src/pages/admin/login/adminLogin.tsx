@@ -81,8 +81,8 @@ const AdminLogin = () => {
                 </div>
                <div className="headline pb-[2rem]">
                     <div className="divider w-[100%] h-[2px] bg-[#840705]"></div>
-                    <div className="headerL text-center flex flex-col justify-center m-[5.45%]">
-                        <span className='text-[28px] bg-red capitalize font-bold text-black  xl:max-2xl:text-[20px]'>Door to the</span><span className='text-[28px] font-bold text-[#840705]  xl:max-2xl:text-[20px]'>Merchant Page</span>
+                    <div className="headerL text-center flex flex-col justify-center m-[5.45%] ">
+                        <span className='text-[28px] bg-red capitalize font-bold text-black xl:max-2xl:text-[19px]'>Door to the</span><span className='text-[28px] font-bold text-[#840705]  xl:max-2xl:text-[19px]'>Merchant Page</span>
                     </div>
                     <div className="divider w-[100%] h-[2px] bg-[#840705]"></div>
                     <div className="subH text-center text-[#840705] mt-[5%]">
@@ -96,7 +96,8 @@ const AdminLogin = () => {
                         hover:bg-[#DD2803] transition-colors delay-250 duration-[3000] ease-in xl:max-2xl:text-[0.7em] xl:max-2xl:ml-[3.5vh]'>User Page</Link>
                 </div>
             </div>
-            <div className="right w-[65%] h-[63vh] float-left pt-[4rem] bg-[#840705] rounded-[0px_7px_7px_0px] flex flex-col items-center">
+
+            <div className="right w-[65%] h-[63vh] float-left pt-[4rem] bg-[#840705] rounded-[0px_7px_7px_0px] flex flex-col items-center xl:max-2xl:pt-[3rem] ">
                 <div className="TitleHeader space-y-5 text-center xl:max-2xl:mb-[0.5rem]">
                     <span className='text-[28px] capitalize font-bold text-white  xl:max-2xl:text-[1rem]'>Login to your Account</span>
                     {/* <div className="invalid p-[5px]">

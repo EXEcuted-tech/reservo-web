@@ -101,14 +101,14 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         <>
                 <div className='flex w-full h-[5vh]'>
             <div className='flex items-center w-[96%] mt-[0.5%]'>
-                <RiNewspaperFill className='text-[2.8em] ml-[1%] mr-[1%]'/>
+                <RiNewspaperFill className='text-[2.8em] ml-[1%] mr-[1%] xl:max-2xl:text-[2em]'/>
                 <div>
-                    <h1 className='font-bold text-[1.5em]'>Reservation Details</h1>   
-                    <p className='mt-[-1%] text-[1.2em]'>ID: {resId}</p>
+                    <h1 className='font-bold text-[1.5em] xl:max-2xl:text-[1.2em]'>Reservation Details</h1>   
+                    <p className='mt-[-1%] text-[1.2em] xl:max-2xl:text-[0.9em]'>ID: {resId}</p>
                 </div>
             </div>
             <div className='mt-[0.5%]'>
-                <AiFillCloseCircle className='text-[2.5em] hover:cursor-pointer'
+                <AiFillCloseCircle className='text-[2.5em] hover:cursor-pointer xl:max-2xl:text-[1.8em]'
                  onClick={()=>{
                   sessionStorage.removeItem('res_id');
                   setOpenModalView(false)
@@ -117,8 +117,8 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         </div>
         <hr className='h-[2px] w-full my-[1.2%] bg-gray-200 border-0'/>
         
-        <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block text-white px-[1%] rounded-lg mb-[0.5%]'>General Information</h1>
-        <div className='flex mx-[2%] text-[1.2em]'>
+        <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block text-white px-[1%] rounded-lg mb-[0.5%] xl:max-2xl:text-[1.0em]'>General Information</h1>
+        <div className='flex mx-[2%] text-[1.2em] xl:max-2xl:text-[0.8em]'>
           <div className='w-[50%]'>
             <p className='my-[1%]'><span className='font-bold'>Event Date: </span>{record[0]?.res_date}</p>
             <p className='my-[1%]'><span className='font-bold'>Event Time: </span>{record[0]?.res_time}</p>
@@ -136,8 +136,8 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         </div>
 
 
-        <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block px-[1%] mt-[2%] text-white rounded-lg mb-[0.5%]'>Inventory</h1>
-        <div className='flex mx-[2%] text-[1.2em]'>
+        <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block px-[1%] mt-[2%] text-white rounded-lg mb-[0.5%] xl:max-2xl:text-[1.0em]'>Inventory</h1>
+        <div className='flex mx-[2%] text-[1.2em] xl:max-2xl:text-[0.8em]'>
           <div className='w-[33%]'>
             <p className='my-[1%]'><span className='font-bold'>No. of Tables: </span>{inventory?.numberOfTables}</p>
             <p className='my-[1%]'><span className='font-bold'>No. of Chairs: </span>{inventory?.numberOfChairs}</p>
@@ -150,8 +150,8 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
           </div>
         </div>
 
-        <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block px-[1%] mt-[2%] text-white text-center rounded-lg mb-[0.5%]'>Additional Information</h1>
-        <div className='flex mx-[2%] text-[1.2em]'>
+        <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block px-[1%] mt-[2%] text-white text-center rounded-lg mb-[0.5%] xl:max-2xl:text-[1.0em]'>Additional Information</h1>
+        <div className='flex mx-[2%] text-[1.2em] xl:max-2xl:text-[0.6em]'>
           <p className='font-bold text-[1.8em]'>Coming Soon</p>
           {/* <div className='w-[33%]'>
             <p className='my-[1%]'><span className='font-bold'>Date: </span>{"January 13,2023"}</p>
@@ -167,8 +167,9 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         <div className='fixed bottom-[2%] ml-[-1%] w-[100%]'>
           <hr className=' w-[100%] h-[1px] bg-black border-0'/>       
           <div className='flex justify-end mr-[3%] mt-[1%]'>
-            <button className='flex text-white text-[1.1em] bg-[#DD2803] px-[2%] py-[0.5%] rounded-2xl hover:bg-[#840705] transition-colors delay-450 duration-[3000] ease-in-out'>
-              <BsFillTrashFill className='mt-[2%]'/>Delete</button>
+            <button className='flex text-white text-[1.1em] bg-[#DD2803] px-[2%] py-[0.5%] rounded-2xl xl:max-2xl:text-[0.8em]
+            hover:bg-[#840705] transition-colors delay-450 duration-[3000] ease-in-out'>
+              <BsFillTrashFill className='mt-[5%] pr-[5%] '/>Delete</button>
           </div>
         </div>
         </>

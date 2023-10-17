@@ -112,12 +112,12 @@ return (
     <div className="w-[80vw]">
     <MerchAdHeader icon={BiPackage} title={'Package Manager'}/>
     <div className="SortFilterSubheader flex mb-4 text-lg bg-[#f0e5d8] w-[85vw]">
-        <div className="flex align-middle w-3/6 items-center mx-32 ps-8 h-20">
-        <label htmlFor="filterDropdown" className={`font-bold mx-2 w-[4vw]`}>Sort By: </label>
+        <div className="flex align-middle w-3/6 items-center mx-32 ps-8 h-20 xl:max-2xl:ps-2">
+        <label htmlFor="filterDropdown" className={`font-bold mx-2 w-[4vw] xl:max-2xl:text-[0.8em] xl:max-2xl:w-[5vw]`}>Sort By: </label>
                     <select 
                         id="sortDropdown" 
                         name="sortDropdown" 
-                        className={`bg-transparent rounded-md h-10 w-[20vw]  hover:bg-white transition duration-150 ease-out hover:ease-in`}
+                        className={`bg-transparent rounded-md h-10 w-[20vw] xl:max-2xl:text-[0.8em]  hover:bg-white transition duration-150 ease-out hover:ease-in`}
                         value={sort}
                         onChange={handleSortChange}
                         >
@@ -135,13 +135,15 @@ return (
                 
         </div>
     </div>
+
     <div className='PublishedPackages ps-20'>
       <div className='grid grid-flow-col'>
-        <div><p className={`text-3xl mx-20 my-3 font-bold`}>Published Packages</p></div>
+        <div><p className={`text-3xl mx-20 my-3 font-bold xl:max-2xl:text-2xl`}>Published Packages</p></div>
         <div className='flex justify-end items-center mx-10' ><button onClick={() => fetchData(sort)} 
-        className='w-[6vw] h-[4vh] p-2 bg-[#1b6e1e] text-white text-lg flex justify-center items-center rounded-lg hover:bg-[#00962a] transition-colors delay-250 duration-[3000] ease-in'><BiRefresh className='flex items-center justify-center'/>Refresh</button></div>
+        className='w-[6vw] h-[4vh] p-2 bg-[#1b6e1e] text-white text-lg flex justify-center items-center rounded-lg
+           hover:bg-[#00962a] transition-colors delay-250 duration-[3000] ease-in xl:max-2xl:text-[0.8em] xl:max-2xl:w-[6vw] xl:max-2xl:h-[5vh]'><BiRefresh className='flex items-center justify-center'/>Refresh</button></div>
         </div>
-        <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl  ">
+        <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl xl:max-2xl:h-[70vh] ">
         {isLoading ? (
               <GenSpinner/>
             ) : packages.length === 0 ? (
@@ -172,8 +174,8 @@ return (
 
     
     <div className='PublishedPackages ps-20 my-10'>
-        <p className={`text-3xl mx-20 my-3 font-bold`}>Unpublished Packages</p>
-        <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl  ">
+        <p className={`text-3xl mx-20 my-3 font-bold xl:max-2xl:text-2xl`}>Unpublished Packages</p>
+        <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl xl:max-2xl:h-[66vh] ">
         <CardEmpty onClick={openCreatePackageModal} />
         {isCreatePackageModalOpen && 
         <CreatePackageModal 
@@ -183,7 +185,7 @@ return (
         {isLoading ? (
               <GenSpinner/>
             ) : unpublishedPackages.length === 0 ? (
-              <p className="text-lg">No packages to show for now.</p>
+              <p className="text-lg xl:max-2xl:text-[0.8em]">No packages to show for now.</p>
             ) : (
               unpublishedPackages.map((packageItem) => (
                 <Card

@@ -67,7 +67,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
 
 
   return (
-    <div className='flex h-[25vh]'>
+    <div className='flex h-[25vh] xl:max-2xl:mb-[2%]'>
         <div>
             <img className='w-[262px] h-[219px] rounded-[50px] xl:max-2xl:w-[182px] xl:max-2xl:h-[150px]' src={props.logo || ''}/>
         </div>
@@ -108,8 +108,9 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                         </p>
                     </div>
                 </div>
-                <div className='flex justify-end mt-[9%] mr-[2%] w-[100%] xl:max-2xl:mt-[5%]'>
-                    <button className='flex items-center text-white bg-[#FF8A00] mr-[2%] px-[3%] py-[1.5%] rounded-2xl
+
+                <div className='flex justify-end mt-[9%] mr-[2%] w-[100%] xl:max-2xl:mt-[7%]'>
+                    <button className='flex items-center text-white bg-[#FF8A00] mr-[2%] px-[3%] py-[1.5%] rounded-2xl xl:max-2xl:mr-[5%]
                         hover:bg-[#FFD8AA] hover:text-black font-medium transition-colors delay-450 duration-[3000] ease-in-out xl:max-2xl:text-[0.7em] xl:max-2xl:h-[2.5rem]'
                         onClick={()=>{
                             navigate('/eaterychoice/view')

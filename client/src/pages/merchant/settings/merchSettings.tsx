@@ -9,11 +9,11 @@ const MerchSettings = () => {
 
 return (
         
-    <div className={`bg-[#FFFFFF] h-[100vh] font-poppins overflow-y-auto overflow-x-hidden animate-fade-in`}>
+    <div className={`bg-[#FFFFFF] h-full font-poppins overflow-y-auto overflow-x-hidden animate-fade-in`}>
         <div className="w-full">
         <MerchAdHeader icon={BsFillBuildingFill} title={'Merchant Settings'}/>
 
-            <div className="bg-[#F3F3F3] h-[175vh]">
+            <div className="bg-[#F3F3F3] h-[175vh] xl:max-2xl:h-[245vh]">
              <div className="flex ml-10 mr-10 text-xl">
                 <ToggleHeader
                 title1="General Settings"

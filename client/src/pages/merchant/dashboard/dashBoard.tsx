@@ -134,11 +134,11 @@ const MerchDashboard = () => {
   
 
   return (
-    <div className='flex-col animate-fade-in'>
+    <div className='flex-col animate-fade-in overflow-y-auto overflow-x-hidden'>
       {/* Header Section */}
         <MerchAdHeader icon={RiDashboard3Line} title="Dashboard"/>
         {/* Welcome Section */}
-        <div className='bg-[#F3F3F3] h-[30vh] flex '>
+        <div className='bg-[#F3F3F3] h-[30vh] flex overflow-y-auto overflow-x-hidden'>
            <div className='w-[60%] p-[1%] text-center'>
               <div className='align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-b from-[#9a1a00] to-black'>
                 <h1 className='text-[1.8em] text-white xl:max-2xl:text-[1.5em]'>

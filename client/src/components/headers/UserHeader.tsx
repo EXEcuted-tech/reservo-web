@@ -47,11 +47,11 @@ const UserHeader = () => {
 
   return (
     <div className='font-poppins flex bg-white text-white h-[6rem] xl:max-2xl:h-[5.5rem]'>
-        <div className='w-[63%] flex items-center '>
+        <div className='w-[63%] flex items-center xl:max-2xl:w-[60%] '>
           <img src={logo} alt='Reservo Logo' className='ml-[5%] w-[15%]'/>
         </div>
-        <div className='w-[30%] flex items-center '>
-          <nav>
+        <div className='w-[30%] flex items-center xl:max-2xl:w-[32%]'>
+          <nav className="xl:max-2xl:ml-[5%]">
             <ul className='flex text-[1.2em] text-black xl:max-2xl:text-[0.8em]'>
               <li className={`mr-28 hover:text-[#DD2803] cursor-pointer hover:animate-zoom-in-end xl:max-2xl:mr-16
                               ${urlPart === '' ? 'text-[#DD2803]' : ''}`}
