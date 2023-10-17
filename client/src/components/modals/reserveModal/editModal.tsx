@@ -3,7 +3,7 @@ import {GrUpdate} from 'react-icons/gr'
 import {AiFillCloseCircle, AiFillSave} from 'react-icons/ai'
 import {TbArrowsExchange} from 'react-icons/tb'
 import axios from 'axios';
-import config from '../../../common/config';
+import config from '../../../common/config.ts';
 import GenSpinner from '../../loaders/genSpinner';
 import Spinner from '@material-tailwind/react/components/Spinner';
 
@@ -238,12 +238,12 @@ const EditModal:React.FC<EditModalProps> = (props) => {
         <div className='flex w-full h-[5vh]'>
             <div className='flex items-center w-[96%] mt-[0.5%]'>
                 <div className='flex items-center w-[100%] ml-[1%]'>
-                    <GrUpdate className='mr-[1%] text-[2em]'/>
-                    <h1 className='font-bold text-[1.5em]'>Update Reservation Record</h1>   
+                    <GrUpdate className='mr-[1%] text-[2em] xl:max-2xl:text-[1.3em]'/>
+                    <h1 className='font-bold text-[1.5em] xl:max-2xl:text-[1.2em]'>Update Reservation Record</h1>   
                 </div>
             </div>
             <div className='mt-[0.5%]'>
-                <AiFillCloseCircle className='text-[2.5em] hover:cursor-pointer'
+                <AiFillCloseCircle className='text-[2.5em] hover:cursor-pointer xl:max-2xl:text-[1.8em]'
                  onClick={()=>{
                   sessionStorage.removeItem('res_id');
                   setOpenModalEdit(false)
@@ -254,7 +254,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
 
         {/* General Information */}
         <div className='flex items-center w-full'>
-          <h1 className='font-bold uppercase text-[1.5em] ml-[4%] bg-[#840705] inline-block text-white px-[1%] rounded-lg mb-[0.5%]'>General Section</h1>
+          <h1 className='font-bold uppercase text-[1.5em] ml-[4%] bg-[#840705] inline-block text-white px-[1%] rounded-lg mb-[0.5%] xl:max-2xl:text-[1.0em]'>General Section</h1>
           <div className='relative w-[70%] ml-[1%]'>
          
             {isHovered &&
@@ -273,7 +273,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
             </p>
           </div>
         </div>        
-        <div className='flex ml-[4%] mr-[2%] text-[1.2em] w-full'>
+        <div className='flex ml-[4%] mr-[2%] text-[1.2em] w-full xl:max-2xl:text-[0.8em]'>
           <div className='w-[33%]'>
             <div className='mb-[2.5%]'>
                 <p className='mt-[1.5%] mb-[0.3%] mr-[1%] font-semibold'>Date</p>
@@ -372,7 +372,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
             </div>
           </div>
         </div>
-        <div className='flex ml-[4%] text-[1.2em]'>
+        <div className='flex ml-[4%] text-[1.2em] xl:max-2xl:text-[0.8em]'>
             <div className='mb-[2.5%] w-full'>
                     <p className='mt-[1.5%] mb-[0.3%] mr-[1%]'>Additional Details</p>
                     <input type="text" 
@@ -383,8 +383,8 @@ const EditModal:React.FC<EditModalProps> = (props) => {
             </div>
         </div>
         {/* Inventory */}
-        <h1 className='font-bold uppercase text-[1.5em] ml-[4%] bg-[#840705] inline-block text-white px-[1%] mt-[2%] rounded-lg mb-[0.5%]'>Inventory</h1>
-        <div className='flex ml-[4%] text-[1.2em] w-full'>
+        <h1 className='font-bold uppercase text-[1.5em] ml-[4%] bg-[#840705] inline-block text-white px-[1%] mt-[2%] rounded-lg mb-[0.5%] xl:max-2xl:text-[1.0em]'>Inventory</h1>
+        <div className='flex ml-[4%] text-[1.2em] w-full xl:max-2xl:text-[0.8em]'>
           <div className='w-[50%]'>
             <div className='mb-[2.5%]'>
                 <p className='mt-[1.5%] mb-[0.3%] mr-[1%]'>No. of Tables</p>
@@ -446,8 +446,8 @@ const EditModal:React.FC<EditModalProps> = (props) => {
         </div>  
 
         {/* Additional Details */}
-        <h1 className='font-bold uppercase text-[1.5em] ml-[4%] bg-[#840705] inline-block text-white px-[1%] mt-[2%] rounded-lg mb-[0.5%]'>Additional Details</h1>
-        <div className='flex ml-[4%] mr-[2%] text-[1.2em]'>
+        <h1 className='font-bold uppercase text-[1.5em] ml-[4%] bg-[#840705] inline-block text-white px-[1%] mt-[2%] rounded-lg mb-[0.5%] xl:max-2xl:text-[1.0em]'>Additional Details</h1>
+        <div className='flex ml-[4%] mr-[2%] text-[1.2em] xl:max-2xl:text-[0.8em]'>
         <h1 className='font-medium text-[1.4em] italic'>Coming Soon</h1>
           {/* <div className='w-[33%]'>
             <div className='flex mb-[1%]'>
@@ -484,7 +484,8 @@ const EditModal:React.FC<EditModalProps> = (props) => {
         <div className='relative bottom-[2%] top-[2%] mb-[2%] w-[100%]'>
           <hr className=' w-[100%] h-[1px] bg-black border-0'/>       
           <div className='flex justify-end mr-[3%] mt-[1%]'>
-            <button className='flex text-white text-[1.1em] bg-[#17A200] px-[2%] py-[0.5%] rounded-2xl hover:bg-[#117600]'
+            <button className='flex text-white text-[1.1em] bg-[#17A200] px-[2%] py-[0.5%] rounded-2xl xl:max-2xl:text-[0.8em]
+            hover:bg-[#117600]'
             onClick={updateRecord}
             >
               {loading 

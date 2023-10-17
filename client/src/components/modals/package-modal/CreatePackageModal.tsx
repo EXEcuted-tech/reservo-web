@@ -166,19 +166,19 @@ interface CreatePackageModal{
     return (
     <div className=''>
     <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh] backdrop-blur-sm animate-zoom-in'>
-    <div className='flex justify-center align-center my-20'>
-        <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl">
+    <div className='flex justify-center align-center my-20 xl:max-2xl:my-16'>
+        <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl xl:max-2xl:h-[83vh]">
             <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'> {/*this is the header for the modal*/}
-                <div className='text-2xl flex start items-center mb-4'>
-                  <LuPackage2 className="text-4xl mr-[2%]"/>
+                <div className='text-2xl flex start items-center mb-4 xl:max-2xl:text-xl'>
+                  <LuPackage2 className="text-4xl mr-[2%] xl:max-2xl:text-2xl"/>
                   <p><b>Add a New Package</b></p>
                 </div>
-                <div className='flex justify-end mb-4'><button className='flex items-center text-3xl ' onClick={closeCreatePackageModal}><AiFillCloseCircle className='mx-2 detailsClose'/></button></div>
+                <div className='flex justify-end mb-4'><button className='flex items-center text-3xl xl:max-2xl:text-2xl ' onClick={closeCreatePackageModal}><AiFillCloseCircle className='mx-2 detailsClose'/></button></div>
             </div>
             <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
             <div>
-            <div className='h-[40vh] text-xl'>
-            <p><span className='text-red-600 text-base'>Fields with * are required.</span></p>
+            <div className='h-[40vh] text-xl xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-4%]'>
+            <p><span className='text-red-600 text-base xl:max-2xl:text-[0.9em]'>Fields with * are required.</span></p>
                 <p><b>Package Name:<span className='text-red-600'>*</span> </b><input type="text"  value={packageName} onChange={handlePackageNameChange}className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input></p>
                 <p><b>Total Price:<span className='text-red-600'>*</span> </b> <input type="text" value= {price} onChange={handlePriceChange} className="h-[4vh] my-2 border-solid p-2 border-[#000000] border-2 rounded-md mx-4"></input></p>
                 <p><b>Available From:<span className='text-red-600'>*</span> </b> <input type="date" value={dateStart} onChange={handleDateStartChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4"></input></p>
@@ -199,13 +199,13 @@ interface CreatePackageModal{
             </div>
             <div>
             <div className='IMAGE_PLACEHOLDER bg-slate-600 w-[50%] h-[50%] mb-5 rounded-2xl'></div>
-            <label htmlFor="packageImage" className="text-xl">Upload Image Here:<span className='text-red-600 '>*</span> </label>
-            <input className="my-2 w-[50%] px-4 text-l border-black border-solid rounded-lg border-2" value={filePath} onChange={handleFilePathChange} type="text" name="packageImage" placeholder='Paste Link Here'/>
+            <label htmlFor="packageImage" className="text-xl xl:max-2xl:text-[0.8em]">Upload Image Here:<span className='text-red-600 '>*</span> </label>
+            <input className="my-2 w-[50%] px-4 text-l border-black border-solid rounded-lg border-2 xl:max-2xl:text-[0.7em]" value={filePath} onChange={handleFilePathChange} type="text" name="packageImage" placeholder='Paste Link Here'/>
             <div className="my-2">
         
-        <div className="text-xl ">
-          <b>Items:<span className='text-red-600'>*</span> </b>
-          <div className='overflow-y-auto h-[8vh] mb-6'>
+        <div className="text-xl xl:max-2xl:text-[0.8em] ">
+          <b>Items:<span className='text-red-600 '>*</span> </b>
+          <div className='overflow-y-auto h-[8vh] mb-6 xl:max-2xl:mb-2'>
             <ul>
               {items.map((item, index) => (
                 <li key={index}>{item}</li>
@@ -216,13 +216,14 @@ interface CreatePackageModal{
         <div className='flex flex-row item'>
         <button
             onClick={addItem}
-            className="w-[20%] h-[4vh] rounded-md text-[1.1rem] text-white bg-[#1f8022] flex items-center justify-center hover:bg-[#00962a] transition-colors delay-250 duration-[3000] ease-in">
+            className="w-[20%] h-[4vh] rounded-md text-[1.1rem] text-white bg-[#1f8022] flex items-center justify-center  xl:max-2xl:text-[0.8em]
+              hover:bg-[#00962a] transition-colors delay-250 duration-[3000] ease-in">
             <IoMdAddCircleOutline className="mr-[3%]"/> Add Item
           </button><input
             type="text"
             value={itemName}
             onChange={(e) => setItemName(e.target.value)}
-            className="h-[4vh] border-solid border-[#000000] border-2 rounded-md mx-4">
+            className="h-[4vh] border-solid border-[#000000] border-2 rounded-md mx-4 xl:max-2xl:text-[0.7em]">
           </input>
           </div>
           
@@ -233,10 +234,11 @@ interface CreatePackageModal{
 
             </div>
             <div className='flex justify-end items-center h-[3vh]'>{/*This is the footer*/}
-                <button className='w-[8vw] h-[4vh] mx-5 rounded-md text-[1.1rem] bg-[#e14f4c] flex items-center justify-center hover:bg-[#ff5d5b] transition-colors delay-250 duration-[3000] ease-in' 
+                <button className='w-[8vw] h-[4vh] mx-5 rounded-md text-[1.1rem] bg-[#e14f4c] flex items-center justify-center xl:max-2xl:text-[0.8em] xl:max-2xl:mx-2
+                hover:bg-[#ff5d5b] transition-colors delay-250 duration-[3000] ease-in' 
                   onClick={onClose}><AiFillDelete className="mr-[3%]"/>Cancel</button>
                 <button
-                  className={`w-[8vw] h-[4vh] text-[1.1rem] mx-5 rounded-md duration-300 ${
+                  className={`w-[8vw] h-[4vh] text-[1.1rem] mx-5 rounded-md duration-300 xl:max-2xl:text-[0.8em] xl:max-2xl:mx-2 ${
                     isLoading || incompleteAlert? 'bg-[#bbd89e] cursor-not-allowed' : 'bg-[#1f8022] hover:bg-[#00962a] transition-colors delay-250 duration-[3000] ease-in'
                   } flex items-center justify-center`}
                   disabled={isLoading}
@@ -245,7 +247,7 @@ interface CreatePackageModal{
                   {isLoading? <>Processing...</>:<><IoAddCircleSharp className="mr-[3%]"/>Add</>}
                   
                 </button>
-                  {incompleteAlert? <span className='text-red-600'>Some required fields are empty.</span>:<></>}
+                  {incompleteAlert? <span className='text-red-600 xl:max-2xl:text-[0.8em]'>Some required fields are empty.</span>:<></>}
             </div>
 
         </div>
