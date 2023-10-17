@@ -4,8 +4,10 @@ import colors from '../../../common/colors'
 import config from '../../../common/config'
 
 export default function AdvancedSettings(){
+    const merchID = Number(localStorage.getItem('merch_id'));
+
     const request = {
-        merchant_id: 3
+        merchant_id: merchID
     }
     
     const HandleEvent = () => {
@@ -16,6 +18,20 @@ export default function AdvancedSettings(){
         .catch((error) => {
             console.log(error);        })
     }
+
+    const HandleDeactivate = () => {
+        const updateData = {
+            account_status: "abolished",
+        };
+        axios.post(`${config.API}/merch/edit?userID=${merchID}`, updateData )
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.log(error);        
+        })
+    }
+    
     return(
         <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in">
                 <h1 className='text-2xl mr-5 ml-5 mb-2 xl:max-2xl:text-[0.9em]'><strong>Account Deletion or Deactivation</strong></h1>

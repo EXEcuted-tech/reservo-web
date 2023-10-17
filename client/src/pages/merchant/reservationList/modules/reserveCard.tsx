@@ -101,7 +101,7 @@ const ReserveCard:
                         <button className='flex items-center bg-[#ff8e4f] py-[3%] px-[18%] mb-[5%] rounded-3xl xl:max-2xl:text-[0.9em] xl:max-2xl:mb-[7%] xl:max-2xl:px-[19%]
                                hover:bg-[#ffbe9b] transition-colors delay-450 duration-[3000] ease-in-out'
                                onClick={()=>{
-                                sessionStorage.setItem('res_id',booking.account_id.toString())
+                                sessionStorage.setItem('res_id',booking.reservation_id.toString())
                                 console.log(sessionStorage.getItem('res_id'))
                                 setOpenModalEdit(true)
                                }}>

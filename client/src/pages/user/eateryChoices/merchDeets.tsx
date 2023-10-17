@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import Card from '../../../components/card/viewCard'
+import Card from '../../../components/card/viewCard.tsx'
 import Rating from '@mui/material/Rating';
 import {GrLocation} from 'react-icons/gr'
 import {AiOutlineFolderView, AiFillStar, AiOutlineArrowLeft} from 'react-icons/ai'
 import {BsBookFill} from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom';
-import CommentSec from './commentSec';
+import CommentSec from './commentSec.tsx';
 import RatingModal from '../../../components/modals/ratingModal/RatingModal';
-import MerchDeetsLoad from '../../../components/loaders/merchDeetsLoad';
+import MerchDeetsLoad from '../../../components/loaders/merchDeetsLoad.tsx';
 import axios from 'axios';
-import config from '../../../common/config';
+import config from '../../../common/config.ts';
 
 const MerchDeets = () =>{
     const [openRatingMod,setOpenRatingMod]= useState(false);
@@ -186,8 +186,8 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                 {/* Left Side */}
                     <div>
                         <div className='flex mt-[0.5%]'>
-                            <Rating className={`${openRatingMod ? 'z-[-1]' : 'z-1'} xl:max-2xl:scale-[0.70] xl:max-2xl:ml-[-3%]`} value={avg} readOnly />
-                            <p className='ml-[1%] xl:max-2xl:text-[0.9em] xl:max-2xl:pt-1 xl:max-2xl:ml-[-2%] '>({ratingCount} Reviews)</p>
+                            <Rating value={avg} className="xl:max-2xl:scale-[0.70] xl:max-2xl:ml-[-3%]" readOnly />
+                            <p className='ml-[1%] xl:max-2xl:text-[0.8em] xl:max-2xl:pt-1 xl:max-2xl:ml-[-2%]'>({ratingCount} Reviews)</p>
                         </div>
                         <div className='flex items-center mt-[1%] text-[1.1em] xl:max-2xl:text-[0.8em]'>
                             <GrLocation className='text-[1.3em] mr-[0.5%] xl:max-2xl:text-[1em]'/>
@@ -273,11 +273,13 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                 <h1 className='text-[2em] font-bold xl:max-2xl:text-[1.3em]'>CUSTOMER REVIEWS</h1>
                 <p className='text-[1.1em] xl:max-2xl:text-[0.8em]'><span className='font-bold mr-[0.5%]'>Average Rating:</span>{avg} Stars</p>
                 <p className='text-[1.1em] xl:max-2xl:text-[0.8em]'><span className='font-bold mr-[0.5%]'>Total Reviews:</span>{ratingCount} Total</p>
+                <div className='max-h-[82vh] my-[1.1%] w-[85%] ml-[5%] overflow-auto'>
                 {feedback.map((review,index)=>(
-                    <div className={`my-[1%] ${openRatingMod ? 'opacity-0.5 z-[-1]' : 'z-1'}`}>
+                    <div className={`my-[1%] ${openRatingMod ? 'opacity-0.5 z-[-1]' : 'z-1'}`} >
                         <CommentSec key={index} {...review}/>
                     </div>
                 ))}
+                </div>
            </div>   
         </div>   
         }     

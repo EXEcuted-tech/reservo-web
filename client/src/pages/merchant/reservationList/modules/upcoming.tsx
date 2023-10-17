@@ -6,12 +6,11 @@ import axios from 'axios';
 const UpcomingList: React.FC<ReserveProps> = (props) => {
   const openModal = props;
   const [reservations, setReservations] = useState<ReserveCardProps[]>([]);
+  const merchID = Number(localStorage.getItem('merch_id'));
 
   useEffect(() => {
-    const col = "status";
-    const val = "Ongoing";
-
-    axios.get(`${config.API}/reserve/retrieve?col=${col}&val=${val}`).then((res) => {
+    axios.get(`${config.API}/reserve/retrieveTwo?col1=merchant_id&val1=${merchID}&col2=status&val2=Ongoing&orderVal=reservation_id&order=ASC`)
+    .then((res) => {
       const parsedReservations = res.data.records.map((record: any) => ({
         ...record,
         res_date: new Date(record.res_date),

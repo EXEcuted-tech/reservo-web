@@ -1,7 +1,7 @@
 import { Rating } from '@mui/material'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import config from '../../../common/config';
+import config from '../../../common/config.ts';
 
 const CommentSec: React.FC<Feedback> = (props) => {
   const [name,setName] = useState('');
@@ -21,7 +21,7 @@ const CommentSec: React.FC<Feedback> = (props) => {
   }
 
   return (
-    <div className='bg-white px-[1.5%] drop-shadow-lg pb-[1.5%] mb-[1%] w-[85%] mx-[5%] h-[100%] rounded-2xl'>
+    <div className='bg-white px-[1.5%] drop-shadow-lg pb-[1.5%] mb-[1%] mx-[5%] h-[100%] rounded-2xl'>
         <h1 className='pt-[1%] text-[1.2em] font-medium xl:max-2xl:text-[0.8em]'>{name}</h1>
         <div className='flex items-center'>
             <Rating value={props.rating_value} className="xl:max-2xl:scale-[0.70] xl:max-2xl:ml-[-2%]" readOnly />
