@@ -1,11 +1,58 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {AiOutlineArrowLeft} from 'react-icons/ai'
 import {IoPeopleOutline} from 'react-icons/io5'
 import {BsFolder, BsTrash} from 'react-icons/bs'
 import Logo from '../../assets/jjlogo.png'
+import axios from 'axios'
+import config from '../../common/config'
 
-const MerchantTeamDeets = () => {
+const MerchantTeamDeets = ( {merchantID} ) => {
     const [buttonStatus, setbuttonStatus] = useState(false)
+    const [merchData, setMerchData] = useState([{}])
+    const [loading, setLoading] = useState(false)
+    const [merchAddress, setmerchAddress] = useState([{}])
+    const [merchAccounts, setmerchAccounts] = useState([{}])
+    const [accNames, setaccNames] = useState([])
+
+    
+    const fetchMerchAccounts = async() => {
+      const col = "merchant_id"
+      const val = 1
+      try {
+          setLoading(true)
+          const responseMerchInfo = await axios.get(`${config.API}/merchant/retrieve?col=${col}&val=${val}`)
+          setMerchData(responseMerchInfo.data.merchant)
+          setmerchAddress(responseMerchInfo.data.address)
+          setmerchAccounts(responseMerchInfo.data.accounts)
+          
+          try{
+            const numbers = Object.keys(merchAccounts).map(key => parseInt(key, 10));
+            const usernamePromises = numbers.map(userId => getUsernameById(userId));
+            const usernames = await Promise.all(usernamePromises);
+            setaccNames(usernames)
+          }catch (err){
+            console.log(err)
+          }
+          setLoading(false)
+      } catch (error) {
+          console.log(error)
+      }
+  }
+
+  const getUsernameById = async (userId) => {
+    try {
+      const col = "merchant_id"
+      const response = await axios.get(`${config.API}/user/retrieve??col=${col}&val=${userId}`);
+      return response.data.username; 
+    } catch (error) {
+      console.error(`Failed to fetch user with ID ${userId}: ${error}`);
+      return null;
+    }
+  };
+
+    useEffect(() => {
+      fetchMerchAccounts();
+    }, []);
 
     return (
         <div className='w-[100%] bg-white h-[90%] mt-[1%] rounded-ss-2xl flex-row align-center overflow-y-auto'>
@@ -15,13 +62,13 @@ const MerchantTeamDeets = () => {
           </div>
           <div className='bg-white h-[25%] flex-row py-[1%] px-[2%] text-[#838383] p-[1%] flex rounded-xl'>
                 <div className='w-[20%] p-[0.5%] pl-[3%] flex'>
-                <img src={Logo} className='w-auto h-[100%] rounded-[50px]' alt="Logo"/>
+                <img src={merchData[0].logo} className='w-auto h-[100%] rounded-[50px]' alt="Logo"/>
                 </div>
                 <div className='w-[55%] justify-center items-left px-[1%] py-[2%] flex flex-col'>
-                  <p className='text-[1.5em] text-black text-bold'>J & J Lechon Belly House</p>
-                  <p className='text-[1.2em] text-black'>Talamban, Cebu City, Philippines</p>
+                  <p className='text-[1.5em] text-black text-bold'>{merchData[0].merchant_name}</p>
+                  <p className='text-[1.2em] text-black'>{merchAddress.barangay}, {merchAddress.municipality}, {merchAddress.country}</p>
                   <div className='flex'>
-                    <p className='text-[1.2em] text-[#838383] flex'><IoPeopleOutline className='text-[1.5em]'/> 10 members • </p>
+                    <p className='text-[1.2em] text-[#838383] flex'><IoPeopleOutline className='text-[1.5em]'/> {Object.keys(merchAccounts).length} members • </p>
                     <div className='bg-[#DCFFD0] ml-[1%] w-[15%] text-center rounded-2xl border-[#238700] border-2'>
                       <p className='text-[#238700]'>Active</p> 
                     </div>
@@ -43,22 +90,16 @@ const MerchantTeamDeets = () => {
                       <th>Position</th>
                       <th>Manage</th>
                     </tr>
-                    <tr className='border-[#F3F3F3] border-t-2 p-[1%] my-[2%]'>
+                {Object.keys(merchAccounts).map((data,i) => (
+                    <tr className='border-[#F3F3F3] border-t-2 p-[1%] my-[2%]' key={i}>
                       <td>Kathea Mari Mayol</td>
-                      <td>@kathemari@abc.com</td>
-                      <td>Manager</td>
+                      <td>{merchAccounts[data].email}</td>
+                      <td>{merchAccounts[data].position}</td>
                       <div className='bg-[#DD2803] items-center text-white p-[1%] m-[7%] rounded-md'>
                         <p className='flex items-center text-center justify-center text-[1em]'><BsTrash className='text-[1em]'/> Delete</p>
                       </div>
                     </tr>
-                    <tr className='border-[#F3F3F3] border-t-2 p-[1%] my-[2%]'>
-                      <td>John Doe</td>
-                      <td>@johndoe@abc.com</td>
-                      <td>Employee</td>
-                      <div className='bg-[#DD2803] items-center text-white p-[1%] m-[7%] rounded-md'>
-                        <p className='flex items-center text-center justify-center text-[1em]'><BsTrash className='text-[1em]'/> Delete</p>
-                      </div>
-                    </tr>
+                   ))}
                   </table>
               </div>
         </div> 

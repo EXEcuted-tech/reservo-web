@@ -9,7 +9,9 @@ CREATE TABLE `account` (
   `account_type` int(2) NOT NULL DEFAULT 1,
   `account_status` enum('active','abolished') NOT NULL,
   `passwd` varchar(255) NOT NULL,
-  `contact_number` varchar(20) NOT NULL
+  `contact_number` varchar(20) NOT NULL,
+  `date_signedup` datetime DEFAULT CURRENT_DATE(),
+  `latest_login` datetime
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 

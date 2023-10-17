@@ -30,7 +30,7 @@ const MerchDashboard = () => {
       const responseBooks = await axios.get(`${config.API}/reserve/retrievebooks`,{
         params: {
           year: "2023",
-          merchID: 2
+          merchID: Number(localStorage.getItem('merch_ID'))
         }
       })
       setgraphList(responseBooks.data.count)

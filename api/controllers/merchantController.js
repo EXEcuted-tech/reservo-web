@@ -182,10 +182,10 @@ const retrieveByParams = (req,res)=>{
             return res.status(200).json({
                 status: 200,
                 success: true,
-                merchant: result[0],
+                merchant: result,
                 address: parsedAddress,
                 settings: parsedSettings,
-                accounts: parsedAccounts,
+                accounts: parsedAccounts
             })
         }
     })
@@ -234,6 +234,40 @@ const retrieveCountByParams = (req, res) => {
   });
 };
 
+const retrieveMerchAccountById = (req, res) => {
+  const { merchid } = req.query
+
+  const retrieveMerchAccs = 'SELECT accounts AS merchant_accounts FROM merchant WHERE merchant_id = ?'
+  db.query(retrieveMerchAccs, [merchid], (err,acc) => {
+    if (err){
+      console.error('Error retrieve accounts:', err)
+      return res.status(500).json({
+        status: 500,
+        success: false,
+        error: 'Error retrieving accounts'
+      })
+    }else{
+      const parsedMerchData = [];
+      const accounts = JSON.parse(acc.merchant_accounts)
+      for (const accID in accounts){
+        if (accounts.hasOwnProperty(accID)){
+          const accData = accounts[accID];
+          parsedMerchData.push({
+            id: accID,
+            email: accData.email,
+            position: accData.position
+          })
+        }
+      }
+
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        merchData: parsedMerchData 
+      })
+    }
+  })
+}
 
 module.exports = {
     createMerchant,
@@ -241,5 +275,6 @@ module.exports = {
     retrieveAll,
     retrieveByParams,
     deleteMerchant,
-    retrieveCountByParams
+    retrieveCountByParams,
+    retrieveMerchAccountById
 }
