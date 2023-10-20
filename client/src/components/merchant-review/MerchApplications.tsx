@@ -1,12 +1,23 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {IoPeopleOutline} from 'react-icons/io5'
 import {SlOptions} from 'react-icons/sl'
 import {BiSearchAlt} from 'react-icons/bi'
 import {AiOutlineCheck} from 'react-icons/ai'
 import {RxCross2} from 'react-icons/rx'
 import Logo from '../../assets/jjlogo.png'
+import MerchantPagination from './MerchantPagination';
 
 const MerchantApplications = () => {
+
+  // const [merchApp , setmerchantApp] = useState([{}])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [recordsPerPage] = useState(3)
+  const lastIndex = currentPage * recordsPerPage
+  const firstIndex = lastIndex - recordsPerPage
+  // const currentPages = merchApp.slice(firstIndex,lastIndex)
+
+  // const paginate = (pageNumbers) => setCurrentPage(pageNumbers)
+
     return (
         <div className='w-[100%] bg-white h-[90%] mt-[1%] rounded-ss-2xl flex-row align-center overflow-y-auto'>
           {/* Dummy Conten 1 */}
@@ -31,22 +42,31 @@ const MerchantApplications = () => {
                 <p className='text-[1em] text-[#FFB800] flex'>Pending</p>
               </div>
             </div>
-            <div className='w-[25%] flex flex-col p-[1%] justify-center items-center'>
-              <div className='h-[33%] bg-[#FFB800] text-center m-[2%] w-[50%] text-black rounded-md hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%] m-[2%]'>
-                  <BiSearchAlt className='text-[1.2em] mt-[1%]'/>View More
-                </div >
-              </div>
-              <div className='h-[33%] bg-[#3B9C00] text-center m-[2%] w-[50%] text-white rounded-md hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%] m-[2%]'>
-                  <AiOutlineCheck className='text-[1.2em] mt-[1%]'/>Approve
-                </div >
-              </div>
-              <div className='h-[33%] bg-[#DD2803] text-center m-[2%] w-[50%] text-white rounded-md hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%] m-[2%]'>
-                  <RxCross2 className='text-[1.2em] mt-[1%]'/>Deny
-                </div >
-              </div>
+            <div className="w-[25%] flex flex-col p-[1%] justify-center items-center">
+              <button className="h-[33%] bg-[#FFB800] text-center m-[2%] w-[50%] text-black rounded-sm"
+              // onClick={}
+              >
+                <div className="flex justify-center p-[1%] m-[2%]">
+                  <BiSearchAlt className="text-[1.2em] mt-[1%]" />
+                  View More
+                </div>
+              </button>
+              <button className="h-[33%] bg-[#3B9C00] text-center m-[2%] w-[50%] text-white rounded-sm"
+              // onClick={}
+              >
+                <div className="flex justify-center p-[1%] m-[2%]">
+                  <AiOutlineCheck className="text-[1.2em] mt-[1%]" />
+                  Approve
+                </div>
+              </button>
+              <button className="h-[33%] bg-[#DD2803] text-center m-[2%] w-[50%] text-white rounded-sm"
+              // onClick={}
+              >
+                <div className="flex justify-center p-[1%] m-[2%]">
+                  <RxCross2 className="text-[1.2em] mt-[1%]" />
+                  Deny
+                </div>
+              </button>
             </div>
           </div>
           {/* Dummy Conten 2 */}
@@ -63,22 +83,25 @@ const MerchantApplications = () => {
                 <p className='text-[1em] text-[#FFB800] flex'>Pending</p>
               </div>
             </div>
-            <div className='w-[25%] flex flex-col p-[1%] justify-center items-center'>
-              <div className='h-[33%] bg-[#FFB800] text-center m-[2%] w-[50%] text-black rounded-sm hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%] m-[2%]'>
-                  <BiSearchAlt className='text-[1.2em] mt-[1%]'/>View More
-                </div >
-              </div>
-              <div className='h-[33%] bg-[#3B9C00] text-center m-[2%] w-[50%] text-white rounded-sm hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%] m-[2%]'>
-                  <AiOutlineCheck className='text-[1.2em] mt-[1%]'/>Approve
-                </div >
-              </div>
-              <div className='h-[33%] bg-[#DD2803] text-center m-[2%] w-[50%] text-white rounded-sm hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%] m-[2%]'>
-                  <RxCross2 className='text-[1.2em] mt-[1%]'/>Deny
-                </div >
-              </div>
+            <div className="w-[25%] flex flex-col p-[1%] justify-center items-center">
+              <button className="h-[33%] bg-[#FFB800] text-center m-[2%] w-[50%] text-black rounded-sm">
+                <div className="flex justify-center p-[1%] m-[2%]">
+                  <BiSearchAlt className="text-[1.2em] mt-[1%]" />
+                  View More
+                </div>
+              </button>
+              <button className="h-[33%] bg-[#3B9C00] text-center m-[2%] w-[50%] text-white rounded-sm">
+                <div className="flex justify-center p-[1%] m-[2%]">
+                  <AiOutlineCheck className="text-[1.2em] mt-[1%]" />
+                  Approve
+                </div>
+              </button>
+              <button className="h-[33%] bg-[#DD2803] text-center m-[2%] w-[50%] text-white rounded-sm">
+                <div className="flex justify-center p-[1%] m-[2%]">
+                  <RxCross2 className="text-[1.2em] mt-[1%]" />
+                  Deny
+                </div>
+              </button>
             </div>
           </div> 
           {/* Dummy Content 3 */}
@@ -95,24 +118,32 @@ const MerchantApplications = () => {
                 <p className='text-[1em] text-[#FFB800] flex'>Pending</p>
               </div>
             </div>
-            <div className='w-[25%] flex flex-col p-[1%] justify-center items-center'>
-              <div className='h-[33%] bg-[#FFB800] text-center m-[2%] w-[50%] text-black rounded-sm hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%] m-[2%]'>
-                  <BiSearchAlt className='text-[1.2em] mt-[1%]'/>View More
-                </div >
-              </div>
-              <div className='h-[33%] bg-[#3B9C00] text-center m-[2%] w-[50%] text-white rounded-sm hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%] m-[2%]'>
-                  <AiOutlineCheck className='text-[1.2em] mt-[1%]'/>Approve
-                </div >
-              </div>
-              <div className='h-[33%] bg-[#DD2803] text-center m-[2%] w-[50%] text-white rounded-sm hover:cursor-pointer'>
-                <div className='flex justify-center p-[1%] m-[2%]'>
-                  <RxCross2 className='text-[1.2em] mt-[1%]'/>Deny
-                </div >
-              </div>
+            <div className="w-[25%] flex flex-col p-[1%] justify-center items-center">
+              <button className="h-[33%] bg-[#FFB800] text-center m-[2%] w-[50%] text-black rounded-sm">
+                <div className="flex justify-center p-[1%] m-[2%]">
+                  <BiSearchAlt className="text-[1.2em] mt-[1%]" />
+                  View More
+                </div>
+              </button>
+              <button className="h-[33%] bg-[#3B9C00] text-center m-[2%] w-[50%] text-white rounded-sm">
+                <div className="flex justify-center p-[1%] m-[2%]">
+                  <AiOutlineCheck className="text-[1.2em] mt-[1%]" />
+                  Approve
+                </div>
+              </button>
+              <button className="h-[33%] bg-[#DD2803] text-center m-[2%] w-[50%] text-white rounded-sm">
+                <div className="flex justify-center p-[1%] m-[2%]">
+                  <RxCross2 className="text-[1.2em] mt-[1%]" />
+                  Deny
+                </div>
+              </button>
             </div>
-          </div>         
+          </div>
+          {/* <MerchantPagination 
+          dataPerPage={recordsPerPage} 
+          totalData={currentPages.length} 
+          paginate={paginate} 
+          /> */}
         </div> 
     )
 }
