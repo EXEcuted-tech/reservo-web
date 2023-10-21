@@ -20,54 +20,62 @@ const AdminLogin = () => {
 
     const Navigate = useNavigate();
 
-    const submitHandler = (event:FormEvent) =>{
+    const submitHandler = async (event:FormEvent) =>{
         event.preventDefault();
         
         setIsLoading(true);
-        checkEmail();
-        console.log("Account Type: ",accountType);
-        if(email === '' || pass === ''){
-            setIsLoading(false);
-            setErrMess("Fill all the fields required!");
-            // setInvalid(true);
-        }else{
-            axios.post(`${config.API}/login`,{
-                account_email: email , 
-                password : pass,
-                account_type: accountType
-            }).then((res)=>{
-                    if(res.data.success == true){
-                        setErrMess('');
-                        setTimeout(()=>{
-                            setIsLoading(false);
-                        },800)
-                        localStorage.setItem('admerchDetails', JSON.stringify(res.data.account_info));
-                        accountType == 10 ? Navigate('/merchdash') : Navigate('/admindash');
-                    }else{
-                        setIsLoading(false);
-                        setErrMess(res.data.error);   
-                    }
-                }
-            ).catch((err) => { 
+        const col = "email_address";
+        const val = email;
+
+        const res = await axios.get(`${config.API}/user/retrieve?col=${col}&val=${val}`);
+
+        if (res.status === 200) {
+            const account = res.data.users[0];
+            setAccountType(account?.account_type);
+            if(email === '' || pass === ''){
                 setIsLoading(false);
-                setErrMess("Login failed. Try again!");
+                setErrMess("Fill all the fields required!");
                 // setInvalid(true);
-            });
+            }else{
+                axios.post(`${config.API}/login`,{
+                    account_email: email , 
+                    password : pass,
+                    account_type: account.account_type ? account.account_type : 10
+                }).then((res)=>{
+                        if(res.data.success == true){
+                            setErrMess('');
+                            setTimeout(()=>{
+                                setIsLoading(false);
+                            },800)
+                            localStorage.setItem('admerchDetails', JSON.stringify(res.data.account_info));
+                            accountType == 10 ? Navigate('/merchdash') : Navigate('/admindash');
+                        }else{
+                            setIsLoading(false);
+                            setErrMess(res.data.error);   
+                        }
+                    }
+                ).catch((err) => { 
+                    setIsLoading(false);
+                    setErrMess("Login failed. Try again!");
+                    // setInvalid(true);
+                });
+            }
         }
     }
 
-    const checkEmail = () =>{
-        const col = "account_email";
-        const val = email;
-        axios.get(`${config.API}/user/retrieve?col=${col}&val=${val}`)
-        .then((res)=>{
-           if(res.status === 200){
-            // console.log("RESULT: ",res.data);
-            const account = res.data.users[0];
-            setAccountType(account?.account_type);
-           }
-        })
-    }
+    // const checkEmail = async () =>{
+    //     const col = "email_address";
+    //     const val = email;
+    //     await axios.get(`${config.API}/user/retrieve?col=${col}&val=${val}`)
+    //     .then((res)=>{
+    //        if(res.status === 200){
+    //         // console.log("RESULT: ",res.data);
+    //         const account = res.data.users[0];
+    //         setAccountType(account?.account_type);
+    //        }
+    //     })
+    // }
+
   return (
     <div className='animate-fade-in content-center w-[full] h-[full] overflow-hidden font-poppins'>
       {errMess !='' && <Danger message={errMess}/>}
