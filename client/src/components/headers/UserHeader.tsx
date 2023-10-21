@@ -46,20 +46,20 @@ const UserHeader = () => {
   };
 
   return (
-    <div className='font-poppins flex bg-white text-white h-[6rem] xl:max-2xl:h-[5.5rem]'>
-        <div className='w-[63%] flex items-center xl:max-2xl:w-[60%] '>
-          <img src={logo} alt='Reservo Logo' className='ml-[5%] w-[15%]'/>
+    <div className='font-poppins flex bg-white text-white h-[6rem] xs:max-sm:h-[5rem] xl:max-2xl:h-[5.5rem]'>
+        <div className='w-[63%] flex items-center xs:max-sm:w-[30%] xl:max-2xl:w-[60%]'>
+          <img src={logo} alt='Reservo Logo' className='ml-[5%] w-[15%] xs:max-sm:ml-[15%] xs:max-sm:w-[60%]'/>
         </div>
         <div className='w-[30%] flex items-center xl:max-2xl:w-[32%]'>
           <nav className="xl:max-2xl:ml-[5%]">
-            <ul className='flex text-[1.2em] text-black xl:max-2xl:text-[0.8em]'>
-              <li className={`mr-28 hover:text-[#DD2803] cursor-pointer hover:animate-zoom-in-end xl:max-2xl:mr-16
+            <ul className='flex text-[1.2em] text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'>
+              <li className={`mr-28 hover:text-[#DD2803] cursor-pointer hover:animate-zoom-in-end xs:max-sm:mr-8 xl:max-2xl:mr-16
                               ${urlPart === '' ? 'text-[#DD2803]' : ''}`}
                 onClick={()=>{navigate('/')}}>Home</li>
-              <li className={`mr-28 hover:text-[#DD2803] cursor-pointer hover:animate-zoom-in-end xl:max-2xl:mr-16
+              <li className={`mr-28 hover:text-[#DD2803] cursor-pointer hover:animate-zoom-in-end xs:max-sm:mr-8 xl:max-2xl:mr-16
                             ${urlPart === 'about' ? 'text-[#DD2803]' : ''}`}
                 onClick={()=>{navigate('/about')}}>About Us</li>
-              <li className={`hover:text-[#DD2803] cursor-pointer hover:animate-zoom-in-end xl:max-2xl:mr-16
+              <li className={`hover:text-[#DD2803] cursor-pointer hover:animate-zoom-in-end xs:max-sm:mr-8 xl:max-2xl:mr-16
                             ${urlPart === '/eaterychoice' ? 'text-[#DD2803]' : ''}`}
                 onClick={()=>{navigate('/eaterychoice')}}>Eatery Choices</li>
             </ul>
