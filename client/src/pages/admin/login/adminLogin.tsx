@@ -31,12 +31,13 @@ const AdminLogin = () => {
 
         if (res.status === 200) {
             const account = res.data.users[0];
-            setAccountType(account?.account_type);
+
             if(email === '' || pass === ''){
                 setIsLoading(false);
                 setErrMess("Fill all the fields required!");
                 // setInvalid(true);
             }else{
+                // console.log("TYPE:",account?.account_type);
                 axios.post(`${config.API}/login`,{
                     account_email: email , 
                     password : pass,
@@ -48,7 +49,7 @@ const AdminLogin = () => {
                                 setIsLoading(false);
                             },800)
                             localStorage.setItem('admerchDetails', JSON.stringify(res.data.account_info));
-                            accountType == 10 ? Navigate('/merchdash') : Navigate('/admindash');
+                            account.account_type == 10 ? Navigate('/merchdash') : Navigate('/admindash');
                         }else{
                             setIsLoading(false);
                             setErrMess(res.data.error);   
