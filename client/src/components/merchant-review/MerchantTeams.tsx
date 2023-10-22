@@ -6,6 +6,16 @@ import MerchantTeamDeets from './MerchantTeamDeets'
 import axios from 'axios'
 import config from '../../common/config'
 import MerchantPagination from './MerchantPagination'
+import Pagination from '@mui/material/Pagination';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#DD2803',
+      }
+    },
+  });
 
 sessionStorage.setItem('viewDetails', 'false')
 
@@ -18,9 +28,6 @@ const MerchantTeams = () => {
     const [loading, setLoading] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [recordsPerPage] = useState(4)
-    const lastIndex = currentPage * recordsPerPage
-    const firstIndex = lastIndex - recordsPerPage
-    const currentPages = merchTeam.slice(firstIndex,lastIndex)
 
     const paginate = (pageNumbers) => setCurrentPage(pageNumbers)
 
@@ -40,8 +47,17 @@ const MerchantTeams = () => {
     useEffect(() => {
         fetchMerchInfo();
       }, []);
+
+    const handlePageChange = (event, newPage) => {
+        setCurrentPage(newPage);
+    };
+
+    const lastIndex = currentPage * recordsPerPage
+    const firstIndex = lastIndex - recordsPerPage
+    const currentPages = merchTeam.slice(firstIndex,lastIndex)
+
     return (
-        <div className='h-[100%] py-[1%] font-poppins'>
+        <div className='h-[100%] py-[1%] font-poppins relative'>
             { sessionStorage.getItem('viewDetails') === 'false' ?    
             <div> 
             {currentPages.map((data,i) => (
@@ -69,6 +85,19 @@ const MerchantTeams = () => {
                         </div>  
                 </div>  
             ))}
+            <div className="flex justify-center w-full absolute bottom-8">
+                <ThemeProvider theme={theme}>
+                    <Pagination
+                        count={Math.ceil(merchTeam.length / recordsPerPage)}
+                        page={currentPage}
+                        onChange={handlePageChange}
+                        showFirstButton
+                        showLastButton
+                        color='primary'
+                        shape="rounded"
+                    />
+                </ThemeProvider>
+            </div>
             <MerchantPagination 
             dataPerPage={recordsPerPage} 
             totalData={currentPages.length} 

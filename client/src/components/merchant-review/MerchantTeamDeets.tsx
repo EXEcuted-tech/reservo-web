@@ -5,6 +5,16 @@ import {BsFolder, BsTrash} from 'react-icons/bs'
 import Logo from '../../assets/jjlogo.png'
 import axios from 'axios'
 import config from '../../common/config'
+import Pagination from '@mui/material/Pagination';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#DD2803',
+    }
+  },
+});
 
 const MerchantTeamDeets = ( {merchantID} ) => {
     const [buttonStatus, setbuttonStatus] = useState(false)
@@ -14,7 +24,8 @@ const MerchantTeamDeets = ( {merchantID} ) => {
     const [merchAccounts, setmerchAccounts] = useState([{}])
     const [accNames, setaccNames] = useState([])
 
-    
+    const [currentPage, setCurrentPage] = useState(1)
+
     const fetchMerchAccounts = async() => {
       const col = "merchant_id"
       const val = 1
@@ -54,6 +65,14 @@ const MerchantTeamDeets = ( {merchantID} ) => {
       fetchMerchAccounts();
     }, []);
 
+    const handlePageChange = (event, newPage) => {
+      setCurrentPage(newPage);
+  };
+
+  const recordsPerPage = 9;
+  const startIndex = (currentPage - 1) * recordsPerPage;
+  const endIndex = Math.min(startIndex + recordsPerPage, Object.keys(merchAccounts).length);
+
     return (
         <div className='w-[100%] bg-white h-[90%] mt-[1%] rounded-ss-2xl flex-row align-center overflow-y-auto'>
           {/* Dummy Conten 1 */}
@@ -90,18 +109,35 @@ const MerchantTeamDeets = ( {merchantID} ) => {
                       <th>Position</th>
                       <th>Manage</th>
                     </tr>
-                {Object.keys(merchAccounts).map((data,i) => (
-                    <tr className='border-[#F3F3F3] border-t-2 p-[1%] my-[2%]' key={i}>
-                      <td>Kathea Mari Mayol</td>
-                      <td>{merchAccounts[data].email}</td>
-                      <td>{merchAccounts[data].position}</td>
-                      <div className='bg-[#DD2803] items-center text-white p-[1%] m-[7%] rounded-md'>
-                        <p className='flex items-center text-center justify-center text-[1em]'><BsTrash className='text-[1em]'/> Delete</p>
-                      </div>
-                    </tr>
-                   ))}
+                    {Object.keys(merchAccounts)
+                      .slice(startIndex, endIndex)
+                      .map((data, i) => (
+                        <tr className='border-[#F3F3F3] border-t-2 p-[1%] my-[2%]' key={i}>
+                          <td>Kathea Mari Mayol</td>
+                          <td>{merchAccounts[data].email}</td>
+                          <td>{merchAccounts[data].position}</td>
+                          <button className='bg-[#DD2803] items-center text-white p-[1%] px-[16%] m-[7%] rounded-md'>
+                            <p className='flex items-center text-center justify-center text-[1em]'>
+                              <BsTrash className='text-[1em]' /> Delete
+                            </p>
+                          </button>
+                        </tr>
+                      ))}
                   </table>
               </div>
+              <div className="flex justify-center w-full absolute bottom-8">
+                <ThemeProvider theme={theme}>
+                  <Pagination
+                    count={Math.ceil(Object.keys(merchAccounts).length / recordsPerPage)}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    showFirstButton
+                    showLastButton
+                    color='primary'
+                    shape='rounded'
+                  />
+                </ThemeProvider>
+            </div>
         </div> 
     )
 }
