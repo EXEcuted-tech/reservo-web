@@ -19,8 +19,8 @@ const ReserveManager = () => {
     <div className={`bg-[#FFFFFF] h-full w-full font-poppins overflow-y-auto overflow-x-hidden animate-fade-in`}>
       <div className= "w-full">
       <MerchAdHeader icon={RiReservedFill} title="Reservation Manager"/>
-        <div className="bg-[#F3F3F3] h-[100vh]">
-          <div className="flex ml-10 mr-10 text-xl">
+        <div className="bg-[#F3F3F3] h-[100vh] xs:max-sm:w-full xl:max-2xl:h-[245vh]">
+          <div className="flex ml-10 mr-10 text-xl xs:max-sm:ml-[-1rem] xs:max-sm:mr-14">
             <ToggleHeader
                 title1="Reservation Manager"
                 title2='Merchant Calendar'

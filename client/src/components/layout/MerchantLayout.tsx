@@ -34,12 +34,12 @@ const MerchantLayout = () => {
             <BiSolidFoodMenu className="text-[1.3rem] mt-[0.3rem]" />
             {showSidebar ? '' : ''}
           </button>
-           <img src={logo} alt="Reservo Logo" className="w-[25%] mt-[2%] ml-[30%]" />
+           <img src={logo} alt="Reservo Logo" className="w-[25%] mt-[2%] ml-[40%]" />
         </div>
       )}
 
       {showSidebar && (
-        <div className=" bg-[#840705] h-[100vh] w-[20vw] rounded-xl xs:max-sm:fixed xs:max-sm:w-[50vw] xs:max-sm:h-[90vh] xs:max-sm:z-[100] xs:max-sm:mt-[0.6rem] xs:max-sm:animate-slide-left">
+        <div className=" bg-[#840705] h-[100vh] w-[20vw] rounded-xl xs:max-sm:fixed xs:max-sm:w-[50vw] xs:max-sm:h-full xs:max-sm:z-[100] xs:max-sm:mt-[0.6rem] xs:max-sm:animate-slide-left">
           <MerchSide showSidebar={showSidebar} />
         </div>
       )}

@@ -40,3 +40,11 @@ body {
   background-repeat: no-repeat;
   height: 88.5vh;
 }
+
+@media (min-width: 300px) {
+  @media not all and (min-width: 640px) {
+    .bg-logout {
+      height: 93vh;
+    }
+  }
+}

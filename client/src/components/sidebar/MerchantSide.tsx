@@ -82,7 +82,7 @@ const MerchantSide: React.FC<MerchantSideProps> = ({ showSidebar }) => {
                     <IoBusiness className='mr-[4%] text-[1.5em]'/> Merchant Settings</li>
             </ul>
         </div>
-      <div className={`fixed top-[85%] ml-[1.5%] text-white xs:max-sm:text-[1.1em] xs:max-sm:top-[70%] xs:max-sm:ml-[4%] `}>
+      <div className={`fixed top-[85%] ml-[1.5%] text-white xs:max-sm:text-[1.1em] xs:max-sm:top-[90%] xs:max-sm:ml-[4%] `}>
         <button onClick={() => navigate('/logout')}>
           <FiLogOut className="mr-[1%] text-[1.5em] text-white xs:max-sm:text-[1.1em]" /> Log Out
         </button>

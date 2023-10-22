@@ -66,33 +66,38 @@ const ReservationManager = () => {
   };
 
   return (
-    <div className="animate-fade-in font-poppins bg-[#F3F3F3] p-8 overflow-y-auto">
+    <div className="animate-fade-in font-poppins bg-[#F3F3F3] p-8 overflow-y-auto xs:max-sm:w-[130%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
       <div className="flex items-center justify-center">
         <div className="rounded-lg bg-[#FFFFFF] w-full p-5 mt-[1rem]">
           <div className="flex w-full ">
-            <h1 className="text-[1.5em] font-bold xl:max-2xl:text-[1.2em]">Current Reservation Form</h1>
+            <h1 className="text-[1.5em] font-bold xs:max-sm:text-[1em] xl:max-2xl:text-[1.2em]">Current Reservation Form</h1>
             <button
               type="button"
               onClick={() => (pageMode === PAGE_MODE.READ ? setPageMode(PAGE_MODE.UPDATE) : setPageMode(PAGE_MODE.READ))}
               className="text-black p-0 cursor-pointer ml-auto"
             >
-              <LiaEdit className="text-4xl xl:max-2xl:text-2xl" />
+              <LiaEdit className="text-4xl xs:max-sm:text-3xl xl:max-2xl:text-2xl" />
             </button>
           </div>
+
           <div className="flex flex-col text-xl text-black w-full h-full bg-[#F0E5D8] rounded mt-5 xl:max-2xl:mt-2">
-            <div className="flex p-10">
-              <div className="flex flex-col gap-5 w-1/2 font-bold">
+            <div className="flex p-10 xs:max-sm:p-5">
+              <div className="flex flex-col gap-5 w-1/2 font-bold xs:max-sm:mr-[10%]">
                 <div className="flex items-center gap-1">
-                  <IoCalendarOutline className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Date:</h3>
+                  <IoCalendarOutline className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.1em] xl:max-2xl:text-[1.1em]"/> 
+                  <h3 className="xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Date:</h3>
                 </div>
                 <div className="flex items-center gap-1">
-                  <FiClock className="mr-[0.5rem] xl:max-2xl:text-[1.1em]" /> <h3 className="xl:max-2xl:text-[0.8em]">Time:</h3>
+                  <FiClock className="mr-[0.5rem] xs:max-sm:text-[1.1em] xl:max-2xl:text-[1.1em]" /> 
+                  <h3 className="xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Time:</h3>
                 </div>
                 <div className="flex items-center">
-                  <BsPerson className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Client Name:</h3>
+                  <BsPerson className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.6em] xs:max-sm:mb-[2rem] xl:max-2xl:text-[1.1em]"/> 
+                  <h3 className="xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Client Name:</h3>
                 </div>
                 <div className="flex items-center mt-[10%]">
-                  <LiaCommentSolid className="text-[22px] mr-[0.5rem]"/><h3 className="xl:max-2xl:text-[0.8em]"> Remarks:</h3>
+                  <LiaCommentSolid className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.1em]"/>
+                  <h3 className="xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]"> Remarks:</h3>
                 </div>
                 {pageMode === PAGE_MODE.READ &&
                   !!fieldList.length &&
@@ -106,24 +111,27 @@ const ReservationManager = () => {
               </div>
               <div className="flex flex-col gap-5 w-1/2 font-bold">
                 <div className="flex items-center">
-                  <MdFormatListNumbered className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Event Size:</h3>
+                  <MdFormatListNumbered className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.1em] xl:max-2xl:text-[1.1em]"/>
+                  <h3 className="xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Event Size:</h3>
                 </div>
                 <div className="flex items-center">
-                  <HiOutlineMail className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Email:</h3>
+                  <HiOutlineMail className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.1em] xl:max-2xl:text-[1.1em]"/> 
+                  <h3 className="xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Email:</h3>
                 </div>
                 <div className="flex items-center">
-                  <AiOutlinePhone className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Contact Number:</h3>
+                  <AiOutlinePhone className="text-[22px] mr-[0.5rem] xs:max-sm:text-[2em] xs:max-sm:mb-[2rem] xl:max-2xl:text-[1.1em]"/> 
+                  <h3 className="xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Contact Number:</h3>
                 </div>
               </div>
             </div>
 
             {pageMode === PAGE_MODE.UPDATE && (
-              <div className="p-5 ml-[1rem] animate-fade-in">
+              <div className="p-5 ml-[1rem] animate-fade-in xs:max-sm:ml-[0rem]">
                 <button
                   onClick={() => {
                     dialogRef.current?.showModal();
                   }}
-                  className="p-3 text-xl bg-[#008927] text-white rounded-lg  xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
+                  className="p-3 text-xl bg-[#008927] text-white rounded-lg xs:max-sm:text-[0.8em] xs:max-sm:p-2  xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
                     hover:bg-[#077827] transition-colors delay-250 duration-[3000] ease-in"
                 >
                   Add Field
