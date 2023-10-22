@@ -21,12 +21,12 @@ const AdminDashboard = () => {
     }
   }
 
-  const formattedAccountsData = adgraphList.map(item => [new Date(item.signup_year,item.signup_month),item.count_merchant,item.count_user])
+  // const formattedAccountsData = adgraphList.map(item => [new Date(item.signup_year,item.signup_month),item.count_merchant,item.count_user])
 
-  const LineData = [
-    ['x', 'Merchants', 'Users'],
-    ...formattedAccountsData
-  ]
+  // const LineData = [
+  //   ['x', 'Merchants', 'Users'],
+  //   ...formattedAccountsData
+  // ]
   const LineChartOptions = {
     chart: {
       title: 'Average Temperatures and Daylight in Iceland Throughout the Year'
@@ -93,7 +93,7 @@ const AdminDashboard = () => {
           height={'100%'}
           chartType="LineChart"
           loader={<div>Loading Chart</div>}
-          data={LineData}
+          // data={LineData}
           options={LineChartOptions}
           rootProps={{ 'data-testid': '2' }}
           />

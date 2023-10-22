@@ -9,7 +9,7 @@ import { HiOutlineMail } from "react-icons/hi";
 import { AiOutlinePhone } from "react-icons/ai";
 import { LiaCommentSolid } from "react-icons/lia";
 import { FiClock } from "react-icons/fi";
-
+import {SiReacthookform} from 'react-icons/si'
 
 const PAGE_MODE = {
   READ: 0,
@@ -41,8 +41,9 @@ const ReservationManager = () => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
-    if (data && (!Object.hasOwn(data, "label") || !Object.hasOwn(data, "type"))) return;
 
+    if (data && (!Object.hasOwn(data, "label") || !Object.hasOwn(data, "type"))) return;
+    console.log("DATA in Reservation Manager: ",data);
     formRef.current?.reset();
     dialogRef.current?.close();
 
@@ -69,8 +70,8 @@ const ReservationManager = () => {
     <div className="animate-fade-in font-poppins bg-[#F3F3F3] p-8 overflow-y-auto">
       <div className="flex items-center justify-center">
         <div className="rounded-lg bg-[#FFFFFF] w-full p-5 mt-[1rem]">
-          <div className="flex w-full ">
-            <h1 className="text-[1.5em] font-bold xl:max-2xl:text-[1.2em]">Current Reservation Form</h1>
+          <div className="flex w-full items-center ">
+            <h1 className="flex items-center text-[1.5em] w-[80%] font-bold xl:max-2xl:text-[1.2em]"><SiReacthookform className="mr-[0.5%] text-[1.2em]"/> Current Reservation Form</h1>
             <button
               type="button"
               onClick={() => (pageMode === PAGE_MODE.READ ? setPageMode(PAGE_MODE.UPDATE) : setPageMode(PAGE_MODE.READ))}
@@ -80,19 +81,28 @@ const ReservationManager = () => {
             </button>
           </div>
           <div className="flex flex-col text-xl text-black w-full h-full bg-[#F0E5D8] rounded mt-5 xl:max-2xl:mt-2">
+          <h1 className='font-black ml-[3%] mt-[3%] text-[1.7em] text-[#840705] xl:max-2xl:text-[1.7em] underline'>GENERAL SECTION</h1>
             <div className="flex p-10">
               <div className="flex flex-col gap-5 w-1/2 font-bold">
                 <div className="flex items-center gap-1">
-                  <IoCalendarOutline className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Date:</h3>
+                  <IoCalendarOutline className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Date: 
+                    <span className="text-[20px] ml-[5%] text-[#363636] font-extralight">YYYY/MM/DD</span>
+                  </h3>
                 </div>
                 <div className="flex items-center gap-1">
-                  <FiClock className="mr-[0.5rem] xl:max-2xl:text-[1.1em]" /> <h3 className="xl:max-2xl:text-[0.8em]">Time:</h3>
+                  <FiClock className="mr-[0.5rem] xl:max-2xl:text-[1.1em]" /> <h3 className="xl:max-2xl:text-[0.8em]">Time:
+                  <span className="text-[20px] ml-[5%] text-[#363636] font-extralight">mm:hh:ss</span>
+                  </h3>
                 </div>
                 <div className="flex items-center">
-                  <BsPerson className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Client Name:</h3>
+                  <BsPerson className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="w-full xl:max-2xl:text-[0.8em]">Client Name:
+                    <span className="text-[20px] ml-[1%] text-[#363636] font-extralight">John Doe</span>
+                  </h3>
                 </div>
-                <div className="flex items-center mt-[10%]">
-                  <LiaCommentSolid className="text-[22px] mr-[0.5rem]"/><h3 className="xl:max-2xl:text-[0.8em]"> Remarks:</h3>
+                <div className="flex items-center">
+                  <LiaCommentSolid className="text-[22px] mr-[0.5rem]"/><h3 className="w-full xl:max-2xl:text-[0.8em]"> Remarks:
+                    <span className="text-[20px] ml-[1%] text-[#363636] font-extralight">The service was swift and great!</span>
+                  </h3>
                 </div>
                 {pageMode === PAGE_MODE.READ &&
                   !!fieldList.length &&
@@ -106,17 +116,24 @@ const ReservationManager = () => {
               </div>
               <div className="flex flex-col gap-5 w-1/2 font-bold">
                 <div className="flex items-center">
-                  <MdFormatListNumbered className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Event Size:</h3>
+                  <MdFormatListNumbered className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="w-full xl:max-2xl:text-[0.8em]">Event Size:
+                   <span className="text-[20px] ml-[1%] text-[#363636] font-extralight">100</span>
+                  </h3>
                 </div>
                 <div className="flex items-center">
-                  <HiOutlineMail className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Email:</h3>
+                  <HiOutlineMail className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Email:
+                  <span className="text-[20px] ml-[3%] text-[#363636] font-extralight">john@abc.com</span>
+                  </h3>
                 </div>
                 <div className="flex items-center">
-                  <AiOutlinePhone className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Contact Number:</h3>
+                  <AiOutlinePhone className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="w-full xl:max-2xl:text-[0.8em]">Contact Number:
+                  <span className="text-[20px] ml-[1%] text-[#363636] font-extralight">09123456789</span>
+                  </h3>
                 </div>
               </div>
             </div>
-
+            <h1 className='font-black ml-[3%] mb-[2%] text-[1.7em] text-[#840705] xl:max-2xl:text-[1.7em] underline'>ADDITIONAL SECTION</h1>
+            {/*Insert code where it places existing custom labels*/}
             {pageMode === PAGE_MODE.UPDATE && (
               <div className="p-5 ml-[1rem] animate-fade-in">
                 <button

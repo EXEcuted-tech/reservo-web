@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import guykey from '../assets/usersign.png'
 import background from '../assets/background-pattern.png'
 import { FaEnvelope } from 'react-icons/fa';
@@ -7,38 +7,84 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import config from '../common/config';
 import GenSpinner from '../components/loaders/genSpinner';
+import Spinner from '@material-tailwind/react/components/Spinner';
+import Danger from '../components/box/danger';
 
 
 const ForgetPassword = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
+    const [userOTP,setUserOTP]= useState('')
 
     const [email, setEmail] = useState('');
 
     const [confirmMessage, setConfirmMessage] = useState(true);
+    const [errMess,setErrMess]= useState('');
+    const [countdown, setCountdown] = useState(300);
 
     const handleResetPassword = async () => {
         setIsLoading(true)
         try {
             // Make a POST request to your backend API
-            await axios.post(`${config.API}/forgetPassword/sendEmail`, { email }); // Replace '/api/reset-password' with your actual API endpoint
+            await axios.post(`${config.API}/forgetPassword/sendEmail`, { email })
+            .then((res)=>{
+                if(res.status == 200){
+                    setTimeout(()=>{setIsLoading(false);},800)
+                    setConfirmMessage(false);
+                }
+            })
             // Optionally, display a success message to the user
             // alert('Reset email sent successfully');
-            setConfirmMessage(false);
+
         } catch (error) {
             // Handle errors (e.g., display an error message)
             console.error(error);
             alert('Error sending reset email');
         }
-        setIsLoading(false);
+
     };
+
+    const confirmOTP = () => {
+        setIsLoading(true)
+        setErrMess('');
+        try{
+            axios.post(`${config.API}/forgetPassword/verifycode`, { email,userOTP })
+            .then((res)=>{
+                if(res.data.success == true){
+                    alert("Code to be continued!");
+                    window.location.reload(); //replace this to a page where they can change their password
+                }else{
+                    setErrMess('Incorrect OTP code!');
+                }
+            })
+        }catch(err){
+            console.log(err);
+            setErrMess('Incorrect OTP code!');
+        }
+    }
 
     const backButton = () => {
         window.location.reload();
     }
 
+    useEffect(() => {
+        const countdownInterval = setInterval(() => {
+          if (countdown > 0) {
+            setCountdown(countdown - 1);
+          } else {
+            clearInterval(countdownInterval);
+            // Handle countdown expiration
+          }
+        }, 1000);
+    
+        return () => {
+          clearInterval(countdownInterval);
+        };
+      }, [countdown]);
+
     return (
         <div className="animate-fade-in font-poppins" id='confirmBox'>
+            {errMess !='' && <Danger message={errMess}/>}
             <img className='absolute h-screen w-full' src={background} alt='background' />
             {confirmMessage ? (<div className='bg-white w-[53%] h-[65%] absolute -translate-x-2/4 -translate-y-2/4 flex items-center shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 xl:max-2xl:w-[50%] xl:max-2xl:h-[68%]'>
                 <div className='w-[35%] h-full bg-[rgb(221,40,3)] flex flex-col p-[40px] pt-[70px] rounded-[7px_0px_0px_7px] xl:max-2xl:w-[40%]'>
@@ -71,29 +117,34 @@ const ForgetPassword = () => {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     <>
-                        {
-                            isLoading ?
-                                <GenSpinner /> :
-                                <button
-                                    type="submit"
-                                    className='bg-[rgb(221,40,3)] text-[white] w-[43%] float-right mt-[20px] p-1.5 rounded-[20px] text-l font-semibold 
-                                    hover:bg-[#9a1a00] transition-colors delay-250 duration-[3000] ease-in xl:max-2xl:text-[0.7em]'
-                                    onClick={handleResetPassword}
-                                    disabled={isLoading}
-                                >
-                                    Reset Password
-                                </button>
-                        }
+                        <button
+                            type="submit"
+                            className='flex justify-center bg-[rgb(221,40,3)] text-[white] w-[43%] float-right mt-[20px] p-1.5 rounded-[20px] text-l font-semibold 
+                            hover:bg-[#9a1a00] transition-colors delay-250 duration-[3000] ease-in xl:max-2xl:text-[0.7em]'
+                            onClick={handleResetPassword}
+                            disabled={isLoading}
+                        >
+                            {isLoading && <Spinner/>}  Reset Password
+                        </button>
                     </>
-
-
                 </div>
             </div>) : (<div className='bg-white w-[30%] h-[50%] absolute -translate-x-2/4 -translate-y-2/4 flex flex-col items-center justify-center shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 p-20 text-center'>
                     <h1 className='text-5xl font-extrabold'>Email Sent!</h1><br/>
-                    <h3 className='text-2xl'>Check your email to retrieve your account</h3><br/>
+                    <h3 className='text-2xl'>A verification code is sent to your email address.</h3><br/><p>Please enter it below to reset your password.</p>
+                    <input type="text" name="code" placeholder='Input OTP Code' onChange={(e)=>{setUserOTP(e.target.value)}} className='w-full text-[black] inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc]'></input>
+                    <div className="countdown-timer text-[1em] text-[#ccc]">
+                         Time Left: {Math.floor(countdown / 60)}:{(countdown % 60).toString().padStart(2, '0')}
+                     </div>
                     <button
                         type="submit"
                         className='bg-[rgb(221,40,3)] text-[white] w-[200px] float-right mt-[20px] p-1.5 rounded-[20px] text-xl font-extrabold'
+                        onClick={confirmOTP}
+                    >
+                        Enter Code
+                    </button>
+                    <button
+                        type="submit"
+                        className='bg-[white] border-[rgb(221,40,3)] border-[3px] text-[rgb(221,40,3)] w-[200px] float-right mt-[10px] p-1.5 rounded-[20px] text-xl font-extrabold'
                         onClick={backButton}
                     >
                         Go back
