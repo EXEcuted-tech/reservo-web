@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Divider, Grid } from '@mui/material';
+import {AiOutlineClose} from  'react-icons/ai'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -12,8 +13,7 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: '50%',
   maxHeight: '80%',
-  overflowY : "scroll",
-
+  overflow : "hidden auto",
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -138,7 +138,9 @@ export default function ReservationList(props: { year: number, dataSet: details[
               <Typography variant="h6" component="h6">
                 reservations : {reserveFilter.length}
               </Typography>
+              <Button onClick={handleClose} sx={{width:"5vw",height:"10vh", display:"float" , position: "fixed" , top:'2%', left:'89%'}}><AiOutlineClose style={{width:"100%",height:"100%"}}/></Button>
             </Box>
+            
             <Divider sx={{backgroundColor: "grey"}}/>
             <Grid container >
               <Grid item xs>
@@ -158,9 +160,7 @@ export default function ReservationList(props: { year: number, dataSet: details[
                 </Box>
               )
             }) :
-              <Box>
-                <Typography>There is no Reservation in this day</Typography>
-              </Box>}
+              <Button sx={{width:'100%',height:'10vh' ,backgroundColor:'dirtyWhite',color:"black" ,padding:'0px', margin:'1rem 0px 1rem 0px'}} variant='contained' disabled>There is no Reservation on this day</Button>}
           </Box>
         </Modal>
       </div>
