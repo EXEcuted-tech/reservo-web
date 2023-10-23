@@ -50,6 +50,8 @@ const ReservationManager = () => {
     const newField = { label: data?.label ?? "", type: data?.type ?? "", value: "" };
 
     setFieldList((currentList) => [...currentList, newField]);
+
+    console.log("Field List: ",fieldList);
   };
 
   const handleRemove = (fieldIndex: number) => {
@@ -80,9 +82,9 @@ const ReservationManager = () => {
               <LiaEdit className="text-4xl xl:max-2xl:text-2xl" />
             </button>
           </div>
-          <div className="flex flex-col text-xl text-black w-full h-full bg-[#F0E5D8] rounded mt-5 xl:max-2xl:mt-2">
+          <div className="flex flex-col text-xl text-black w-full h-full bg-[#F0E5D8] rounded-3xl mt-5 xl:max-2xl:mt-2">
           <h1 className='font-black ml-[3%] mt-[3%] text-[1.7em] text-[#840705] xl:max-2xl:text-[1.7em] underline'>GENERAL SECTION</h1>
-            <div className="flex p-10">
+            <div className="flex px-10 pb-10 pt-5">
               <div className="flex flex-col gap-5 w-1/2 font-bold">
                 <div className="flex items-center gap-1">
                   <IoCalendarOutline className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Date: 
@@ -104,15 +106,6 @@ const ReservationManager = () => {
                     <span className="text-[20px] ml-[1%] text-[#363636] font-extralight">The service was swift and great!</span>
                   </h3>
                 </div>
-                {pageMode === PAGE_MODE.READ &&
-                  !!fieldList.length &&
-                  fieldList.map((item: any, index: number) => (
-                    <Fragment key={index}>
-                      <div className="flex items-center">
-                        <h3>{`${item.label}: ${item.value}`}</h3>
-                      </div>
-                    </Fragment>
-                  ))}
               </div>
               <div className="flex flex-col gap-5 w-1/2 font-bold">
                 <div className="flex items-center">
@@ -133,9 +126,22 @@ const ReservationManager = () => {
               </div>
             </div>
             <h1 className='font-black ml-[3%] mb-[2%] text-[1.7em] text-[#840705] xl:max-2xl:text-[1.7em] underline'>ADDITIONAL SECTION</h1>
-            {/*Insert code where it places existing custom labels*/}
+            
+            
+            {pageMode === PAGE_MODE.READ &&
+                  !!fieldList.length &&
+                  fieldList.map((item: any, index: number) => (
+                    <Fragment key={index}>
+                      <div className="flex px-10 pb-10">
+                        <div className="flex items-center">
+                          <h3>{`${item.label}: ${item.value}`}</h3>
+                        </div>
+                      </div>
+                    </Fragment>
+                  ))}
+            
             {pageMode === PAGE_MODE.UPDATE && (
-              <div className="p-5 ml-[1rem] animate-fade-in">
+              <div className="px-5 pb-5 ml-[1rem] animate-fade-in">
                 <button
                   onClick={() => {
                     dialogRef.current?.showModal();
