@@ -39,14 +39,14 @@ const MerchDashboard = () => {
     }
   }
 
-  const formattedData = graphList.map(item => [new Date(item.year,item.month-1 ), item.books])
-  const LineData = [
-    [
-      { type: "date", label: 'Day'},
-      'Bookings'
-    ],
-    ...formattedData
-  ]
+  // const formattedData = graphList.map(item => [new Date(item.year,item.month-1 ), item.books])
+  // const LineData = [
+  //   [
+  //     { type: "date", label: 'Day'},
+  //     'Bookings'
+  //   ],
+  //   ...formattedData
+  // ]
   const LineChartOptions = {
     title: 'Rervations Graph',
     linewidth: graphList.length,
@@ -197,7 +197,7 @@ const MerchDashboard = () => {
           height={'100%'}
           chartType="LineChart"
           loader={<div>Loading Chart...</div>}
-          data={LineData}
+          // data={LineData}
           options={LineChartOptions}
           rootProps={{ 'data-testid': '2' }}
           />

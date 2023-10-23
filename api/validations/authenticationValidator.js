@@ -4,8 +4,6 @@ const app = express();
 // Middleware to parse JSON request bodies
 app.use(express.json());
 
-//I-object ni nako ang mga errors later - kath
-
 const authenticationValidator = (req,res,next)=>{
     let error = "";
 
