@@ -8,9 +8,11 @@ import { Outlet } from 'react-router-dom';
 const MerchantLayout = () => {
   const [showSidebar, setShowSidebar] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
 
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
+    setIsButtonClicked(!isButtonClicked);
   };
 
   useEffect(() => {
@@ -30,11 +32,14 @@ const MerchantLayout = () => {
     <div className="flex">
       {isMobile && (
         <div className="w-full h-[3rem] fixed z-[101] bg-[#840705]"> 
-          <button onClick={toggleSidebar} className="text-white p-2 ml-2 rounded-full fixed ">
-            <BiSolidFoodMenu className="text-[1.3rem] mt-[0.3rem]" />
+          <button onClick={toggleSidebar} 
+            className={`text-white p-2 ml-3 rounded-2xl fixed mt-1 ${
+              isButtonClicked ? 'bg-[#840705]' : 'bg-[#660605]'
+               }`} >
+            <BiSolidFoodMenu className="text-[1.5rem] mt-[0.1rem]" />
             {showSidebar ? '' : ''}
           </button>
-           <img src={logo} alt="Reservo Logo" className="w-[25%] mt-[2%] ml-[40%]" />
+           <img src={logo} alt="Reservo Logo" className="w-[28%] mt-[2%] ml-[38%]" />
         </div>
       )}
 
