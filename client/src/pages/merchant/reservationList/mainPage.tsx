@@ -21,6 +21,16 @@ const ReserveList = () => {
   const [openModalView,setOpenModalView] = useState(false);
   const [openModalEdit,setOpenModalEdit] = useState(false);
 
+  const reservations = [{id:3322114425522 ,date: new Date("October 25 , 2023"), 
+  eventSize: 100, 
+  time : "10:00:00 AM- 5:00 PM",
+  email : "abc@def.com",
+  organizer : "juan Dela zz",     
+  contactN : "09919191912",     
+  clientN : "juan D Cruz",     
+  status : "Ongoing",
+  remarks : ""}]
+
   useEffect(() => {
     const pathParts = window.location.pathname.split('/');
     if (pathParts.length >= 3) {
@@ -93,7 +103,7 @@ const ReserveList = () => {
           </div>
         : 
           <div>
-            <ReserveCalendar/>
+            <ReserveCalendar />
           </div>
         }
       </div>

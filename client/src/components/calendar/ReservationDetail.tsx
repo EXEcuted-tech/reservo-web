@@ -30,10 +30,59 @@ interface details {
   remarks: string;
 };
 
-export default function ReservationDetails(props: { year: number, dataSet: details[], today: Date, day: number, monthNdx: number, monthName: string }) {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+
+const DetailsReserv = (props: { data: details }) => {
+
+  const dataX = props.data;
+  const style2 = { fontFamily: "poppins", fontWeight: "bolder", marginRight: '5px' }
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button onClick={handleOpen}>
+        <div className='flex flex-rows'>
+          <Typography sx={{margin:"5px"}}>{dataX.id}</Typography>
+          <Typography sx={{margin:"5px"}}>{dataX.time}</Typography>
+          <Typography sx={{margin:"5px"}}>{dataX.clientN}</Typography>
+        </div>
+      </Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
+      >
+        <Box sx={style}>
+          <Box id="modal-modal-description" sx={{ mt: 2 }}>
+            <div className="block">
+              <div className="grid grid-cols-2 gap-5">
+                <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Date: </Typography>{dataX.date.toDateString()}</span>
+                <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Event Size: </Typography>{dataX.eventSize}</span>
+                <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Time: </Typography>{dataX.time}</span>
+                <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Email: </Typography>{dataX.email}</span>
+                <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Organizer: </Typography>{dataX.organizer}</span>
+                <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Contact Number: </Typography>{dataX.contactN}</span>
+                <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Client Name: </Typography>{dataX.clientN}</span>
+                <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Status: </Typography>{dataX.status}</span>
+              </div>
+              <div className="rmk mt-[2rem]">
+                <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Remarks: </Typography>{dataX.remarks}</span>
+              </div>
+            </div>
+          </Box>
+        </Box>
+      </Modal>
+    </>
+  )
+}
+
+export default function ReservationList(props: { year: number, dataSet: details[], today: Date, day: number, monthNdx: number, monthName: string }) {
 
   const day = props.day;
   const year = props.year;
@@ -41,19 +90,14 @@ export default function ReservationDetails(props: { year: number, dataSet: detai
   const data = props.dataSet;
   const [dateToday, setDate] = useState(props.today);
   const [today, setDateToday] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
 
   useEffect(() => {
-    setDateToday(false);
     dateToday.getFullYear() === year && dateToday.getMonth() === monthNdx && dateToday.getDate() === day ? setDateToday(true) : setDateToday(false);
   }, [day])
-
-
-  // reservationDate  = () =>{
-
-  // }
-  // const reservationDay = props.dataSet.filter(cell);
-
 
   const isReserved = (elem: details) => {
 
@@ -61,14 +105,23 @@ export default function ReservationDetails(props: { year: number, dataSet: detai
     return bol
   }
 
-  function detailsContent(elem: details[]) {
+  const reserveFilter = data.filter((elem) => isReserved(elem));
+  //list of Reseration
+
+
+  // Content of the Reservation
+  const reserveList = (elem: details[]) => {
+
+    const reservedStyle = {
+      border: reserveFilter && reserveFilter.length > 0 ?  "yellowgreen 4px solid": "none",
+    }
     return (
       <div>
-        <Button variant="text" onClick={handleOpen} sx={reservedStyle}>{day}</Button>
+        <Button variant="text" onClick={handleOpen} sx={[reservedStyle , styleToday]}>{day}</Button>
         <Modal
           open={open}
           onClose={handleClose}
-          aria-labelledby="Reservation Details"
+          aria-labelledby="Reservation List"
           aria-describedby="it shows the reservations on this day"
         >
           <Box sx={style}>
@@ -77,47 +130,23 @@ export default function ReservationDetails(props: { year: number, dataSet: detai
                 Reservation Details
               </Typography>
             </Box>
-           {elem.map((dataX) =>{
-            return(
-              <Box key={dataX.id}>
-                 <Box sx={{ display: "flex", flexDirection: "Row", alignItems: "center" }}>
-              <Typography variant="h5" component="h2">ID</Typography>:
-              {dataX.id}
-            </Box>
-            <Divider sx={{ backgroundColor: "black" }} />
-            <Box id="modal-modal-description" sx={{ mt: 2 }}>
-
-            <div className="block">
-            <div className="grid grid-cols-2 gap-5">
-            <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Date: </Typography>{dataX.date.toDateString()}</span>
-            <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Event Size: </Typography>{dataX.eventSize}</span>
-            <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Time: </Typography>{dataX.time}</span>
-            <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Email: </Typography>{dataX.email}</span>
-            <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Organizer: </Typography>{dataX.organizer}</span>
-            <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Contact Number: </Typography>{dataX.contactN}</span>
-            <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Client Name: </Typography>{dataX.clientN}</span>
-            <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Status: </Typography>{dataX.status}</span>
-          </div>
-          <div className="rmk mt-[2rem]">
-            <span className='flex flex-row bg-[red] font-poppins items-center ml-[5px]'><Typography variant='h6' sx={style2}>Remarks: </Typography>{data[0].remarks}</span>
-          </div>
-          </div> 
-            </Box>
-              </Box>
-            )
-           })}
+            {elem.length > 0 ? elem.map((reserveCard) => {
+              return (
+                <Box key={reserveCard.id}>
+                  <DetailsReserv data={reserveCard} />
+                </Box>
+              )
+            }) :
+            <Box>
+                <Typography>There is no Reservation in this day</Typography>
+              </Box>}
           </Box>
         </Modal>
       </div>
     )
   }
 
-  const reservedStyle = {
-    border: "yellowgreen 4px solid",
-  }
-  const reserveFilter = data.filter((elem) => isReserved(elem));
   // styles for reservation
-  const style2 = { fontFamily: "poppins", fontWeight: "bolder", marginRight: '5px' }
   const styleToday = {
     backgroundColor: today ? "red" : "none",
     color: today ? "white" : "",
@@ -126,7 +155,7 @@ export default function ReservationDetails(props: { year: number, dataSet: detai
   console.log(reserveFilter);
   return (
     <div>
-      {reserveFilter && reserveFilter.length > 0 ? detailsContent(reserveFilter) : <Button sx={styleToday}>{day}</Button>}
+      {reserveList(reserveFilter) }
     </div>
   );
 }
