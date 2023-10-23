@@ -99,11 +99,11 @@ const FeedbackList = () => {
                 </div>
 
                 <div className="flex items-center pl-12">
-                  <Rating className="half-rating xl:max-2xl:scale-75 ml-[-5%]" defaultValue={feedback.rating_value} precision={1} size="small" readOnly />
+                  <Rating className="half-rating xl:max-2xl:scale-75 ml-[-0.5%]" defaultValue={feedback.rating_value} precision={1} size="small" readOnly />
                   <p className="opacity-50 text-xs"> 2022-06-18 11:00</p>
                 </div>
 
-                <p className="text-xl xl:max-2xl:text-[1em] ml-[5%]">{feedback.comment}</p>
+                <p className={`text-xl xl:max-2xl:text-[1em] ml-[3.5%] ${feedback.comment ?'text-black':'text-[#bbbbbb] italic' }`}>{feedback.comment ? feedback.comment : 'User did not provide a comment.'}</p>
               </div>
             ))
           ) : (

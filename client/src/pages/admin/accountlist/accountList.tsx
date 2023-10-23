@@ -24,7 +24,16 @@ interface AccountDetailsProps {
   contact_number: string;
 }
 
-const AccountList = () => {
+const AccountList = () =>{
+    return (
+        <div>
+            <MerchAdHeader icon={RiUserFill} title='Account List' />
+            <AccountListComponent/>
+        </div>
+    )
+}
+
+const AccountListComponent = () => {
   const [users, setData] = useState<AccountDetailsProps[]> ([]);
   const [date, setDate] = useState<Date | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -50,12 +59,12 @@ const AccountList = () => {
   }, []);
 
   return (
-    <div className='w-[100%]'>
-      <MerchAdHeader icon={RiUserFill} title='Account List' />
-      <div className='font-medium font-poppins shadow-2xl mx-5 my-5 p-5 rounded-lg h-[87vh]'>
+    <div className='w-[100%] h-[90vh] pt-[1%] bg-[#F3F3F3]'>
+
+      <div className='bg-white font-medium font-poppins shadow-2xl mx-5 p-5 rounded-lg h-[87vh]'>
 
       <label htmlFor="filterList" className='text-slate-600'>Filter by: </label>
-      <select id="filtersList" className='rounded-lg border border-black m-4 mr-80 py-1 px-5'>
+      <select id="filtersList" className='rounded-lg border bg-white border-black m-4 mr-80 py-1 px-5'>
         <option value="allAccounts">All Accounts</option>
         <option value="stat_active">Status: Active</option>
         <option value="stat_abolished">Status: Abolished</option>
@@ -63,10 +72,13 @@ const AccountList = () => {
         <option value="type_admin">Type: Merchant</option>
       </select>
 
-      <label htmlFor="searchBar" className='ml-[580px]'>Search: </label>
-      <input type="text" placeholder='Input name or email' id='searchBar' className='rounded-lg border border-slate-500 px-3 py-1'/>
+      <label htmlFor="searchBar" className='ml-[580px] bg-white '>Search: </label>
+      <input type="text" placeholder='Input name or email' id='searchBar' className='bg-white rounded-lg border border-slate-500 px-3 py-1'/>
 
-      <div className='flex flex-col'> {/* CONSIDER REMOVING CLASSNAME*/}
+      <div className='bg-white  text-slate-500 font-semibold text-[1.2em]'>
+          <h1 className='text-[#bbbbbb]'>{`As of ${date}`}</h1>
+        </div>
+      <div className='bg-white flex flex-col'> {/* CONSIDER REMOVING CLASSNAME*/}
         <div className='flex flex-col h-[65vh]'>
           <table className='table-auto'>
             <thead className='border-black border-y'>
@@ -98,7 +110,7 @@ const AccountList = () => {
                       </button>
                     </td>
                     <td className='text-md px-5 py-3'>
-                    <button className='bg-red-600 text-white rounded-full px-4'>
+                    <button className='bg-red-600 text-white rounded-lg px-4 py-[2%]'>
                       Delete
                     </button>
                   </td>
@@ -109,9 +121,6 @@ const AccountList = () => {
               )}
             </tbody>
           </table>
-        </div>
-        <div className='text-slate-500 font-semibold bottom-[50px] right-[80px] text-xl'>
-          <h1 className='align-text-bottom text-right'>{`Accounts as of ${date}`}</h1>
         </div>
 
         <div className="flex justify-center mb-20 w-[100%] h-[7%]">

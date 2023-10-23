@@ -29,7 +29,9 @@ export default function GeneralSettings() {
   
     const handleSaveImageUrl = (imageUrl: string) => {
       setNewImageUrl(imageUrl);
+      setIsEditModalOpen(false);
     };
+
      const merchID = Number(localStorage.getItem("merch_id"))
 
     //These are the masterlist from API
@@ -259,6 +261,7 @@ export default function GeneralSettings() {
 
        setData((prevData: any) => {
 
+
             //if input data is from object settings
             if (name.startsWith('settings.')) {
                 const settingsKey = name.split('.')[1]
@@ -463,6 +466,7 @@ export default function GeneralSettings() {
                     },
                 }
             }
+            
         });
         
     };
@@ -471,8 +475,10 @@ export default function GeneralSettings() {
     const handleSubmit = (e: any) => {
         setIsLoading(true)
         e.preventDefault();
+        data.merchant.logo = newImageUrl ? newImageUrl: data.merchant.logo;
+
         const formData = data;
-       // console.log("FORMDATA ==> ", formData);
+    //    console.log("FORMDATA ==> ", formData);
 
         axios.post(`${config.API}/merchant/update`, formData)
         .then(function(response){
@@ -511,13 +517,13 @@ export default function GeneralSettings() {
                                 {isLoading? <><span className='ml-5'><GenSpinner/></span></> // if we are still getting data from DB
                                 :
                                 <label htmlFor="logoInput" className='relative cursor-pointer flex items-center justify-center'>
-                                    <img src={data.merchant.logo} onError={(e) => {
+                                    <img src={newImageUrl ? newImageUrl :data.merchant.logo} onError={(e) => {
                                         e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
                                         e.currentTarget.src = 'https://i.imgur.com/YNoZzmJ.png'; // Use a placeholder image as a fallback
-                                        }} className="ml-5 overflow-hidden w-[9rem] xl:max-2xl:w-[7rem]">
+                                        }} className="ml-5 overflow-hidden w-[9rem] rounded-2xl xl:max-2xl:w-[7rem]">
                                     </img>                                    
                                     <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 opacity-0 hover:opacity-80 bg-white'>
-                                        <IoCameraSharp className='relative text-[50px] left-[39%] bottom-[10%] xl:max-2xl:text-[1.3em] xl:max-2xl:left-[43%]'/>
+                                        <IoCameraSharp className='relative text-[50px] left-[39%] bottom-[11.2%] xl:max-2xl:text-[1.3em] xl:max-2xl:left-[43%]'/>
                                         <p className='relative text-black font-bold text-[14px] top-[10%] right-[8%] xl:max-2xl:text-[0.6em] xl:max-2xl:right-[4%]'>Change Image</p>
                                     </div>                                  
                                 </label>}

@@ -4,26 +4,25 @@ import colors from '../../../common/colors'
 import config from '../../../common/config'
 
 export default function AdvancedSettings(){
-    const merchID = Number(localStorage.getItem('merch_id'));
+    const storedAcc = localStorage.getItem('admerchDetails');
 
-    const request = {
-        merchant_id: merchID
-    }
-    
+    const userId = storedAcc!== null && Number(JSON.parse(storedAcc).userID);
+
     const HandleEvent = () => {
-        axios.post(`${config.API}/merchant/delete`, { data: request})
+        axios.post(`${config.API}/user/delete`, { user_id: userId })
         .then((response) => {
             console.log(response.data);
         })
         .catch((error) => {
-            console.log(error);        })
+            console.log(error);       
+        })
     }
 
-    const HandleDeactivate = () => {
+    const handleDeactivate = () => {
         const updateData = {
             account_status: "abolished",
         };
-        axios.post(`${config.API}/merch/edit?userID=${merchID}`, updateData )
+        axios.post(`${config.API}/user/edit?userID=${userId}`, updateData)
         .then((response) => {
             console.log(response.data);
         })
@@ -47,7 +46,7 @@ export default function AdvancedSettings(){
                     Delete Account
                     </button>
                     <button
-                        onClick={HandleEvent}
+                        onClick={handleDeactivate}
                         className="px-8 py-1 mr-6 float-right bg-[#DD2803] text-white rounded-2xl xs:max-sm:text-[0.7em] xs:max-sm:px-4 xl:max-2xl:text-[0.65em] xl:max-2xl:px-6 xl:max-2xl:p-[0.15rem] hover:bg-[#660605] focus:outline-none focus:ring focus:ring-blue-500 transition-colors delay-250 duration-[3000] ease-in"
                     >
                     Deactivate
