@@ -10,6 +10,7 @@ const createReserve = (req,res)=>{
     const date_received = new Date();
     const status = "Ongoing";
     const data = [date,timestart,location,date_received,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id,status]
+    try{
     db.query(insertQuery, data, (err, result) => {
       if (err) {
         console.error('Error inserting data:', err);
@@ -26,14 +27,22 @@ const createReserve = (req,res)=>{
         return res.status(500).json({ status: 500, success: false, error: 'Record insertion failed' });
       }
     });
+  } catch (error) {
+    console.error('Error:', error);
+    return res.status(500).json({ status: 500, success: false, error: 'An error occurred' });
+  }
 }
 
 const updateReserve = (req,res)=>{
-  const {date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,res_id,invent_id,status} = req.body;
+  const {res_id} = req.query
+  const {res_date,res_time,res_location,party_size,settings,additional_details,account_id,merchant_id,sched_id,package_id,
+        payment_id,inventory_id,status} = req.body;
     
   const updateQuery = 'UPDATE reservation SET res_date=?,res_time=?,res_location=?,party_size=?,settings=?,additional_details=?,account_id=?,merchant_id=?,sched_id=?,package_id=?,payment_id=?,inventory_id=?,status=? WHERE reservation_id=?'
 
-  const data = [date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id,status,res_id]
+  const data = [res_date,res_time,res_location,party_size,settings,additional_details,account_id,
+                merchant_id,sched_id,package_id,payment_id,inventory_id,status,res_id]
+  
   db.query(updateQuery, data, (err, result) => {
     if (err) {
       console.error('Error updating data:', err);
@@ -70,11 +79,37 @@ const retrieveAll = (req,res)=>{
 }
 
 const retrieveByParams = (req,res)=>{
-  const { col, val } = req.query; 
+  const { col, val, orderVal, order } = req.query; 
 
-  const retrieveSpecific = 'SELECT * FROM reservation WHERE ?? = ?';
+  const orderValue = orderVal ? orderVal : col;
+  const orderBy = order ? order : 'ASC';
+
+  const retrieveSpecific = `SELECT * FROM reservation WHERE ?? = ? ORDER BY ${orderValue} ${orderBy}`;
 
   db.query(retrieveSpecific, [col,val],(err, row) => {
+    if (err) {
+      console.error('Error retrieving records:', err);
+      return res.status(500).json({ status: 500, success:false,error: 'Error retrieving records' });
+    }else{
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        records: row,
+      });
+    }
+  });
+}
+
+const retrieveByTwoParams = (req,res)=>{
+  const { col1, val1, col2,val2,orderVal, order } = req.query; 
+
+  const orderValue = orderVal ? orderVal : col1;
+  const orderBy = order ? order : 'ASC';
+
+  const retrieveSpecific = `SELECT * FROM reservation WHERE ?? = ? AND ?? = ? ORDER BY ${orderValue} ${orderBy}`;
+  
+  db.query(retrieveSpecific, [col1,val1,col2,val2],(err, row) => {
+    
     if (err) {
       console.error('Error retrieving records:', err);
       return res.status(500).json({ status: 500, success:false,error: 'Error retrieving records' });
@@ -215,6 +250,7 @@ module.exports = {
     updateReserve,
     retrieveAll,
     retrieveByParams,
+    retrieveByTwoParams,
     deleteReserve,
     retrieveCountByParams,
     retrieveCountByTwoParams,

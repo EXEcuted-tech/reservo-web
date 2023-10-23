@@ -69,8 +69,8 @@ const MerchantTeamDeets = ( {merchantID} ) => {
                   <p className='text-[1.2em] text-black'>{merchAddress.barangay}, {merchAddress.municipality}, {merchAddress.country}</p>
                   <div className='flex'>
                     <p className='text-[1.2em] text-[#838383] flex'><IoPeopleOutline className='text-[1.5em]'/> {Object.keys(merchAccounts).length} members • </p>
-                    <div className='bg-[#DCFFD0] ml-[1%] w-[15%] text-center rounded-2xl border-[#238700] border-2'>
-                      <p className='text-[#238700]'>Active</p> 
+                    <div className={` ml-[1%] w-[15%] text-center rounded-2xl  border-2 ${merchData[0].merch_status === 'Active' ? 'text-[#238700] bg-[#DCFFD0] border-[#238700]' : 'text-[#FFB800] bg-[#FFEEC2] border-[#FFB800]'}`}>
+                      <p>{merchData[0].merch_status}</p> 
                     </div>
                   </div>                 
                 </div>

@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {SlOptions} from 'react-icons/sl'
 import {IoPeopleOutline} from 'react-icons/io5'
-import Logo from '../../assets/jjlogo.png'
 import MerchantTeamDeets from './MerchantTeamDeets'
 import axios from 'axios'
 import config from '../../common/config'

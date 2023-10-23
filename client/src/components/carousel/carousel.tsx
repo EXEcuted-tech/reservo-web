@@ -25,7 +25,7 @@ const Carousel: React.FC = () => {
   };
 
   return (
-    <div className="relative overflow-hidden z-0 h-[900px] w-[118.87rem] ">
+    <div className="relative overflow-hidden z-0 h-[900px] w-[118.87rem] xl:max-2xl:w-[100%] xl:max-2xl:h-[520px]">
       <div className="flex " >
         {images.map((image, index) => (
           <div
@@ -35,13 +35,13 @@ const Carousel: React.FC = () => {
             }`}
           >
             <img src={image} alt={`Slide ${index + 1}`} className="animate-fade-in w-full h-full object-cover" />
-            <div className="absolute bottom-40 left-44 z-0 w-full px-4 py-7">
-              <h1 className="text-8xl md:text-2xl lg:text-8xl text-[#DD2803] font-bold">RESERVE A</h1>
-              <h1 className="text-8xl mt-4 md:text-2xl lg:text-8xl text-[#DD2803] font-bold">SPOT EASILY,</h1>
-              <h1 className="text-8xl mt-4 md:text-2xl lg:text-8xl text-[#DD2803] font-bold">SAVE YOUR TIME</h1>
-              <h2 className="text-5xl md:text-2xl lg:text-5xl p-3 font-semibold text-white">YOUR CONVENIENCE, OUR PRIORITY</h2>
+            <div className="absolute bottom-40 left-44 z-0 w-full px-4 py-7 xl:max-2xl:bottom-20">
+              <h1 className="text-8xl text-[#DD2803] font-bold xl:max-2xl:text-6xl ">RESERVE A</h1>
+              <h1 className="text-8xl mt-4  text-[#DD2803] font-bold xl:max-2xl:text-6xl">SPOT EASILY,</h1>
+              <h1 className="text-8xl mt-4  text-[#DD2803] font-bold xl:max-2xl:text-6xl">SAVE YOUR TIME</h1>
+              <h1 className="text-5xl p-3  ml-[-1vh] font-semibold text-white xl:max-2xl:text-3xl xl:max-2xl:ml-[-2vh]">YOUR CONVENIENCE, OUR PRIORITY</h1>
               <Link to="/eaterychoice">
-              <button className="text-2xl p-5 mt-6 text-white rounded-2xl bg-[#DD2803] hover:bg-[#A01B00] transition-colors delay-250 duration-[3000] ease-in">
+              <button className="text-2xl p-5 mt-6 text-white rounded-2xl bg-[#DD2803] hover:bg-[#A01B00] transition-colors delay-250 duration-[3000] ease-in xl:max-2xl:text-[0.9rem] xl:max-2xl:p-3">
                 Reserve Online
               </button>
               </Link>
@@ -63,13 +63,13 @@ const Carousel: React.FC = () => {
       </div>
 
       <button
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 px-4 py-2 text-4xl opacity-70 text-white hover:text-gray-500 transition-colors delay-450 duration-[3000] ease-in-out"
+        className="absolute top-1/2 left-4 transform -translate-y-1/2 px-4 py-2 text-4xl opacity-70 text-white hover:text-gray-500 transition-colors delay-450 duration-[3000] ease-in-out xl:max-2xl:text-3xl"
         onClick={prevSlide}
       >
         <FiArrowLeft/>
       </button>
       <button
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 px-4 py-2 text-4xl opacity-70 text-white hover:text-gray-500 transition-colors delay-450 duration-[3000] ease-in-out" 
+        className="absolute top-1/2 right-4 transform -translate-y-1/2 px-4 py-2 text-4xl opacity-70 text-white hover:text-gray-500 transition-colors delay-450 duration-[3000] ease-in-out xl:max-2xl:text-3xl" 
         onClick={nextSlide}
       >
         <FiArrowRight/>
