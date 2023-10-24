@@ -55,7 +55,7 @@ const SignupPage = () => {
       {error !='' && <Danger message={error}/> }
       {/* Background Picture */}
       <img className='absolute h-screen w-full' src={background} />
-      <div className='absolute left-2/4 top-2/4 text-align w-[1000px] p-[10px] -translate-x-2/4 -translate-y-2/4'>
+      <div className='absolute left-2/4 top-2/4 text-align w-[1000px] p-[10px] -translate-x-2/4 -translate-y-2/4 xl:max-2xl:scale-[0.67]'>
         {/* Left Box */}
         <div className='w-[35%] bg-[#DD2803] float-left text-center shadow-[12px_23px_10px_-4px_gray] pt-[70px] pb-[78px] px-10 rounded-[7px_0px_0px_7px]'>
           <img className='max-w-[40%] h-auto ml-[32%]' src={guykey} />

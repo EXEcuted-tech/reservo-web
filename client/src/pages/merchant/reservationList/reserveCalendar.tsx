@@ -18,10 +18,8 @@ interface details {
 
 const ReserveCalendar = (props?:{dataResv?:details[]}) => {
   return (
-    <div className = "animate-fade-in">
-      {/* <Calendar/> */}
-      <Calendar2 dataSet={props?.dataResv}/>
-      {/* <Calendar3 /> */}
+    <div className = "animate-fade-in overflow-y-auto">
+      <Calendar/>
     </div>
   )
 }
