@@ -60,52 +60,52 @@ const MerchDashboard = () => {
 	const [todayCount, setTodayCount] = useState(0);
 	const [currentUser, setCurrentUser] = useState({ user: "", userID: null });
 
-	useEffect(() => {
-		axios
-			.get(`http://localhost:5000/reserve/retrieve`, {
-				params: {
-					col: "status",
-					val: "Ongoing",
-				},
-			})
-			.then((response) => {
-				setReservations(response.data.records);
-				setRowCount(response.data.records.length);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+	// useEffect(() => {
+	// 	axios
+	// 		.get(`http://localhost:5000/reserve/retrieve`, {
+	// 			params: {
+	// 				col: "status",
+	// 				val: "Ongoing",
+	// 			},
+	// 		})
+	// 		.then((response) => {
+	// 			setReservations(response.data.records);
+	// 			setRowCount(response.data.records.length);
+	// 		})
+	// 		.catch((error) => {
+	// 			console.log(error);
+	// 		});
 
-		axios
-			.get(`http://localhost:5000/reserve/retrieve`, {
-				params: {
-					col: "status",
-					val: "Finished",
-				},
-			})
-			.then((response) => {
-				setReservationsFinished(response.data.records);
-				setRowFinishedCount(response.data.records.length);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+	// 	axios
+	// 		.get(`http://localhost:5000/reserve/retrieve`, {
+	// 			params: {
+	// 				col: "status",
+	// 				val: "Finished",
+	// 			},
+	// 		})
+	// 		.then((response) => {
+	// 			setReservationsFinished(response.data.records);
+	// 			setRowFinishedCount(response.data.records.length);
+	// 		})
+	// 		.catch((error) => {
+	// 			console.log(error);
+	// 		});
 
-		axios
-			.get(`http://localhost:5000/reserve/retrieve`, {
-				params: {
-					col: "res_date",
-					val: "CURDATE()",
-				},
-			})
-			.then((response) => {
-				setReservationsToday(response.data.records);
-				setRowTodayCount(response.data.records.length);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	}, []);
+	// 	axios
+	// 		.get(`http://localhost:5000/reserve/retrieve`, {
+	// 			params: {
+	// 				col: "res_date",
+	// 				val: "CURDATE()",
+	// 			},
+	// 		})
+	// 		.then((response) => {
+	// 			setReservationsToday(response.data.records);
+	// 			setRowTodayCount(response.data.records.length);
+	// 		})
+	// 		.catch((error) => {
+	// 			console.log(error);
+	// 		});
+	// }, []);
 
 	function getTodaysDate() {
 		const today = new Date();
@@ -118,7 +118,7 @@ const MerchDashboard = () => {
 
 	const fetchInfo = async () => {
 		const userDetails = JSON.parse(
-			window.localStorage.getItem("admerchDetails"),
+			'{"userID":42,"user":"adsoqs","type":10}'
 		);
 		setCurrentUser(userDetails);
 		try {
@@ -127,7 +127,7 @@ const MerchDashboard = () => {
 				{
 					params: {
 						col: "merchant_id",
-						val: userDetails.userID,
+						val: 1,
 					},
 				},
 			);
@@ -138,20 +138,21 @@ const MerchDashboard = () => {
 				{
 					params: {
 						col1: "merchant_id",
-						val: userDetails.userID,
+						val1: 1,
 						col2: "status",
 						val2: "Finished",
 					},
 				},
-			);
-			setCateredCount(responseCatered.data.count);
+				);
+				setCateredCount(responseCatered.data.count);
+				console.log(responseCatered);
 
 			const responseCancelled = await axios.get(
 				`${config.API}/reserve/retrievecountparams`,
 				{
 					params: {
 						col1: "merchant_id",
-						val: userDetails.userID,
+						val: 1,
 						col2: "status",
 						val2: "Cancelled",
 					},
@@ -164,9 +165,9 @@ const MerchDashboard = () => {
 				{
 					params: {
 						col1: "merchant_id",
-						val1: userDetails.userID,
+						val1: 1,
 						col2: "status",
-						val2: "Cancelled",
+						val2: "Ongoing",
 						col3: "res_date",
 						val3: getTodaysDate(), //todays date
 					},

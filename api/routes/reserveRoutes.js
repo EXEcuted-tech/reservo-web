@@ -11,7 +11,7 @@ router.post('/delete',deleteReserve);
 
 router.get('/retrievecount', retrieveCountByParams);
 router.get('/retrievecountparams', retrieveCountByTwoParams);
-router.get('retrievecount3params', retrieveCountByThreeParams);
+ 
 
 
 module.exports = router;
