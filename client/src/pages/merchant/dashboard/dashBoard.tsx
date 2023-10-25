@@ -10,102 +10,66 @@ import MerchAdHeader from "../../../components/headers/MerchAdHeader";
 import axios from "axios";
 import config from "../../../common/config";
 import GenSpinner from "../../../components/loaders/genSpinner";
-import { json } from "react-router-dom";
-
-const LineData = [
-	["x", "Bookings"],
-	[0, 0],
-	[1, 10],
-	[2, 23],
-	[3, 17],
-	[4, 18],
-	[5, 9],
-	[6, 11],
-	[7, 27],
-];
-const LineChartOptions = {
-	chart: {
-		title: "Average Temperatures and Daylight in Iceland Throughout the Year",
-	},
-	hAxis: {
-		title: "Time",
-		gridlines: {
-			color: "transparent",
-		},
-	},
-	vAxis: {
-		title: "Popularity",
-		gridlines: {
-			color: "transparent",
-		},
-	},
-	backgroundColor: "transparent",
-	colors: ["#660605"],
-	titleTextStyle: {},
-};
 
 const MerchDashboard = () => {
-	const [reservations, setReservations] = useState({});
-	const [reservationsFinished, setReservationsFinished] = useState({});
-	const [reservationsToday, setReservationsToday] = useState({});
-	const [reservationsCancelled, setReservationsCancelled] = useState({});
-	const [rowCount, setRowCount] = useState(0);
-	const [rowFinishedCount, setRowFinishedCount] = useState(0);
-	const [rowTodayCount, setRowTodayCount] = useState(0);
+	const storedAcc = localStorage.getItem("admerchDetails");
+
 	const [isLoading, setIsLoading] = useState(false);
 	const [userInfo, setUserInfo] = useState<any[]>([]);
+	const userDetails = localStorage.getItem("userDetails");
+	const userID = userDetails ? JSON.parse(userDetails).userID : "0";
+	const userName = userDetails ? JSON.parse(userDetails).user : "UNDEFINED";
 	const [reservationCount, setReservationCount] = useState(0);
 	const [cateredCount, setCateredCount] = useState(0);
 	const [cancelledCount, setCancelledCount] = useState(0);
 	const [todayCount, setTodayCount] = useState(0);
-	const [currentUser, setCurrentUser] = useState({ user: "", userID: null });
+	const [graphList, setgraphList] = useState([{}]);
 
-	// useEffect(() => {
-	// 	axios
-	// 		.get(`http://localhost:5000/reserve/retrieve`, {
-	// 			params: {
-	// 				col: "status",
-	// 				val: "Ongoing",
-	// 			},
-	// 		})
-	// 		.then((response) => {
-	// 			setReservations(response.data.records);
-	// 			setRowCount(response.data.records.length);
-	// 		})
-	// 		.catch((error) => {
-	// 			console.log(error);
-	// 		});
+	const fetchGraphInfo = async () => {
+		try {
+			const responseBooks = await axios.get(
+				`${config.API}/reserve/retrievebooks`,
+				{
+					params: {
+						year: "2023",
+						merchID: 2,
+					},
+				},
+			);
+			setgraphList(responseBooks.data.count);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
-	// 	axios
-	// 		.get(`http://localhost:5000/reserve/retrieve`, {
-	// 			params: {
-	// 				col: "status",
-	// 				val: "Finished",
-	// 			},
-	// 		})
-	// 		.then((response) => {
-	// 			setReservationsFinished(response.data.records);
-	// 			setRowFinishedCount(response.data.records.length);
-	// 		})
-	// 		.catch((error) => {
-	// 			console.log(error);
-	// 		});
-
-	// 	axios
-	// 		.get(`http://localhost:5000/reserve/retrieve`, {
-	// 			params: {
-	// 				col: "res_date",
-	// 				val: "CURDATE()",
-	// 			},
-	// 		})
-	// 		.then((response) => {
-	// 			setReservationsToday(response.data.records);
-	// 			setRowTodayCount(response.data.records.length);
-	// 		})
-	// 		.catch((error) => {
-	// 			console.log(error);
-	// 		});
-	// }, []);
+	const formattedData = graphList.map((item) => [
+		new Date(item.year, item.month - 1),
+		item.books,
+	]);
+	const LineData = [
+		[{ type: "date", label: "Day" }, "Bookings"],
+		...formattedData,
+	];
+	const LineChartOptions = {
+		title: "Rervations Graph",
+		linewidth: graphList.length,
+		hAxis: {
+			title: "Monthly",
+			format: "MMM yyyy",
+			gridlines: {
+				color: "transparent",
+			},
+		},
+		vAxis: {
+			title: "Caters",
+			gridlines: {
+				color: "transparent",
+			},
+		},
+		backgroundColor: "transparent",
+		colors: ["#660605"],
+		titleTextStyle: {},
+	};
 
 	function getTodaysDate() {
 		const today = new Date();
@@ -117,9 +81,7 @@ const MerchDashboard = () => {
 	}
 
 	const fetchInfo = async () => {
-		const userDetails = JSON.parse(
-			'{"userID":42,"user":"adsoqs","type":10}'
-		);
+		const userDetails = JSON.parse('{"userID":42,"user":"adsoqs","type":10}');
 		setCurrentUser(userDetails);
 		try {
 			const responseCount = await axios.get(
@@ -142,9 +104,9 @@ const MerchDashboard = () => {
 						val2: "Finished",
 					},
 				},
-				);
-				setCateredCount(responseCatered.data.count);
-				console.log(responseCatered);
+			);
+			setCateredCount(responseCatered.data.count);
+			console.log(responseCatered);
 
 			const responseCancelled = await axios.get(
 				`${config.API}/reserve/retrievecountparams`,
@@ -180,6 +142,7 @@ const MerchDashboard = () => {
 
 	useEffect(() => {
 		fetchInfo();
+		fetchGraphInfo();
 	}, []);
 
 	return (
