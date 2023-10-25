@@ -6,12 +6,25 @@ import {AiOutlineCheck} from 'react-icons/ai'
 import {RxCross2} from 'react-icons/rx'
 import axios from 'axios'
 import config from '../../common/config'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Pagination from '@mui/material/Pagination';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#DD2803',
+    }
+  },
+});
 
 const MerchantApplications = () => {
   const [merchTeam , setmerchantTeam ] = useState([{}])
   const [merchAddress, setmerchAddress] = useState([{}])
   const [merchAccounts, setmerchAccounts] = useState([{}])
   const [loading, setLoading] = useState(false)
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
 
   const fetchMerchInfo = async() => {
     try {
@@ -30,10 +43,21 @@ const MerchantApplications = () => {
     fetchMerchInfo();
   }, []);
 
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = merchTeam
+    .filter(data => data.merch_status === 'Pending')
+    .slice(startIndex, endIndex);
+
+  const handlePageChange = (event, newPage) => {
+    setCurrentPage(newPage);
+  };
+
     return (
         <div className='w-[100%] bg-white h-[90%] mt-[1%] rounded-ss-2xl flex-row align-center overflow-y-auto'>
           <div>
-          {merchTeam.filter(data => data.merch_status === 'Pending').map((data,i) => (
+          {/* {merchTeam.filter(data => data.merch_status === 'Pending').map((data,i) => ( */}
+          {currentData.map((data, i) => (
           <div className='bg-white h-[180px] flex-row py-[1%] px-[2%] text-[#838383] border-[#F3F3F3] border-b-2 p-[1%] flex' key={i}>
           <div className='w-[20%] p-[0.5%] pl-[3%] flex'>
           <img src={data.logo} className='w-auto h-[150px] rounded-[50px]' alt="Logo"/>
@@ -66,6 +90,19 @@ const MerchantApplications = () => {
           </div>
           </div>
           ))}
+            <div className="flex justify-center w-[78%] absolute bottom-1">
+              <ThemeProvider theme={theme}>
+                <Pagination
+                  count={Math.ceil(merchTeam.length / itemsPerPage)}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                  showFirstButton
+                  showLastButton
+                  color='primary'
+                  shape="rounded"
+                />
+              </ThemeProvider>
+            </div>
           </div>       
         </div> 
     )

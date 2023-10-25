@@ -28,7 +28,7 @@ const MerchantTeamDeets = ( {merchantID} ) => {
 
     const fetchMerchAccounts = async() => {
       const col = "merchant_id"
-      const val = 1
+      const val = merchantID
       try {
           setLoading(true)
           const responseMerchInfo = await axios.get(`${config.API}/merchant/retrieve?col=${col}&val=${val}`)
@@ -63,7 +63,7 @@ const MerchantTeamDeets = ( {merchantID} ) => {
 
     useEffect(() => {
       fetchMerchAccounts();
-    }, []);
+    }, [merchantID]);
 
     const handlePageChange = (event, newPage) => {
       setCurrentPage(newPage);

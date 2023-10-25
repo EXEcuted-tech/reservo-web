@@ -28,6 +28,8 @@ const MerchantTeams = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [recordsPerPage] = useState(4)
 
+    const [selectedMerchantID, setSelectedMerchantID] = useState(null);
+
     const paginate = (pageNumbers) => setCurrentPage(pageNumbers)
 
     const fetchMerchInfo = async() => {
@@ -55,6 +57,11 @@ const MerchantTeams = () => {
     const firstIndex = lastIndex - recordsPerPage
     const currentPages = merchTeam.slice(firstIndex,lastIndex)
 
+    const handleMoreDetailsClick = (merchantID) => {
+    sessionStorage.setItem('viewDetails', 'true');
+    setSelectedMerchantID(merchantID);
+    };
+
     return (
         <div className='h-[100%] py-[1%] font-poppins relative'>
             { sessionStorage.getItem('viewDetails') === 'false' ?    
@@ -75,7 +82,7 @@ const MerchantTeams = () => {
                             <SlOptions className='text-[1.5em]'/>
                             {buttonStatus && 
                             <div className='w-[100%] items-right'>
-                                <div className='bg-green-300 p-[1%] w-[110%] text-center border-[#838383] border-2 rounded-lg' onClick={()=>sessionStorage.setItem('viewDetails','true')}>
+                                <div className='bg-green-300 p-[1%] w-[110%] text-center border-[#838383] border-2 rounded-lg' onClick={()=>handleMoreDetailsClick(data.merchant_id)}>
                                     <p>View More</p>
                                 </div>
                             </div>
@@ -102,7 +109,7 @@ const MerchantTeams = () => {
             totalData={currentPages.length} 
             paginate={paginate}/>
             </div> 
-            : <MerchantTeamDeets merchantID={1}/>
+            : <MerchantTeamDeets merchantID={selectedMerchantID}/>
             }
         </div>
     )
