@@ -50,6 +50,14 @@ const ReserveForm = () => {
   const merchIdString = sessionStorage.getItem('merch_idtoBook');
   const merchantId = merchIdString !== null ? parseInt(merchIdString) : 0;
   const storedAcc = localStorage.getItem('userDetails');
+  const [firstList, setFirstList] = useState<
+  Array<{
+    label: string;
+    type: string;
+    value: string;
+  }>
+  >([]); 
+
   const [existingList, setExistingList] = useState<
   Array<{
     label: string;
@@ -84,7 +92,16 @@ const ReserveForm = () => {
     .then((res)=>{
         if(res.data.success == true){
             setName(res.data.merchant.merchant_name);
-            setExistingList(res.data.formDeets?.form)
+            const list = res.data.formDeets?.form
+            setFirstList(res.data.formDeets?.form)
+
+            const newExistingList = list.map((item:any) => ({
+                label: item.label,
+                type: item.type,
+                value: '',
+              }));
+            
+              setExistingList(newExistingList);
         }
       })
   }
@@ -188,6 +205,16 @@ const ReserveForm = () => {
   
       setExistingList(modifiedList);
   }
+
+//   const resetExistingList = () => {
+//     const newExistingList = existingList.map((item) => ({
+//       label: item.label,
+//       type: item.type,
+//       value: '',
+//     }));
+  
+//     setExistingList(newExistingList);
+//   };
 
   return (
     <div className=' animate-fade-in font-poppins bg-[#F9F2EA] h-[100%]'>
@@ -405,7 +432,7 @@ const ReserveForm = () => {
                     {clickTen && 
                     <div className='relative'>
                         <label className='animate-slide-up absolute mt-[-10%] text-[#838383]'>{item.label}</label>
-                        {clickEleven && <p className='animate-slide-up absolute text-[0.8em] mt-[-5%] text-[#a3a3a3] italic'>e.g. {item.value}</p>}
+                        <p className='animate-slide-up absolute text-[0.8em] mt-[-5%] text-[#a3a3a3] italic'>e.g. {firstList[index]?.value}</p>
                     </div>
                     }
                     <input 
@@ -413,8 +440,8 @@ const ReserveForm = () => {
                         mb-[3%] '
                         type={`${item.type}`}
                         onChange={(event:any)=>{
-                            setClickEleven(false)
-                            setClickElevenTriggered(true);
+                            // setClickEleven(false)
+                            // setClickElevenTriggered(true);
                             handleAdditionalChange({event,fieldIndex:index})
                         }}
                         placeholder={`${clickTen ? '' : item.label}`}
@@ -422,9 +449,9 @@ const ReserveForm = () => {
                             e.target.style.outline = 'none';
                             e.target.value = ''
                             setClickTen(true);
-                            if (!clickElevenTriggered) {
-                                setClickEleven(true);
-                            }
+                            // if (!clickElevenTriggered) {
+                            //     setClickEleven(true);
+                            // }
                     }}
                 />    
                 </div>
