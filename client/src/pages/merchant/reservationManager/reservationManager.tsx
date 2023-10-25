@@ -209,17 +209,22 @@ const ReservationManager = () => {
             
             
             {pageMode === PAGE_MODE.READ &&
-                  existingList?.length > 0 &&
-                  existingList.map((item: any, index: number) => (
+                  existingList?.length > 0 && (
+                    <div className="flex flex-wrap">
+                  {existingList.map((item: any, index: number) => (
                     <Fragment key={index}>
-                      <div className="flex px-10 pb-10 w-full">
-                        <div className="flex items-center">
-                          <h3>{`${item.label}: ${item.value}`}</h3>
+                      <div className="w-1/2 pb-5 px-10">
+                        <div className="flex items-center gap-1">
+                          <h3 className="font-bold xl:max-2xl:text-[0.8em]">{`${item.label}:`} 
+                            <span className="text-[20px] ml-[5%] text-[#363636] font-extralight">{`${item.value}`} </span>
+                          </h3>
                         </div>
                       </div>
                     </Fragment>
                   ))}
-            
+                  </div>
+                  )
+              }
             {pageMode === PAGE_MODE.UPDATE && (
               <div className="px-5 pb-5 ml-[1rem] animate-fade-in">
                 <div className="flex items-center">
@@ -243,8 +248,9 @@ const ReservationManager = () => {
                   Save
                 </button>
                 </div>
-                {existingList?.length > 0 &&
-                  existingList.map((item: any, index: number) => (
+                {existingList?.length > 0 && (
+                  <div className="grid grid-cols-3 gap-4 mt-[1%]">
+                  {existingList.map((item: any, index: number) => (
                     <Fragment key={index}>
                       <Field
                         {...item}
@@ -254,6 +260,8 @@ const ReservationManager = () => {
                       />
                     </Fragment>
                   ))}
+                  </div>
+                  )}
               </div>
             )}
           </div>
@@ -328,7 +336,7 @@ const Field = ({
   return (
     <>
       <div className="flex flex-col gap-1 grow">
-        <label htmlFor="label">{label}</label>
+        <label htmlFor="label" className="font-bold">{label}</label>
         <div className="flex items-center gap-2">
           <input type={type} name={label} value={value} className="border p-2" onChange={(event: any) => handleFieldOnChange({ event, fieldIndex: index})} />
           <button onClick={onClick}>
