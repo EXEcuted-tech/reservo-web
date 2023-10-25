@@ -78,27 +78,7 @@ const MerchDashboard = () => {
 		[{ type: "date", label: "Day" }, "Bookings"],
 		...formattedData,
 	];
-	const LineChartOptions = {
-		title: "Rervations Graph",
-		linewidth: graphList.length,
-		hAxis: {
-			title: "Monthly",
-			format: "MMM yyyy",
-			gridlines: {
-				color: "transparent",
-			},
-		},
-		vAxis: {
-			title: "Caters",
-			gridlines: {
-				color: "transparent",
-			},
-		},
-		backgroundColor: "transparent",
-		colors: ["#660605"],
-		titleTextStyle: {},
-	};
-
+	
 	function getTodaysDate() {
 		const today = new Date();
 		const year = today.getFullYear();
