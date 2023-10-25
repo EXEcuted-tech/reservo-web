@@ -34,7 +34,7 @@ interface ReserveCardProps {
     status: string;
 
     sched_id: number | null;
-    settings: object | null;
+    settings: string | null;
     additional_details: string | null;
 }
 

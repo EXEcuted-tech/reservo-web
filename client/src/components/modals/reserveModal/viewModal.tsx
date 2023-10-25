@@ -9,6 +9,13 @@ import GenSpinner from '../../loaders/genSpinner'
 const ViewModal:React.FC<ViewModalProps> = (props) => {
   const [resId,setResId]=useState(0);
   const [record,setRecord]=useState<ReserveCardProps[]>([]);
+  const [existingList, setExistingList] = useState<
+  Array<{
+    label: string;
+    type: string;
+    value: string;
+  }>
+  >([]);  
   const [name,setName] = useState("");
   const [email,setEmail] = useState("");
   const [contactNo,setContactNo] = useState("");
@@ -47,6 +54,8 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
     .then((res)=>{
        if(res.status === 200){
         setRecord(res.data.records)
+        const addDeets = JSON.parse(res.data.records[0].settings);
+        addDeets !=null && setExistingList(addDeets?.additional_details);
        }
     })
     setTimeout(()=>{setIsLoading(true)},2500);
@@ -162,8 +171,24 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         </div>
 
         <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block px-[1%] mt-[2%] text-white text-center rounded-lg mb-[0.5%] xl:max-2xl:text-[1.0em]'>Additional Information</h1>
-        <div className='flex mx-[2%] text-[1.2em] xl:max-2xl:text-[0.6em]'>
-          <p className='font-bold text-[1.8em]'>Coming Soon</p>
+        <div className='flex mx-[2%] text-[1.2em] xl:max-2xl:text-[0.6em] w-full'>
+
+          {existingList?.length > 0 ? (
+                  <div className="flex w-full flex-wrap">
+                  {existingList.map((item: any, index: number) => (
+                    <div className='w-[33%]'>
+                      <p className='my-[0.5%]'><span className='font-bold mr-[3%]'>{`${item.label}:`}</span>{`${item.value}`} </p>
+                    </div>
+                  ))}
+                  </div>
+                  )
+              :
+              <div>
+                <h1 className='italic text-[1em]'>User did not input additional details.</h1>
+              </div>
+            }
+
+
           {/* <div className='w-[33%]'>
             <p className='my-[1%]'><span className='font-bold'>Date: </span>{"January 13,2023"}</p>
           </div>

@@ -16,10 +16,10 @@ const ReserveManager = () => {
   }, [window.location.pathname]);
 
   return (
-    <div className={`bg-[#FFFFFF] h-full w-full font-poppins overflow-y-auto overflow-x-hidden animate-fade-in`}>
+    <div className={`bg-[#F3F3F3] h-auto min-h-screen w-full font-poppins overflow-y-auto overflow-x-hidden animate-fade-in`}>
       <div className= "w-full">
       <MerchAdHeader icon={RiReservedFill} title="Reservation Manager"/>
-        <div className="bg-[#F3F3F3] h-[100vh]">
+        <div>
           <div className="flex ml-10 mr-10 text-xl">
             <ToggleHeader
                 title1="Reservation Manager"

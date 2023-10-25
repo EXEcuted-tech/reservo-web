@@ -1,18 +1,18 @@
 import { Fragment, useEffect, useRef, useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
-import { BiEdit } from "react-icons/bi";
-import { IoCalendarOutline } from "react-icons/io5";
+import { IoCalendarOutline,IoAddCircle } from "react-icons/io5";
 import { LiaEdit } from "react-icons/lia";
 import { BsPerson } from "react-icons/bs";
 import { MdFormatListNumbered } from "react-icons/md";
 import { HiOutlineMail } from "react-icons/hi";
-import { AiOutlinePhone } from "react-icons/ai";
+import { AiOutlinePhone} from "react-icons/ai";
 import { LiaCommentSolid } from "react-icons/lia";
 import { FiClock } from "react-icons/fi";
 import {SiReacthookform} from 'react-icons/si'
-import {IoAddCircle} from 'react-icons/io5'
+import {IoIosSave} from 'react-icons/io'
+import {TbTrashXFilled} from 'react-icons/tb'
 import axios from "axios";
 import config from "../../../common/config";
+import Notification from '../../../components/alerts/Notification'
 
 const PAGE_MODE = {
   READ: 0,
@@ -26,14 +26,8 @@ const ReservationManager = () => {
 
   const [data, setData] = useState<{ type: string; label: string; value: string } | any>(null);
   const [merchData,setMerchData] = useState<MerchData>()
-
-  // const [fieldList, setFieldList] = useState<
-  //   Array<{
-  //     label: string;
-  //     type: string;
-  //     value: string;
-  //   }>
-  // >([]);
+  const [notif,setNotif] = useState(false);
+  const [notifMess,setNotifMess] = useState("");
 
   const [existingList, setExistingList] = useState<
   Array<{
@@ -64,18 +58,24 @@ const ReservationManager = () => {
   const [pageMode, setPageMode] = useState(PAGE_MODE.READ);
 
   const handleChange = (event: any) => {
+    setNotif(false);
+    setNotifMess("");
     const newData = { ...data, [event.target.name]: event.target.value };
 
     setData(newData);
   };
 
   const handleSubmit = (event: any) => {
+    setNotif(false);
     event.preventDefault();
 
-    if (data && (!Object.hasOwn(data, "label") || !Object.hasOwn(data, "type"))) return;
-    console.log("DATA in Reservation Manager: ",data);
+    if (!data || !data.label || !data.type) {
+      setNotif(true);
+      setNotifMess("Fill in all details!");
+      return;
+    }
+
     formRef.current?.reset();
-    dialogRef.current?.close();
 
     const newField = { label: data?.label ?? "", type: data?.type ?? "", value: "" };
 
@@ -94,13 +94,22 @@ const ReservationManager = () => {
          "form_deets":{form:form_deets},
        }).then((res)=>{
          console.log("Update: \n",res);
+         if(res.data.success==true){
+          setNotif(false);
+          setData(null);
+          formRef.current?.reset();
+          dialogRef.current?.close();
+         }
        })
     }else{
-      console.log("Value is repeated!");
+      setNotif(true);
+      setNotifMess("Label and Type given already exists!");
     }
   };
 
   const retrieveExisting = () =>{
+    setNotif(false);
+    setNotifMess("");
     const col = "merchant_id"
     const val = merchID
     axios.get(`${config.API}/merchant/retrieve?col=${col}&val=${val}`)
@@ -112,6 +121,8 @@ const ReservationManager = () => {
   }
 
   const handleRemove = (fieldIndex: number) => {
+    setNotif(false);
+    setNotifMess("");
     const filteredList = existingList.filter((item, index) => index !== fieldIndex);
     setExistingList(filteredList);
 
@@ -123,11 +134,13 @@ const ReservationManager = () => {
        "address":address,
        "form_deets":{form:form_deets},
      }).then((res)=>{
-       console.log("SaveDeets: \n",res);
+       
      })
   };
 
   const updateFieldList = ({ event, fieldIndex }: { event: any; fieldIndex: number }) => {
+    setNotif(false);
+    setNotifMess("");
     const modifiedList = existingList.map((item, index) => {
       return index === fieldIndex ? { ...item, value: event.target.value } : item;
     });
@@ -145,11 +158,13 @@ const ReservationManager = () => {
        "address":address,
        "form_deets":{form:form_deets},
      }).then((res)=>{
-       console.log("SaveDeets: \n",res);
+       setNotif(true);
+       setNotifMess("Reservation Form Updated!");
      })
   }
   return (
-    <div className="animate-fade-in font-poppins bg-[#F3F3F3] p-8 overflow-y-auto">
+    <div className="animate-fade-in font-poppins bg-[#F3F3F3] p-8">
+      {notif && <Notification message={notifMess} color="#660605"/>}
       <div className="flex items-center justify-center">
         <div className="rounded-lg bg-[#FFFFFF] w-full p-5 mt-[1rem]">
           <div className="flex w-full items-center ">
@@ -227,12 +242,12 @@ const ReservationManager = () => {
               }
             {pageMode === PAGE_MODE.UPDATE && (
               <div className="px-5 pb-5 ml-[1rem] animate-fade-in">
-                <div className="flex items-center">
+                <div className="flex items-center w-full">
                 <button
                   onClick={() => {
                     dialogRef.current?.showModal();
                   }}
-                  className="flex justify-center items-center p-3 text-[1em] bg-[#008927] text-white rounded-lg  xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
+                  className="flex justify-center items-center p-3 text-[1em] bg-[#008927] text-white rounded-3xl  xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
                     hover:bg-[#077827] transition-colors delay-250 duration-[3000] ease-in"
                 >
                   <IoAddCircle/> Add Field
@@ -242,9 +257,10 @@ const ReservationManager = () => {
                   onClick={() => {
                     saveForm();
                   }}
-                  className="p-3 text-[1em] ml-[2%] bg-[#008927] text-white rounded-lg  xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
-                    hover:bg-[#077827] transition-colors delay-250 duration-[3000] ease-in"
+                  className="flex justify-center items-center p-3 text-[1em] ml-[1%] bg-[#f78d02] text-white rounded-3xl  xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
+                    hover:bg-[#d17802] transition-colors delay-250 duration-[3000] ease-in"
                 >
+                  <IoIosSave className="mr-[2%]"/>
                   Save
                 </button>
                 </div>
@@ -338,9 +354,12 @@ const Field = ({
       <div className="flex flex-col gap-1 grow">
         <label htmlFor="label" className="font-bold">{label}</label>
         <div className="flex items-center gap-2">
-          <input type={type} name={label} value={value} className="border p-2" onChange={(event: any) => handleFieldOnChange({ event, fieldIndex: index})} />
+          <input type={type} name={label} value={value} 
+              className="border border-black rounded-2xl bg-[#fff7ed] w-[85%] p-2" 
+              onChange={(event: any) => handleFieldOnChange({ event, fieldIndex: index})} />
           <button onClick={onClick}>
-            <AiOutlineClose />
+            {/* <AiOutlineClose className="hover:text-[#e60000] hover:animate-zoom-in" /> */}
+            <TbTrashXFilled className="text-[1.2em] hover:text-[#e60000] hover:animate-zoom-in" />
           </button>
         </div>
       </div>
