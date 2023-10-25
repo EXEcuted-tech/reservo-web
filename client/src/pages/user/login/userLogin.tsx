@@ -64,9 +64,9 @@ const UserLogin = () => {
             {errMess != '' && <Danger message={errMess} />}
             {/* Background Picture */}
             <img className='absolute h-screen w-full' src={background} />
-            <div className='absolute overflow-hidden shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 text-align w-[980px] -translate-x-2/4 -translate-y-2/4 xl:max-2xl:w-[650px]'>
+            <div className='absolute overflow-hidden shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 text-align w-[980px] -translate-x-2/4 -translate-y-2/4 xl:max-2xl:w-[650px] sm:max-xl:w-[90%]'>
                 {/* Left Box */}
-                <div className="leftBox flex flex-col justify-center w-[35%] h-[63vh] bg-[#DD2803] float-left text-center pt-[70px] pb-[78px] px-10 xl:max-2xl:p-[30px]">
+                <div className="leftBox flex flex-col justify-center w-full xl:w-1/3 h-[63vh] sm:max-xl:h-[43vh] bg-[#DD2803] float-left text-center pt-[70px] pb-[78px] px-10 xl:max-2xl:p-[30px]">
                     <div className="imgBox flex justify-center">
                         <img className='max-w-[70%] h-auto mb-[5%]' src={logo} />
 
@@ -90,7 +90,7 @@ const UserLogin = () => {
                     </div>
                 </div>
 
-                <div className="right w-[65%] h-[63vh] float-left bg-white shadow-[4px_15px_10px_4px_gray] rounded-[0px_7px_7px_0px] flex flex-col justify-center items-center xl:max-2xl:pt-6 ">
+                <div className="right w-full xl:w-2/3 h-[63vh] sm:max-xl:h-[43vh] float-left bg-white shadow-[4px_15px_10px_4px_gray] rounded-[0px_7px_7px_0px] flex flex-col justify-center items-center xl:max-2xl:pt-6">
                     <div className="TitleHeader space-y-5 text-center xl:max-2xl:scale-90">
                         <span className='text-[28px] capitalize font-bold xl:max-2xl:text-[1rem]'>Login to your Account</span>
                         {/* <div className="invalid p-[5px]">

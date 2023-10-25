@@ -82,9 +82,10 @@ const AdminLogin = () => {
       {errMess !='' && <Danger message={errMess}/>}
       {/* Background Picture */}
       <img className='absolute h-screen w-full' src={background} />
-      <div className='absolute overflow-hidden shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 text-align w-[980px] -translate-x-2/4 -translate-y-2/4 xs:max-sm:w-[360px] xs:max-sm:h-[300px] xl:max-2xl:w-[650px]'>
+      <div className='absolute overflow-hidden shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 text-align w-[980px] -translate-x-2/4 -translate-y-2/4 xs:max-sm:w-[360px] xs:max-sm:h-[300px] xl:max-2xl:w-[650px] sm:max-xl:w-[90%]'>
         {/* Left Box */}
-            <div className="leftBox w-[35%] h-[63vh] bg-white float-left text-center pt-[70px] pb-[78px] px-10 xs:max-sm:p-[15px] xs:max-sm:pt-[50px] xs:max-sm:h-[36vh] xl:max-2xl:p-[30px]">
+            <div className="leftBox w-[35%] h-[63vh] bg-white float-left text-center pt-[70px] pb-[78px] px-10 xs:max-sm:p-[15px] xs:max-sm:pt-[50px] xs:max-sm:h-[36vh] xl:max-2xl:p-[30px] flex flex-col justify-center sm:max-xl:w-full sm:max-xl:h-[48vh]">
+
                 <div className="imgBox flex justify-center"> 
                 <img className='max-w-[70%] h-auto mb-[5%]' src={logo}/>
                 </div>
@@ -107,7 +108,9 @@ const AdminLogin = () => {
                 </div>
             </div>
 
-            <div className="right w-[65%] h-[63vh] float-left pt-[4rem] bg-[#840705] rounded-[0px_7px_7px_0px] flex flex-col items-center xs:max-sm:pt-[30px] xs:max-sm:h-[36vh] xl:max-2xl:pt-[3rem] ">
+            <div className="right w-full xl:w-[65%] h-[63vh] float-left bg-[#840705] rounded-[0px_7px_7px_0px] flex flex-col justify-center items-center xl:max-2xl:pt-[4rem] sm:max-xl:h-[40vh]">
+
+                
                 <div className="TitleHeader space-y-5 text-center xl:max-2xl:mb-[0.5rem]">
                     <span className='text-[28px] capitalize font-bold text-white xs:max-sm:text-[0.5rem] xl:max-2xl:text-[1rem]'>Login to your Account</span>
                     {/* <div className="invalid p-[5px]">

@@ -55,12 +55,14 @@ const SignupPage = () => {
       {error !='' && <Danger message={error}/> }
       {/* Background Picture */}
       <img className='absolute h-screen w-full' src={background} />
-      <div className='absolute left-2/4 top-2/4 text-align w-[1000px] p-[10px] -translate-x-2/4 -translate-y-2/4 xl:max-2xl:scale-[0.67]'>
+      <div className='absolute left-2/4 top-2/4 text-align w-[1000px] p-[10px] -translate-x-2/4 -translate-y-2/4 xl:max-2xl:scale-[0.67] sm:max-xl:w-[90%]'>
         {/* Left Box */}
-        <div className='w-[35%] bg-[#DD2803] float-left text-center shadow-[12px_23px_10px_-4px_gray] pt-[70px] pb-[78px] px-10 rounded-[7px_0px_0px_7px]'>
-          <img className='max-w-[40%] h-auto ml-[32%]' src={guykey} />
+        <div className='w-[35%] bg-[#DD2803] float-left text-center shadow-[12px_23px_10px_-4px_gray] pt-[70px] pb-[78px] px-10 rounded-[7px_0px_0px_7px] flex flex-col justify-center sm:max-xl:h-[45vh] sm:max-xl:w-full'>
+
+        {/* <div className="  w-full xl:w-1/3 h-[63vh]"></div> */}
+          <img className='max-w-[40%] h-auto ml-[32%] sm:max-xl:h-[70px] sm:max-xl:w-[70px]' src={guykey} />
           {/* Welcome Sign */}
-          <div className='m-2.5 p-0 border-y-2 border-y-[white] border-solid  font-bold font-poppins'>
+          <div className='m-0.5 p-0 border-y-2 border-y-[white] border-solid  font-bold font-poppins'>
             <h2 className='block text-[1.7em] m-[5.45%] text-[white]'>Sign Up to<br/> Reservo!</h2>
           </div>
           <p className='text-white'>Access more features by <br/>signing up now!</p>
@@ -77,7 +79,8 @@ const SignupPage = () => {
           </div>
         </div>
         {/* Right Box */}
-        <div className='w-[65%] float-left bg-[white] shadow-[4px_15px_10px_4px_gray] pt-[38px] pb-[50px] px-[100px] rounded-[0px_7px_7px_0px]'>
+        <div className='w-[65%] float-left bg-[white] shadow-[4px_15px_10px_4px_gray] pt-[38px] pb-[50px] px-[100px] rounded-[0px_7px_7px_0px] sm:max-xl:h-[50vh] sm:max-xl:w-full'>
+
           <h2 className='text-center text-[25px] font-bold font-poppins'>Create Your Account</h2>
           <div className='mt-2.5'>
             <BsFillPersonFill className='float-left text-[21px]'  />
