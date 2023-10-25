@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 import { IoCalendarOutline } from "react-icons/io5";
@@ -10,6 +10,9 @@ import { AiOutlinePhone } from "react-icons/ai";
 import { LiaCommentSolid } from "react-icons/lia";
 import { FiClock } from "react-icons/fi";
 import {SiReacthookform} from 'react-icons/si'
+import {IoAddCircle} from 'react-icons/io5'
+import axios from "axios";
+import config from "../../../common/config";
 
 const PAGE_MODE = {
   READ: 0,
@@ -19,16 +22,44 @@ const PAGE_MODE = {
 const ReservationManager = () => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const merchID = Number(localStorage.getItem('merch_id'));
 
   const [data, setData] = useState<{ type: string; label: string; value: string } | any>(null);
+  const [merchData,setMerchData] = useState<MerchData>()
 
-  const [fieldList, setFieldList] = useState<
-    Array<{
-      label: string;
-      type: string;
-      value: string;
-    }>
-  >([]);
+  // const [fieldList, setFieldList] = useState<
+  //   Array<{
+  //     label: string;
+  //     type: string;
+  //     value: string;
+  //   }>
+  // >([]);
+
+  const [existingList, setExistingList] = useState<
+  Array<{
+    label: string;
+    type: string;
+    value: string;
+  }>
+  >([]);  
+
+  const merchant = {
+    "merchant_id": merchData?.merchant_id,
+    "merchant_name": merchData?.merchant_name,
+    "email_address": merchData?.email_address,
+    "logo": merchData?.logo,
+    "contact_number": merchData?.contact_number,
+    "sched_id":merchData?.sched_id,
+  }
+
+  const accounts = merchData?.accounts && JSON.parse(merchData.accounts);
+  const settings = merchData?.settings && JSON.parse(merchData?.settings);
+  const address = merchData?.address && JSON.parse(merchData?.address);
+
+  useEffect (()=>{
+    // console.log("Retrieved!",existingList);
+    retrieveExisting();
+  },[])
 
   const [pageMode, setPageMode] = useState(PAGE_MODE.READ);
 
@@ -41,7 +72,6 @@ const ReservationManager = () => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
-
     if (data && (!Object.hasOwn(data, "label") || !Object.hasOwn(data, "type"))) return;
     console.log("DATA in Reservation Manager: ",data);
     formRef.current?.reset();
@@ -49,23 +79,75 @@ const ReservationManager = () => {
 
     const newField = { label: data?.label ?? "", type: data?.type ?? "", value: "" };
 
-    setFieldList((currentList) => [...currentList, newField]);
+    const isDuplicate = existingList.some(item => item.label === newField.label && item.type === newField.type);
+
+    if (!isDuplicate) {
+      const updatedExistingList = [...existingList || [], newField];
+      setExistingList(updatedExistingList);
+
+      const form_deets = updatedExistingList ? updatedExistingList : null;
+      axios.post(`${config.API}/merchant/update`,{
+        "merchant":merchant,
+        "accounts":accounts,
+         "settings":settings,
+         "address":address,
+         "form_deets":{form:form_deets},
+       }).then((res)=>{
+         console.log("Update: \n",res);
+       })
+    }else{
+      console.log("Value is repeated!");
+    }
   };
 
-  const handleRemove = (fieldIndex: number) => {
-    const filteredList = fieldList.filter((item, index) => index !== fieldIndex);
+  const retrieveExisting = () =>{
+    const col = "merchant_id"
+    const val = merchID
+    axios.get(`${config.API}/merchant/retrieve?col=${col}&val=${val}`)
+    .then((res)=>{
+      console.log("Response: ", res.data);
+      setMerchData(res.data.merchant);
+      setExistingList(res.data.formDeets?.form);
+    })
+  }
 
-    setFieldList(filteredList);
+  const handleRemove = (fieldIndex: number) => {
+    const filteredList = existingList.filter((item, index) => index !== fieldIndex);
+    setExistingList(filteredList);
+
+    const form_deets = filteredList ? filteredList : null;
+    axios.post(`${config.API}/merchant/update`,{
+      "merchant":merchant,
+      "accounts":accounts,
+       "settings":settings,
+       "address":address,
+       "form_deets":{form:form_deets},
+     }).then((res)=>{
+       console.log("SaveDeets: \n",res);
+     })
   };
 
   const updateFieldList = ({ event, fieldIndex }: { event: any; fieldIndex: number }) => {
-    const modifiedList = fieldList.map((item, index) => {
+    const modifiedList = existingList.map((item, index) => {
       return index === fieldIndex ? { ...item, value: event.target.value } : item;
     });
 
-    setFieldList(modifiedList);
+    setExistingList(modifiedList);
   };
 
+  const saveForm = () =>{
+    const form_deets = existingList ? existingList : null;
+
+    axios.post(`${config.API}/merchant/update`,{
+      "merchant":merchant,
+      "accounts":accounts,
+       "settings":settings,
+       "address":address,
+       "form_deets":{form:form_deets},
+     }).then((res)=>{
+       console.log("SaveDeets: \n",res);
+     })
+  }
   return (
     <div className="animate-fade-in font-poppins bg-[#F3F3F3] p-8 overflow-y-auto">
       <div className="flex items-center justify-center">
@@ -77,12 +159,12 @@ const ReservationManager = () => {
               onClick={() => (pageMode === PAGE_MODE.READ ? setPageMode(PAGE_MODE.UPDATE) : setPageMode(PAGE_MODE.READ))}
               className="text-black p-0 cursor-pointer ml-auto"
             >
-              <LiaEdit className="text-4xl xl:max-2xl:text-2xl" />
+              <LiaEdit className="hover:animate-zoom-in text-4xl xl:max-2xl:text-2xl" />
             </button>
           </div>
-          <div className="flex flex-col text-xl text-black w-full h-full bg-[#F0E5D8] rounded mt-5 xl:max-2xl:mt-2">
+          <div className="flex flex-col text-xl text-black w-full h-full bg-[#F0E5D8] rounded-3xl mt-5 xl:max-2xl:mt-2">
           <h1 className='font-black ml-[3%] mt-[3%] text-[1.7em] text-[#840705] xl:max-2xl:text-[1.7em] underline'>GENERAL SECTION</h1>
-            <div className="flex p-10">
+            <div className="flex px-10 pb-10 pt-5">
               <div className="flex flex-col gap-5 w-1/2 font-bold">
                 <div className="flex items-center gap-1">
                   <IoCalendarOutline className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Date: 
@@ -104,15 +186,6 @@ const ReservationManager = () => {
                     <span className="text-[20px] ml-[1%] text-[#363636] font-extralight">The service was swift and great!</span>
                   </h3>
                 </div>
-                {pageMode === PAGE_MODE.READ &&
-                  !!fieldList.length &&
-                  fieldList.map((item: any, index: number) => (
-                    <Fragment key={index}>
-                      <div className="flex items-center">
-                        <h3>{`${item.label}: ${item.value}`}</h3>
-                      </div>
-                    </Fragment>
-                  ))}
               </div>
               <div className="flex flex-col gap-5 w-1/2 font-bold">
                 <div className="flex items-center">
@@ -133,20 +206,51 @@ const ReservationManager = () => {
               </div>
             </div>
             <h1 className='font-black ml-[3%] mb-[2%] text-[1.7em] text-[#840705] xl:max-2xl:text-[1.7em] underline'>ADDITIONAL SECTION</h1>
-            {/*Insert code where it places existing custom labels*/}
+            
+            
+            {pageMode === PAGE_MODE.READ &&
+                  existingList?.length > 0 && (
+                    <div className="flex flex-wrap">
+                  {existingList.map((item: any, index: number) => (
+                    <Fragment key={index}>
+                      <div className="w-1/2 pb-5 px-10">
+                        <div className="flex items-center gap-1">
+                          <h3 className="font-bold xl:max-2xl:text-[0.8em]">{`${item.label}:`} 
+                            <span className="text-[20px] ml-[5%] text-[#363636] font-extralight">{`${item.value}`} </span>
+                          </h3>
+                        </div>
+                      </div>
+                    </Fragment>
+                  ))}
+                  </div>
+                  )
+              }
             {pageMode === PAGE_MODE.UPDATE && (
-              <div className="p-5 ml-[1rem] animate-fade-in">
+              <div className="px-5 pb-5 ml-[1rem] animate-fade-in">
+                <div className="flex items-center">
                 <button
                   onClick={() => {
                     dialogRef.current?.showModal();
                   }}
-                  className="p-3 text-xl bg-[#008927] text-white rounded-lg  xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
+                  className="flex justify-center items-center p-3 text-[1em] bg-[#008927] text-white rounded-lg  xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
                     hover:bg-[#077827] transition-colors delay-250 duration-[3000] ease-in"
                 >
-                  Add Field
+                  <IoAddCircle/> Add Field
                 </button>
-                {!!fieldList.length &&
-                  fieldList.map((item: any, index: number) => (
+                {/* SAVE button */}
+                <button
+                  onClick={() => {
+                    saveForm();
+                  }}
+                  className="p-3 text-[1em] ml-[2%] bg-[#008927] text-white rounded-lg  xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
+                    hover:bg-[#077827] transition-colors delay-250 duration-[3000] ease-in"
+                >
+                  Save
+                </button>
+                </div>
+                {existingList?.length > 0 && (
+                  <div className="grid grid-cols-3 gap-4 mt-[1%]">
+                  {existingList.map((item: any, index: number) => (
                     <Fragment key={index}>
                       <Field
                         {...item}
@@ -156,6 +260,8 @@ const ReservationManager = () => {
                       />
                     </Fragment>
                   ))}
+                  </div>
+                  )}
               </div>
             )}
           </div>
@@ -216,11 +322,13 @@ const Field = ({
   type,
   label,
   index,
+  value,
   onClick,
   handleFieldOnChange,
 }: {
   type: string;
   label: string;
+  value: string;
   index: number;
   onClick: any;
   handleFieldOnChange: any;
@@ -228,9 +336,9 @@ const Field = ({
   return (
     <>
       <div className="flex flex-col gap-1 grow">
-        <label htmlFor="label">{label}</label>
+        <label htmlFor="label" className="font-bold">{label}</label>
         <div className="flex items-center gap-2">
-          <input type={type} name={label} className="border p-2" onChange={(event: any) => handleFieldOnChange({ event, fieldIndex: index })} />
+          <input type={type} name={label} value={value} className="border p-2" onChange={(event: any) => handleFieldOnChange({ event, fieldIndex: index})} />
           <button onClick={onClick}>
             <AiOutlineClose />
           </button>
