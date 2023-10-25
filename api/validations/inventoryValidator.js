@@ -1,5 +1,5 @@
 const createInventoryValidator = (req,res,next)=>{
-    console.log(req.body)
+    // console.log(req.body)
     // if (typeof req.body !== 'string') {
     //     return res.json({
     //       success: false,

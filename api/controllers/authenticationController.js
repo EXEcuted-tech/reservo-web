@@ -53,15 +53,24 @@ const login = (req,res)=>{
                     const hash = dbresult[0].passwd;
                     bcrypt.compare(password,hash).then(function(result) {
                         if (result == true){
-                            res.status(201).json({
-                                success: true,
-                                message: "Retrieved",
-                                account_info:{
-                                    userID: dbresult[0].account_id,
-                                    user: dbresult[0].account_name,
-                                    email: dbresult[0].account_email,
-                                    type: dbresult[0].account_type                           
+                            const updateLogin = "UPDATE account SET last_login = CURRENT_TIMESTAMP() WHERE account_id = ?";
+                            const accountLogged = [dbresult[0].account_id];
+
+                            db.query(updateLogin, accountLogged, (updateErr) => {
+                                if (updateErr) {
+                                    console.error("Error updating last_login:", updateErr);
                                 }
+
+                                res.status(201).json({
+                                    success: true,
+                                    message: "Retrieved",
+                                    account_info: {
+                                        userID: dbresult[0].account_id,
+                                        user: dbresult[0].account_name,
+                                        email: dbresult[0].email_address,
+                                        type: dbresult[0].account_type,
+                                    },
+                                });
                             });
                         }else{
                             res.status(200).json({
@@ -70,8 +79,7 @@ const login = (req,res)=>{
                             });
                         }
                     });
-                }
-                    
+                }        
             }else{
                 res.status(200).json({
                     success: false,

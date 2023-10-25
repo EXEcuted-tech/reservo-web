@@ -6,16 +6,21 @@ import axios from 'axios'
 const AllBookings: React.FC<ReserveProps> = (props) => {
   const openModal = props;
   const [reservations, setReservations] = useState<ReserveCardProps[]>([]);
+  const merchID = Number(localStorage.getItem('merch_id'));
 
   useEffect(() => {
-    axios.get(`${config.API}/reserve/retrieve_all`).then((res) => {
-      // Parse date strings into Date objects
+    const col = "merchant_id";
+    const val = merchID;
+    const orderCol = "reservation_id";
+    const order = "ASC"
+
+    axios.get(`${config.API}/reserve/retrieve?col=${col}&val=${val}&orderVal=${orderCol}&order=${order}`)
+      .then((res) => {
       const parsedReservations = res.data.records.map((record: any) => ({
         ...record,
         res_date: new Date(record.res_date),
       }));
 
-      // Set the reservations in state
       setReservations(parsedReservations);
     });
   }, []);

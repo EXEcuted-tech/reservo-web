@@ -39,17 +39,17 @@ const MerchantSide = () => {
         <div className='text-white mx-[8%] my-[8%]'>
             <ul>
                 <li className={`flex items-center text-[1.4em] mb-[11%] hover:bg-[#660605] hover:px-[3%] hover:py-[4%] hover:ml-[-3%] hover:rounded-xl 
-                    hover:cursor-pointer hover:animate-small-fade-in-down hover:mb-[3%] ${urlPart === 'merchdash' ? 'bg-[#660605] px-[3%] py-[4%] ml-[-3%] rounded-xl mb-[3%]' : ''}`}
+                    hover:cursor-pointer hover:animate-small-fade-in-down hover:mb-[3%] xl:max-2xl:text-[0.95em] ${urlPart === 'merchdash' ? 'bg-[#660605] px-[3%] py-[4%] ml-[-3%] rounded-xl mb-[3%]' : ''}`}
                     onClick={()=>{ handleMenuItemClick('/merchdash',false)}}>
                     <RiDashboard3Line className='mr-[4%] text-[1.5em] '/> Dashboard</li>
                     
-                <li className={`flex items-center text-[1.4em] hover:cursor-pointer  ${urlPart !== 'reservationlist' && showMore===false
+                <li className={`flex items-center text-[1.4em] hover:cursor-pointer xl:max-2xl:text-[0.95em]  ${urlPart !== 'reservationlist' && showMore===false
                 ? 'mb-[11%] hover:mb-[3%] hover:bg-[#660605] hover:px-[3%] hover:py-[4%] hover:ml-[-3%] hover:rounded-xl hover:animate-small-fade-in-down ' 
                 : 'bg-[#660605] rounded-xl px-[3%] py-[4%] hover:mb-[0] ml-[-3%]'}`}
                     onClick={()=>{handleMenuItemClick('/reservationlist/all',false)}}>
                     <IoCalendar className='mr-[4%] text-[1.5em]'/> Reservations List</li>
                 { showMore || urlPart==='reservationlist'  &&
-                   <ul className='text-white ml-[15%] mr-[5%] mb-[10%] text-[1.2em] bg-[#912D2C] pl-[10%] py-[5%] rounded-b-2xl'>
+                   <ul className='text-white ml-[15%] mr-[5%] mb-[10%] text-[1.2em] bg-[#912D2C] pl-[10%] py-[5%] rounded-b-2xl xl:max-2xl:text-[0.9em]'>
                     <li className={`my-[5%] hover:cursor-pointer hover:bg-[#660605] hover:ml-[-15%] hover:pl-[15%] hover:py-[1%]
                         ${ urlSecPart ==='all' ? 'bg-[#660605] ml-[-15%] pl-[15%]': ''}`}
                         onClick={()=>{navigate('/reservationlist/all')}}>All Bookings</li>
@@ -62,26 +62,26 @@ const MerchantSide = () => {
                    </ul>
                 }
                 <li className={`flex items-center text-[1.4em] mb-[11%] hover:bg-[#660605] hover:px-[3%] hover:py-[4%] hover:ml-[-3%] hover:rounded-xl 
-                    hover:cursor-pointer hover:animate-small-fade-in-down hover:mb-[3%] ${urlPart === 'feedbacklist' ? 'bg-[#660605] px-[3%] py-[4%] ml-[-3%] rounded-xl mb-[3%]' : ''}`}
+                    hover:cursor-pointer hover:animate-small-fade-in-down hover:mb-[3%] xl:max-2xl:text-[0.95em] ${urlPart === 'feedbacklist' ? 'bg-[#660605] px-[3%] py-[4%] ml-[-3%] rounded-xl mb-[3%]' : ''}`}
                     onClick={()=>{handleMenuItemClick('/feedbacklist',false)}}>
                     <RiMegaphoneFill className='mr-[4%] text-[1.5em]'/> Feedback List</li>
                     <li className={`flex items-center text-[1.4em] mb-[11%] hover:bg-[#660605] hover:px-[3%] hover:py-[4%] hover:ml-[-3%] hover:rounded-xl 
-                    hover:cursor-pointer hover:animate-small-fade-in-down hover:mb-[3%] ${urlPart === 'reservationmanager' ? 'bg-[#660605] px-[3%] py-[4%] ml-[-3%] rounded-xl mb-[3%]' : ''}`}
+                    hover:cursor-pointer hover:animate-small-fade-in-down hover:mb-[3%] xl:max-2xl:text-[0.95em] ${urlPart === 'reservationmanager' ? 'bg-[#660605] px-[3%] py-[4%] ml-[-3%] rounded-xl mb-[3%]' : ''}`}
                     onClick={()=>{handleMenuItemClick('/reservationmanager',false)}}>
                     <RiReservedFill className='mr-[4%] text-[1.4em]'/> Reserve Manager</li>
                 <li className={`flex items-center text-[1.4em] mb-[11%] hover:bg-[#660605] hover:px-[3%] hover:py-[4%] hover:ml-[-3%] hover:rounded-xl 
-                    hover:cursor-pointer hover:animate-small-fade-in-down hover:mb-[3%] ${urlPart === 'packagemanager' ? 'bg-[#660605] px-[3%] py-[4%] ml-[-3%] rounded-xl mb-[3%]' : ''}`}
+                    hover:cursor-pointer hover:animate-small-fade-in-down hover:mb-[3%] xl:max-2xl:text-[0.95em] ${urlPart === 'packagemanager' ? 'bg-[#660605] px-[3%] py-[4%] ml-[-3%] rounded-xl mb-[3%]' : ''}`}
                     onClick={()=>{handleMenuItemClick('/packagemanager',false)}}>
                     <LuPackage2 className='mr-[4%] text-[1.5em]'/> Package Manager</li>
                 <li className={`flex items-center text-[1.4em] mb-[11%] hover:bg-[#660605] hover:px-[3%] hover:py-[4%] hover:ml-[-3%] hover:rounded-xl 
-                    hover:cursor-pointer hover:animate-small-fade-in-down hover:mb-[3%] ${urlPart === 'merchsettings' ? 'bg-[#660605] px-[3%] py-[4%] ml-[-3%] rounded-xl mb-[3%]' : ''}`}
+                    hover:cursor-pointer hover:animate-small-fade-in-down hover:mb-[3%] xl:max-2xl:text-[0.95em] ${urlPart === 'merchsettings' ? 'bg-[#660605] px-[3%] py-[4%] ml-[-3%] rounded-xl mb-[3%]' : ''}`}
                     onClick={()=>{handleMenuItemClick('/merchsettings',false)}}>
                     <IoBusiness className='mr-[4%] text-[1.5em]'/> Merchant Settings</li>
             </ul>
         </div>
         <div className='fixed bottom-[5%] ml-[1.8%] w-[15%]'
             onClick={()=>{navigate('/logout')}}>
-            <p className='flex items-center text-[1.3em] text-white hover:text-[#D9D9D9] hover:cursor-pointer'><FiLogOut className='mr-[1%] text-[1.5em]'/> Log Out</p>
+            <p className='flex items-center text-[1.3em] text-white hover:text-[#D9D9D9] hover:cursor-pointer xl:max-2xl:text-[0.95em]'><FiLogOut className='mr-[1%] text-[1.5em]'/> Log Out</p>
         </div>
     </div>
   )

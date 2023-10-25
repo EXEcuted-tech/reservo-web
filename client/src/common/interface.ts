@@ -39,21 +39,12 @@ interface ReserveCardProps {
 }
 
 interface Inventory {
-    numberOfTables: number;
-    numberOfChairs: number;
-    numberOfPlates: number;
-    numberOfGlasses: number;
-    numberOfTableCloths: number;
-    numberOfChairCovers: number;
-}
-
-interface Inventory {
-    numberOfTables: number;
-    numberOfChairs: number;
-    numberOfPlates: number;
-    numberOfGlasses: number;
-    numberOfTableCloths: number;
-    numberOfChairCovers: number;
+    no_of_tables: number;
+    no_of_chairs: number;
+    no_of_plates: number;
+    no_of_glasses: number;
+    no_of_tableCloths: number;
+    no_of_chairCovers: number;
 }
 
 interface PackageItem {
@@ -79,3 +70,33 @@ interface Feedback{
     rating_value: number;
     comment: string;
 }
+
+interface Payment{
+    payment_id:number;
+    total_expense: number;
+    balance: number;
+    payment_status: string;
+    payment_date: Date;
+}
+
+interface MerchData{
+    merchant_id: number;
+    merchant_name: string;
+    email_address: string;
+    logo: string;
+    contact_number: string;
+    address: string;
+    settings: string;
+    form_deets: string;
+    sched_id: number;
+    accounts: string;
+}
+
+
+// interface Account{
+//     account_id:number;
+//     account_name:string;
+//     account_status:string;
+//     account_type:number;
+//     contact_number
+// }
