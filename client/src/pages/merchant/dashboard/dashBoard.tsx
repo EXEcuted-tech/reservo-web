@@ -16,9 +16,10 @@ const MerchDashboard = () => {
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [userInfo, setUserInfo] = useState<any[]>([]);
-	const userDetails = localStorage.getItem("userDetails");
-	const userID = userDetails ? JSON.parse(userDetails).userID : "0";
+	const userDetails = localStorage.getItem("admerchDetails");
+	const userID = userDetails ? JSON.parse(userDetails).userID : 1;
 	const userName = userDetails ? JSON.parse(userDetails).user : "UNDEFINED";
+	const [currentUser, setCurrentUser] = useState(0);
 	const [reservationCount, setReservationCount] = useState(0);
 	const [cateredCount, setCateredCount] = useState(0);
 	const [cancelledCount, setCancelledCount] = useState(0);
@@ -89,7 +90,7 @@ const MerchDashboard = () => {
 				{
 					params: {
 						col: "merchant_id",
-						val: 1,
+						val: userID,
 					},
 				},
 			);
@@ -99,7 +100,7 @@ const MerchDashboard = () => {
 				{
 					params: {
 						col1: "merchant_id",
-						val1: 1,
+						val1: userID,
 						col2: "status",
 						val2: "Finished",
 					},
@@ -113,7 +114,7 @@ const MerchDashboard = () => {
 				{
 					params: {
 						col1: "merchant_id",
-						val: 1,
+						val: userID,
 						col2: "status",
 						val2: "Cancelled",
 					},
@@ -126,7 +127,7 @@ const MerchDashboard = () => {
 				{
 					params: {
 						col1: "merchant_id",
-						val1: 1,
+						val1: userID,
 						col2: "status",
 						val2: "Ongoing",
 						col3: "res_date",
@@ -153,9 +154,7 @@ const MerchDashboard = () => {
 			<div className="bg-[#F3F3F3] h-[30vh] flex ">
 				<div className="w-[60%] p-[1%] text-center">
 					<div className="align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-b from-[#9a1a00] to-black">
-						<h1 className="text-[1.8em] text-white">
-							Welcome, {currentUser.user}!
-						</h1>
+						<h1 className="text-[1.8em] text-white">Welcome, {userName}!</h1>
 						<p className="text-[1.3em] text-white">
 							<br />
 							Greetings, <br />
