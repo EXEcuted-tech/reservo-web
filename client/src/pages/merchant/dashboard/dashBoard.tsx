@@ -132,7 +132,6 @@ const MerchDashboard = () => {
 				},
 			);
 			setReservationCount(responseCount.data.count);
-			console.log(responseCount.data);
 			const responseCatered = await axios.get(
 				`${config.API}/reserve/retrievecountparams`,
 				{
@@ -207,7 +206,6 @@ const MerchDashboard = () => {
 								<p className="text-white mt-[-5%] text-[5em] font-bold display">
 									{reservationCount}
 								</p>
-
 								<p className="text-white text-[1.2em] mt-[-13%]">RESERVATION</p>
 							</div>
 							<div className="w-[30%] pt-[10%] text-center">
