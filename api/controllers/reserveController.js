@@ -20,44 +20,103 @@ const createReserve = (req, res) => {
 	const insertQuery =
 		"INSERT INTO reservation (res_date,res_time,res_location,date_received,party_size,settings,additional_details,account_id,merchant_id,sched_id,package_id,payment_id,inventory_id,status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-    const date_received = new Date();
-    const status = "Ongoing";
-    const data = [date,timestart,location,date_received,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id,status]
-    db.query(insertQuery, data, (err, result) => {
-      if (err) {
-        console.error('Error inserting data:', err);
-        return res.status(500).json({ status: 500, success:false,error: 'Error inserting data' });
-      }
-  
-      if (result.affectedRows > 0) {
-        return res.status(200).json({
-          status: 200,
-          success: true,
-          data: result,
-        });
-      } else {
-        return res.status(500).json({ status: 500, success: false, error: 'Record insertion failed' });
-      }
-    });
-  } catch (error) {
-    console.error('Error:', error);
-    return res.status(500).json({ status: 500, success: false, error: 'An error occurred' });
-  }
-}
+	const date_received = new Date();
+	const status = "Ongoing";
+	const settingsUpdate = JSON.stringify(settings);
+	const data = [
+		date,
+		timestart,
+		location,
+		date_received,
+		size,
+		settingsUpdate,
+		adddeets,
+		acc_id,
+		merch_id,
+		sched_id,
+		pack_id,
+		pay_id,
+		invent_id,
+		status,
+	];
+	try {
+		db.query(insertQuery, data, (err, result) => {
+			if (err) {
+				console.error("Error inserting data:", err);
+				return res
+					.status(500)
+					.json({ status: 500, success: false, error: "Error inserting data" });
+			}
 
-const updateReserve = (req,res)=>{
-  const {date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,res_id,invent_id,status} = req.body;
-    
-  const updateQuery = 'UPDATE reservation SET res_date=?,res_time=?,res_location=?,party_size=?,settings=?,additional_details=?,account_id=?,merchant_id=?,sched_id=?,package_id=?,payment_id=?,inventory_id=?,status=? WHERE reservation_id=?'
+			if (result.affectedRows > 0) {
+				return res.status(200).json({
+					status: 200,
+					success: true,
+					data: result,
+				});
+			} else {
+				return res
+					.status(500)
+					.json({
+						status: 500,
+						success: false,
+						error: "Record insertion failed",
+					});
+			}
+		});
+	} catch (error) {
+		console.error("Error:", error);
+		return res
+			.status(500)
+			.json({ status: 500, success: false, error: "An error occurred" });
+	}
+};
 
-  const data = [res_date,res_time,res_location,party_size,settings,additional_details,account_id,
-                merchant_id,sched_id,package_id,payment_id,inventory_id,status,res_id]
-  
-  db.query(updateQuery, data, (err, result) => {
-    if (err) {
-      console.error('Error updating data:', err);
-      return res.status(500).json({ status: 500, success:false,error: 'Error updating data' });
-    }
+const updateReserve = (req, res) => {
+	const { res_id } = req.query;
+	const {
+		res_date,
+		res_time,
+		res_location,
+		party_size,
+		settings,
+		additional_details,
+		account_id,
+		merchant_id,
+		sched_id,
+		package_id,
+		payment_id,
+		inventory_id,
+		status,
+	} = req.body;
+
+	const updateQuery =
+		"UPDATE reservation SET res_date=?,res_time=?,res_location=?,party_size=?,settings=?,additional_details=?,account_id=?,merchant_id=?,sched_id=?,package_id=?,payment_id=?,inventory_id=?,status=? WHERE reservation_id=?";
+
+	const data = [
+		res_date,
+		res_time,
+		res_location,
+		party_size,
+		settings,
+		additional_details,
+		account_id,
+		merchant_id,
+		sched_id,
+		package_id,
+		payment_id,
+		inventory_id,
+		status,
+		res_id,
+	];
+
+	db.query(updateQuery, data, (err, result) => {
+		if (err) {
+			console.error("Error updating data:", err);
+			return res
+				.status(500)
+				.json({ status: 500, success: false, error: "Error updating data" });
+		}
 
 		if (result.affectedRows > 0) {
 			return res.status(200).json({
@@ -96,13 +155,13 @@ const retrieveAll = (req, res) => {
 	});
 };
 
-const retrieveByParams = (req,res)=>{
-  const { col, val, orderVal, order } = req.query; 
+const retrieveByParams = (req, res) => {
+	const { col, val, orderVal, order } = req.query;
 
-  const orderValue = orderVal ? orderVal : col;
-  const orderBy = order ? order : 'ASC';
+	const orderValue = orderVal ? orderVal : col;
+	const orderBy = order ? order : "ASC";
 
-  const retrieveSpecific = `SELECT * FROM reservation WHERE ?? = ? ORDER BY ${orderValue} ${orderBy}`;
+	const retrieveSpecific = `SELECT * FROM reservation WHERE ?? = ? ORDER BY ${orderValue} ${orderBy}`;
 
 	db.query(retrieveSpecific, [col, val], (err, row) => {
 		if (err) {
