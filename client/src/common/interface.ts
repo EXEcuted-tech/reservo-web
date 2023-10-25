@@ -79,6 +79,20 @@ interface Payment{
     payment_date: Date;
 }
 
+interface MerchData{
+    merchant_id: number;
+    merchant_name: string;
+    email_address: string;
+    logo: string;
+    contact_number: string;
+    address: string;
+    settings: string;
+    form_deets: string;
+    sched_id: number;
+    accounts: string;
+}
+
+
 // interface Account{
 //     account_id:number;
 //     account_name:string;
