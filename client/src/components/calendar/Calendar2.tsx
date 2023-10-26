@@ -5,7 +5,7 @@ import ReservationDetails from './ReservationDetail';
 
 
 
-interface details  {
+interface details {
     id: number,
     date: Date;
     eventSize: number;
@@ -16,9 +16,9 @@ interface details  {
     clientN: string;
     status: string;
     remarks: string;
-  };
+};
 
-function Calendar2(props?: {dataSet?:details[]}) {
+function Calendar2() {
 
     const calendarDates = new Date();
 
@@ -32,55 +32,81 @@ function Calendar2(props?: {dataSet?:details[]}) {
     const [year, setYear] = useState(calendarDates.getFullYear());
     const [monthNdx, setMonthNdx] = useState(calendarDates.getMonth());
     const [length, setLength] = useState(numberOfDays(year, monthNdx));
-    const [start ,getStart] = useState(new Date(year , monthNdx , 1).getDay()); 
+    const [start, getStart] = useState(new Date(year, monthNdx, 1).getDay());
     let count = 1;
-    const cell = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42];
+    const cell = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42];
 
-    const dataSet  = props?.dataSet || [{id:0 ,date: new Date(), 
-    eventSize: 0, 
-    time : "00:00 AM - 00:00 PM",
-    email : "xxxxxx@dxxxxx.com",
-    organizer : "xxxxx xxxxx xxx",     
-    contactN : "xxxxxxxxxxx",     
-    clientN : "xxxxxxxxxx",     
-    status : "xxxxxxxxx",
-    remarks : "xxxxxxxxxxxx"}]
+    const dataSet =
+        [{
+            id: 3322114425522, date: new Date("October 25 , 2023"),
+            eventSize: 100,
+            time: "10:00:00 AM- 5:00 PM",
+            email: "abc@def.com",
+            organizer: "juan Dela zz",
+            contactN: "09919191912",
+            clientN: "juan D Cruz",
+            status: "Ongoing",
+            remarks: ""
+        },
+        {
+            id: 3322114425522, date: new Date("October 25 , 2023"),
+            eventSize: 100,
+            time: "10:00:00 AM- 5:00 PM",
+            email: "abc@def.com",
+            organizer: "juan Dela zz",
+            contactN: "09919191912",
+            clientN: "juan D Cruz",
+            status: "Ongoing",
+            remarks: ""
+        },
+        {
+            id: 3322114425522, date: new Date("October 25 , 2023"),
+            eventSize: 100,
+            time: "10:00:00 AM- 5:00 PM",
+            email: "abc@def.com",
+            organizer: "juan Dela zz",
+            contactN: "09919191912",
+            clientN: "juan D Cruz",
+            status: "Ongoing",
+            remarks: ""
+        },
+        ]
 
-    const handlerClicker = (action :string) => {
-        if(action === "next"){
+    const handlerClicker = (action: string) => {
+        if (action === "next") {
             setMonthNdx(monthNdx + 1);
         }
-        else{
-            setMonthNdx(monthNdx -1);
+        else {
+            setMonthNdx(monthNdx - 1);
         }
     }
 
-    useEffect(()=>{
-        if(monthNdx > 11){
+    useEffect(() => {
+        if (monthNdx > 11) {
             setYear(year + 1);
             setMonthNdx(0);
         }
-        else if(monthNdx < 0){
+        else if (monthNdx < 0) {
             setYear(year - 1);
             setMonthNdx(11);
         }
-    },[monthNdx]);
+    }, [monthNdx]);
 
-    useEffect(()=>{
+    useEffect(() => {
         setLength(numberOfDays(year, monthNdx));
-        getStart(new Date(year , monthNdx , 1).getDay());
+        getStart(new Date(year, monthNdx, 1).getDay());
         count = 1;
-    } , [monthNdx])
+    }, [monthNdx])
 
     const [today, setDateToday] = useState(false);
 
     useEffect(() => {
         calendarDates.getFullYear() === year && calendarDates.getMonth() === monthNdx && calendarDates.getDate() === count ? setDateToday(true) : setDateToday(false);
-      }, [count])
+    }, [count])
     const styleToday = {
         backgroundColor: today ? "red" : "none",
         color: today ? "white" : "",
-    } 
+    }
 
     return (
         <div className='flex flex-col text-center font-poppins w-[100%] h-[80vh] bg-red-200'>
@@ -88,9 +114,9 @@ function Calendar2(props?: {dataSet?:details[]}) {
                 <div className='flex flex-cols justify-center' >
                     <span>
                         <ButtonC title='prev' isDisable={false} onClick={(event) => {
-                        event.preventDefault();
-                        handlerClicker("back");
-                    }} />  </span>
+                            event.preventDefault();
+                            handlerClicker("back");
+                        }} />  </span>
 
                     <div className=''>
                         <span>{months[monthNdx]}</span>
@@ -98,9 +124,9 @@ function Calendar2(props?: {dataSet?:details[]}) {
                     </div>
                     <span>
                         <ButtonC title='next' isDisable={false} onClick={(event) => {
-                        event.preventDefault();
-                        handlerClicker("next");
-                    }} />  </span>
+                            event.preventDefault();
+                            handlerClicker("next");
+                        }} />  </span>
                 </div>
                 <div className='grid grid-cols-7 gap-4'>
                     {weekly.map((weekName, indx) => {
@@ -108,14 +134,11 @@ function Calendar2(props?: {dataSet?:details[]}) {
                             <span className='text-center font-poppins' key={indx}>{weekName}</span>
                         )
                     })}
-                    {cell && cell.map((cellDay)=>{
-                        return(
-                            cellDay >= start && count <= length ? 
-                            //reservation Details per Days
-                            props?.dataSet ? <ReservationDetails key={cellDay} dataSet = {dataSet} today ={calendarDates} year = {year} monthName ={months[monthNdx]} monthNdx={monthNdx} day={count++}/> : <Button sx={styleToday}>{count++}</Button>
-                                    : 
-                                <span key={cellDay}></span>
-                                
+                    {cell && cell.map((cellDay) => {
+                        return (
+                            cellDay >= start && count <= length ?
+                                //reservation Details per Days
+                               <ReservationDetails key={cellDay} dataSet={dataSet} today={calendarDates} year={year} monthName={months[monthNdx]} monthNdx={monthNdx} day={count++} /> : <Button sx={styleToday}>{count++}</Button>
                         )
                     })}
                 </div>

@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { lazy, useEffect, useState ,Suspense } from 'react'
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
-import Calendar from '../../../components/calendar/Calendar'
-import {BiSolidBookAlt} from 'react-icons/bi'
+// import Calendar from '../../../components/calendar/Calendar'
+import {BiLoader, BiSolidBookAlt} from 'react-icons/bi'
 import {FaList} from 'react-icons/fa'
 import {BsCalendar4Week,BsFillClipboardCheckFill} from 'react-icons/bs'
 import AllBookings from './modules/allBookings'
-import ReserveCalendar from './reserveCalendar'
+// import ReserveCalendar from './reserveCalendar'
 import CompleteList from './modules/complete'
 import UpcomingList from './modules/upcoming'
 import {MdUpcoming} from 'react-icons/md'
 import ViewModal from '../../../components/modals/reserveModal/viewModal'
 import EditModal from '../../../components/modals/reserveModal/editModal'
+import GenSpinner from '../../../components/loaders/genSpinner'
+import { Typography } from '@mui/material'
+
+const ResvCalendar = lazy(()=>import("./reserveCalendar"));
 
 const ReserveList = () => {
 
@@ -21,34 +25,6 @@ const ReserveList = () => {
   const [openModalView,setOpenModalView] = useState(false);
   const [openModalEdit,setOpenModalEdit] = useState(false);
 
-  const reservations = [{id:3322114425522 ,date: new Date("October 25 , 2023"), 
-  eventSize: 100, 
-  time : "10:00:00 AM- 5:00 PM",
-  email : "abc@def.com",
-  organizer : "juan Dela zz",     
-  contactN : "09919191912",     
-  clientN : "juan D Cruz",     
-  status : "Ongoing",
-  remarks : ""},
-  {id:3322114425522 ,date: new Date("October 25 , 2023"), 
-  eventSize: 100, 
-  time : "10:00:00 AM- 5:00 PM",
-  email : "abc@def.com",
-  organizer : "juan Dela zz",     
-  contactN : "09919191912",     
-  clientN : "juan D Cruz",     
-  status : "Ongoing",
-  remarks : ""},
-  {id:3322114425522 ,date: new Date("October 25 , 2023"), 
-  eventSize: 100, 
-  time : "10:00:00 AM- 5:00 PM",
-  email : "abc@def.com",
-  organizer : "juan Dela zz",     
-  contactN : "09919191912",     
-  clientN : "juan D Cruz",     
-  status : "Ongoing",
-  remarks : ""},
-  ]
 
   useEffect(() => {
     const pathParts = window.location.pathname.split('/');
@@ -122,7 +98,9 @@ const ReserveList = () => {
           </div>
         : 
           <div>
-            <ReserveCalendar dataResv={reservations}/>
+            <Suspense fallback={<div className='w-[100%] h-[70vh] flex flex-rows justify-center items-center'><GenSpinner /></div>}>
+                <ResvCalendar />
+            </Suspense>
           </div>
         }
       </div>

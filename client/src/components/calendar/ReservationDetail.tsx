@@ -160,7 +160,7 @@ export default function ReservationList(props: { year: number, dataSet: details[
                 </Box>
               )
             }) :
-              <Button sx={{width:'100%',height:'10vh' ,backgroundColor:'dirtyWhite',color:"black" ,padding:'0px', margin:'1rem 0px 1rem 0px'}} variant='contained' disabled>There is no Reservation on this day</Button>}
+              <Button sx={{width:'100%',height:'10vh' ,backgroundColor:'dirtyWhite', color:"black" ,padding:'0px', margin:'1rem 0px 1rem 0px'}} variant='text' aria-readonly>There is no Reservation on this day</Button>}
           </Box>
         </Modal>
       </div>

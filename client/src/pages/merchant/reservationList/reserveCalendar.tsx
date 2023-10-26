@@ -16,10 +16,10 @@ interface details {
   remarks: string;
 };
 
-const ReserveCalendar = (props?:{dataResv?:details[]}) => {
+const ReserveCalendar = () => {
   return (
     <div className = "animate-fade-in overflow-y-auto">
-      <Calendar/>
+      <Calendar2 />
     </div>
   )
 }
