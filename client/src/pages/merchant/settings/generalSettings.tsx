@@ -478,7 +478,7 @@ export default function GeneralSettings() {
         data.merchant.logo = newImageUrl ? newImageUrl: data.merchant.logo;
 
         const formData = data;
-    //    console.log("FORMDATA ==> ", formData);
+        console.log("FORMDATA ==> ", formData);
 
         axios.post(`${config.API}/merchant/update`, formData)
         .then(function(response){

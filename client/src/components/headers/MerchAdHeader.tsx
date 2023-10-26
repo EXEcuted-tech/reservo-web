@@ -64,7 +64,7 @@ const MerchAdHeader: React.FC<MerchAdHeaderProps> = ({ icon: Icon, title }) => {
   }
 
   return (
-    <div className='font-poppins flex items-center w-[100%] h-[5vh] py-[3%]'>
+    <div className='font-poppins bg-white flex items-center w-[100%] h-[5vh] py-[3%]'>
         <div className='flex items-center w-[90%] ml-[2%]'>
             <Icon className='mr-[1%] text-[3em] mt-[0.5%] xl:max-2xl:text-[2em]' /> 
             <h1 className='font-medium text-[2.2em] xl:max-2xl:text-[1.5em]'>{title}</h1>

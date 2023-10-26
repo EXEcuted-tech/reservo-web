@@ -24,6 +24,9 @@ const ReserveForm = () => {
   const [clickSeven,setClickSeven] = useState(false);
   const [clickEight,setClickEight] = useState(false);
   const [clickNine,setClickNine] = useState(false);
+  const [clickTen,setClickTen] = useState(false);
+  const [clickEleven,setClickEleven] = useState(false);
+  const [clickElevenTriggered, setClickElevenTriggered] = useState(false);
 
   const [date,setDate] = useState("");
   const [timestart,setTimeStart] = useState("");
@@ -47,10 +50,25 @@ const ReserveForm = () => {
   const merchIdString = sessionStorage.getItem('merch_idtoBook');
   const merchantId = merchIdString !== null ? parseInt(merchIdString) : 0;
   const storedAcc = localStorage.getItem('userDetails');
+  const [firstList, setFirstList] = useState<
+  Array<{
+    label: string;
+    type: string;
+    value: string;
+  }>
+  >([]); 
+
+  const [existingList, setExistingList] = useState<
+  Array<{
+    label: string;
+    type: string;
+    value: string;
+  }>
+  >([]); 
 
   useEffect (()=>{
     retrieveMerchant();
-
+    console.log("VALUE OF CLICK: ",clickEleven);
     if(storedAcc){
         setMatchEmail(JSON.parse(storedAcc).email);
         setUserId(JSON.parse(storedAcc).userID);
@@ -74,6 +92,16 @@ const ReserveForm = () => {
     .then((res)=>{
         if(res.data.success == true){
             setName(res.data.merchant.merchant_name);
+            const list = res.data.formDeets?.form
+            setFirstList(res.data.formDeets?.form)
+
+            const newExistingList = list.map((item:any) => ({
+                label: item.label,
+                type: item.type,
+                value: '',
+              }));
+            
+              setExistingList(newExistingList);
         }
       })
   }
@@ -135,6 +163,7 @@ const ReserveForm = () => {
             timestart: formattedTime,
             location: location,
             size: size,
+            settings: {additional_details: existingList},
             adddeets: add,
             acc_id: userId,
             merch_id: merchantId,
@@ -168,6 +197,24 @@ const ReserveForm = () => {
         setErrMess("Account inputted is invalid. You should enter your own account details.")
     }
   }
+
+  const handleAdditionalChange = ({ event, fieldIndex }: { event: any; fieldIndex: number }) =>{
+    const modifiedList = existingList.map((item, index) => {
+        return index === fieldIndex ? { ...item, value: event.target.value } : item;
+      });
+  
+      setExistingList(modifiedList);
+  }
+
+//   const resetExistingList = () => {
+//     const newExistingList = existingList.map((item) => ({
+//       label: item.label,
+//       type: item.type,
+//       value: '',
+//     }));
+  
+//     setExistingList(newExistingList);
+//   };
 
   return (
     <div className=' animate-fade-in font-poppins bg-[#F9F2EA] h-[100%]'>
@@ -377,20 +424,38 @@ const ReserveForm = () => {
         </div>
         {/* Additional Form */}
         <div className='bg-white'>
-            <div className='flex px-[4%] py-[2%]'>
-                <p className='font-bold text-[2em] xl:max-2xl:text-[1.7em]'>Coming Soon</p>
-                {/* <div className='w-[20%] pl-[0.5%] mr-[3%]'>
-                <label className='absolute mt-[-1%] text-[#838383]'>Number of Tables</label>
+            {/* Add ug one click */}
+            <div className='flex flex-wrap px-[4%] py-[1%]'>
+                {existingList?.length > 0 &&
+                  existingList.map((item: any, index: number) => (
+                    <div className='w-[20%] pl-[0.5%] mr-[5%] my-[2%]'>
+                    {clickTen && 
+                    <div className='relative'>
+                        <label className='animate-slide-up absolute mt-[-10%] text-[#838383]'>{item.label}</label>
+                        <p className='animate-slide-up absolute text-[0.8em] mt-[-5%] text-[#a3a3a3] italic'>e.g. {firstList[index]?.value}</p>
+                    </div>
+                    }
                     <input 
-                        className='text-[#B7B7B7] text-[1.1em] w-[100%] border-b-2 border-[#B7B7B7]
-                        mb-[3%] pl-[0.5%]'
-                        type="text"
-                        placeholder=''
+                        className='text-[#B7B7B7] text-[1.1em] w-[100%] border-b-2 border-[#B7B7B7] xl:max-2xl:text-[0.9em]
+                        mb-[3%] '
+                        type={`${item.type}`}
+                        onChange={(event:any)=>{
+                            // setClickEleven(false)
+                            // setClickElevenTriggered(true);
+                            handleAdditionalChange({event,fieldIndex:index})
+                        }}
+                        placeholder={`${clickTen ? '' : item.label}`}
                         onFocus={(e) => {
                             e.target.style.outline = 'none';
+                            e.target.value = ''
+                            setClickTen(true);
+                            // if (!clickElevenTriggered) {
+                            //     setClickEleven(true);
+                            // }
                     }}
                 />    
-                </div> */}
+                </div>
+                  ))}
             </div>
         </div>
 
