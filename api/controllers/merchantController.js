@@ -91,22 +91,26 @@ const updateMerchant = (req,res)=>{
     const updatedMerchant = req.body.merchant;
 
     //objects
-    const updatedAddress = JSON.stringify(req.body.address);
-    const updatedSettings = JSON.stringify(req.body.settings);
-    const updatedAccounts = JSON.stringify(req.body.accounts);
-
+    const updatedAddress = req.body.address ? JSON.stringify(req.body.address) : null;
+    const updatedSettings = req.body.settings ? JSON.stringify(req.body.settings) : null;
+    const updatedAccounts = req.body.accounts ? JSON.stringify(req.body.accounts) : null;
+    const updatedForm = req.body.form_deets ? JSON.stringify(req.body.form_deets) : null;
     const merchantId = updatedMerchant.merchant_id;
-    // console.log(updatedMerchant);
+    console.log("Updated Form",updatedForm);
 
-    updatedMerchant.settings = updatedSettings;
     updatedMerchant.address = updatedAddress;
-    updatedMerchant.accounts = updatedAccounts
+    updatedMerchant.settings = updatedSettings;
+    updatedMerchant.accounts = updatedAccounts;
+    updatedMerchant.form_deets = updatedForm;
 
+    console.log("Update Merchant: ",updatedMerchant);
     const columns = Object.keys(updatedMerchant);
     const values = Object.values(updatedMerchant);
 
     const setClause = columns.map((column) => `${column} = ?`).join(', ');
-
+    console.log("SET CLAUSE: ",setClause);
+    console.log("Values: ",...values);
+    console.log("merchantId: ",merchantId);
     db.query(`UPDATE merchant SET ${setClause} WHERE merchant_id = ?`, [...values, merchantId],
     (error, result) => {
         if(error){
@@ -169,15 +173,17 @@ const retrieveAll = (req,res)=>{
 
 const retrieveByParams = (req,res)=>{
     const { col, val } = req.query;
+    console.log("TEST");
     db.query('SELECT * FROM merchant WHERE ?? = ?', [col, val], (error, result) => {
         if(error){
             console.log("error retrieving data",error);
             res.status(500).json({error: 'Error retrieving data'})
         }
         else{
-            const parsedAddress = JSON.parse(result[0].address);
-            const parsedSettings = JSON.parse(result[0].settings);
-            const parsedAccounts = JSON.parse(result[0].accounts);
+            const parsedAddress = result[0].address && JSON.parse(result[0].address);
+            const parsedSettings = result[0].settings && JSON.parse(result[0].settings);
+            const parsedAccounts = result[0].accounts && JSON.parse(result[0].accounts);
+            const parsedForm = result[0].form_deets && JSON.parse(result[0].form_deets);
 
             return res.status(200).json({
                 status: 200,
@@ -186,6 +192,7 @@ const retrieveByParams = (req,res)=>{
                 address: parsedAddress,
                 settings: parsedSettings,
                 accounts: parsedAccounts,
+                formDeets: parsedForm,
             })
         }
     })
