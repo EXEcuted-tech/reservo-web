@@ -66,7 +66,7 @@ const ChoicePage = () => {
           <p className='text-[1.2em] pb-[0.2%] xl:max-2xl:text-[0.9em]'>Choose and book for your favorite occasion!</p>
         </div>
         
-        <div className='flex bg-white h-[75vh] rounded-t-[4rem]'>
+        <div className='flex bg-white h-[75vh] rounded-t-[4rem] xs:max-sm:h-[70vh]'>
           {/* 1st Row of white container */}
           <div className='w-[100%] h-[80%]'>
             <div className='text-center mt-[1.5%]'>

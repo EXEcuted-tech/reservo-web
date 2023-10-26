@@ -67,7 +67,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
 
 
   return (
-    <div className='flex h-[25vh] xs:max-sm:h-[30vh] xs:max-sm:mb-[2%] xl:max-2xl:mb-[2%]'>
+    <div className='flex h-[25vh] xs:max-sm:h-[33vh] xs:max-sm:mb-[2%] xl:max-2xl:mb-[2%]'>
         <div>
             <img className='w-[262px] h-[219px] rounded-[50px] xs:max-sm:w-[300px] xs:max-sm:h-[100px] xs:max-sm:mt-[5%] xl:max-2xl:w-[182px] xl:max-2xl:h-[150px]' src={props.logo || ''}/>
         </div>
@@ -131,7 +131,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                 </div>
             </div>
             {/* For Mobile Responsiveness */}
-            <div className='flex mt-[3%] w-[100%] invisible xs:max-sm:visible'>
+            <div className='flex mt-[3%] w-[100%] invisible xs:max-sm:visible xs:max-sm:mt-[7%]'>
                     <button className='flex items-center text-white bg-[#FF8A00] px-[3%] py-[1.5%] rounded-2xl xl:max-2xl:mr-[5%]
                         hover:bg-[#FFD8AA] hover:text-black font-medium transition-colors delay-450 duration-[3000] ease-in-out mr-[2%]'
                         onClick={()=>{
