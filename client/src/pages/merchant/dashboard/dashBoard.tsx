@@ -134,7 +134,7 @@ const MerchDashboard = () => {
   
 
   return (
-    <div className='flex-col animate-fade-in overflow-y-auto overflow-x-hidden '>
+    <div className='flex-col  '>
       {/* Header Section */}
         <MerchAdHeader icon={RiDashboard3Line} title="Dashboard"/>
         {/* Welcome Section */}
@@ -144,7 +144,8 @@ const MerchDashboard = () => {
                 <h1 className='text-[1.8em] text-white xs:max-sm:text-[1.3em] xl:max-2xl:text-[1.5em]'>
                   Welcome, {userName}!
                 </h1>
-                <p className='text-[1.3em] text-white xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]'><br/>Lorem ipsum dolor sit amet, <br/>consectetur adipiscing elit!</p>
+                <p className='text-[1.3em] text-white xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]'>
+                  <br/>Lorem ipsum dolor sit amet, <br/>consectetur adipiscing elit!</p>
               </div>
             </div>
 
@@ -228,8 +229,10 @@ const MerchDashboard = () => {
                   <th>Time Out</th>
                 </tr>
                 <tr>
-                  <td className='h-[100%] border-black border-r-2 xs:max-sm:text-[0.85em]  xl:max-2xl:text-[0.8em]'>Time In</td>
-                  <td className='h-[100%] xs:max-sm:text-[0.85em] xl:max-2xl:text-[0.8em]'>Time Out</td>
+                  <td className='h-[100%] border-black border-r-2 xs:max-sm:text-[0.85em]  xl:max-2xl:text-[0.8em]'>
+                    Time In</td>
+                  <td className='h-[100%] xs:max-sm:text-[0.85em] xl:max-2xl:text-[0.8em]'>
+                    Time Out</td>
                 </tr>
               </table>
             </div> 

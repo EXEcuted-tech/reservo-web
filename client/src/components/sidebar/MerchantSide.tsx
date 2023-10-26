@@ -42,12 +42,13 @@ const MerchantSide: React.FC<MerchantSideProps> = ({ showSidebar }) => {
       <div className='text-white mx-[8%] my-[8%]'>
             <ul>
                 <li className={`flex items-center text-[1.4em] mb-[11%] hover:bg-[#660605] hover:px-[3%] hover:py-[4%] hover:ml-[-3%] hover:rounded-xl 
-                    hover:cursor-pointer hover:animate-small-fade-in-down hover:mb-[3%] xs:max-sm:text-[1.1em] xl:max-2xl:text-[0.95em] ${urlPart === 'merchdash' ? 'bg-[#660605] px-[3%] py-[4%] ml-[-3%] rounded-xl mb-[3%]' : ''}`}
+                    hover:cursor-pointer hover:animate-small-fade-in-down hover:mb-[3%] xs:max-sm:text-[1.1em] xl:max-2xl:text-[0.95em]
+                    ${urlPart === 'merchdash' ? 'bg-[#660605] px-[3%] py-[4%] ml-[-3%] rounded-xl mb-[3%]' : ''}`}
                     onClick={()=>{ handleMenuItemClick('/merchdash',false)}}>
                     <RiDashboard3Line className='mr-[4%] text-[1.5em] '/> Dashboard</li>
                     
-                <li className={`flex items-center text-[1.4em] hover:cursor-pointer xs:max-sm:text-[1.1em] xl:max-2xl:text-[0.95em]  ${urlPart !== 'reservationlist' && showMore===false
-                ? 'mb-[11%] hover:mb-[3%] hover:bg-[#660605] hover:px-[3%] hover:py-[4%] hover:ml-[-3%] hover:rounded-xl hover:animate-small-fade-in-down ' 
+                <li className={`flex items-center text-[1.4em] hover:cursor-pointer xs:max-sm:text-[1.1em] xl:max-2xl:text-[0.95em]
+                    ${urlPart !== 'reservationlist' && showMore===false ? 'mb-[11%] hover:mb-[3%] hover:bg-[#660605] hover:px-[3%] hover:py-[4%] hover:ml-[-3%] hover:rounded-xl hover:animate-small-fade-in-down ' 
                 : 'bg-[#660605] rounded-xl px-[3%] py-[4%] hover:mb-[0] ml-[-3%]'}`}
                     onClick={()=>{handleMenuItemClick('/reservationlist/all',false)}}>
                     <IoCalendar className='mr-[4%] text-[1.5em]'/> Reservations List</li>
@@ -82,9 +83,9 @@ const MerchantSide: React.FC<MerchantSideProps> = ({ showSidebar }) => {
                     <IoBusiness className='mr-[4%] text-[1.5em]'/> Merchant Settings</li>
             </ul>
         </div>
-      <div className={`fixed top-[85%] ml-[1.5%] text-white xs:max-sm:text-[1.1em] xs:max-sm:top-[90%] xs:max-sm:ml-[4%] `}>
+      <div className={`fixed top-[85%] ml-[1.5%] w-[10%] text-white xs:max-sm:text-[1.1em] xs:max-sm:top-[90%] xs:max-sm:ml-[4%] `}>
         <button onClick={() => navigate('/logout')}>
-          <FiLogOut className="mr-[1%] text-[1.5em] text-white xs:max-sm:text-[1.1em]" /> Log Out
+          <FiLogOut className="mr-[1%] text-[1.5em] text-white hover:text-[#D9D9D9] hover:cursor-pointer xs:max-sm:text-[1.1em]" /> Log Out
         </button>
       </div>
     </div>

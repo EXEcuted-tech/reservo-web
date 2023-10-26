@@ -70,7 +70,7 @@ const MerchAdHeader: React.FC<MerchAdHeaderProps> = ({ icon: Icon, title }) => {
             <h1 className='font-medium text-[2.2em]  xs:max-sm:text-[1.2em] xl:max-2xl:text-[1.5em]'>{title}</h1>
         </div>
 
-        <div className='flex items-center w-[15%] xs:max-sm:w-[30%] '>
+        <div className='flex items-center w-[15%] xs:max-sm:w-[40%] '>
           {username 
             ?
               <div className="relative inline-flex items-center justify-center w-10 mr-[2%] h-10 overflow-hidden bg-[#840705] 
