@@ -134,10 +134,51 @@ const retrieveCountByParams = (req, res) => {
         }
     })
 }
+
+const deleteRecord = (req, res) => {
+    try {
+        const { user_id } = req.query;
+        const sql = 'DELETE FROM account WHERE account_id = ?';
+
+        db.query(sql, [id], (err, results) => {
+            if (err) {
+                console.error('Error deleting record:', err);
+                res.status(200).json({
+                    status: 500,
+                    success: false,
+                    message: 'Error deleting record',
+                    error: err.message,
+                });
+            } else {
+                if (results.affectedRows === 0) {
+                    res.status(200).json({
+                        status: 404,
+                        success: false,
+                        message: 'Record not found',
+                    });
+                } else {
+                    res.status(200).json({
+                        status: 200,
+                        success: true,
+                        message: 'Record deleted successfully',
+                    });
+                }
+            }
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: 'Database Error',
+            error: error.message,
+        });
+    }
+};
 module.exports = {
     updateUser,
     retrieveAll,
     retrieveByParams,
     retrieveCountByParams,
-    retrieveCountByAccountType
+    retrieveCountByAccountType,
+    deleteRecord
 }

@@ -11,7 +11,6 @@ const ImageEditModal: React.FC<ImageEditModalProps> = ({ isOpen, onClose, onSave
 
   const handleSave = () => {
     onSave(newImageUrl);
-    setNewImageUrl('');
   };
 
   return (

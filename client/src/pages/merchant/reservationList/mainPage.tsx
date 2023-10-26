@@ -43,22 +43,23 @@ const ReserveList = () => {
       />
     
       <div className='flex items-center bg-[#F0E5D8] overflow-y-auto overflow-x-hidden'>
-        <div className='w-[80%] py-[1%] pl-[2%]'>
-            <label className={`font-bold mx-2 w-[4vw] text-[1.1em] xl:max-2xl:text-[0.8em]`}>Period: </label>
-            <select id="sortDropdown" name="sortDropdown" className={`bg-transparent rounded-md h-10 w-[21vw] xl:max-2xl:text-[0.8em] xl:max-2xl:w-[25vw]  hover:bg-white transition duration-150 ease-out hover:ease-in`}>
+        <div className='w-[80%] py-[1%] pl-[2%] xs:max-sm:w-[70%]'>
+            <label className={`font-bold mx-2 w-[4vw] text-[1.1em] xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]`}>Period: </label>
+            <select id="sortDropdown" name="sortDropdown" className={`bg-transparent rounded-md h-10 w-[21vw] xs:max-sm:text-[0.8em] xs:max-sm:w-[50vw] xl:max-2xl:text-[0.8em] xl:max-2xl:w-[25vw]  hover:bg-white transition duration-150 ease-out hover:ease-in`}>
               <option value="option1">1 Week (September 23, 2023 - September 30, 2023) </option>                
               <option value="option2">1 Month (September 1, 2023 - September 30, 2023) </option>
             </select>
         </div>
-        <div className='w-[20%] flex items-center'>
-          <p className='font-bold text-[1.1em] xl:max-2xl:text-[0.8em]'>View Mode: </p>
-          <FaList className={`ml-[5%] text-[2em] hover:bg-[#E6C8A5] xl:max-2xl:text-[1.6em]
+        <div className='w-[20%] flex items-center xs:max-sm:w-[30%] xs:max-sm:mr-[1%]'>
+          <p className='font-bold text-[1.1em] xs:max-sm:text-[0.7em] xs:max-sm:ml-[0.5rem] xs:max-sm:text-center xl:max-2xl:text-[0.8em]'>
+            View Mode: </p>
+          <FaList className={`ml-[5%] text-[2em] hover:bg-[#E6C8A5] xs:max-sm:text-[1.5em] xl:max-2xl:text-[1.6em]
              ${normalView && 'bg-[#E6C8A5] px-[0.5%] py-[1%] rounded-lg'}`}
              onClick={()=>{
               setCalendarView(false)
               setNormalView(true)
             }}/>
-          <BsCalendar4Week className={`ml-[5%] text-[2.1em] hover:bg-[#E6C8A5] xl:max-2xl:text-[1.6em]
+          <BsCalendar4Week className={`ml-[5%] text-[2.1em] hover:bg-[#E6C8A5] xs:max-sm:text-[1.5em] xl:max-2xl:text-[1.6em]
             ${calendarView && 'bg-[#E6C8A5] px-[0.5%] py-[1%] rounded-lg'}`}
             onClick={()=>{
               setNormalView(false)
