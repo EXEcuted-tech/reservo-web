@@ -20,6 +20,11 @@ body {
   /* position: relative;
   bottom:0; */
 }
+@media (min-width: 300px) and (max-width: 640px){
+    .bg-footer{
+      height: 7vh;
+    }
+}
 
 .arrow {
   position: absolute;

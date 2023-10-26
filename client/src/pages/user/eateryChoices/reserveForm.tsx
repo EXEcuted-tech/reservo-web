@@ -180,7 +180,7 @@ const ReserveForm = () => {
         }
 
        <div className='text-[#DD2803] ml-[2%]'>
-         <h1 className='text-[2.5em] py-[1%] font-bold flex items-center xl:max-2xl:text-[1.7em] xl:max-2xl:py-[0.5%]'>
+         <h1 className='text-[2.5em] py-[1%] font-bold flex items-center xs:max-sm:text-[1.7em] xs:max-sm:py-[0.5%] xl:max-2xl:text-[1.7em] xl:max-2xl:py-[0.5%]'>
             <AiOutlineArrowLeft className='text-black mr-[1%] hover:text-[#DD2803] '
             onClick={()=>{
                 window.history.back(); 
@@ -191,26 +191,26 @@ const ReserveForm = () => {
        </div>
        <div className='bg-white py-[1.5%]'>
         <div className='flex justify-center items-center'>
-                <img src={starleft} className="xl:max-2xl:w-[40px] xl:max-2xl:h-[40px] "/>
-                <h1 className='text-[2em] font-bold mx-[1%] xl:max-2xl:text-[1.7em]'>{name}</h1>
-                <img src={starright} className="xl:max-2xl:w-[40px] xl:max-2xl:h-[40px]"/>
+                <img src={starleft} className="xs:max-sm:w-[30px] xs:max-sm:h-[30px] xl:max-2xl:w-[40px] xl:max-2xl:h-[40px] "/>
+                <h1 className='text-[2em] font-bold mx-[1%] xs:max-sm:text-[1.7em] xl:max-2xl:text-[1.7em]'>{name}</h1>
+                <img src={starright} className="xs:max-sm:w-[30px] xs:max-sm:h-[30px] xl:max-2xl:w-[40px] xl:max-2xl:h-[40px]"/>
         </div>
-        <p className='italic text-center text-[1.1em] xl:max-2xl:text-[0.8em]'>Fill the form to book for {name}.</p>
+        <p className='italic text-center text-[1.1em] xs:max-sm:text-[1em] xl:max-2xl:text-[0.8em]'>Fill the form to book for {name}.</p>
             {errMess !='' && <DangerReserve message={errMess}/>}
        </div>
-       <div className='flex items-center bg-[#840705] pl-[4%] py-[1%] xl:max-2xl:py-[0.5%]'>
-        <SiGoogleforms className='text-white text-[2.0em] xl:max-2xl:text-[1.6em]'/>
-        <h1 className='ml-[0.5%] text-[2.0em] text-white font-semibold xl:max-2xl:text-[1.7em]'>GENERAL SECTION</h1>
+       <div className='flex items-center bg-[#840705] pl-[4%] py-[1%] xs:max-sm:py-[0.5%] xl:max-2xl:py-[0.5%]'>
+        <SiGoogleforms className='text-white text-[2.0em] xs:max-sm:text-[1.4em] xl:max-2xl:text-[1.6em]'/>
+        <h1 className='ml-[0.5%] text-[2.0em] text-white font-semibold xs:max-sm:text-[1.7em] xl:max-2xl:text-[1.7em]'>GENERAL SECTION</h1>
        </div>
        {/* General Form */}
        <div className='bg-white'>
 
          {/* First Row */}
-         <div className='flex px-[4%] py-[2%]'>
-            <div className='w-[20%] pl-[0.5%] mr-[6%]'>
-                {clickOne && <label className='animate-slide-up absolute mt-[-1%] text-[#838383]'>Date</label>}
+         <div className='flex px-[4%] py-[2%] xs:max-sm:flex-col xs:max-sm:py-[7%] xs:max-sm:pb-0'>
+            <div className='w-[20%] pl-[0.5%] mr-[6%] xs:max-sm:w-[95%]'>
+                {clickOne && <label className='animate-slide-up absolute mt-[-1%] text-[#838383] xs:max-sm:mt-[-5%]'>Date</label>}
                 <input 
-                className='text-[#B7B7B7] text-[1.1em] w-[100%] border-b-2 border-[#B7B7B7] xl:max-2xl:text-[0.9em]
+                className='text-[#B7B7B7] text-[1.1em] w-[100%] border-b-2 border-[#B7B7B7] xs:max-sm:mb-[0%] xl:max-2xl:text-[0.9em]
                 mb-[3%] '
                 type="text"
                 placeholder='Date'
@@ -223,9 +223,9 @@ const ReserveForm = () => {
                 }}
                 />
             </div>
-
-            <div className='w-[20%] pl-[0.5%] mr-[6%]'>
-                {clickTwo && <label className='animate-slide-up absolute mt-[-1%] text-[#838383]'>Time Start</label>}
+            <br/>
+            <div className='w-[20%] pl-[0.5%] mr-[6%] xs:max-sm:w-[95%] xs:max-sm:mt-[2%]'>
+                {clickTwo && <label className='animate-slide-up absolute mt-[-1%] text-[#838383] xs:max-sm:mt-[-5%] '>Time Start</label>}
                 <input 
                     className='text-[#B7B7B7] text-[1.1em] w-[100%] border-b-2 border-[#B7B7B7] xl:max-2xl:text-[0.9em]
                     mb-[3%] pl-[0.5%] mr-[6%]'
@@ -241,8 +241,8 @@ const ReserveForm = () => {
                 />
             </div>
 
-            <div className='w-[20%] pl-[0.5%] mr-[6%]'>
-                {clickThree && <label className='animate-slide-up absolute mt-[-1%] text-[#838383]'>Time End</label>}
+            <div className='w-[20%] pl-[0.5%] mr-[6%] xs:max-sm:w-[95%] xs:max-sm:mt-[5%]'>
+                {clickThree && <label className='animate-slide-up absolute mt-[-1%] text-[#838383] xs:max-sm:mt-[-5%] '>Time End</label>}
                 <input 
                     className='text-[#B7B7B7] text-[1.1em] w-[100%] border-b-2 border-[#B7B7B7] xl:max-2xl:text-[0.9em]
                     mb-[3%] pl-[0.5%] mr-[6%]'
@@ -256,8 +256,8 @@ const ReserveForm = () => {
                 />    
             </div>
 
-            <div className='w-[20%] pl-[0.5%] mr-[3%]'>
-                {clickFour && <label className='animate-slide-up absolute mt-[-1%] text-[#838383]'>Event Size</label>}
+            <div className='w-[20%] pl-[0.5%] mr-[3%] xs:max-sm:w-[95%] xs:max-sm:mt-[5%]'>
+                {clickFour && <label className='animate-slide-up absolute mt-[-1%] text-[#838383] xs:max-sm:mt-[-5%] '>Event Size</label>}
                 <input 
                     className='text-[#B7B7B7] text-[1.1em] w-[100%] border-b-2 border-[#B7B7B7] xl:max-2xl:text-[0.9em]
                     mb-[3%] pl-[0.5%]'
@@ -275,9 +275,9 @@ const ReserveForm = () => {
          </div>
 
           {/* Second Row */}
-          <div className='flex px-[4%] py-[2%]'>
-            <div className='w-[20%] pl-[0.5%] mr-[6%]'>
-                {clickFive && <label className='animate-slide-up absolute mt-[-1%] text-[#838383]'>Package</label>}
+          <div className='flex px-[4%] py-[2%] xs:max-sm:flex-col xs:max-sm:py-[5%]'>
+            <div className='w-[20%] pl-[0.5%] mr-[6%] xs:max-sm:w-[95%] xs:max-sm:mt-[5%]'>
+                {clickFive && <label className='animate-slide-up absolute mt-[-1%] text-[#838383] xs:max-sm:mt-[-5%] '>Package</label>}
                 <select 
                     className='text-[#B7B7B7] text-[1.1em] w-[100%] border-b-2 border-[#B7B7B7] xl:max-2xl:text-[0.9em]
                     mb-[3%] pl-[0.5%]'
@@ -298,8 +298,8 @@ const ReserveForm = () => {
                 
                 
             </div>
-            <div className='w-[20%] pl-[0.5%] mr-[6%]'>
-                {clickSix && <label className='animate-slide-up absolute mt-[-1%] text-[#838383]'>Location</label>}
+            <div className='w-[20%] pl-[0.5%] mr-[6%] xs:max-sm:w-[95%] xs:max-sm:mt-[5%]'>
+                {clickSix && <label className='animate-slide-up absolute mt-[-1%] text-[#838383] xs:max-sm:mt-[-5%] '>Location</label>}
                 <input 
                     className='text-[#B7B7B7] text-[1.1em] w-[100%] border-b-2 border-[#B7B7B7] xl:max-2xl:text-[0.9em]
                     mb-[3%] pl-[0.5%]'
@@ -314,8 +314,8 @@ const ReserveForm = () => {
                 }}
             />    
             </div>
-            <div className='w-[20%] pl-[0.5%] mr-[6%]'>
-                {clickSeven && <label className='animate-slide-up absolute mt-[-1%] text-[#838383]'>Email Address</label>}
+            <div className='w-[20%] pl-[0.5%] mr-[6%] xs:max-sm:w-[95%] xs:max-sm:mt-[5%]'>
+                {clickSeven && <label className='animate-slide-up absolute mt-[-1%] text-[#838383] xs:max-sm:mt-[-5%] '>Email Address</label>}
                 <input 
                     className='text-[#B7B7B7] text-[1.1em] w-[100%] border-b-2 border-[#B7B7B7] xl:max-2xl:text-[0.9em]
                     mb-[3%] pl-[0.5%]'
@@ -330,8 +330,8 @@ const ReserveForm = () => {
                 }}
             />    
             </div>
-            <div className='w-[20%] pl-[0.5%] mr-[3%]'>
-                {clickEight && <label className='animate-slide-up absolute mt-[-1%] text-[#838383]'>Amount Payment</label>}
+            <div className='w-[20%] pl-[0.5%] mr-[3%] xs:max-sm:w-[95%] xs:max-sm:mt-[5%]'>
+                {clickEight && <label className='animate-slide-up absolute mt-[-1%] text-[#838383] xs:max-sm:mt-[-5%] '>Amount Payment</label>}
                 <input 
                     className='text-[#B7B7B7] text-[1.1em] w-[100%] border-b-2 border-[#B7B7B7] xl:max-2xl:text-[0.9em]
                     mb-[3%] pl-[0.5%]'
@@ -351,8 +351,8 @@ const ReserveForm = () => {
 
           {/* Third Row */}
           <div className='flex px-[4%] py-[2%]'>
-            <div className='w-[100%] pl-[0.5%] mr-[3%]'>
-                {clickNine && <label className='animate-slide-up absolute mt-[-1%] text-[#838383]'>Additional Requests</label>}
+            <div className='w-[100%] pl-[0.5%] mr-[3%] xs:max-sm:mt-[5%]'>
+                {clickNine && <label className='animate-slide-up absolute mt-[-1%] text-[#838383] xs:max-sm:mt-[-5%]'>Additional Requests</label>}
                 <input 
                     className='text-[#B7B7B7] text-[1.1em] w-[100%] border-b-2 border-[#B7B7B7] xl:max-2xl:text-[0.9em]
                     mb-[3%] pl-[0.5%]'
@@ -371,9 +371,9 @@ const ReserveForm = () => {
 
          
        </div>
-       <div className='flex items-center bg-[#840705] pl-[4%] py-[1%] xl:max-2xl:py-[0.5%]'>
-            <SiFormstack className='text-white text-[2.0em] xl:max-2xl:text-[1.6em]'/>
-            <h1 className='ml-[0.5%] text-[2.0em] text-white font-semibold xl:max-2xl:text-[1.7em]'>ADDITIONAL DETAILS</h1>
+       <div className='flex items-center bg-[#840705] pl-[4%] py-[1%] xs:max-sm:py-[0.5%] xl:max-2xl:py-[0.5%]'>
+            <SiFormstack className='text-white text-[2.0em] xs:max-sm:text-[1.6em] xl:max-2xl:text-[1.6em]'/>
+            <h1 className='ml-[0.5%] text-[2.0em] text-white font-semibold xs:max-sm:text-[1.7em] xl:max-2xl:text-[1.7em]'>ADDITIONAL DETAILS</h1>
         </div>
         {/* Additional Form */}
         <div className='bg-white'>
@@ -396,10 +396,10 @@ const ReserveForm = () => {
 
         <div className='bg-white text-center flex justify-center'>
             <button className='flex items-center justify-center w-[14%] bg-[#840705] text-white rounded-3xl py-[0.5%] mb-[2%] text-[1.3em]
-                hover:bg-[#DD2803] transition-colors delay-250 duration-[3000] ease-in xl:max-2xl:text-[1em] xl:max-2xl:w-[12%]'
+                hover:bg-[#DD2803] transition-colors delay-250 duration-[3000] ease-in xs:max-sm:text-[1.4em] xs:max-sm:w-[40%]  xl:max-2xl:text-[1em] xl:max-2xl:w-[12%]'
                 onClick={(e)=>{
                     submitReservation(e)
-                }}>
+                }}> 
                     {isLoading && <Spinner className='mr-[1%]'/>}
                     Book Now</button>
         </div>
