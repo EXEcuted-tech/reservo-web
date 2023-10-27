@@ -16,6 +16,13 @@ const EditModal:React.FC<EditModalProps> = (props) => {
   const [payment, setPayment] = useState<Payment[]>([]);
   const [packages, setPackages] = useState<PackageItem[]>([]);
   const [inventory, setInventory] = useState<Inventory[]>([]);
+  const [existingList, setExistingList] = useState<
+  Array<{
+    label: string;
+    type: string;
+    value: string;
+  }>
+  >([]);  
 
   const editId = Number(sessionStorage.getItem('res_id'));
   const merchId = Number(localStorage.getItem('merch_id'));
@@ -49,6 +56,8 @@ const EditModal:React.FC<EditModalProps> = (props) => {
     .then((res)=>{
        if(res.data.success === true){
             setRecord(res.data.records)
+            const addDeets = JSON.parse(res.data.records[0].settings);
+            addDeets !=null && setExistingList(addDeets?.additional_details);
             setRetrieved(true);
        }
     })
@@ -174,11 +183,19 @@ const EditModal:React.FC<EditModalProps> = (props) => {
     });
   };
 
+  const handleFieldsChange = ({ event, fieldIndex }: { event: any; fieldIndex: number }) =>{
+    const modifiedList = existingList.map((item, index) => {
+      return index === fieldIndex ? { ...item, value: event.target.value } : item;
+    });
+    console.log("MODIFIED! ",modifiedList);
+    setExistingList(modifiedList);
+  }
+
   // handleUpdates
   const updateRecord = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     setLoading(false);
-    updateRes();
+    updateRes(existingList);
     updatePayment();
     updateInventory();
     updateContact();
@@ -189,9 +206,12 @@ const EditModal:React.FC<EditModalProps> = (props) => {
     window.location.reload();
   }
 
-  const updateRes = () => {
+  const updateRes = (existingList:any) => {
     const res_id = editId;
-    console.log("RECORD: ",record[0])
+    // console.log("RECORD: ",record[0])
+    // console.log("EXIST!",existingList[0]);
+    const list = {additional_details: existingList}
+    record[0].settings = JSON.stringify(list);
     axios.post(`${config.API}/reserve/update?res_id=${res_id}`,record[0])
     .then((res)=>{
       console.log("Reservation Update: ",res);
@@ -448,7 +468,28 @@ const EditModal:React.FC<EditModalProps> = (props) => {
         {/* Additional Details */}
         <h1 className='font-bold uppercase text-[1.5em] ml-[4%] bg-[#840705] inline-block text-white px-[1%] mt-[2%] rounded-lg mb-[0.5%] xl:max-2xl:text-[1.0em]'>Additional Details</h1>
         <div className='flex ml-[4%] mr-[2%] text-[1.2em] xl:max-2xl:text-[0.8em]'>
-        <h1 className='font-medium text-[1.4em] italic'>Coming Soon</h1>
+        {existingList?.length > 0 ? (
+                  <div className="flex w-full flex-wrap">
+                  {existingList.map((item: any, index: number) => (
+                    <div className='w-[33%]'>
+                        <div className='flex flex-col mb-[1%]'>
+                        <p className='mt-[1.5%] mb-[0.3%] mr-[1%]'>{item.label}</p>
+                        <input type={item.type} 
+                          name={item.label}
+                          value={item.value}
+                          onChange={(event: any) => handleFieldsChange({event, fieldIndex: index})}
+                          className='border border-gray-500 w-[80%] pl-[1%] rounded-lg text-[0.9em]'
+                        />
+                        </div>
+                    </div>
+                  ))}
+                  </div>
+                  )
+              :
+              <div>
+                <h1 className='italic text-[1em]'>User did not input additional details.</h1>
+              </div>
+            }
           {/* <div className='w-[33%]'>
             <div className='flex mb-[1%]'>
                 <p className='my-[1%] mr-[1%]'>Date</p>

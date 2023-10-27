@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { BsFillBuildingFill } from "react-icons/bs";
 import MerchAdHeader from '../../../components/headers/MerchAdHeader.tsx';
 import GeneralSettings from './generalSettings';

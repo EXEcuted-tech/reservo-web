@@ -11,6 +11,7 @@ const RatingModal: React.FC<MerchDeetsBackProps> = (props) => {
   const [error,setError]=useState('');
   const [loading,setLoading] = useState(false);
   const merchId = Number(sessionStorage.getItem('merch_idtoView'));
+  const merchantId = Number(sessionStorage.getItem('merch_idtoBook'));
   const storedAcc = localStorage.getItem('userDetails');
   const accID = storedAcc ? JSON.parse(storedAcc).userID : "0";
 
@@ -24,9 +25,10 @@ const RatingModal: React.FC<MerchDeetsBackProps> = (props) => {
   const submitRating = (event: { preventDefault: () => void }) =>{
     event?.preventDefault();
     console.log("HERE");
+    const merchant_id = merchId !=0 ? merchId : merchantId ;
     axios.post(`${config.API}/feedback/create`,{
       acc_id: accID,
-      merch_id: merchId,
+      merch_id: merchant_id,
       value: ratingVal,
       comment: comment,
     }).then((res)=>{
