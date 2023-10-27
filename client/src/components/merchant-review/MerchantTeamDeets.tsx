@@ -37,10 +37,15 @@ const MerchantTeamDeets = ( {merchantID} ) => {
           setmerchAccounts(responseMerchInfo.data.accounts)
           
           try{
-            const numbers = Object.keys(merchAccounts).map(key => parseInt(key, 10));
-            const usernamePromises = numbers.map(userId => getUsernameById(userId));
+            const numbers = Object.keys(merchAccounts);
+            const usernamePromises = numbers.map(async (userId) => {
+              const username = await getUsernameById(userId);
+              return username;
+            });
+      
             const usernames = await Promise.all(usernamePromises);
-            setaccNames(usernames)
+            setaccNames(usernames);
+            console.log(usernames)
           }catch (err){
             console.log(err)
           }
@@ -50,14 +55,22 @@ const MerchantTeamDeets = ( {merchantID} ) => {
       }
   }
 
+  // buggy 😔 when retrieving account_name/employee, remove account_id first then save then add account_id again then save to appear account_name/employee
   const getUsernameById = async (userId) => {
     try {
-      const col = "merchant_id"
-      const response = await axios.get(`${config.API}/user/retrieve??col=${col}&val=${userId}`);
-      return response.data.username; 
+      const col = 'account_id';
+      const val = userId;
+  
+      const response = await axios.get(`${config.API}/user/retrieve?col=${col}&val=${val}`);
+      if (response.data.status === 200 && response.data.users[0] && response.data.users[0].account_name) {
+        return response.data.users[0].account_name;
+      } else {
+        console.log("Failed to retrieve account name:", response);
+        return '';
+      }
     } catch (error) {
-      console.error(`Failed to fetch user with ID ${userId}: ${error}`);
-      return null;
+      console.log("Error while retrieving account name:", error);
+      return '';
     }
   };
 
@@ -113,7 +126,7 @@ const MerchantTeamDeets = ( {merchantID} ) => {
                       .slice(startIndex, endIndex)
                       .map((data, i) => (
                         <tr className='border-[#F3F3F3] border-t-2 p-[1%] my-[2%]' key={i}>
-                          <td>Kathea Mari Mayol</td>
+                          <td>{accNames[i]}</td>
                           <td>{merchAccounts[data].email}</td>
                           <td>{merchAccounts[data].position}</td>
                           <button className='bg-[#DD2803] items-center text-white p-[1%] px-[16%] m-[7%] rounded-md'>
