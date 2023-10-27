@@ -34,7 +34,7 @@ interface ReserveCardProps {
     status: string;
 
     sched_id: number | null;
-    settings: object | null;
+    settings: string | null;
     additional_details: string | null;
 }
 
@@ -78,6 +78,20 @@ interface Payment{
     payment_status: string;
     payment_date: Date;
 }
+
+interface MerchData{
+    merchant_id: number;
+    merchant_name: string;
+    email_address: string;
+    logo: string;
+    contact_number: string;
+    address: string;
+    settings: string;
+    form_deets: string;
+    sched_id: number;
+    accounts: string;
+}
+
 
 // interface Account{
 //     account_id:number;

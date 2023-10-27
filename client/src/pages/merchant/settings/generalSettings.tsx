@@ -15,7 +15,7 @@ export default function GeneralSettings() {
     const [isLoading, setIsLoading] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [newImageUrl, setNewImageUrl] = useState('');
-    const [lookForRegions, setLookForRegions] = useState(true);
+    const [selectedCountry, setSelectedCountry] = useState('');
     const [notification, setNotification] = useState('');
     const [color, setColor] = useState('#660605');
   
@@ -78,6 +78,7 @@ export default function GeneralSettings() {
         settings: {
             branch: "",
             description: "",
+            tags: "",
         },
         accounts: {
             email: "",
@@ -95,24 +96,36 @@ export default function GeneralSettings() {
       
       
       useEffect(() => {
+        setIsLoading(true)
         fetchData();
+        setIsLoading(false)
     }, [merchID]);
 
+
     useEffect(() => {
+        setIsLoading(true)
         loadRegions();
-    }, [selectedRegion, data]);
+        setIsLoading(false)
+    }, [data, selectedCountry]);
 
     useEffect(()=>{
+        setIsLoading(true)
         loadProvinces();
+        setIsLoading(false)
     }, [selectedProvince, selectedRegionId])
 
     useEffect(()=>{
+        setIsLoading(true)
         loadMunicipality();
+        setIsLoading(false)
     }, [selectedMunicipality, selectedProvinceId])
 
     useEffect(()=>{
+        
         if (selectedMunicipalityId) {
+            setIsLoading(true)
             loadBarangay();
+            setIsLoading(false)
         }
     }, [selectedMunicipalityId])
 
@@ -128,13 +141,19 @@ export default function GeneralSettings() {
         try{
             await axios.get(`${config.API}/merchant/retrieve`, request).then((res)=>{
                 const response = res.data;
-                setData(response);
+                var tempResponse = response;
+                
+                if (tempResponse.settings == null || '') {
+                    tempResponse.settings = '';
+                }
+                console.log("TEMP RESPONSE =>>>", tempResponse);
+                setData(tempResponse);
+                setSelectedCountry (response.address.country);
                 setSelectedRegion(response.address.region);
                 setSelectedProvince(response.address.province);
                 setSelectedMunicipality(response.address.municipality);
                 setSelectedBarangay(response.address.barangay);
                 //console.log("DATAAAAa => ", data);
-    
             })
         }catch(error){
             setColor('#660605')
@@ -145,6 +164,7 @@ export default function GeneralSettings() {
     }
 
     const loadRegions = async()=>{
+        if (selectedCountry == 'Philippines'){
             try{
             const response = await axios.get("https://psgc.gitlab.io/api/regions/")
             const regionNames = response.data.map((region: { name: string; code: string, regionName: string})=>({
@@ -166,12 +186,15 @@ export default function GeneralSettings() {
             setColor('#660605')
             setNotification("API: Failed to get region data")
         }
-
+    }
+    else{
+        setRegionNames([]);
+    }
     }
 
     const loadProvinces = async ()=>{
         //console.log("REGION ID : ", selectedRegionId);
-        if (selectedRegionId === ''){
+        if (selectedRegionId === '' || selectedCountry != 'Philippines'){
             setProvinceNames([]);
             setSelectedProvinceId('');
         }else{
@@ -277,6 +300,57 @@ export default function GeneralSettings() {
             else if (name.startsWith('address.')) {
                 const addressKey = name.split('.')[1]
 
+                if (addressKey === 'country'){
+                    if (value === '' || value != 'Philippines'){
+                        setSelectedCountry('')
+                        setSelectedRegion('');
+                        setSelectedProvince('');
+                        setSelectedProvinceId('');
+                        setSelectedMunicipality('');
+                        setSelectedMunicipalityId('');
+                        setSelectedBarangay('');
+                        setSelectedBarangayId('');
+                        setProvinceNames([]);
+                        setBarangayNames([]);
+                        setMunicipalityNames([]);
+                        // Clear lower fields
+                        setData((prevData: any) => ({
+                            ...prevData,
+                            address: {
+                                country: '',
+                                region: '',
+                                province: '',
+                                municipality: '',
+                                barangay: '',
+                            },
+                        }));
+                    }else{
+                        setSelectedCountry(value)
+                        setSelectedRegion('');
+                        setSelectedProvince('');
+                        setSelectedProvinceId('');
+                        setSelectedMunicipality('');
+                        setSelectedMunicipalityId('');
+                        setSelectedBarangay('');
+                        setSelectedBarangayId('');
+                        setProvinceNames([]);
+                        setBarangayNames([]);
+                        setMunicipalityNames([]);
+                        // Clear lower fields
+                        setData((prevData: any) => ({
+                            ...prevData,
+                            address: {
+                                country: value,
+                                region: '',
+                                province: '',
+                                municipality: '',
+                                barangay: '',
+                            },
+                        }));
+                    }
+                    setRequiredFields(true);
+                    // return;
+                }
                 if (addressKey === 'region'){
                     if (value === '') {
                         setSelectedRegion('');
@@ -478,7 +552,7 @@ export default function GeneralSettings() {
         data.merchant.logo = newImageUrl ? newImageUrl: data.merchant.logo;
 
         const formData = data;
-    //    console.log("FORMDATA ==> ", formData);
+        //console.log("FORMDATA ==> ", formData);
 
         axios.post(`${config.API}/merchant/update`, formData)
         .then(function(response){
@@ -570,12 +644,11 @@ export default function GeneralSettings() {
                             </label>
                             <textarea
                                 placeholder={isLoading? "Loading...":  "Enter your business description here..."}
-                                value={data.settings.description}
+                                value={data.settings.description != '' || null ? data.settings.description : ''}
                                 disabled = {isLoading}
                                 onChange={handleChange}
                                 name="settings.description"
                                 className={`m-2 p-2 text w-full flex border border-gray-300 rounded-md resize-none xs:max-sm:h-[15vh] xs:max-sm:text-[0.6em] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
-                                required
                             />
                         </div>
                         <div className='m-4 flow-root'>
@@ -603,6 +676,7 @@ export default function GeneralSettings() {
                                 required
                             >
                                 <option value="Philippines">{isLoading? "Loading...":"Philippines"}</option>
+                                {data.address.country != null && data.address.country != 'Philippines'? <option value={data.address.country}>{data.address.country}</option>: <></>}
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
@@ -619,7 +693,7 @@ export default function GeneralSettings() {
                             >
                                 {!isLoading ? 
                                 <>
-                                  <option value="">Select Region</option>
+                                  <option value="">{selectedCountry!= 'Philippines'? 'Currently Not Available on Selected Country': 'Select Region'}</option>
                                 {regionNames.map((regionName: {name:string, code: string, regionName: string}) => (
                                     
                                     <option key={regionName.code} value={regionName.name}>
@@ -645,7 +719,7 @@ export default function GeneralSettings() {
                             >
                                 {!isLoading ? 
                                 <>
-                                <option value="">Select Province</option>
+                                 <option value="">{selectedCountry!= 'Philippines'? 'Currently Not Available on Selected Country': 'Select Province'}</option>
                                 {provinceNames.map((province:{name: string, code:string}) => (
                                     <option key={province.code} value={province.name}>
                                     {province.name}
@@ -670,7 +744,7 @@ export default function GeneralSettings() {
                             >
                                 {!isLoading ? 
                                 <>
-                                <option value="">Select Municipality</option>
+                                 <option value="">{selectedCountry!= 'Philippines'? 'Currently Not Available on Selected Country': 'Select Municipality'}</option>
                                 {municipalityNames.map((municipality: {name: string,code: string}) => (
                                     <option key={municipality.code} value={municipality.name}>
                                     {municipality.name}
@@ -694,7 +768,7 @@ export default function GeneralSettings() {
                             >
                                 {!isLoading ? 
                                 <>
-                                 <option value="">Select Barangay</option>
+                                  <option value="">{selectedCountry!= 'Philippines'? 'Currently Not Available on Selected Country': 'Select Barangay'}</option>
                                 {barangayNames.map((barangay:{name:string, code:string}) => (
                                     <option key={barangay.code} value={barangay.name}>
                                     {barangay.name}

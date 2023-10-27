@@ -12,7 +12,7 @@ router.post('/delete',deleteReserve);
 router.get('/retrieveTwo',retrieveByTwoParams);
 router.get('/retrievecount', retrieveCountByParams);
 router.get('/retrievecountparams', retrieveCountByTwoParams);
-router.get('retrievecount3params', retrieveCountByThreeParams);
+router.get('/retrievecount3params', retrieveCountByThreeParams);
 router.get('/retrievebooks', retrieveBookingsByMonth);
 
 

@@ -10,6 +10,7 @@ const ChoicePage = () => {
   const [isLoading,setLoading] = useState(false);
   
   const [merchantData,setMerchantData]= useState<MerchCardProps[]>([]);
+  const [searchQuery,setSearchQuery] = useState('');
 
   useEffect(()=>{
     retrieveMerchants();
@@ -59,6 +60,14 @@ const ChoicePage = () => {
       });
   }
 
+  const HandleSearchQuery = (e) => {
+    setSearchQuery(e.target.value);
+  }
+
+  const filteredMerchants = merchantData.filter((merchant) =>
+    merchant.merchant_name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className={`font-poppins bg-[#F9F2EA] h-[80vh] animate-fade-in`}>
         <div className='text-center text-[#DD2803]'>
@@ -73,6 +82,8 @@ const ChoicePage = () => {
               <input type='text' 
                      className='w-[95%] h-[5vh] bg-[#EDEDED] pl-[1%] text-[1.2em] rounded-2xl xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]' 
                      placeholder="🔍 Search Restaurant or Food Business"
+                     value={searchQuery}
+                     onChange={HandleSearchQuery}
                      />
             </div>
 
@@ -112,7 +123,7 @@ const ChoicePage = () => {
               
               {/* List of Merchants */}
               <div className='overflow-y-scroll h-[57vh] z-10'>
-                {merchantData.map((merchant, index) => (
+                {filteredMerchants.map((merchant, index) => (
                   <div className='px-[2%]'>
                     <MerchCard key={index} {...merchant} />
                     <hr className='pb-[1%]'/>

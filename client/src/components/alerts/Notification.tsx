@@ -16,7 +16,7 @@ function Notification({message, color}:{message:string, color:string}) {
     return (
       <span>
       <div
-        className={`fixed top-0 right-0 m-4 p-4 bg-[${color}] w-[25%] text-center text-white rounded-lg ${
+        className={`animate-fade-in fixed top-0 right-0 m-4 p-4 bg-[${color}] w-[25%] text-center text-white rounded-lg ${
           visible
             ? `transition-opacity duration-300 opacity-100`
             : 'transition-opacity duration-300 opacity-0 pointer-events-none'
