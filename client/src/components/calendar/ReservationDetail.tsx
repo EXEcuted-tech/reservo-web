@@ -5,6 +5,8 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Divider, Grid } from '@mui/material';
 import {AiOutlineClose} from  'react-icons/ai'
+import axios from 'axios';
+import config from '../../common/config';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -84,23 +86,51 @@ const DetailsReserv = (props: { data: details }) => {
   )
 }
 
-export default function ReservationList(props: { year: number, dataSet: details[], today: Date, day: number, monthNdx: number, monthName: string }) {
+export default function ReservationList(props: { year: number, today: Date, day: number, monthNdx: number, monthName: string }) {
 
   const day = props.day;
   const year = props.year;
   const monthNdx = props.monthNdx
   const monthName = props.monthName
-  const data = props.dataSet;
+  const [data, setData] = useState([]);
   const [dateToday, setDate] = useState(props.today);
   const [today, setDateToday] = useState(false);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const merchant_id = localStorage.getItem('merch_id');
+  
+  const fetchData = async () => {
+    try {
+      const yy = String(year);
+      const mm = String(monthNdx+1).padStart(2, '0'); // Ensure two digits for month
+      const dd = String(day).padStart(2, '0')// Ensure two digits for day
+      const response = await axios.get(`${config.API}/reserve/retrieveLikeTwo`, {
+        params: {
+          col1: 'res_date',
+          val1: yy + '-' + mm + '-' + dd,
+          col2: 'merchant_id',
+          val2: merchant_id,
+          orderVal: 'res_time',
+          order: 'ASC'
+        }
+      });
+      console.log("RESPONSE BEH ===> ", response)
+      setData(response.data.records);
+    } catch (err) {
+      console.log("AXIOS ERROR!!: ", err);
+    }
+  }
 
+  useEffect(()=>{
+    //fetchData();
+    console.log("RES DEETS DATAAA ==> ",data);
+  }, [year, monthNdx, day])
 
-  useEffect(() => {
-    dateToday.getFullYear() === year && dateToday.getMonth() === monthNdx && dateToday.getDate() === day ? setDateToday(true) : setDateToday(false);
-  }, [day])
+  useEffect(()=>{
+    const date = props.today.toISOString().split('T')[0];
+    console.log("CURRENT DATE KO BEH ==> ", date);
+  })
 
   const isReserved = (elem: details) => {
 
