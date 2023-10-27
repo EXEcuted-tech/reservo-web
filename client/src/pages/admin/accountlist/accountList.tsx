@@ -50,12 +50,12 @@ const AccountList = () => {
   }, []);
 
   return (
-    <div className='w-[100%]'>
+    <div className='md:w-[81.5vw] lg:w-[100%]'>
       <MerchAdHeader icon={RiUserFill} title='Account List' />
-      <div className='font-medium font-poppins shadow-2xl mx-5 my-5 p-5 rounded-lg h-[87vh]'>
+      <div className='font-medium font-poppins shadow-2xl mx-5 sm:my-5 lg:my-0 xl:my-5 sm:py-4 lg:py-0 sm:px-4 lg:px-4 rounded-lg sm:h-[91.5vh] lg:h-[90vh]'>
 
       <label htmlFor="filterList" className='text-slate-600'>Filter by: </label>
-      <select id="filtersList" className='rounded-lg border border-black m-4 mr-80 py-1 px-5'>
+      <select id="filtersList" className='rounded-lg border border-black m-4 md:mr-[23rem] lg:mr-[12rem] xl:mr-[20rem] py-1 px-5'>
         <option value="allAccounts">All Accounts</option>
         <option value="stat_active">Status: Active</option>
         <option value="stat_abolished">Status: Abolished</option>
@@ -63,14 +63,14 @@ const AccountList = () => {
         <option value="type_admin">Type: Merchant</option>
       </select>
 
-      <label htmlFor="searchBar" className='ml-[580px]'>Search: </label>
+      <label htmlFor="searchBar" className='md:ml-0'>Search: </label>
       <input type="text" placeholder='Input name or email' id='searchBar' className='rounded-lg border border-slate-500 px-3 py-1'/>
 
-      <div className='flex flex-col'> {/* CONSIDER REMOVING CLASSNAME*/}
-        <div className='flex flex-col h-[65vh]'>
+      <div> {/* CONSIDER REMOVING CLASSNAME*/}
+        <div className='flex flex-col'>
           <table className='table-auto'>
             <thead className='border-black border-y'>
-              <tr>
+              <tr className='sm:text-[8pt] md:text-[10.5pt] lg:text-[12pt] 2xl:text-base'>
                 <th className='mx-5 py-3'>ID</th>
                 <th className='mx-5 py-3'>Account Name</th>
                 <th className='mx-5 py-3'>E-mail Address</th>
@@ -83,22 +83,22 @@ const AccountList = () => {
             <tbody className='text-center'>
               {currentAccountListPage.length > 0 ? (
                 currentAccountListPage.map((account, index) => (
-                  <tr>
-                    <td className='text-md px-12 py-3'>{account.account_id}</td>
-                    <td className='text-md px-12 py-3'>{account.account_name}</td>
-                    <td className='text-md px-12 py-3'>{account.email_address}</td>
-                    <td className='text-md px-12 py-3'>{account.contact_number}</td>
-                    <td className='text-md px-12 py-3'>
+                  <tr className='sm:text-[6pt] md:text-[8pt] lg:text-[10pt] 2xl:text-base'>
+                    <td className='text-md py-3'>{account.account_id}</td>
+                    <td className='text-md py-3'>{account.account_name}</td>
+                    <td className='text-md py-3'>{account.email_address}</td>
+                    <td className='text-md py-3'>{account.contact_number}</td>
+                    <td className='text-md py-3'>
                       {account.account_type === 1? 'Customer': 'Merchant'}
                     </td>
-                    <td className='text-md px-12 py-3'>
+                    <td className='text-mdpy-3'>
                       <button 
-                        className={'rounded-full px-4 cursor-default ' + (account.account_status === 'active'? 'bg-emerald-200 text-green-900' : 'bg-red-500 text-white')}>
+                        className={'rounded-full sm:p-1 lg:px-4 cursor-default ' + (account.account_status === 'active'? 'bg-emerald-200 text-green-900' : 'bg-red-500 text-white')}>
                         {account.account_status === 'active'? 'Active' : 'Abolished'}
                       </button>
                     </td>
-                    <td className='text-md px-5 py-3'>
-                    <button className='bg-red-600 text-white rounded-full px-4'>
+                    <td className='text-md py-3'>
+                    <button className='bg-red-600 text-white rounded-full sm:p-1 lg:px-4'>
                       Delete
                     </button>
                   </td>
@@ -110,11 +110,11 @@ const AccountList = () => {
             </tbody>
           </table>
         </div>
-        <div className='text-slate-500 font-semibold bottom-[50px] right-[80px] text-xl'>
-          <h1 className='align-text-bottom text-right'>{`Accounts as of ${date}`}</h1>
+        <div className='text-slate-500 font-semibold bottom-[50px] right-[80px]'>
+          <h1 className='mb-1 text-right lg:text-[10pt] xl:text-[12pt] md:mt-[2rem] lg:mt-[0rem] xl:mt-[1rem]'>{`Accounts as of ${date}`}</h1>
         </div>
 
-        <div className="flex justify-center mb-20 w-[100%] h-[7%]">
+        <div className="flex justify-center w-[100%]">
             <ThemeProvider theme={theme}>
               <Pagination
                 count={Math.ceil(users.length / itemsPerPage)}
@@ -122,12 +122,12 @@ const AccountList = () => {
                 showFirstButton
                 showLastButton
                 color="primary"
-                className="absolute bottom-8"
+                className="absolute m-0"
                 onChange={handlePageChange}
                 page={currentPage}
               />
             </ThemeProvider>
-            <div className="text-[#969696] text-xs absolute bottom-3">
+            <div className="text-[#969696] md:text-[10pt] absolute mt-[2.5rem]">
               Page {currentPage} of {Math.ceil(users.length / itemsPerPage)}
             </div>
         </div>
