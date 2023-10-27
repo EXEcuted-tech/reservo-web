@@ -35,7 +35,7 @@ const Carousel: React.FC = () => {
             }`}
           >
             <img src={image} alt={`Slide ${index + 1}`} className="animate-fade-in w-full h-full object-cover" />
-            <div className="absolute bottom-40 left-44 z-0 w-full px-4 py-7 xs:max-sm:left-0 xs:max-sm:bottom-5 xl:max-2xl:bottom-20">
+            <div className="absolute bottom-40 left-44 z-0 w-full px-4 py-7 xs:max-sm:left-0 xs:max-sm:bottom-5 xl:max-2xl:bottom-2">
               <h1 className="text-8xl text-[#DD2803] font-bold xs:max-sm:text-3xl xl:max-2xl:text-6xl ">RESERVE A</h1>
               <h1 className="text-8xl mt-4 text-[#DD2803] font-bold xs:max-sm:text-3xl xs:max-sm:mt-0 xl:max-2xl:text-6xl">SPOT EASILY,</h1>
               <h1 className="text-8xl mt-4 text-[#DD2803] font-bold xs:max-sm:text-3xl xs:max-sm:mt-0 xl:max-2xl:text-6xl">SAVE YOUR TIME</h1>

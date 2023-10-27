@@ -174,7 +174,7 @@ const ReserveForm = () => {
 
     {openRatingMod && 
         <>
-            <div className='fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,0.5)] opacity-0.5 z-100'></div>
+            <div className='fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,0.5)] opacity-0.5 z-[101]'></div>
             <RatingModal setOpenRatingMod={setOpenRatingMod} openRatingMod={openRatingMod}/>
         </>
         }

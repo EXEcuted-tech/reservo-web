@@ -62,8 +62,8 @@ const ChoicePage = () => {
   return (
     <div className={`font-poppins bg-[#F9F2EA] h-[80vh] animate-fade-in`}>
         <div className='text-center text-[#DD2803]'>
-          <h1 className='text-[2em] pt-[0.2%] font-bold xl:max-2xl:text-[1.5em]'>Browse. Select. Reserve.</h1>
-          <p className='text-[1.2em] pb-[0.2%] xl:max-2xl:text-[0.9em]'>Choose and book for your favorite occasion!</p>
+          <h1 className='text-[2em] pt-[0.2%] font-bold xs:max-sm:text-[1.2em] xl:max-2xl:text-[1.5em]'>Browse. Select. Reserve.</h1>
+          <p className='text-[1.2em] pb-[0.2%] xs:max-sm:text-[1em] xl:max-2xl:text-[0.9em]'>Choose and book for your favorite occasion!</p>
         </div>
         
         <div className='flex bg-white h-[75vh] rounded-t-[4rem] xs:max-sm:h-[70vh]'>

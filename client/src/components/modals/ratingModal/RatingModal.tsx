@@ -45,7 +45,7 @@ const RatingModal: React.FC<MerchDeetsBackProps> = (props) => {
 
   return (
     <div>
-       <form className='animate-fade-in font-poppins fixed left-[35%] top-[35%] w-[100%] h-[100%] z-[100] overflow-auto drop-shadow bg-[rgba(0, 0, 0, 0.5)] xl:max-2xl:top-[30%]'>
+       <form className='animate-fade-in font-poppins fixed left-[35%] top-[35%] w-[100%] h-[100%] z-[110] overflow-auto drop-shadow bg-[rgba(0, 0, 0, 0.5)] xl:max-2xl:top-[30%]'>
         <div className="bg-white w-[30%] p-4 text-center border border-black rounded-2xl xl:max-2xl:w-[35%]">
             <div className='flex items-center'>
             <div className='w-[95%] text-center'>

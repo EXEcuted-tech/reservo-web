@@ -10,7 +10,7 @@ const AboutUsPage = () => {
       <div className='font-poppins relative flex flex-row justify-between bg-black bg-opacity-40 z-10 h-[100%] w-[100%] xs:max-sm:bg-[#F9F2EA]'>
         <img src={background} alt='About Us Background' className='h-full w-full bg-[100%] object-cover bg-no-repreat bg-cover absolute z-100 xs:max-sm:h-[50%]'/>
         <div className='h-full w-full bg-no-repreat bg-cover absolute z-999 z-1 bg-[rgba(0,0,0,0.45)] xs:max-sm:h-[50%]'/>
-        <div className='w-4/5 px-32 py-24 z-0 xs:max-sm:px-10 xs:max-sm:pr-5 xs:max-sm:py-10 xs:max-sm:inline-block xs:max-sm:h-1/5 xs:max-sm:w-[100%] xl:max-2xl:px-60 xl:max-2xl:py-8'>
+        <div className='w-4/5 px-32 py-24 z-0 xs:max-sm:px-10 xs:max-sm:pr-5 xs:max-sm:py-10 xs:max-sm:inline-block xs:max-sm:h-1/5 xs:max-sm:w-[100%]  xl:max-2xl:px-16 xl:max-2xl:py-8'>
           <div className='border-b-4 pb-6 xs:max-sm:pb-3 xl:max-2xl:border-b-2'>
             <h1 className='font-extrabold text-white text-8xl pb-3 xs:max-sm:pb-0 xs:max-sm:text-3xl xl:max-2xl:text-6xl'>Choose.</h1>
             <h1 className='font-extrabold text-white text-8xl pb-3 xs:max-sm:pb-0 xs:max-sm:text-3xl xl:max-2xl:text-6xl'>Connect.</h1>

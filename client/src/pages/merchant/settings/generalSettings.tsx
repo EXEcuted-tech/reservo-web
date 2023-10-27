@@ -524,7 +524,7 @@ export default function GeneralSettings() {
                                     </img>                                    
                                     <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 opacity-0 hover:opacity-80 bg-white'>
                                         <IoCameraSharp className='relative text-[50px] left-[39%] bottom-[11.2%] xl:max-2xl:text-[1.3em] xl:max-2xl:left-[43%]'/>
-                                        <p className='relative text-black font-bold text-[14px] top-[10%] right-[8%] xl:max-2xl:text-[0.6em] xl:max-2xl:right-[4%]'>Change Image</p>
+                                        <p className='relative text-black font-bold text-[14px] top-[10%] right-[8%] xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.6em] xl:max-2xl:right-[4%]'>Change Image</p>
                                     </div>                                  
                                 </label>}
 

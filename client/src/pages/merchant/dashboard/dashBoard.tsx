@@ -140,7 +140,7 @@ const MerchDashboard = () => {
         {/* Welcome Section */}
         <div className='bg-[#F3F3F3] h-[30vh] flex overflow-y-auto overflow-x-hidden xs:max-sm:mt-[3%] xs:max-sm:mb-[3%]'>
            <div className='w-[60%] p-[1%] text-center xs:max-sm:w-[40%] xs:max-sm:p-[0.5%]'>
-              <div className='align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-b from-[#9a1a00] to-black xs:max-sm:p-6'>
+              <div className='align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-b from-[#9a1a00] to-black xs:max-sm:p-4'>
                 <h1 className='text-[1.8em] text-white xs:max-sm:text-[1.3em] xl:max-2xl:text-[1.5em]'>
                   Welcome, {userName}!
                 </h1>
@@ -156,7 +156,7 @@ const MerchDashboard = () => {
                     <p className="text-white mt-[-5%] text-[5em] font-bold display xs:max-sm:text-[3em]  xl:max-2xl:text-[3em]">{reservationCount}</p>
                     <p className='text-white text-[1.2em] mt-[-13%] xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>RESERVATION</p>
                   </div>
-                  <div className='w-[30%] pt-[10%] text-center xs:max-sm:pt-[25%] xs:max-sm:ml-[-18%]'>
+                  <div className='w-[30%] pt-[10%] text-center xs:max-sm:pt-[25%] xs:max-sm:ml-[-12%]'>
                       <IoCalendarSharp className='text-white text-[4em] xs:max-sm:text-[1.7em] xl:max-2xl:text-[2.5em]'/>
                   </div>
                 </div>
@@ -165,7 +165,7 @@ const MerchDashboard = () => {
                     <p className='text-white mt-[-5%] text-[5em] font-bold display xs:max-sm:text-[3em] xl:max-2xl:text-[3em]'>{todayCount}</p>
                     <p className='text-white text-[1.2em] mt-[-13%] xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>TODAY'S TABLE</p>
                   </div>
-                  <div className='w-[30%] pt-[10%] text-center xs:max-sm:pt-[25%] xs:max-sm:ml-[-18%]'>
+                  <div className='w-[30%] pt-[10%] text-center xs:max-sm:pt-[25%] xs:max-sm:ml-[-16%]'>
                       <MdGroups2 className='text-white text-[4em] xs:max-sm:text-[1.7em] xl:max-2xl:text-[2.5em]'/>
                   </div>
                 </div>
