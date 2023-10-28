@@ -20,6 +20,11 @@ body {
   /* position: relative;
   bottom:0; */
 }
+@media (min-width: 300px) and (max-width: 640px){
+    .bg-footer{
+      height: 7vh;
+    }
+}
 
 .arrow {
   position: absolute;
@@ -39,4 +44,12 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   height: 88.5vh;
+}
+
+@media (min-width: 300px) {
+  @media not all and (min-width: 640px) {
+    .bg-logout {
+      height: 93vh;
+    }
+  }
 }

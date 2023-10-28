@@ -128,6 +128,14 @@ module.exports = {
         'shake': 'shake 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97)',
       },
     },
+  screens:{
+    'xs': '300px',
+    'sm': '640px',
+    'md': '768px',
+    'lg': '1024px',
+    'xl': '1280px',
+    '2xl': '1536px',
+  },
   },
   plugins: [],
 }
