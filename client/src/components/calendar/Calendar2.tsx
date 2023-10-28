@@ -6,7 +6,8 @@ import axios from 'axios';
 import config from '../../common/config'
 import { PiMoneyThin } from 'react-icons/pi';
 import colors from '../../common/colors';
-import { BiSearchAlt } from "react-icons/bi";
+import Tile from './Tile';
+import ReservationsList from './ReservationsList';
 
 interface details {
     id: number,
@@ -22,12 +23,18 @@ interface details {
 };
 
 function Calendar2() {
-
+    const [isLoading, setIsLoading] = useState(false);
     const [selectedDay ,setSelectedDay] = useState(1);
+    const [selected, setSelected] = useState({
+        day: 1,
+        month: 1,
+        year: 2000,
+        count: 0,
+    })
     const [year, setYear] = useState(new Date().getFullYear());
     const [monthNdx, setMonthNdx] = useState(new Date().getMonth());
     const merchant_id = localStorage.getItem('merch_id');
-    const [dataSet, setDataSet] = useState([]);
+    const [dataSet, setDataSet] = useState();
     const calendarDates = new Date();
 
     const getDaysInMonth = (year:number, month: number) => {
@@ -42,8 +49,18 @@ function Calendar2() {
         return new Date(year, month + 1, 0).getDate();
     }
 
+    const [showReservations, setShowReservations] = useState(false);
+    const currentReservations = ()=>{
+        if(showReservations === false){
+            setShowReservations(true)
+        }else{
+            setShowReservations(false)
+        }
+        console.log("RESERVATION MODAL STATUS: ", showReservations);
+    }
+
     const months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const weekly = ["Sunday", "Monday", "Tueday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const weekly = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
     const [length, setLength] = useState(numberOfDays(year, monthNdx));
     const [start, getStart] = useState(new Date(year, monthNdx, 1).getDay());
@@ -55,10 +72,10 @@ function Calendar2() {
             try {
               const yy = String(year);
               const mm = String(monthNdx+1).padStart(2, '0'); // Ensure two digits for month
-              const response = await axios.get(`${config.API}/reserve/retrieveLikeTwo`, {
+              const response = await axios.get(`${config.API}/reserve/retrieveCountLikeTwo`, {
                 params: {
                   col1: 'res_date',
-                  val1: yy + '-' + mm,
+                  val1: yy + '-' + mm + "-",
                   col2: 'merchant_id',
                   val2: merchant_id,
                   orderVal: 'res_time',
@@ -66,8 +83,24 @@ function Calendar2() {
                 }
               });
               //console.log("RES DATAAA ==> ", response.data.records);
-              setDataSet(response.data.records);
-            } catch (err) {
+              var data:any = { tempData: [] };
+                for (const record in response.data.records) {
+                if (response.data.records.hasOwnProperty(record)) {
+                    const resDate = response.data.records[record].res_date;
+                    const count = response.data.records[record]['COUNT(*)'];
+
+                    const dateParts = resDate.split("T");
+                    const date = dateParts[0];
+
+                    data.tempData[date] = count;
+                }
+                }
+
+                console.log("DATA=======>", response.data);
+                //console.log("DATA=======>", data.tempData);
+                setDataSet(data.tempData);
+                //console.log("FETCHED DATA ==>", setDataSet);
+              } catch (err) {
               console.log("AXIOS ERROR!!: ", err);
             }
           }
@@ -92,21 +125,25 @@ function Calendar2() {
     };
 
     useEffect(() => {
-        if (monthNdx > 11) {
-            setYear(year + 1);
-            setMonthNdx(0);
-        }
-        else if (monthNdx < 0) {
-            setYear(year - 1);
-            setMonthNdx(11);
-        }
-    }, [monthNdx]);
-
-    useEffect(() => {
-        setLength(numberOfDays(year, monthNdx));
-        getStart(new Date(year, monthNdx, 1).getDay());
-        count = 1;
-    }, [monthNdx])
+        setIsLoading(true);
+        fetchData()
+            .then(() => {
+                setIsLoading(false);
+                //console.log("FETCHED DATA ==>", dataSet);
+            })
+            .catch((error) => {
+                console.log("ERROR FETCHING DATA ==>", error);
+                setIsLoading(false);
+            });
+    
+        // Update the "today" flag
+        const currentDate = new Date();
+        setDateToday(
+            currentDate.getFullYear() === year &&
+            currentDate.getMonth() === monthNdx &&
+            currentDate.getDate() === count
+        );
+    }, [year, monthNdx]);
 
     const [today, setDateToday] = useState(false);
 
@@ -116,13 +153,55 @@ function Calendar2() {
     }, [count])
 
     useEffect(()=>{
-        fetchData();
-        console.log("DATA ==> ", dataSet[0]);
+        setIsLoading(true);
+        fetchData().then(()=>{
+            setIsLoading(false);
+        }).catch((error)=>{
+            console.log("ERROR FETCHING DATA ==>", error);
+            setIsLoading(false);
+        });
+        
+        
+        // console.log("DATA ==> ", dataSet[0]);
+        
     }, [year, monthNdx])
 
     const handleDayClick = (day:number) => {
         setSelectedDay(day);
     }
+
+    const updateSelected = async (year: number, month: number, day: number) => {
+        let retval = -1; // Assign a default value
+      
+        try {
+          const yy = String(year);
+          const mm = String(month + 1).padStart(2, '0'); // Ensure two digits for month
+          const dd = String(day).padStart(2, '0'); // Ensure two digits for day
+          const response = await axios.get(`${config.API}/reserve/retrievecountparams`, {
+            params: {
+              col1: 'res_date',
+              val1: `${yy}-${mm}-${dd}`,
+              col2: 'merchant_id',
+              val2: merchant_id,
+              orderVal: 'res_time',
+              order: 'ASC',
+            },
+          });
+          retval = response.data.count;
+        } catch (err) {
+          console.log("AXIOS ERROR!!: ", err);
+        }   
+      
+        const obj = {
+          year: year,
+          month: month + 1,
+          day: day,
+          count: Number(retval),
+        };
+        setSelected(obj);
+        console.log("OBJECT CLICKED ===> ", obj);
+      };
+      
 
 
     const styleToday = `bg-[${colors.beige}]`
@@ -163,20 +242,22 @@ function Calendar2() {
                     {cell.map((day) => (
                         <div
                             key={day}
-                            className={`h-[10vh] rounded-lg ${day === calendarDates.getDate() ? styleToday : 'bg-[#FFFFFF]'}`}
+                            className={`h-[12vh] w-[10vw] cursor-pointer p-2 rounded-lg ${day === calendarDates.getDate() ? styleToday : 'bg-[#FFFFFF]'} hover:bg-slate-300 duration-300`}
                             onClick={() => handleDayClick(day)}
                         >
-                            <ReservationDetails
-                            today={new Date()}
-                            year={year}
-                            monthName={months[monthNdx]}
-                            monthNdx={monthNdx}
-                            day={day}
-                        />
-                            <div className='flex justify-center items-center'><BiSearchAlt/></div>
-                            {day === calendarDates.getDate() ? 'TODAY' : ''}
+                            {/* <ReservationDetails
+                                today={new Date()}
+                                year={year}
+                                monthName={months[monthNdx]}
+                                monthNdx={monthNdx}
+                                day={day}
+                            /> */}
+                            <div onClick={() => updateSelected(year, monthNdx, day)}><Tile showReservations={currentReservations} year={year} day={day} month={monthNdx} today={day===calendarDates.getDate()? true:false}/></div>
+
+                            
                         </div>
                     ))}
+                    {showReservations? <ReservationsList year={selected.year} month={selected.month} day={selected.day} count={selected.count} close={currentReservations}/>: <></>}
 
                 </div>
             </div>
