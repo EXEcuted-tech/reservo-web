@@ -648,12 +648,8 @@ export default function GeneralSettings() {
                                 disabled = {isLoading}
                                 onChange={handleChange}
                                 name="settings.description"
-<<<<<<< HEAD
-                                className={`m-2 p-2 text w-full flex border border-gray-300 rounded-md resize-none xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
-=======
                                 className={`m-2 p-2 text w-full flex border border-gray-300 rounded-md resize-none xs:max-sm:h-[15vh] xs:max-sm:text-[0.6em] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
                                 required
->>>>>>> 00a66d588ba2352ba95d984deafc9f29ad242c70
                             />
                         </div>
                         <div className='m-4 flow-root'>
