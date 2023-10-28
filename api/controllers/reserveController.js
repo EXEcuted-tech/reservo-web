@@ -149,6 +149,31 @@ const retrieveLikeByTwoParams = (req,res)=>{
   });
 }
 
+const retrieveCountLikeByTwoParams = (req,res)=>{
+  var { col1, val1, col2,val2,orderVal, order } = req.query; 
+
+  const orderValue = orderVal ? orderVal : col1;
+  const orderBy = order ? order : 'ASC';
+  val1 = val1+'%'
+  const retrieveSpecific = `SELECT res_date, COUNT(*) FROM reservation WHERE ?? = ? AND ?? LIKE ? GROUP BY ${col1} ORDER BY ${orderValue} ${orderBy}`;
+
+
+
+  db.query(retrieveSpecific, [col2,val2,col1,val1],(err, row) => {
+
+    if (err) {
+      console.error('Error retrieving records:', err);
+      return res.status(500).json({ status: 500, success:false,error: 'Error retrieving records' });
+    }else{
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        records: row,
+      });
+    }
+  });
+}
+
 const retrieveCountByParams = (req, res) => {
   const { col, val } = req.query;
 
@@ -283,4 +308,5 @@ module.exports = {
     retrieveCountByThreeParams,
     retrieveBookingsByMonth,
     retrieveLikeByTwoParams,
+    retrieveCountLikeByTwoParams,
 }
