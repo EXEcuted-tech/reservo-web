@@ -37,6 +37,8 @@ const AccountListComponent = () => {
   const [users, setData] = useState<AccountDetailsProps[]> ([]);
   const [date, setDate] = useState<Date | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filter, setFilter] = useState('allAccounts');
 
   // Pagination
   const itemsPerPage = 10;
@@ -58,22 +60,44 @@ const AccountListComponent = () => {
     })
   }, []);
 
+  const HandleFilterChange = (e) => {
+    setFilter(e.target.value);
+  };
+
+  const HandleSearchQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredAccounts = users.filter((user) =>{
+    return(
+      (user.account_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.email_address.toLowerCase().includes(searchQuery.toLowerCase())) &&
+      (filter === 'allAccounts' || user.account_type.toString() === filter ||
+      user.account_status === filter) 
+    )
+  });
+
   return (
     <div className='w-[100%] h-[90vh] pt-[1%] bg-[#F3F3F3]'>
 
       <div className='bg-white font-medium font-poppins shadow-2xl mx-5 p-5 rounded-lg h-[87vh]'>
 
       <label htmlFor="filterList" className='text-slate-600'>Filter by: </label>
-      <select id="filtersList" className='rounded-lg border bg-white border-black m-4 mr-80 py-1 px-5'>
+      <select id="filtersList" className='rounded-lg border bg-white border-black m-4 mr-80 py-1 px-5' value={filter} onChange={HandleFilterChange}>
         <option value="allAccounts">All Accounts</option>
-        <option value="stat_active">Status: Active</option>
-        <option value="stat_abolished">Status: Abolished</option>
-        <option value="type_cust">Type: Customer</option>
-        <option value="type_admin">Type: Merchant</option>
+        <option value="active">Status: Active</option>
+        <option value="abolished">Status: Abolished</option>
+        <option value="1">Type: Customer</option>
+        <option value="10">Type: Merchant</option>
       </select>
 
       <label htmlFor="searchBar" className='ml-[580px] bg-white '>Search: </label>
-      <input type="text" placeholder='Input name or email' id='searchBar' className='bg-white rounded-lg border border-slate-500 px-3 py-1'/>
+      <input  type="text" 
+              placeholder='Input name or email' 
+              value={searchQuery}
+              onChange={HandleSearchQuery}
+              id='searchBar' 
+              className='bg-white rounded-lg border border-slate-500 px-3 py-1'/>
 
       <div className='bg-white  text-slate-500 font-semibold text-[1.2em]'>
           <h1 className='text-[#bbbbbb]'>{`As of ${date}`}</h1>
@@ -94,7 +118,7 @@ const AccountListComponent = () => {
             </thead>
             <tbody className='text-center'>
               {currentAccountListPage.length > 0 ? (
-                currentAccountListPage.map((account, index) => (
+                filteredAccounts.map((account, index) => (
                   <tr>
                     <td className='text-md px-12 py-3'>{account.account_id}</td>
                     <td className='text-md px-12 py-3'>{account.account_name}</td>
