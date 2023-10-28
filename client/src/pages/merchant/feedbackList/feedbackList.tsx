@@ -83,7 +83,7 @@ const FeedbackList = () => {
     <div className="animate-fade-in ">
       <MerchAdHeader icon={RiMegaphoneFill} title="Feedback List" />
       <div className="bg-[#F3F3F3] h-[90vh] px-12 py-7 overflow-y-auto xs:max-sm:px-2">
-        <div className="bg-[#FFFFFF] h-[85vh] p-4 rounded-[2rem] relativexs:max-sm:w-[100%] xs:max-sm:overflow-x-auto xl:max-2xl:h-full">
+        <div className="bg-[#FFFFFF] h-[85vh] p-4 rounded-[2rem] relativexs:max-sm:w-[100%] xl:max-2xl:h-full">
           <div className="flex font-poppins px-10 py-10 xs:max-sm:py-2 xs:max-sm:px-2">
             <h1 className="text-3xl font-bold xs:max-sm:text-[1.5em] xl:max-2xl:text-2xl">Merchant Rating</h1>
             <h1 className="text-2xl pl-5 font-medium xs:max-sm:text-[0.9em] xl:max-2xl:text-xl xl:max-2xl:pl-2">({averageRating.toFixed(1)})</h1>
@@ -92,7 +92,7 @@ const FeedbackList = () => {
 
           {currentFeedbackPage.length > 0 ? (
             currentFeedbackPage.map(({feedback, clientName}, index) => (
-              <div className="bg-[#F0E5D8] bg-opacity-50 rounded-[3rem] mx-16 mb-3 px-12 py-4 xs:max-sm:w-full xs:max-sm:overflow-x-auto xs:max-sm:px-6 xs:max-sm:mx-4 xs:max-sm:my-4" 
+              <div className="bg-[#F0E5D8] bg-opacity-50 rounded-[3rem] mx-16 mb-3 px-12 py-4 xs:max-sm:w-full xs:max-sm:overflow-x-auto xs:max-sm:px-6 xs:max-sm:mx-0 xs:max-sm:my-4" 
               key={feedback.feedback_id}>
                 <div className="flex font-poppins">
                   <BsFillPersonFill className="rounded-full bg-[#F4D147] text-4xl p-1 xs:max-sm:text-2xl xl:max-2xl:text-2xl" />

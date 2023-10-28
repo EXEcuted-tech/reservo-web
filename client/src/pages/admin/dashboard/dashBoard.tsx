@@ -106,7 +106,7 @@ const AdminDashboard = () => {
               <div className='text-left border-b-2 border-black'>
                 <p className='font-bold text-[1.5em] xs:max-sm:text-[1.2em] xl:max-2xl:text-[1em]'>Recent Sign Ups<br/></p>
               </div>
-              <table className='flex-col w-[100%] text-left bg-white rounded-3xl overflow-auto xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'>
+              <table className='flex-col w-[100%] text-left bg-white rounded-3xl overflow-auto xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.8em]'>
               <tr>
                 <th>Name</th>
                 <th>Email</th>
@@ -126,9 +126,9 @@ const AdminDashboard = () => {
                   <th>Time Out</th>
                 </tr>
                 <tr>
-                  <td className='h-[100%] border-black border-r-2 xs:max-sm:text-[0.85em]  xl:max-2xl:text-[0.8em]'>
+                  <td className='h-[100%] border-black border-r-2 xs:max-sm:text-[0.75em] xl:max-2xl:text-[0.8em]'>
                     Time In</td>
-                  <td className='h-[100%] xs:max-sm:text-[0.85em]  xl:max-2xl:text-[0.8em]'>
+                  <td className='h-[100%] xs:max-sm:text-[0.75em]  xl:max-2xl:text-[0.8em]'>
                     Time Out</td>
                 </tr>
               </table>

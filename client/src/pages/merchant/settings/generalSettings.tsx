@@ -598,7 +598,7 @@ export default function GeneralSettings() {
                                     </img>                                    
                                     <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 opacity-0 hover:opacity-80 bg-white'>
                                         <IoCameraSharp className='relative text-[50px] left-[39%] bottom-[11.2%] xl:max-2xl:text-[1.3em] xl:max-2xl:left-[43%]'/>
-                                        <p className='relative text-black font-bold text-[14px] top-[10%] right-[8%] xl:max-2xl:text-[0.6em] xl:max-2xl:right-[4%]'>Change Image</p>
+                                        <p className='relative text-black font-bold text-[14px] top-[10%] right-[8%] xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.6em] xl:max-2xl:right-[4%]'>Change Image</p>
                                     </div>                                  
                                 </label>}
 
@@ -649,7 +649,10 @@ export default function GeneralSettings() {
                                 onChange={handleChange}
                                 name="settings.description"
                                 className={`m-2 p-2 text w-full flex border border-gray-300 rounded-md resize-none xs:max-sm:h-[15vh] xs:max-sm:text-[0.6em] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
+<<<<<<< HEAD
                                 required
+=======
+>>>>>>> 06ca8cae86c22581cb74dab8a7dfdd536ad85e0a
                             />
                         </div>
                         <div className='m-4 flow-root'>

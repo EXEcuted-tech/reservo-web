@@ -75,51 +75,53 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
 
 
     return (
-    <div>
-    <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-full overflow-x-hidden backdrop-blur-sm animate-zoom-in overflow-hidden'>
+  <div>
+    <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-full overflow-x-hidden backdrop-blur-sm animate-zoom-in overflow-hidden xs:max-sm:h-[58rem]'>
     <div className='flex justify-center align-center my-20 xl:max-2xl:my-16'>
-          <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl xl:max-2xl:h-[83vh]">
+        <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl xs:max-sm:p-6 xs:max-sm:w-[85vw] xl:max-2xl:h-[83vh]">
           {deleteModal && (
         <DeleteConfirmationModal
           onClose={handleCloseDeleteModal}
           onConfirmDelete={handleConfirmDelete}
         />
       )}
-            <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black '> {/*this is the header for the modal*/}
-                <div className='flex start items-center text-2xl mb-4 font-bold xl:max-2xl:text-xl'>
-                  <LuPackage2 className="text-4xl mr-[2%] xl:max-2xl:text-2xl"/>
-                  <p>Package ID: {packageID}</p>
-                </div>
-                <div className='flex justify-end mb-4'><button onClick={onClose} className='flex items-center text-3xl xl:max-2xl:text-2xl '><AiFillCloseCircle className='mx-2 detailsClose'/></button></div>
-            </div>
-            <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
+
+      <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black '> {/*this is the header for the modal*/}
+          <div className='flex start items-center text-2xl mb-4 font-bold xs:max-sm:text-[1.2em] xs:max-sm:w-[60vw] xl:max-2xl:text-xl'>
+              <LuPackage2 className="text-4xl mr-[2%] xs:max-sm:text-[1.3em] xl:max-2xl:text-2xl"/>
+              <p>Package ID: {packageID}</p>
+          </div>
+          <div className='flex justify-end mb-4'><button onClick={onClose} className='flex items-center text-3xl xs:max-sm:text-[1.5em] xl:max-2xl:text-2xl '>
+            <AiFillCloseCircle className='mx-2 detailsClose'/></button>
+          </div>
+      </div>
+
+      <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
             <div>
-            <div className='h-[40vh] text-xl xl:max-2xl:text-[0.8em] '>
-                <p><b>Package Name: </b>{packageName}</p>
-                <p><b>Total Price: </b> {price}</p>
-                <p><b>Available From: </b>{date_start.toDateString()}</p>
-                <p><b>Expiry Date: </b>{date_end.toDateString()}</p>
-                <p><b>Tags: </b>{tags.map((tag, index) => (
-                                            <span key={index}>{tag}{index < tags.length - 1 ? ', ' : ''}</span>
-                                        ))}
-                                        
-                
-                </p>
-                <p><b>Visibility: </b>{visibility}</p>
-                <p><b>Description: </b></p><p>{description}</p>
+              <div className='h-[40vh] text-xl xs:max-sm:text-[1em] xs:max-sm:mt-[100%] xs:max-sm:h-[30vh] xl:max-2xl:text-[0.8em] '>
+                  <p><b>Package Name: </b>{packageName}</p>
+                  <p><b>Total Price: </b> {price}</p>
+                  <p><b>Available From: </b>{date_start.toDateString()}</p>
+                  <p><b>Expiry Date: </b>{date_end.toDateString()}</p>
+                  <p><b>Tags: </b>{tags.map((tag, index) => (
+                                              <span key={index}>{tag}{index < tags.length - 1 ? ', ' : ''}</span>
+                                          ))}  
+                  </p>
+                  <p><b>Visibility: </b>{visibility}</p>
+                  <p><b>Description: </b></p><p>{description}</p>
             </div>
-            <div className='my-4 text-xl xl:max-2xl:text-[0.8em]'>
+            <div className='my-4 text-xl xs:max-sm:text-[1em] xl:max-2xl:text-[0.8em]'>
                     <p><b>Items: </b>
                     <ul className='list-disc  ml-[6%]'>
                     {items.map((tag, index) => (
                                             <li key={index} className=''>{tag}</li>
-                                        ))}
-                                    
+                                        ))}      
                     </ul>
                     </p>
                 </div>
             </div>
-            <div className='IMAGE_PLACEHOLDER block w-[50%] h-[50%] rounded-2xl'>
+
+        <div className='IMAGE_PLACEHOLDER block w-[50%] h-[50%] rounded-2xl xs:max-sm:w-[35vw] xs:max-sm:h-[15vh] xs:max-sm:ml-[-50%]'>
             <img
                 src={filePath} // Use your image URL from the DB here
                 alt="Package Image"
@@ -130,14 +132,15 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
                 
                 className="w-full h-full object-cover rounded-2xl"
                 />
-            </div>
+          </div>
 
-            </div>
+      </div>
+      
             <div className='flex justify-end items-center h-[3vh]'>{/*This is the footer*/}
-                <button className='w-[8vw] h-[4vh] mx-5 rounded-md text-[1.1rem] bg-[#e14f4c] flex items-center justify-center xl:max-2xl:text-[0.8em]
+                <button className='w-[8vw] h-[4vh] mx-5 rounded-md text-[1.1rem] bg-[#e14f4c] flex items-center justify-center xs:max-sm:w-[25vw] xl:max-2xl:text-[0.8em]
                 hover:bg-[#ff5d5b] transition-colors delay-250 duration-[3000] ease-in' 
                   onClick={handleDeleteClick}><AiFillDelete className="mr-[3%]"/>Delete</button>
-                <button className='w-[8vw] h-[4vh] text-[1.1rem] bg-[#efb953] mx-5 rounded-md flex items-center justify-center xl:max-2xl:text-[0.8em]
+                <button className='w-[8vw] h-[4vh] text-[1.1rem] bg-[#efb953] mx-5 rounded-md flex items-center justify-center xs:max-sm:w-[25vw] xl:max-2xl:text-[0.8em]
                 hover:bg-[#ffcf76] transition-colors delay-250 duration-[3000] ease-in' 
                   onClick={openEditModal}><HiMiniPencilSquare className="mr-[3%]"/>Edit</button>
                 {isEditModalOpen && 
@@ -157,7 +160,6 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
                 filePath={filePath}/>}
             </div>
         </div>
-
     </div>
     </div>
     </div>

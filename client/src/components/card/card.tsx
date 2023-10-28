@@ -56,7 +56,7 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     return (
         <div className='Card mx-5 my-5 min-w-[18vw] max-w-[18vw] min-h-[50vh] max-h-[50vh] truncate  xs:max-sm:min-w-[60vw] xs:max-sm:max-w-[60vw] xs:max-sm:min-h-[30vh] xl:max-2xl:min-h-[55vh]'>
-                <div className="">
+            <div className="">
                 <div className='CardImage flex flex-col h-[100%]'><img
                     src={filePath} // Use your image URL from the DB here
                     alt="Package Image"
@@ -70,23 +70,24 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
                   {description}
                 </div>
 
-              <div className='flex h-5 justify-center my-2 items-center xs:max-sm:my-0'>
-                <p className="text-xl my-5 text-center font-bold xs:max-sm:text-lg xl:max-2xl:text-lg">PHP {price}</p></div>
+              <div className='flex h-5 justify-center my-2 items-center xs:max-sm:mt-[-3%] xs:max-sm:my-0'>
+                <p className="text-xl my-5 text-center font-bold xs:max-sm:text-lg xl:max-2xl:text-lg">PHP {price}</p>
+              </div>
 
-                <div className="mx-10 flex space-x-5 items-center xs:max-sm:w-[100%] xs:max-sm:items-start">
-                <button className='CardButton flex DetailsButton text-[1.1rem] w-1/2 items-center justify-center xs:max-sm:text-[1em] xl:max-2xl:text-[0.7em]' 
-                  onClick={openModal}><HiOutlineMagnifyingGlass className="mr-[3%]"/>Details</button>
-                {isModalOpen && <DetailsModal onClose={closeModal} packageID={package_id} packageName={packageName} date_start={date_start} date_end={date_end} price={price} description={description} tags={tags} visibility={visibility} items={items} time_start={time_start} time_end={time_end} filePath={filePath} openEditModal={function (): void {
-                throw new Error('Function not implemented.');
-              } }/>}
-                {oneButton === false &&
-                  <button className='CardButton flex EditButton text-[1.1rem] w-1/2 items-center justify-center xs:max-sm:text-[1em] xl:max-2xl:text-[0.7em]' 
-                    onClick={openEditModal} ><HiMiniPencilSquare className="mr-[3%]"/>Edit</button>
-                }
-                {isEditModalOpen && <EditDetailsModal  onClose={closeEditModal} dateStart={date_start} timeStart={time_start} timeEnd={time_end} dateEnd={date_end} packageID={package_id} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items} filePath={filePath}/>}
+              <div className="mx-10 flex space-x-5 items-center xs:max-sm:mt-[5%]">
+                  <button className='CardButton flex DetailsButton text-[1.1rem] w-1/2 items-center justify-center xs:max-sm:text-[1em] xl:max-2xl:text-[0.7em]' 
+                    onClick={openModal}><HiOutlineMagnifyingGlass className="mr-[3%]"/>Details</button>
+                  {isModalOpen && <DetailsModal onClose={closeModal} packageID={package_id} packageName={packageName} date_start={date_start} date_end={date_end} price={price} description={description} tags={tags} visibility={visibility} items={items} time_start={time_start} time_end={time_end} filePath={filePath} openEditModal={function (): void {
+                  throw new Error('Function not implemented.');
+                } }/>}
+                  {oneButton === false &&
+                    <button className='CardButton flex EditButton text-[1.1rem] w-1/2 items-center justify-center xs:max-sm:text-[1em] xl:max-2xl:text-[0.7em]' 
+                      onClick={openEditModal} ><HiMiniPencilSquare className="mr-[3%]"/>Edit</button>
+                  }
+                  {isEditModalOpen && <EditDetailsModal  onClose={closeEditModal} dateStart={date_start} timeStart={time_start} timeEnd={time_end} dateEnd={date_end} packageID={package_id} packageName={packageName} price={price} description={description} tags={tags} visibility={visibility} items={items} filePath={filePath}/>}
                 </div>
-                </div>
-          </div>
+            </div>
+        </div>
     )
 }
 

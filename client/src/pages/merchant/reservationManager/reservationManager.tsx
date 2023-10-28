@@ -7,13 +7,20 @@ import { HiOutlineMail } from "react-icons/hi";
 import { AiOutlinePhone} from "react-icons/ai";
 import { LiaCommentSolid } from "react-icons/lia";
 import { FiClock } from "react-icons/fi";
+<<<<<<< HEAD
 import {SiReacthookform} from 'react-icons/si'
+=======
+import {PiClipboardText} from 'react-icons/pi'
+>>>>>>> 06ca8cae86c22581cb74dab8a7dfdd536ad85e0a
 import {IoIosSave} from 'react-icons/io'
 import {TbTrashXFilled} from 'react-icons/tb'
 import axios from "axios";
 import config from "../../../common/config";
 import Notification from '../../../components/alerts/Notification'
+<<<<<<< HEAD
 import {PiClipboardText} from 'react-icons/pi'
+=======
+>>>>>>> 06ca8cae86c22581cb74dab8a7dfdd536ad85e0a
 
 const PAGE_MODE = {
   READ: 0,
@@ -165,6 +172,10 @@ const ReservationManager = () => {
   }
   return (
     <div className="animate-fade-in font-poppins bg-[#F3F3F3] p-8 overflow-y-auto xs:max-sm:flex xs:max-sm:w-[135%] xs:max-sm:mr-[5%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
+<<<<<<< HEAD
+=======
+      {notif && <Notification message={notifMess} color="#660605"/>}
+>>>>>>> 06ca8cae86c22581cb74dab8a7dfdd536ad85e0a
       <div className="flex items-center justify-center">
         <div className="rounded-lg bg-[#FFFFFF] w-full p-5 mt-[1rem]">
           <div className="flex w-full items-center ">
@@ -175,6 +186,7 @@ const ReservationManager = () => {
               onClick={() => (pageMode === PAGE_MODE.READ ? setPageMode(PAGE_MODE.UPDATE) : setPageMode(PAGE_MODE.READ))}
               className="text-black p-0 cursor-pointer ml-auto"
             >
+<<<<<<< HEAD
               <LiaEdit className="hover:animate-zoom-in text-4xl xl:max-2xl:text-2xl" />
             </button>
           </div>
@@ -182,6 +194,17 @@ const ReservationManager = () => {
           <h1 className='font-black ml-[3%] mt-[3%] text-[1.7em] text-[#840705] xl:max-2xl:text-[1.7em] underline'>GENERAL SECTION</h1>
             <div className="flex px-10 pb-10 pt-5">
               <div className="flex flex-col gap-5 w-1/2 font-bold">
+=======
+              <LiaEdit className="hover:animate-zoom-in text-4xl xs:max-sm:text-3xl xl:max-2xl:text-2xl" />
+            </button>
+          </div>
+
+          <div className="flex flex-col text-xl text-black w-full h-full bg-[#F0E5D8] rounded-3xl mt-5 xl:max-2xl:mt-2">
+          <h1 className='font-black ml-[3%] mt-[3%] text-[1.7em] text-[#840705] xs:max-sm:text-[1em] xl:max-2xl:text-[1.3em] underline'>
+            GENERAL SECTION</h1>
+            <div className="flex px-10 pb-10 xs:max-sm:p-5 pt-5">
+              <div className="flex flex-col gap-5 w-1/2 font-bold xs:max-sm:mr-[10%]">
+>>>>>>> 06ca8cae86c22581cb74dab8a7dfdd536ad85e0a
                 <div className="flex items-center gap-1">
                   <IoCalendarOutline className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.1em] xl:max-2xl:text-[1.1em]"/> 
                   <h3 className="xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Date: 
@@ -235,7 +258,12 @@ const ReservationManager = () => {
                 </div>
               </div>
             </div>
+<<<<<<< HEAD
             <h1 className='font-black ml-[3%] mb-[2%] text-[1.7em] text-[#840705] xl:max-2xl:text-[1.7em] underline'>ADDITIONAL SECTION</h1>
+=======
+            <h1 className='font-black ml-[3%] mb-[2%] text-[1.7em] text-[#840705]  xs:max-sm:text-[1em] xl:max-2xl:text-[1.3em] underline'>
+              ADDITIONAL SECTION</h1>
+>>>>>>> 06ca8cae86c22581cb74dab8a7dfdd536ad85e0a
             
             
             {pageMode === PAGE_MODE.READ &&
@@ -256,13 +284,17 @@ const ReservationManager = () => {
                   )
               }
             {pageMode === PAGE_MODE.UPDATE && (
-              <div className="px-5 pb-5 ml-[1rem] animate-fade-in">
+              <div className="px-5 pb-5 ml-[1rem] animate-fade-in xs:max-sm:ml-[0rem]">
                 <div className="flex items-center w-full">
                 <button
                   onClick={() => {
                     dialogRef.current?.showModal();
                   }}
+<<<<<<< HEAD
                   className="p-3 text-xl bg-[#008927] text-white rounded-lg xs:max-sm:text-[0.8em] xs:max-sm:p-2  xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
+=======
+                  className="flex justify-center items-center p-3 text-[1em] bg-[#008927] text-white rounded-3xl xs:max-sm:text-[0.8em] xs:max-sm:p-2  xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
+>>>>>>> 06ca8cae86c22581cb74dab8a7dfdd536ad85e0a
                     hover:bg-[#077827] transition-colors delay-250 duration-[3000] ease-in"
                 >
                   <IoAddCircle/> Add Field
