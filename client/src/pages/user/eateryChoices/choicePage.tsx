@@ -10,6 +10,7 @@ const ChoicePage = () => {
   const [isLoading,setLoading] = useState(false);
   
   const [merchantData,setMerchantData]= useState<MerchCardProps[]>([]);
+  const [searchQuery,setSearchQuery] = useState('');
 
   useEffect(()=>{
     retrieveMerchants();
@@ -59,11 +60,19 @@ const ChoicePage = () => {
       });
   }
 
+  const HandleSearchQuery = (e) => {
+    setSearchQuery(e.target.value);
+  }
+
+  const filteredMerchants = merchantData.filter((merchant) =>
+    merchant.merchant_name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className={`font-poppins bg-[#F9F2EA] h-[80vh] animate-fade-in`}>
         <div className='text-center text-[#DD2803]'>
-          <h1 className='text-[2em] pt-[0.2%] font-bold'>Browse. Select. Reserve.</h1>
-          <p className='text-[1.2em] pb-[0.2%] '>Choose and book for your favorite occasion!</p>
+          <h1 className='text-[2em] pt-[0.2%] font-bold xl:max-2xl:text-[1.5em]'>Browse. Select. Reserve.</h1>
+          <p className='text-[1.2em] pb-[0.2%] xl:max-2xl:text-[0.9em]'>Choose and book for your favorite occasion!</p>
         </div>
         
         <div className='flex bg-white h-[75vh] rounded-t-[4rem]'>
@@ -71,8 +80,10 @@ const ChoicePage = () => {
           <div className='w-[100%]'>
             <div className='text-center mt-[1.5%]'>
               <input type='text' 
-                     className='w-[95%] h-[5vh] bg-[#EDEDED] pl-[1%] text-[1.2em] rounded-2xl' 
+                     className='w-[95%] h-[5vh] bg-[#EDEDED] pl-[1%] text-[1.2em] rounded-2xl xl:max-2xl:text-[0.8em]' 
                      placeholder="🔍 Search Restaurant or Food Business"
+                     value={searchQuery}
+                     onChange={HandleSearchQuery}
                      />
             </div>
 
@@ -93,7 +104,7 @@ const ChoicePage = () => {
             :
             <>
               <div className='flex justify-between w-[100%] mt-[0.8%] mb-[1.2%]'>
-                <div className='w-[50%] ml-[3%] text-[#969696]'>
+                <div className='w-[50%] ml-[3%] text-[#969696] xl:max-2xl:text-[0.8em]'>
                   Showing
                   <input
                     type='text'
@@ -103,7 +114,7 @@ const ChoicePage = () => {
                   out of {"5"} businesses
                 </div>
                 <div className='mr-[4%]'>
-                  <select className='border border-slate-300 rounded-2xl px-[3%] text-[#969696]'>
+                  <select className='border border-slate-300 rounded-2xl px-[3%] text-[#969696] xl:max-2xl:text-[0.7em]'>
                     <option value='option1'>Sort by A-Z</option>
                     <option value='option2'>Sort by Z-A</option>
                   </select>
@@ -111,8 +122,8 @@ const ChoicePage = () => {
               </div>
               
               {/* List of Merchants */}
-              <div className='overflow-y-scroll h-[57vh] z-10'>
-                {merchantData.map((merchant, index) => (
+              <div className='overflow-y-scroll h-[57vh] z-10 '>
+                {filteredMerchants.map((merchant, index) => (
                   <div className='px-[2%]'>
                     <MerchCard key={index} {...merchant} />
                     <hr className='pb-[1%]'/>

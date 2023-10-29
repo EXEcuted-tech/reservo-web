@@ -3,13 +3,14 @@ const db = require('./a_db');
 
 const createReserve = (req,res)=>{
     const {date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id} = req.body;
-    
+    console.log("Received: ",req.body);
     const insertQuery = 
     'INSERT INTO reservation (res_date,res_time,res_location,date_received,party_size,settings,additional_details,account_id,merchant_id,sched_id,package_id,payment_id,inventory_id,status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 
     const date_received = new Date();
     const status = "Ongoing";
-    const data = [date,timestart,location,date_received,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id,status]
+    const settingsUpdate = JSON.stringify(settings);
+    const data = [date,timestart,location,date_received,size,settingsUpdate,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id,status]
     try{
     db.query(insertQuery, data, (err, result) => {
       if (err) {
@@ -34,11 +35,15 @@ const createReserve = (req,res)=>{
 }
 
 const updateReserve = (req,res)=>{
-  const {date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,res_id,invent_id,status} = req.body;
+  const {res_id} = req.query
+  const {res_date,res_time,res_location,party_size,settings,additional_details,account_id,merchant_id,sched_id,package_id,
+        payment_id,inventory_id,status} = req.body;
     
   const updateQuery = 'UPDATE reservation SET res_date=?,res_time=?,res_location=?,party_size=?,settings=?,additional_details=?,account_id=?,merchant_id=?,sched_id=?,package_id=?,payment_id=?,inventory_id=?,status=? WHERE reservation_id=?'
 
-  const data = [date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id,status,res_id]
+  const data = [res_date,res_time,res_location,party_size,settings,additional_details,account_id,
+                merchant_id,sched_id,package_id,payment_id,inventory_id,status,res_id]
+  
   db.query(updateQuery, data, (err, result) => {
     if (err) {
       console.error('Error updating data:', err);
@@ -79,7 +84,7 @@ const retrieveByParams = (req,res)=>{
 
   const orderValue = orderVal ? orderVal : col;
   const orderBy = order ? order : 'ASC';
-  console.log("SQL Syntax: ", col,val,orderValue,orderBy);
+
   const retrieveSpecific = `SELECT * FROM reservation WHERE ?? = ? ORDER BY ${orderValue} ${orderBy}`;
 
   db.query(retrieveSpecific, [col,val],(err, row) => {
@@ -97,14 +102,15 @@ const retrieveByParams = (req,res)=>{
 }
 
 const retrieveByTwoParams = (req,res)=>{
-  const { col1, val1, col2,val2,orderVal, order } = req.params; 
+  const { col1, val1, col2,val2,orderVal, order } = req.query; 
 
-  const orderValue = orderVal ? orderVal : col;
+  const orderValue = orderVal ? orderVal : col1;
   const orderBy = order ? order : 'ASC';
-  console.log("SQL Syntax: ", col,val,orderValue,orderBy);
-  const retrieveSpecific = `SELECT * FROM reservation WHERE ?? = ? AND ?? = ? ORDER BY ${orderValue} ${orderBy}`;
 
+  const retrieveSpecific = `SELECT * FROM reservation WHERE ?? = ? AND ?? = ? ORDER BY ${orderValue} ${orderBy}`;
+  
   db.query(retrieveSpecific, [col1,val1,col2,val2],(err, row) => {
+    
     if (err) {
       console.error('Error retrieving records:', err);
       return res.status(500).json({ status: 500, success:false,error: 'Error retrieving records' });

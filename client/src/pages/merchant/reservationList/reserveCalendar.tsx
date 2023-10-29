@@ -3,7 +3,7 @@ import Calendar from '../../../components/calendar/Calendar'
 
 const ReserveCalendar = () => {
   return (
-    <div>
+    <div className = "animate-fade-in overflow-y-auto">
       <Calendar/>
     </div>
   )

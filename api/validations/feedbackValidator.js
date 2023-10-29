@@ -1,10 +1,11 @@
 const createFeedbackValidator = (req,res,next)=>{
-    if(!req.body.text){
+    if(!req.body.value){
         return res.json({
             success:false,
-            error:{text:['text is required']},
+            error:'Rating is required!',
         })
     }
+    next();
 }
 
 module.exports = createFeedbackValidator;
