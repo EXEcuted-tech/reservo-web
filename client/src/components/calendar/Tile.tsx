@@ -12,54 +12,66 @@ function Tile(props:{
     day: number,
     today: boolean,
     showReservations: Function,
+    setIsLoading: Function,
+    isLoading: boolean,
 
 }) {
-    const [isLoading, setIsLoading] = useState(false);
-    const [count, setCount] = useState(-1);
+
+    const [count, setCount] = useState(0);
     const merchant_id = localStorage.getItem('merch_id');
     useEffect (()=>{
-        setIsLoading(true);
        getCount(props.year, props.month, props.day);
        setTimeout(()=>{
-        setIsLoading(false);
+        
        }, 50)
        
-    }, [props.year, props.month, props.day]);
+    }, [props.year, props.month, props.day, window.location.pathname]);
 
     const showReservations = () =>{
         props.showReservations();
     }
 
     const getCount = async (year:number, month:number, day:number)=>{
+      props.setIsLoading(true);
         try {
+          const urlPart = window.location.pathname.split("/");
+          var filter:string = '%';
+          switch (urlPart[2]){
+            case 'upcoming':
+                filter = 'Ongoing%'
+                break
+            case 'finished':
+                filter = 'Finished%';
+                break;
+            default:
+                 break;
+          }
             const yy = String(year);
             const mm = String(month+1).padStart(2, '0'); // Ensure two digits for month
             const dd = String(day).padStart(2, '0'); //ensure two digits for day
-            const response = axios.get(`${config.API}/reserve/retrievecountparams`, {
+            axios.get(`${config.API}/reserve/retrievecountnparams`, {
               params: {
-                col1: 'res_date',
-                val1: yy + '-' + mm + '-' + dd,
-                col2: 'merchant_id',
-                val2: merchant_id,
-                orderVal: 'res_time',
-                order: 'ASC'
+                cols: `res_date AS res_date, COUNT(*) as count`,
+                condition: `merchant_id = ${merchant_id} AND status LIKE '${filter}' AND res_date = '${yy}-${mm}-${dd}' `
               }
             }).then((response)=>{
-                //console.log("COUNT ==> for date:", yy, "-", mm, "-", dd, "-->", response.data.count)
-                setCount(response.data.count);
+                //console.log("COUNT ==> for date:", yy, "-", mm, "-", dd, "-->", response.data.data[0].count)
+                setCount(response.data.data[0].count);
+                props.setIsLoading(false);
                 return;
             });
             
           } catch (err) {
             console.log("AXIOS ERROR!!: ", err);
           } 
-          setCount(-2);
+          setCount(-1);
+          props.setIsLoading(false)
     }
   return (
     <div>
       <div onClick={showReservations} className={`border-b-slate-950 border-solid d-flex align-items-end justify-content-end`}>
       <p className=' text-right'>{props.day}</p>
-        {isLoading ? <p className='text-center'>...</p> :
+        {props.isLoading ? <p className='text-center'>...</p> :
           <div className={`flex justify-center duration-200 items-center w-[3vw] h-[3vw] rounded-full ${count > 0? 'bg-yellow-400 hover:bg-yellow-300': ''}`}>
             {count > 0 ? <p>{count}<BiSearchAlt /></p> : <></>}
           </div>

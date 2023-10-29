@@ -8,6 +8,8 @@ import { PiMoneyThin } from 'react-icons/pi';
 import colors from '../../common/colors';
 import Tile from './Tile';
 import ReservationsList from './ReservationsList';
+import ViewModal from '../modals/reserveModal/viewModal';
+import EditModal from '../modals/reserveModal/editModal';
 
 interface details {
     id: number,
@@ -25,6 +27,8 @@ interface details {
 function Calendar2() {
     const [isLoading, setIsLoading] = useState(false);
     const [selectedDay ,setSelectedDay] = useState(1);
+    const [openModalView,setOpenModalView] = useState(false);
+    const [openModalEdit,setOpenModalEdit] = useState(false);
     const [selected, setSelected] = useState({
         day: 1,
         month: 1,
@@ -35,6 +39,7 @@ function Calendar2() {
     const [monthNdx, setMonthNdx] = useState(new Date().getMonth());
     const merchant_id = localStorage.getItem('merch_id');
     const [dataSet, setDataSet] = useState();
+    const [reservationCounts, setReservationCounts] = useState({});
     const calendarDates = new Date();
 
     const getDaysInMonth = (year:number, month: number) => {
@@ -72,31 +77,42 @@ function Calendar2() {
             try {
               const yy = String(year);
               const mm = String(monthNdx+1).padStart(2, '0'); // Ensure two digits for month
-              const response = await axios.get(`${config.API}/reserve/retrieveCountLikeTwo`, {
-                params: {
-                  col1: 'res_date',
-                  val1: yy + '-' + mm + "-",
-                  col2: 'merchant_id',
-                  val2: merchant_id,
-                  orderVal: 'res_time',
-                  order: 'ASC'
+              const urlPart = window.location.pathname.split("/");
+                var filter:string = '%';
+                switch (urlPart[2]){
+                    case 'upcoming':
+                        filter = 'Ongoing%'
+                        break
+                    case 'finished':
+                        filter = 'Finished%';
+                        break;
+                    default:
+                        break;
                 }
+              //console.log("FILTER IS: ", filter);
+              const response = await axios.get(`${config.API}/reserve/retrievecountnparams`, {
+                params: {
+                    cols: 'res_date as res_date, COUNT(*) as count',
+                  condition: `merchant_id = ${merchant_id} AND res_date LIKE '${yy}-${mm}-%' AND status LIKE '${filter}' GROUP BY res_date`
+                },
               });
               //console.log("RES DATAAA ==> ", response.data.records);
-              var data:any = { tempData: [] };
-                for (const record in response.data.records) {
-                if (response.data.records.hasOwnProperty(record)) {
-                    const resDate = response.data.records[record].res_date;
-                    const count = response.data.records[record]['COUNT(*)'];
+              // Inside your fetchData function
+                var data:any = {};
+                //console.log("[CALENDAR]:::", response.data.data);
+                for (const record of response.data.data) {
+                if (response.data.data.length > 0) {
+                    const resDate:any = record.res_date;
+                    const count = record.count;
 
-                    const dateParts = resDate.split("T");
-                    const date = dateParts[0];
-
-                    data.tempData[date] = count;
+                    data[resDate] = count;
+                   // console.log("DATA AT DATE: ", data[resDate]);
                 }
                 }
+                
+                setReservationCounts(data);
 
-                console.log("DATA=======>", response.data);
+                //console.log("2DATA=======>", reservationCounts);
                 //console.log("DATA=======>", data.tempData);
                 setDataSet(data.tempData);
                 //console.log("FETCHED DATA ==>", setDataSet);
@@ -164,7 +180,7 @@ function Calendar2() {
         
         // console.log("DATA ==> ", dataSet[0]);
         
-    }, [year, monthNdx])
+    }, [year, monthNdx, window.location.pathname])
 
     const handleDayClick = (day:number) => {
         setSelectedDay(day);
@@ -172,22 +188,34 @@ function Calendar2() {
 
     const updateSelected = async (year: number, month: number, day: number) => {
         let retval = -1; // Assign a default value
-      
+        setIsLoading(true);
         try {
-          const yy = String(year);
-          const mm = String(month + 1).padStart(2, '0'); // Ensure two digits for month
-          const dd = String(day).padStart(2, '0'); // Ensure two digits for day
-          const response = await axios.get(`${config.API}/reserve/retrievecountparams`, {
-            params: {
-              col1: 'res_date',
-              val1: `${yy}-${mm}-${dd}`,
-              col2: 'merchant_id',
-              val2: merchant_id,
-              orderVal: 'res_time',
-              order: 'ASC',
-            },
-          });
-          retval = response.data.count;
+            const urlPart = window.location.pathname.split("/");
+            var filter:string = '%';
+            switch (urlPart[2]){
+              case 'upcoming':
+                  filter = 'Ongoing%'
+                  break
+              case 'finished':
+                  filter = 'Finished%';
+                  break;
+              default:
+                   break;
+            }
+              const yy = String(year);
+              const mm = String(month+1).padStart(2, '0'); // Ensure two digits for month
+              const dd = String(day).padStart(2, '0'); //ensure two digits for day
+              axios.get(`${config.API}/reserve/retrievecountnparams`, {
+                params: {
+                  cols: `res_date AS res_date, COUNT(*) as count`,
+                  condition: `merchant_id = ${merchant_id} AND status LIKE '${filter}' AND res_date = '${yy}-${mm}-${dd}' `
+                }
+              }).then((response)=>{
+                  //console.log("COUNT ==> for date:", yy, "-", mm, "-", dd, "-->", response.data.count)
+                 // console.log("LENGTH fefe======>>", response.data.data[0].count);
+                  retval = response.data.data[0].count;
+              });
+               
         } catch (err) {
           console.log("AXIOS ERROR!!: ", err);
         }   
@@ -199,7 +227,8 @@ function Calendar2() {
           count: Number(retval),
         };
         setSelected(obj);
-        console.log("OBJECT CLICKED ===> ", obj);
+        //console.log("OBJECT CLICKED ===> ", obj);
+        setIsLoading(false);
       };
       
 
@@ -207,7 +236,7 @@ function Calendar2() {
     const styleToday = `bg-[${colors.beige}]`
 
     return (
-        <div className='flex flex-col text-center font-poppins w-[100%] h-[80vh] bg-red-200'>
+        <div className='flex flex-col font-poppins w-[100%] h-[80vh] bg-red-200'>
             <div>
                 <div className='flex flex-cols justify-center' >
                     <span>
@@ -240,25 +269,35 @@ function Calendar2() {
                         <div key={index}></div>
                     ))}
                     {cell.map((day) => (
-                        <div
-                            key={day}
-                            className={`h-[12vh] w-[10vw] cursor-pointer p-2 rounded-lg ${day === calendarDates.getDate() ? styleToday : 'bg-[#FFFFFF]'} hover:bg-slate-300 duration-300`}
-                            onClick={() => handleDayClick(day)}
-                        >
-                            {/* <ReservationDetails
-                                today={new Date()}
-                                year={year}
-                                monthName={months[monthNdx]}
-                                monthNdx={monthNdx}
-                                day={day}
-                            /> */}
-                            <div onClick={() => updateSelected(year, monthNdx, day)}><Tile showReservations={currentReservations} year={year} day={day} month={monthNdx} today={day===calendarDates.getDate()? true:false}/></div>
+                            <div
+                                key={day}
+                                className={`h-[12vh] w-[10vw] cursor-pointer p-2 rounded-lg ${
+                                day === calendarDates.getDate() ? styleToday : 'bg-[#FFFFFF]'
+                                } hover:bg-slate-300 duration-300`}
+                                onClick={() => handleDayClick(day)}
+                            >
+                                <div onClick={() => updateSelected(year, monthNdx, day)}>
+                                <Tile
+                                    showReservations={currentReservations}
+                                    year={year}
+                                    day={day}
+                                    month={monthNdx}
+                                    today={day === calendarDates.getDate() ? true : false}
+                                    setIsLoading={setIsLoading}
+                                    isLoading={isLoading}
+                                />
+                                </div>
+                            </div>
+                            ))}
 
-                            
-                        </div>
-                    ))}
-                    {showReservations? <ReservationsList year={selected.year} month={selected.month} day={selected.day} count={selected.count} close={currentReservations}/>: <></>}
-
+                    {showReservations? <ReservationsList year={selected.year} month={selected.month} day={selected.day} count={selected.count} close={currentReservations} openView={setOpenModalView} openEdit={setOpenModalEdit}/>: <></>}
+                    {(openModalView || openModalEdit) &&
+                        <>
+                        <div className='fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,0.5)] opacity-0.5 z-100'></div>
+                        {openModalView && <ViewModal setOpenModalView={setOpenModalView}/>}
+                        {openModalEdit && <EditModal setOpenModalEdit={setOpenModalEdit}/>}
+                        </>
+                    }
                 </div>
             </div>
         </div>
