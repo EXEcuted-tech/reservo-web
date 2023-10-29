@@ -134,7 +134,7 @@ const MerchDashboard = () => {
   
 
   return (
-    <div className='flex-col  '>
+    <div className='animate-fade-in flex-col  '>
       {/* Header Section */}
         <MerchAdHeader icon={RiDashboard3Line} title="Dashboard"/>
         {/* Welcome Section */}

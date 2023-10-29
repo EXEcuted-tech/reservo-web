@@ -16,7 +16,7 @@ const ReserveManager = () => {
   }, [window.location.pathname]);
 
   return (
-    <div className={`bg-[#F3F3F3] h-auto min-h-screen w-full font-poppins overflow-y-auto overflow-x-hidden animate-fade-in`}>
+    <div className={`bg-[#F3F3F3] h-full min-h-screen w-full font-poppins overflow-y-auto overflow-x-hidden animate-fade-in`}>
       <div className= "w-full">
       <MerchAdHeader icon={RiReservedFill} title="Reservation Manager"/>
         <div className="bg-[#F3F3F3] h-[100vh] xs:max-sm:flex xs:max-sm:overflow-x-auto xs:max-sm:w-full xl:max-2xl:h-[230vh]">
