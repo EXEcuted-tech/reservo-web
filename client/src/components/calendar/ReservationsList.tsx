@@ -75,7 +75,7 @@ useEffect(() => {
   }, [data]);
   return (
     <>
-    <div className='bg-[rgba(0,0,0,0.6)] w-[100vw] h-[100vh] z-20 absolute top-0 left-0 duration-100 animate-fade-in'>
+    <div className='bg-[rgba(0,0,0,0.6)] w-[100vw] h-[100vh] z-20 absolute top-0 left-0 duration-100 animate-fade-in' onClick={()=>{props.close();}}>
     <div className="animate-slide-up font-poppins fixed top-[8%] left-[18%] right-0 bg-white z-50 bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
       {isLoading 
        ?
@@ -112,6 +112,9 @@ useEffect(() => {
                 <th className='font-bold uppercase text-[1.0em] ml-[4%] mt-[2%] rounded-lg mb-[0.5%] xl:max-2xl:text-[1.3em]'>Actions</th>
             </thead>
             <tbody className=' scroll-auto'>
+              { isLoading? <>
+              <GenSpinner/>
+              </>:<>
                 {data.length > 0  ? ( 
                     <>
                     {data.map((reservation: any, index) => (
@@ -156,6 +159,7 @@ useEffect(() => {
                     <td className='text-center' colSpan={5}>Nothing to show for now.</td>
                     </tr>
                 )}
+</>}
                 </tbody>
 
 
