@@ -124,6 +124,56 @@ const retrieveByTwoParams = (req,res)=>{
   });
 }
 
+const retrieveLikeByTwoParams = (req,res)=>{
+  var { col1, val1, col2,val2,orderVal, order } = req.query; 
+
+  const orderValue = orderVal ? orderVal : col1;
+  const orderBy = order ? order : 'ASC';
+  val1 = val1+'%'
+  const retrieveSpecific = `SELECT * FROM reservation WHERE ?? = ? AND ?? LIKE ? ORDER BY ${orderValue} ${orderBy}`;
+
+
+
+  db.query(retrieveSpecific, [col2,val2,col1,val1],(err, row) => {
+
+    if (err) {
+      console.error('Error retrieving records:', err);
+      return res.status(500).json({ status: 500, success:false,error: 'Error retrieving records' });
+    }else{
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        records: row,
+      });
+    }
+  });
+}
+
+const retrieveCountLikeByTwoParams = (req,res)=>{
+  var { col1, val1, col2,val2,orderVal, order } = req.query; 
+
+  const orderValue = orderVal ? orderVal : col1;
+  const orderBy = order ? order : 'ASC';
+  val1 = val1+'%'
+  const retrieveSpecific = `SELECT res_date, COUNT(*) FROM reservation WHERE ?? = ? AND ?? LIKE ? GROUP BY ${col1} ORDER BY ${orderValue} ${orderBy}`;
+
+
+
+  db.query(retrieveSpecific, [col2,val2,col1,val1],(err, row) => {
+
+    if (err) {
+      console.error('Error retrieving records:', err);
+      return res.status(500).json({ status: 500, success:false,error: 'Error retrieving records' });
+    }else{
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        records: row,
+      });
+    }
+  });
+}
+
 const retrieveCountByParams = (req, res) => {
   const { col, val } = req.query;
 
@@ -179,7 +229,6 @@ const retrieveCountByTwoParams = (req, res) => {
   const { col1, val1, col2, val2 } = req.query;
 
   const retrieveSpecific = 'SELECT COUNT(*) as count FROM reservation WHERE ?? = ? AND ?? = ?';
-
   db.query(retrieveSpecific, [col1, val1, col2, val2], (err, rows) => {
     if (err) {
       console.error('Error retrieving records:', err);
@@ -191,7 +240,7 @@ const retrieveCountByTwoParams = (req, res) => {
     } else {
       // Extract the count from the result
       const count = rows[0].count;
-
+      //console.log("QUERY: =>", req.query, "COUNT is ===>", count);
       return res.status(200).json({
         status: 200,
         success: true,
@@ -205,6 +254,59 @@ const retrieveCountByThreeParams = (req, res) => {
   const { col1, val1, col2, val2, col3, val3 } = req.query;
 
   const retrieveSpecific = 'SELECT COUNT(*) as count FROM reservation WHERE ?? = ? AND ?? = ? AND ??  = ?';
+  db.query(retrieveSpecific, [col1, val1, col2, val2, col3, val3], (err, rows) => {
+    if (err) {
+      console.error('Error retrieving records:', err);
+      return res.status(500).json({
+         status: 500, 
+         success: false, 
+         error: 'Error retrieving records' 
+        });
+    } else {
+      // Extract the count from the result
+      
+      const count = rows[0].count;
+      //console.log("QUERY ==> ", req.query, "COUNT ==>", count);
+
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        count: count,
+      });
+    }
+  });
+};
+
+const retrieveThreeParams = (req, res) => {
+  const { col1, val1, col2, val2, col3, val3 } = req.query;
+
+  const retrieveSpecific = 'SELECT COUNT(*) as count FROM reservation WHERE ?? = ? AND ?? = ? AND ??  = ?';
+  db.query(retrieveSpecific, [col1, val1, col2, val2, col3, val3], (err, rows) => {
+    if (err) {
+      console.error('Error retrieving records:', err);
+      return res.status(500).json({
+         status: 500, 
+         success: false, 
+         error: 'Error retrieving records' 
+        });
+    } else {
+      // Extract the count from the result
+      
+      const count = rows[0].count;
+      //console.log("QUERY ==> ", req.query, "COUNT ==>", count);
+
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        count: count,
+      });
+    }
+  });
+};
+
+const retrieveCountLikeByThreeParams = (req, res) => {
+  const { col1, val1, col2, val2, col3, val3 } = req.query;
+  const retrieveSpecific = 'SELECT COUNT(*) as count FROM reservation WHERE ?? LIKE ? AND ?? = ? AND ??  = ?';
 
   db.query(retrieveSpecific, [col1, val1, col2, val2, col3, val3], (err, rows) => {
     if (err) {
@@ -216,12 +318,69 @@ const retrieveCountByThreeParams = (req, res) => {
         });
     } else {
       // Extract the count from the result
+
       const count = rows[0].count;
+     // console.log("THE QUERY IS ==> ",req.query, "COUNT ==>", count);
 
       return res.status(200).json({
         status: 200,
         success: true,
         count: count,
+      });
+    }
+  });
+};
+
+const retrieveNParams = (req, res) => {
+  const query = String(req.query.query);
+  
+  const retrieveSpecific = 'SELECT * FROM reservation WHERE '+query;
+  //console.log("QUERY IS ===>>> ", retrieveSpecific);
+  db.query(retrieveSpecific, (err, rows) => {
+    if (err) {
+      console.error('Error retrieving records:', err);
+      return res.status(500).json({
+         status: 500, 
+         success: false, 
+         error_no: err.errno,
+         error_msg: err.message,
+         sql_msg: err.sqlMessage,
+        });
+    } else {
+      //console.log("THE QUERY IS ==> ",req.query, "COUNT ==>", count);
+
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        data: rows
+      });
+    }
+  });
+};
+
+const retrievecountnparams = (req, res) => {
+  
+  const cols = req.query.cols;
+  const condition = req.query.condition
+  const retrieveSpecific = 'SELECT '+cols+' FROM reservation WHERE ' + condition;
+  //console.log("[retrievecountnparams]: QUERY IS ===>>> ", retrieveSpecific);
+  db.query(retrieveSpecific, (err, rows) => {
+    if (err) {
+      console.error('Error retrieving records:', err);
+      return res.status(500).json({
+         status: 500, 
+         success: false, 
+         error_no: err.errno,
+         error_msg: err.message,
+         sql_msg: err.sqlMessage,
+        });
+    } else {
+      //console.log("THE QUERY IS ==> ",req.query, "COUNT ==>", count);
+
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        data: rows
       });
     }
   });
@@ -256,5 +415,11 @@ module.exports = {
     retrieveCountByParams,
     retrieveCountByTwoParams,
     retrieveCountByThreeParams,
-    retrieveBookingsByMonth
+    retrieveBookingsByMonth,
+    retrieveLikeByTwoParams,
+    retrieveCountLikeByTwoParams,
+    retrieveCountLikeByThreeParams,
+    retrieveThreeParams,
+    retrieveNParams,
+    retrievecountnparams,
 }
