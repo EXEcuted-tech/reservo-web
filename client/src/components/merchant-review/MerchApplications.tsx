@@ -8,7 +8,7 @@ import Logo from '../../assets/jjlogo.png'
 
 const MerchantApplications = () => {
     return (
-        <div className='w-auto bg-white h-[90vh] mt-[4%] rounded-ss-2xl flex-row align-center overflow-x-hidden overflow-y-auto animate-fade-in xs:max-sm:w-[120%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]'>
+        <div className='w-auto bg-white h-[90vh] mt-[4%] rounded-ss-2xl flex-row align-center overflow-x-hidden overflow-y-auto animate-fade-in xs:max-sm:w-[100%] xs:max-sm:ml-[-2%]'>
           {/* Dummy Conten 1 */}
           <div className='bg-white h-[10%] flex-row rounded-ss-2xl py-[1%] px-[2%] text-[#838383] border-[#F3F3F3] border-b-2'>
             <label htmlFor="filterDropdown" className={`mx-2 w-[4vw] xl:max-2xl:text-[0.7em] xs:max-sm:text-[0.7em]`}>Filter by: </label>
@@ -19,7 +19,7 @@ const MerchantApplications = () => {
                   <option value="option3">Oldest</option>
             </select>
           </div>
-          <div className='bg-white h-[25%] flex-row py-[1%] px-[2%] text-[#838383] border-[#F3F3F3] border-b-2 p-[1%] flex'>
+          <div className='bg-white h-[25%] flex-row py-[1%] px-[2%] text-[#838383] border-[#F3F3F3] border-b-2 p-[1%] flex xs:max-sm:w-[100%]'>
             <div className='w-[20%] p-[0.5%] pl-[3%] flex xs:max-sm:pr-[2%] xs:max-sm:mt-[7%]'>
             <img src={Logo} className='w-auto h-[100%] rounded-[50px] xs:max-sm:h-[5rem]' alt="Logo"/>
             </div>

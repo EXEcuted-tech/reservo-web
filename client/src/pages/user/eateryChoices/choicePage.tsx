@@ -123,11 +123,7 @@ const ChoicePage = () => {
               
               {/* List of Merchants */}
               <div className='overflow-y-scroll h-[57vh] z-10'>
-<<<<<<< HEAD
-                {merchantData.map((merchant, index) => (
-=======
                 {filteredMerchants.map((merchant, index) => (
->>>>>>> 06ca8cae86c22581cb74dab8a7dfdd536ad85e0a
                   <div className='px-[2%]'>
                     <MerchCard key={index} {...merchant} />
                     <hr className='pb-[1%]'/>

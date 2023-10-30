@@ -39,20 +39,20 @@ const LandingPage = () => {
         {/* CARDS */}
         <div className="flex mb-20 ml-[3%] mt-10 drop-shadow-lg xs:max-sm:inline-block xs:max-sm:ml-0 xs:max-sm:mb-10 xl:max-2xl:mt-6 xl:max-2xl:mb-12">
           <div className ="group h-80 w-1/4 ml-16 mb-20 text-center bg-white hover:bg-[#ffd381] transition-colors duration-[3000] ease-in drop-shadow-lg xs:max-sm:ml-0 xs:max-sm:w-[36.8vh] xs:max-sm:h-[42vh] xl:max-2xl:w-[130vh] xl:max-2xl:h-[48vh] xl:max-2xl:p-2 xl:max-2xl:ml-[1%]">
-                <img src={icon} alt="card-1 image" className="h-40 w-40 ml-[30%] transition-transform delay-450 duration-[3000] ease-in-out transform scale-100 group-hover:scale-110 xl:max-2xl:h-[6rem] xl:max-2xl:w-[6rem] xl:max-2xl:ml-[25%]"></img>
+                <img src={icon} alt="card-1 image" className="h-40 w-40 ml-[30%] transition-transform delay-450 duration-[3000] ease-in-out transform scale-100 group-hover:scale-110 xs:max-sm:ml-[25%] xl:max-2xl:h-[6rem] xl:max-2xl:w-[6rem] xl:max-2xl:ml-[25%]"></img>
                 <h2 className=" text-2xl font-bold p-2 group-hover:text-[#DD2803] transition-colors delay-450 duration-[3000] ease-in-out transform scale-100 group-hover:scale-110 xl:max-2xl:text-[1.1em]">
                   SEARCH ON THE GO</h2>
                 <p className=" text-xl p-2 xl:max-2xl:text-[0.8em]">Find up and coming restaurants using Reservo's robust searching system.</p>
             </div>  
             <div className ="group h-80 w-1/4 ml-28 mb-20 text-center  bg-white hover:bg-[#ffd381] transition-colors duration-[3000] ease-in drop-shadow-lg xs:max-sm:ml-0 xs:max-sm:w-[36.8vh] xs:max-sm:h-[42vh] xl:max-2xl:w-[130vh] xl:max-2xl:h-[48vh] xl:max-2xl:p-2 xl:max-2xl:ml-[4rem]">
-              <img src={cursor} alt="card-2 image" className="h-40 w-40 ml-[30%] transition-transform delay-450 duration-[3000] ease-in-out transform scale-100 group-hover:scale-110 xl:max-2xl:h-[6rem] xl:max-2xl:w-[6rem] xl:max-2xl:ml-[25%]"></img>
+              <img src={cursor} alt="card-2 image" className="h-40 w-40 ml-[30%] transition-transform delay-450 duration-[3000] ease-in-out transform scale-100 group-hover:scale-110 xs:max-sm:ml-[25%] xl:max-2xl:h-[6rem] xl:max-2xl:w-[6rem] xl:max-2xl:ml-[25%]"></img>
                 <h2 className=" text-2xl font-bold p-2 group-hover:text-[#DD2803] transition-colors delay-450 duration-[3000] ease-in-out transform scale-100 group-hover:scale-110 xl:max-2xl:text-[1.1em]">
                   DECIDE AND SELECT</h2>
                 <p className=" text-xl p-2 xl:max-2xl:text-[0.8em]">Browse through a variety of Cebu's top restaurants and enjoy a meal fit to your tastes.</p>
             </div> 
 
             <div className ="group h-80 w-1/4 ml-28 mb-20 text-center  bg-white hover:bg-[#ffd381] transition-colors duration-[3000] ease-in drop-shadow-lg xs:max-sm:ml-0 xs:max-sm:w-[36.8vh] xs:max-sm:h-[42vh] xl:max-2xl:w-[130vh] xl:max-2xl:h-[48vh] xl:max-2xl:p-2 xl:max-2xl:ml-[4rem]">
-               <img src={book} alt="card-2 image" className="h-40 w-40 ml-[30%] transition-transform delay-450 duration-[3000] ease-in-out transform scale-100 group-hover:scale-110 xl:max-2xl:h-[6rem] xl:max-2xl:w-[6rem] xl:max-2xl:ml-[25%]"></img>
+               <img src={book} alt="card-2 image" className="h-40 w-40 ml-[30%] transition-transform delay-450 duration-[3000] ease-in-out transform scale-100 group-hover:scale-110 xs:max-sm:ml-[25%] xl:max-2xl:h-[6rem] xl:max-2xl:w-[6rem] xl:max-2xl:ml-[25%]"></img>
                 <h2 className=" text-2xl font-bold p-2 group-hover:text-[#DD2803] transition-colors delay-450 duration-[3000] ease-in-out transform scale-100 group-hover:scale-110 xl:max-2xl:text-[1.1em]">
                   VIEW AND BOOK</h2>
                 <p className=" text-xl p-2 xl:max-2xl:text-[0.8em]">Reserve a spot at the best reviewed eateries and secure the best eating experience.</p>

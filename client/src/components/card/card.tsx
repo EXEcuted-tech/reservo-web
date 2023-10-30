@@ -55,7 +55,7 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
 
     return (
-        <div className='Card mx-5 my-5 min-w-[18vw] max-w-[18vw] min-h-[50vh] max-h-[50vh] truncate  xs:max-sm:min-w-[60vw] xs:max-sm:max-w-[60vw] xs:max-sm:min-h-[30vh] xl:max-2xl:min-h-[55vh]'>
+        <div className='Card mx-5 my-5 min-w-[18vw] max-w-[18vw] min-h-[50vh] max-h-[50vh] truncate xs:max-sm:min-w-[60vw] xs:max-sm:max-w-[60vw] xs:max-sm:min-h-[30vh] xl:max-2xl:min-h-[55vh]'>
             <div className="">
                 <div className='CardImage flex flex-col h-[100%]'><img
                     src={filePath} // Use your image URL from the DB here

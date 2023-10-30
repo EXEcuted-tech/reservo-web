@@ -72,17 +72,17 @@ const AccountListComponent = () => {
         <option value="type_admin">Type: Merchant</option>
       </select>
 
-      <label htmlFor="searchBar" className='ml-[35%] bg-white  xl:max-2xl:text-[0.9em] xl:max-2xl:ml-[20%] '>Search: </label>
+      <label htmlFor="searchBar" className='ml-[35%] bg-white xs:max-sm:ml-0 xl:max-2xl:text-[0.9em] xl:max-2xl:ml-[20%] '>Search: </label><br className='hidden xs:max-sm:block'/>
       <input type="text" placeholder='Input name or email' id='searchBar' className='bg-white rounded-lg border border-slate-500 px-3 py-1  xl:max-2xl:text-[0.9em]'/>
 
-      <div className='bg-white  text-slate-500 font-semibold text-[1.2em] xl:max-2xl:text-[0.9em]'>
+      <div className='bg-white text-slate-500 font-semibold text-[1.2em] xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.9em]'>
           <h1 className='text-[#bbbbbb]'>{`As of ${date}`}</h1>
         </div>
       <div className='bg-white flex flex-col'> {/* CONSIDER REMOVING CLASSNAME*/}
-        <div className='flex flex-col h-[65vh]'>
+        <div className='flex flex-col h-[65vh] overflow-y-hidden'>
           <table className='table-auto'>
             <thead className='border-black border-y'>
-              <tr className='xl:max-2xl:text-[0.9em]'>
+              <tr className='xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.9em]'>
                 <th className='mx-5 py-3'>ID</th>
                 <th className='mx-5 py-3'>Account Name</th>
                 <th className='mx-5 py-3'>E-mail Address</th>

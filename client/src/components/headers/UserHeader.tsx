@@ -70,7 +70,7 @@ const UserHeader = () => {
         <div className='flex items-center relative'>
           {username 
           ?
-            <div className="relative inline-flex items-center justify-center w-11 h-10 overflow-hidden bg-[#DD2803] rounded-full dark:bg-gray-600">
+            <div className="relative inline-flex items-center justify-center w-11 h-10 overflow-hidden bg-[#DD2803] rounded-full dark:bg-gray-600 xs:max-sm:w-9 xs:max-sm:h-8">
                 <span className="font-medium text-white dark:text-gray-300">{shortLet}</span>
             </div>
           :
