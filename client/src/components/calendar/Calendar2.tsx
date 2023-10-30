@@ -190,7 +190,7 @@ function Calendar2() {
         var retval
         
         retval =  day === calendarDates.getDate() && year === calendarDates.getFullYear() && monthNdx === calendarDates.getMonth() ? true : false;
-        console.log(year, "-", monthNdx,"-", day, "===", retval)
+        //console.log(year, "-", monthNdx,"-", day, "===", retval)
         return retval
     }
 
