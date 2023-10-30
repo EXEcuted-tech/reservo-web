@@ -59,12 +59,12 @@ const AccountListComponent = () => {
   }, []);
 
   return (
-    <div className='w-[100%] h-[90vh] pt-[1%] bg-[#F3F3F3]'>
+    <div className='w-[100%] h-[90vh] pt-[1%] bg-[#F3F3F3] animate-fade-in overflow-y-auto overflow-x-hidden'>
 
-      <div className='bg-white font-medium font-poppins shadow-2xl mx-5 p-5 rounded-lg h-[87vh]'>
+      <div className='bg-white font-medium font-poppins shadow-2xl mx-5 p-5 rounded-lg h-[87vh] overflow-y-auto overflow-x-hidden xl:max-2xl:h-full'>
 
-      <label htmlFor="filterList" className='text-slate-600'>Filter by: </label>
-      <select id="filtersList" className='rounded-lg border bg-white border-black m-4 mr-80 py-1 px-5'>
+      <label htmlFor="filterList" className='text-slate-600 xl:max-2xl:text-[0.9em]'>Filter by: </label>
+      <select id="filtersList" className='rounded-lg border bg-white border-black m-4 mr-80 py-1 px-5  xl:max-2xl:text-[0.9em]'>
         <option value="allAccounts">All Accounts</option>
         <option value="stat_active">Status: Active</option>
         <option value="stat_abolished">Status: Abolished</option>
@@ -72,17 +72,17 @@ const AccountListComponent = () => {
         <option value="type_admin">Type: Merchant</option>
       </select>
 
-      <label htmlFor="searchBar" className='ml-[580px] bg-white '>Search: </label>
-      <input type="text" placeholder='Input name or email' id='searchBar' className='bg-white rounded-lg border border-slate-500 px-3 py-1'/>
+      <label htmlFor="searchBar" className='ml-[35%] bg-white xs:max-sm:ml-0 xl:max-2xl:text-[0.9em] xl:max-2xl:ml-[20%] '>Search: </label><br className='hidden xs:max-sm:block'/>
+      <input type="text" placeholder='Input name or email' id='searchBar' className='bg-white rounded-lg border border-slate-500 px-3 py-1  xl:max-2xl:text-[0.9em]'/>
 
-      <div className='bg-white  text-slate-500 font-semibold text-[1.2em]'>
+      <div className='bg-white text-slate-500 font-semibold text-[1.2em] xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.9em]'>
           <h1 className='text-[#bbbbbb]'>{`As of ${date}`}</h1>
         </div>
       <div className='bg-white flex flex-col'> {/* CONSIDER REMOVING CLASSNAME*/}
-        <div className='flex flex-col h-[65vh]'>
+        <div className='flex flex-col h-[65vh] overflow-y-hidden'>
           <table className='table-auto'>
             <thead className='border-black border-y'>
-              <tr>
+              <tr className='xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.9em]'>
                 <th className='mx-5 py-3'>ID</th>
                 <th className='mx-5 py-3'>Account Name</th>
                 <th className='mx-5 py-3'>E-mail Address</th>
@@ -92,7 +92,7 @@ const AccountListComponent = () => {
                 <th className='mx-5 py-3'>Manage</th>
               </tr>
             </thead>
-            <tbody className='text-center'>
+            <tbody className='text-center xl:max-2xl:text-[0.7em]'>
               {currentAccountListPage.length > 0 ? (
                 currentAccountListPage.map((account, index) => (
                   <tr>
@@ -105,12 +105,14 @@ const AccountListComponent = () => {
                     </td>
                     <td className='text-md px-12 py-3'>
                       <button 
-                        className={'rounded-full px-4 cursor-default ' + (account.account_status === 'active'? 'bg-emerald-200 text-green-900' : 'bg-red-500 text-white')}>
+                        className={'rounded-full px-4 cursor-default ' + (account.account_status === 'active'? 
+                        'bg-[#00962a] bg-opacity-40 text-green-900' : 'bg-red-500 bg-opacity-40 text-[#840705]')}>
                         {account.account_status === 'active'? 'Active' : 'Abolished'}
                       </button>
                     </td>
                     <td className='text-md px-5 py-3'>
-                    <button className='bg-red-600 text-white rounded-lg px-4 py-[2%]'>
+                    <button className='bg-red-600 text-white rounded-lg px-4 py-[2%] 
+                      hover:bg-[#840705] transition-colors delay-250 duration-[3000] ease-in'>
                       Delete
                     </button>
                   </td>

@@ -62,7 +62,7 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
 
     return (
-        <div className='Card mx-5 my-5 min-w-[18vw] max-w-[18vw] min-h-[50vh] max-h-[50vh] truncate'>
+        <div className='Card mx-5 my-5 min-w-[18vw] max-w-[60vw] min-h-[50vh] max-h-[50vh] truncate'>
                 <div className="">
                 <div className='CardImage flex flex-col h-[100%]'><img
                 src={filePath} // Use your image URL from the DB here
@@ -81,7 +81,7 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
                 <div className='flex h-5 justify-center my-2 items-center'>
                 <p className="text-xl my-5 text-center font-bold xl:max-2xl:text-[1em]">PHP {price}</p></div>
                 <div className="flex items-center justify-center">
-                <button className='CardButton DetailsButton text-[1.1rem] items-center justify-center xl:max-2xl:text-[0.8em]' onClick={openModal}>
+                <button className='CardButton DetailsButton text-[1.1rem] items-center justify-center xs:max-sm:w-[90vw] xl:max-2xl:text-[0.8em]' onClick={openModal}>
                   <HiOutlineMagnifyingGlass className="mr-[3%]"/>Details</button>
                 {isModalOpen && <DetailsModal onClose={closeModal} packageID={package_id} packageName={packageName} date_start={date_start} date_end={date_end} price={price} description={description} tags={tags} visibility={visibility} items={items} time_start={time_start} time_end={time_end} filePath={filePath} openEditModal={function (): void {
                 throw new Error('Function not implemented.');
