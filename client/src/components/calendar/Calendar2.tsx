@@ -10,6 +10,7 @@ import Tile from './Tile';
 import ReservationsList from './ReservationsList';
 import ViewModal from '../modals/reserveModal/viewModal';
 import EditModal from '../modals/reserveModal/editModal';
+import { GrNext, GrPrevious } from 'react-icons/gr';
 
 interface details {
     id: number,
@@ -244,24 +245,32 @@ function Calendar2() {
     const styleToday = ' bg-[#f9dcc5]'
 
     return (
-        <div className='flex flex-col font-poppins w-[100%] h-[80vh] bg-red-200'>
+        <div className='flex flex-col font-poppins w-[100%] h-[100%] p-[1%] bg-red-200'>
             <div>
-                <div className='flex flex-cols justify-center' >
-                    <span>
-                        <ButtonC title='prev' isDisable={false} onClick={(event) => {
+                <div className='grid grid-cols-7 my-[1%]' >
+                    <div></div>
+                    <div></div>
+                    <div className='flex justify-center items-center'>
+                        <button onClick={(event) => {
                             event.preventDefault();
                             handleMonthChange("back");
-                        }} />  </span>
+                        }} className='w-[2vw] h-[2vw] border-solid border-black border-2 flex justify-center items-center rounded-full duration-100 hover:border-[rgba(0,0,0,0.5)] '> <GrPrevious /></button>
+                        </div> 
 
-                    <div className=''>
+                        <div className='flex justify-center items-center text-[1.5rem] font-bold'>
                         <span>{months[monthNdx]}</span>
-                        <span>{year}</span>
-                    </div>
-                    <span>
-                        <ButtonC title='next' isDisable={false} onClick={(event) => {
+                        <p> - </p>
+                        <span>{String(year)}</span>
+                        </div>
+                    
+                        <div className='flex justify-center items-center'>
+                    <button onClick={(event) => {
                             event.preventDefault();
                             handleMonthChange("next");
-                        }} />  </span>
+                        }} className='w-[2vw] h-[2vw] border-solid border-black border-2 flex justify-center items-center rounded-full duration-100 hover:border-[rgba(0,0,0,0.5)]'> <GrNext /></button>
+                        </div>
+                        <div></div>
+                    <div></div>
                 </div>
                 <div className='grid grid-cols-7 gap-4 mx-5'>
                     {Array.from({ length: 7 }).map((_, indx) => {
