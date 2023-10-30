@@ -186,6 +186,14 @@ function Calendar2() {
         setSelectedDay(day);
     }
 
+    const checkToday = (day:number)=>{
+        var retval
+        
+        retval =  day === calendarDates.getDate() && year === calendarDates.getFullYear() && monthNdx === calendarDates.getMonth() ? true : false;
+        console.log(year, "-", monthNdx,"-", day, "===", retval)
+        return retval
+    }
+
     const updateSelected = async (year: number, month: number, day: number) => {
         let retval = -1; // Assign a default value
         setIsLoading(true);
@@ -233,7 +241,7 @@ function Calendar2() {
       
 
 
-    const styleToday = `bg-[${colors.beige}]`
+    const styleToday = ' bg-[#f9dcc5]'
 
     return (
         <div className='flex flex-col font-poppins w-[100%] h-[80vh] bg-red-200'>
@@ -271,8 +279,8 @@ function Calendar2() {
                     {cell.map((day) => (
                             <div
                                 key={day}
-                                className={`h-[12vh] w-[10vw] cursor-pointer p-2 rounded-lg ${
-                                day === calendarDates.getDate() ? styleToday : 'bg-[#FFFFFF]'
+                                className={`h-[12vh] w-[10vw] cursor-pointer p-2 rounded-xl border-black border-2 border-solid ${
+                                checkToday(day) === true ? styleToday : 'bg-[#FFFFFF]'
                                 } hover:bg-slate-300 duration-300`}
                                 onClick={() => handleDayClick(day)}
                             >
@@ -282,7 +290,7 @@ function Calendar2() {
                                     year={year}
                                     day={day}
                                     month={monthNdx}
-                                    today={day === calendarDates.getDate() ? true : false}
+                                    today={checkToday(day)}
                                     setIsLoading={setIsLoading}
                                     isLoading={isLoading}
                                 />
