@@ -45,9 +45,9 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
                 </div>
                 <div className='flex justify-end mb-4'><button onClick={onClose} className='flex items-center text-3xl xl:max-2xl:text-2xl '><AiFillCloseCircle className='mx-2 detailsClose'/></button></div>
             </div>
-            <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
+            <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000] xs:max-sm:grid-cols-1">
             <div>
-            <div className='h-[40vh] text-xl xl:max-2xl:text-[0.9em]'>
+            <div className='h-[40vh] text-xl xs:max-sm:text-[0.9em] xs:max-sm:h-[30vh] xl:max-2xl:text-[0.9em] xl:max-2xl:text-[0.9em]'>
                 <p><b>Package Name: </b>{packageName}</p>
                 <p><b>Total Price: </b> {price}</p>
                 <p><b>Available From: </b>{date_start.toDateString()}</p>
@@ -72,7 +72,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
                     </p>
                 </div>
             </div>
-            <div className='IMAGE_PLACEHOLDER bg-slate-600 block w-[50%] h-[50%] rounded-2xl'>
+            <div className='IMAGE_PLACEHOLDER bg-slate-600 block w-[50%] h-[50%] rounded-2xl xs:max-sm:w-[100%] xs:max-sm:h-[50%]'>
             <img
                 src={filePath} // Use your image URL from the DB here
                 alt="Package Image"
