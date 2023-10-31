@@ -88,7 +88,7 @@ const ReserveCard:
                         <button className='flex items-center bg-[#ffbb38] py-[3%] px-[15%] mt-[5%] mb-[2%] rounded-3xl xs:max-sm:text-[0.9em] xs:max-sm:mb-[10%] xl:max-2xl:text-[0.9em] xl:max-2xl:mb-[3%]
                                 hover:bg-[#ffe7ba] transition-colors delay-450 duration-[3000] ease-in-out'
                                 onClick={()=>{
-                                  console.log("Before: ",booking.reservation_id.toString())
+                                  
                                   sessionStorage.setItem('res_id',booking.reservation_id.toString())
                                   // localStorage.setItem('res_id',`${booking.account_id}`);
                                   setOpenModalView(true)
@@ -102,7 +102,7 @@ const ReserveCard:
                                hover:bg-[#ffbe9b] transition-colors delay-450 duration-[3000] ease-in-out'
                                onClick={()=>{
                                 sessionStorage.setItem('res_id',booking.reservation_id.toString())
-                                console.log(sessionStorage.getItem('res_id'))
+                                
                                 setOpenModalEdit(true)
                                }}>
                             <GoPencil className="ml-[-0.5rem] mr-[0.4rem]"/>

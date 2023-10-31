@@ -42,13 +42,13 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
               package_id: packageID,
   
           }).then(response=>{
-              console.log(response);
+              
           })
   
-          console.log('Delete request successful:', response);}
+          
+        }
       catch(error:any|undefined){
-          console.log('Error deleting package:', error);
-          console.log('Status Code:', error.response?.status);
+        //PUT ERROR NOTIF 
       }
       onClose();
       setDeleteModal(false);

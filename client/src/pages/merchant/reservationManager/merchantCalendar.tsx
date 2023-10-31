@@ -3,7 +3,6 @@ import { Fragment, useRef, useState } from "react";
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
 import { RiReservedFill } from 'react-icons/ri'
 import MerchantLayout from '../../../components/layout/MerchantLayout';
-import Calendar from '../../../components/calendar/Calendar';
 
 const merchantCalendar = () => {
   return (

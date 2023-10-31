@@ -51,7 +51,7 @@ const ReservationManager = () => {
   const address = merchData?.address && JSON.parse(merchData?.address);
 
   useEffect (()=>{
-    // console.log("Retrieved!",existingList);
+    
     retrieveExisting();
   },[])
 
@@ -93,7 +93,7 @@ const ReservationManager = () => {
          "address":address,
          "form_deets":{form:form_deets},
        }).then((res)=>{
-         console.log("Update: \n",res);
+         
          if(res.data.success==true){
           setNotif(false);
           setData(null);
@@ -114,7 +114,7 @@ const ReservationManager = () => {
     const val = merchID
     axios.get(`${config.API}/merchant/retrieve?col=${col}&val=${val}`)
     .then((res)=>{
-      console.log("Response: ", res.data);
+      
       setMerchData(res.data.merchant);
       setExistingList(res.data.formDeets?.form);
     })

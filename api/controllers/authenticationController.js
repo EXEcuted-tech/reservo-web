@@ -42,7 +42,6 @@ const login = (req,res)=>{
         const sql = "SELECT * FROM account WHERE email_address = ?";
         const values = [account_email];
         db.query(sql, values, (err, dbresult) => {
-            //console.log("W: " + account_type + " DB: "+dbresult[0].account_type);
             if (!err && dbresult.length === 1){
 
                 if (account_type != dbresult[0].account_type){

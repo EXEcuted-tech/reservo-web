@@ -53,7 +53,7 @@ const FeedbackList = () => {
       }
       setFeedback(feedbackRec);
     } catch (err) {
-      console.log(err);
+      //PUT ERROR NOTIF 
     }
   };
 
@@ -69,7 +69,7 @@ const FeedbackList = () => {
       }
       return '';
     }catch (error){
-      console.log(error);
+      //PUT ERROR NOTIF 
       return '';
     }
   }

@@ -54,7 +54,7 @@ const AccountListComponent = () => {
       setData(res.data.user);
     })
     .catch(err => {
-      console.log(err);
+      //PUT ERROR NOTIF 
     })
   }, []);
 

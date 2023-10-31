@@ -37,7 +37,6 @@ const AdminLogin = () => {
                 setErrMess("Fill all the fields required!");
                 // setInvalid(true);
             }else{
-                // console.log("TYPE:",account?.account_type);
                 axios.post(`${config.API}/login`,{
                     account_email: email , 
                     password : pass,
@@ -70,7 +69,6 @@ const AdminLogin = () => {
     //     await axios.get(`${config.API}/user/retrieve?col=${col}&val=${val}`)
     //     .then((res)=>{
     //        if(res.status === 200){
-    //         // console.log("RESULT: ",res.data);
     //         const account = res.data.users[0];
     //         setAccountType(account?.account_type);
     //        }

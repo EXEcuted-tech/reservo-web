@@ -155,8 +155,6 @@ const ReserveForm = () => {
         await createPayment();
         await createInventory();
         const formattedTime = convertTime(timestart);
-        console.log("CREATING PAYMENT:",payId);
-        console.log("CREATING INVENTORY:",invId);
         await axios.post(`${config.API}/reserve/create`, {
             date: date,
             timestart: formattedTime,
@@ -185,7 +183,7 @@ const ReserveForm = () => {
                 }else if(response.data.error.location){
                     setErrMess("Location is required.")
                 }else{
-                    console.log(response.data.error);
+                    
                     setErrMess("Incorrect or missing details. Please double-check.")
                 }
             }
