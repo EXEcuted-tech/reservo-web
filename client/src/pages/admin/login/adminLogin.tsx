@@ -41,7 +41,7 @@ const AdminLogin = () => {
                 axios.post(`${config.API}/login`,{
                     account_email: email , 
                     password : pass,
-                    account_type: account.account_type ? account.account_type : 10
+                    account_type: account.account_type == 50 ? account.account_type : 10
                 }).then((res)=>{
                         if(res.data.success == true){
                             setErrMess('');
