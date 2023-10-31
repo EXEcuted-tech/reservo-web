@@ -22,7 +22,7 @@ const MerchantTeamDeets = ( {merchantID} :{merchantID:any} ) => {
     const [loading, setLoading] = useState(false)
     const [merchAddress, setmerchAddress] = useState([{}])
     const [merchAccounts, setmerchAccounts] = useState([{}])
-    const [accNames, setaccNames] = useState([])
+    const [accNames, setaccNames] = useState<any[]>([]); 
 
     const [currentPage, setCurrentPage] = useState(1)
 
@@ -44,7 +44,7 @@ const MerchantTeamDeets = ( {merchantID} :{merchantID:any} ) => {
             });
       
             const usernames = await Promise.all(usernamePromises);
-            // setaccNames(usernames);
+            setaccNames(usernames);
             console.log(usernames)
           }catch (err){
             console.log(err)
@@ -76,6 +76,7 @@ const MerchantTeamDeets = ( {merchantID} :{merchantID:any} ) => {
 
     useEffect(() => {
       fetchMerchAccounts();
+      console.log(merchData[0]);
     }, [merchantID]);
 
     const handlePageChange = (event:any, newPage:any) => {

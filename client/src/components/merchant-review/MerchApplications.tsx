@@ -18,7 +18,7 @@ const theme = createTheme({
 });
 
 const MerchantApplications = () => {
-  const [merchTeam , setmerchantTeam ] = useState([{}])
+  const [merchTeam , setmerchantTeam ] = useState<MerchData[]>([])
   const [merchAddress, setmerchAddress] = useState([{}])
   const [merchAccounts, setmerchAccounts] = useState([{}])
   const [loading, setLoading] = useState(false)
@@ -41,28 +41,38 @@ const MerchantApplications = () => {
 
   useEffect(() => {
     fetchMerchInfo();
+    console.log("Merch Team: ",merchTeam);
   }, []);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  // const currentData = merchTeam
-  //   .filter(data => data.merch_status === 'Pending')
-  //   .slice(startIndex, endIndex);
+  const currentData = merchTeam
+    .filter(data => data.merch_status === 'Pending')
+    .slice(startIndex, endIndex);
 
   const handlePageChange = (event:any, newPage:any) => {
     setCurrentPage(newPage);
   };
 
     return (
-        <div className='w-[100%] bg-white h-[90%] mt-[1%] rounded-ss-2xl flex-row align-center overflow-y-auto'>
+        <div className='font-poppins w-[100%] bg-white h-[90%] mt-[1%] rounded-ss-2xl flex-row align-center overflow-y-auto'>
           <div>
+            <div className='flex items-center py-[0.9%] border-[#F3F3F3] border-b-2'>
+              <p className='ml-[2%] text-gray-500 mr-[0.8%]'>Filter by:</p>
+              <select id="filterDropdown" name="filterDropdown"
+                      className={`bg-transparent rounded-md h-8 w-[9vw] border border-black hover:bg-white transition duration-150 ease-out hover:ease-in`}>
+                        <option value="option1">All Applications</option>
+                        <option value="option2">Pending</option>
+                        <option value="option3">Approved</option>
+                </select>
+            </div>
           {/* {merchTeam.filter(data => data.merch_status === 'Pending').map((data,i) => ( */}
-          {/* {currentData.map((data, i) => (
+          {currentData.map((data, i) => (
           <div className='bg-white h-[180px] flex-row py-[1%] px-[2%] text-[#838383] border-[#F3F3F3] border-b-2 p-[1%] flex' key={i}>
-          <div className='w-[20%] p-[0.5%] pl-[3%] flex'>
-          <img src={data.logo} className='w-auto h-[150px] rounded-[50px]' alt="Logo"/>
+          <div className='mr-[2%] pl-[3%] flex'>
+            <img src={data.logo} className='w-[150px] h-[150px] object-cover rounded-[50px]' alt="Logo"/>
           </div>
-          <div className='w-[55%] justify-center items-left px-[1%] py-[2%] flex flex-col'>
+          <div className='w-[55%] justify-center items-left py-[2%] flex flex-col'>
             <p className='text-[1.5em] text-black text-bold'>{data.merchant_name}<br/></p>
             <p className='text-[1.2em] text-black'>Kathea Mari Mayol<br/></p>
             <p className='text-[1.2em] text-[#838383] flex'>Chief Marketing Officer</p>
@@ -89,7 +99,7 @@ const MerchantApplications = () => {
             </div>
           </div>
           </div>
-          ))} */}
+          ))}
             <div className="flex justify-center w-[78%] absolute bottom-1">
               <ThemeProvider theme={theme}>
                 <Pagination
