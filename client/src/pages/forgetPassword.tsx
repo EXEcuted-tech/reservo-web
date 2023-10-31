@@ -86,33 +86,33 @@ const ForgetPassword = () => {
         <div className="animate-fade-in font-poppins" id='confirmBox'>
             {errMess !='' && <Danger message={errMess}/>}
             <img className='absolute h-screen w-full' src={background} alt='background' />
-            {confirmMessage ? (<div className='bg-white w-[53%] h-[65%] absolute -translate-x-2/4 -translate-y-2/4 flex items-center shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 xl:max-2xl:w-[50%] xl:max-2xl:h-[68%]'>
-                <div className='w-[35%] h-full bg-[rgb(221,40,3)] flex flex-col p-[40px] pt-[70px] rounded-[7px_0px_0px_7px] xl:max-2xl:w-[40%]'>
+            {confirmMessage ? (<div className='bg-white w-[53%] h-[65%] absolute -translate-x-2/4 -translate-y-2/4 flex items-center shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 xs:max-sm:w-[80%] xs:max-sm:h-[38%] xl:max-2xl:w-[50%] xl:max-2xl:h-[68%]'>
+                <div className='w-[35%] h-full bg-[rgb(221,40,3)] flex flex-col p-[40px] pt-[70px] rounded-[7px_0px_0px_7px] xs:max-sm:w-[40%] xs:max-sm:p-[10px] xs:max-sm:pt-[3rem] xl:max-2xl:w-[40%]'>
                     <img className='max-w-[40%] h-auto ml-[32%]' src={guykey} />
-                    <div className='m-2.5 p-0 border-y-2 border-y-[white] border-solid  font-bold font-poppins'>
-                        <h2 className='block text-[1.7em] m-[5.45%] text-[white] text-center  xl:max-2xl:text-[1.1em] '>Forgot<br />Password?</h2>
+                    <div className='m-2.5 p-0 border-y-2 border-y-[white] border-solid font-bold font-poppins'>
+                        <h2 className='block text-[1.7em] m-[5.45%] text-[white] text-center xs:max-sm:text-[0.9em] xl:max-2xl:text-[1.1em] '>Forgot<br />Password?</h2>
                     </div>
-                    <p className='text-[white] text-center xl:max-2xl:text-[0.6em]'>Enter your email address <br /> and retrieve your account.</p>
+                    <p className='text-[white] text-center xs:max-sm:text-[0.3em] xl:max-2xl:text-[0.6em]'>Enter your email address <br /> and retrieve your account.</p>
                     <div className='mt-[20px]'>
-                        <p className='text-[white] text-[1.17em] font-bold text-center mt-4 xl:max-2xl:text-[0.7em]'>Already have an<br /> existing account?</p>
+                        <p className='text-[white] text-[1.17em] font-bold text-center mt-4 xs:max-sm:text-[0.4rem] xl:max-2xl:text-[0.7em]'>Already have an<br /> existing account?</p>
                         <button type="button" className='bg-[white] w-[80%] h-[50px] font-bold text-[rgb(221,40,3)] text-lg relative p-[1px] rounded-[30px] left-[30px] mt-[10px] 
-                        hover:bg-[#9a1a00] hover:text-white transition-colors delay-250 duration-[3000] ease-in xl:max-2xl:text-[0.8em] xl:max-2xl:left-[15px] xl:max-2xl:h-[2rem]'
+                        hover:bg-[#9a1a00] hover:text-white transition-colors delay-250 duration-[3000] ease-in xs:max-sm:text-[0.5em] xs:max-sm:left-[7px] xs:max-sm:h-[1rem] xl:max-2xl:text-[0.8em] xl:max-2xl:left-[15px] xl:max-2xl:h-[2rem]'
                             onClick={() => { navigate('/uslogin') }}>Log In</button>
                     </div>
                 </div>
-                <div className=' h-[80%] mt-[10%] px-[14%]  items-center justify-center text-center rounded-[7px_7px_7px_7px] xl:max-2xl:mt-[5%]'>
-                    <IoMdLock className='h-[100px] w-[120px] relative ml-[35%] xl:max-2xl:h-[70px] xl:max-2xl:w-[100px]' />
-                    <h1 className='text-[30px] mt-[5px] mb-[15px] font-extrabold text-3xl xl:max-2xl:text-xl'>Forgot Your Password?</h1>
-                    <p className='text-center xl:max-2xl:text-[0.7em]'>No worries! Enter your email, and we'll send </p>
-                    <p className='text-center xl:max-2xl:text-[0.7em]'>a reset link to your inbox.</p>
+                <div className=' h-[80%] mt-[10%] px-[14%]  items-center justify-center text-center rounded-[7px_7px_7px_7px] xs:max-sm:mt-[3%] xs:max-sm:px-[7%] xl:max-2xl:mt-[5%]'>
+                    <IoMdLock className='h-[100px] w-[120px] relative ml-[35%] xs:max-sm:h-[40px] xs:max-sm:w-[50px] xl:max-2xl:h-[70px] xl:max-2xl:w-[100px]' />
+                    <h1 className='text-[30px] mt-[5px] mb-[15px] font-extrabold text-3xl xs:max-sm:text-sm xl:max-2xl:text-xl'>Forgot Your Password?</h1>
+                    <p className='text-center xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.7em]'>No worries! Enter your email, and we'll send </p>
+                    <p className='text-center xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.7em]'>a reset link to your inbox.</p>
                     <div className='flex items-center mt-[8%]'>
-                        <FaEnvelope className='h-[20px] w-[20px] xl:max-2xl:w-[13px]' />
-                        <p className='ml-[5px] xl:max-2xl:text-[0.7em]'>Email Address</p>
+                        <FaEnvelope className='h-[20px] w-[20px] xs:max-sm:w-[7px] xl:max-2xl:w-[13px]' />
+                        <p className='ml-[5px] xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.7em]'>Email Address</p>
                     </div>
 
                     <input
                         type="email"
-                        className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc] xl:max-2xl:h-[13%]'
+                        className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc] xs:max-sm:h-[7%] xs:max-sm:my-1 xl:max-2xl:h-[13%]'
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
@@ -120,7 +120,7 @@ const ForgetPassword = () => {
                         <button
                             type="submit"
                             className='flex justify-center bg-[rgb(221,40,3)] text-[white] w-[43%] float-right mt-[20px] p-1.5 rounded-[20px] text-l font-semibold 
-                            hover:bg-[#9a1a00] transition-colors delay-250 duration-[3000] ease-in xl:max-2xl:text-[0.7em]'
+                            hover:bg-[#9a1a00] transition-colors delay-250 duration-[3000] ease-in xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.7em]'
                             onClick={handleResetPassword}
                             disabled={isLoading}
                         >

@@ -47,8 +47,8 @@ const RatingModal: React.FC<MerchDeetsBackProps> = (props) => {
 
   return (
     <div>
-       <form className='animate-fade-in font-poppins fixed left-[35%] top-[35%] w-[100%] h-[100%] z-[100] overflow-auto drop-shadow bg-[rgba(0, 0, 0, 0.5)] xl:max-2xl:top-[30%]'>
-        <div className="bg-white w-[30%] p-4 text-center border border-black rounded-2xl xl:max-2xl:w-[35%]">
+       <form className='animate-fade-in font-poppins fixed left-[35%] top-[35%] w-[100%] h-[100%] z-[110] overflow-auto drop-shadow bg-[rgba(0, 0, 0, 0.5)] xs:max-sm:top-[20%] xs:max-sm:left-[15%] xl:max-2xl:top-[30%]'>
+        <div className="bg-white w-[30%] p-4 text-center border border-black rounded-2xl xs:max-sm:w-[70%] xl:max-2xl:w-[35%]">
             <div className='flex items-center'>
             <div className='w-[95%] text-center'>
                 <h2 className='text-[1.5em] ml-[5%] text-black font-bold xl:max-2xl:text-[1.3em]'>Rate Your Experience</h2>
@@ -83,7 +83,7 @@ const RatingModal: React.FC<MerchDeetsBackProps> = (props) => {
               value={comment} onChange={(e)=>{setComment(e.target.value)}}> </textarea>
           </div>
           <button className='bg-green-600 text-white rounded-lg h-[2.5rem] w-[25%] p-[1%] mb-[2%] cursor-pointer 
-            hover:bg-green-700 transition-colors delay-450 duration-[3000] ease-in-out transform scale-100 xl:max-2xl:text-[0.8em] xl:max-2xl:w-[30%] xl:max-2xl:h-[2rem]'
+            hover:bg-green-700 transition-colors delay-450 duration-[3000] ease-in-out transform scale-100 xs:max-sm:w-[70%] xl:max-2xl:text-[0.8em] xl:max-2xl:w-[30%] xl:max-2xl:h-[2rem]'
                 onClick={submitRating}>Submit Review</button>
         </div>
         </form>
