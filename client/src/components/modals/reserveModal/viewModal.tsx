@@ -111,7 +111,7 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
   };
   
   return (
-    <div className="animate-slide-up font-poppins fixed top-[8%] left-[18%] right-0 bg-white z-50 bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
+    <div className="animate-slide-up font-poppins fixed top-[8%] left-[18%] right-0 bg-white z-[100] bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
       {!isLoading 
        ?
         <div className='flex justify-center ml-[-2%] mt-[25%]'>
@@ -144,7 +144,9 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
             <p className='my-[1%]'><span className='font-bold'>Event Time: </span>{record[0]?.res_time}</p>
             <p className='my-[1%]'><span className='font-bold'>Event Size: </span>{record[0]?.party_size}</p>
             <p className='my-[1%]'><span className='font-bold'>Location: </span>{record[0]?.res_location}</p>
-            <p className='my-[1%]'><span className='font-bold'>Remarks: </span>{record[0]?.additional_details}</p>
+            <p className='my-[1%]'><span className='font-bold'>Remarks: </span>{
+              record[0]?.additional_details !=null ? record[0]?.additional_details : "No Remarks."
+            }</p>
           </div>
           <div className='w-[50%]'>
             <p className='my-[1%]'><span className='font-bold'>Date Booked: </span>{formatDate(new Date(record[0]?.date_received))}</p>

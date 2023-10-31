@@ -10,6 +10,7 @@ const UserHeader = () => {
   const [username,setUsername] = useState("");
   const [urlPart, setUrlPart] = useState('');
   const [shortLet,setShortLet] = useState("");
+  const [profPic,setProfPic] = useState('');
 
   const storedAcc = localStorage.getItem('userDetails');
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const UserHeader = () => {
 
     if (storedAcc) {
       setUsername(JSON.parse(storedAcc).user);
+      setProfPic(JSON.parse(storedAcc).pic);
     }
 
     if(username){
@@ -68,14 +70,19 @@ const UserHeader = () => {
 
 
         <div className='flex items-center relative'>
-          {username 
-          ?
-            <div className="relative inline-flex items-center justify-center w-11 h-10 overflow-hidden bg-[#DD2803] rounded-full dark:bg-gray-600 xs:max-sm:w-9 xs:max-sm:h-8">
+          {username ?
+          ( profPic ? (
+              <div className="relative inline-flex items-center justify-center w-11 h-11 overflow-hidden bg-[#DD2803] rounded-full dark:bg-gray-600 xs:max-sm:w-9 xs:max-sm:h-8">
+                <img src={profPic} className="w-11 h-11 object-cover rounded-2xl xl:max-2xl:w-[7rem]" />
+              </div>
+            ) : (
+              <div className="relative inline-flex items-center justify-center w-11 h-10 overflow-hidden bg-[#DD2803] rounded-full dark-bg-gray-600 xs:max-sm:w-9 xs:max-sm:h-8">
                 <span className="font-medium text-white dark:text-gray-300">{shortLet}</span>
-            </div>
-          :
-            <BiSolidUserCircle className='text-black text-[2.5em] xs:max-sm:text-[1.8em] xl:max-2xl:text-[1.8em]'/> 
-          }
+              </div>
+            )
+          ) : (
+            <BiSolidUserCircle className='text-black text-[2.5em] xs:max-sm:text-[1.8em] xl:max-2xl:text-[1.8em]'/>
+          )}
           <AiOutlineDown className='text-black mt-[6%] ml-[6%] text-[1.3em] hover:cursor-pointer hover:text-[#DD2803] xs:max-sm:ml-0 xl:max-2xl:text-[1em]'
            onClick={()=>{setShowMenu(!showMenu)}}/>
           {showMenu && 

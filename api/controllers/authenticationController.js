@@ -44,6 +44,7 @@ const login = (req,res)=>{
         db.query(sql, values, (err, dbresult) => {
             //console.log("W: " + account_type + " DB: "+dbresult[0].account_type);
             if (!err && dbresult.length === 1){
+
                 if (account_type != dbresult[0].account_type){
                     res.status(200).json({
                         success: false,
@@ -69,6 +70,7 @@ const login = (req,res)=>{
                                         user: dbresult[0].account_name,
                                         email: dbresult[0].email_address,
                                         type: dbresult[0].account_type,
+                                        pic: dbresult[0].profile_picture,
                                     },
                                 });
                             });

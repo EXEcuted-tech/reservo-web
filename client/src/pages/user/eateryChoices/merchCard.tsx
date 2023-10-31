@@ -15,6 +15,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
   const [maxPrice,setMaxPrice] = useState(0);
   const [ratingCount,setRatingCount] = useState(0);
   const [avg,setAvg] = useState(0);
+  const storedAcc = localStorage.getItem('userDetails');
 
   useEffect(() => {
     sessionStorage.removeItem('merch_idtoView');
@@ -123,8 +124,12 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                     <button className='w-[40%] flex items-center text-black bg-[#F4D147] px-[5%] py-[1.5%] rounded-2xl
                         hover:bg-[#FFB800] font-medium transition-colors delay-450 duration-[3000] ease-in-out xl:max-2xl:text-[0.7em] xl:max-2xl:h-[2.5rem] xl:max-2xl:w-[6rem] xl:max-2xl:px-[6%]'
                         onClick={()=>{
-                            navigate('/eaterychoice/book')
-                            sessionStorage.setItem('merch_idtoBook', props.merchant_id.toString());
+                            if(storedAcc!=null){
+                                navigate('/eaterychoice/book')
+                                sessionStorage.setItem('merch_idtoBook', props.merchant_id.toString());
+                            }else{
+                                props.trigger?.();
+                            }
                         }}>
                         <BsBookFill className='text-[1em] mr-[2%]'/>Book Now
                     </button>
@@ -143,8 +148,13 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                     <button className='w-[15vh] flex items-center text-black bg-[#F4D147] px-[5%] py-[1.5%] rounded-2xl
                         hover:bg-[#FFB800] font-medium transition-colors delay-450 duration-[3000] ease-in-out'
                         onClick={()=>{
-                            navigate('/eaterychoice/book')
-                            sessionStorage.setItem('merch_idtoBook', props.merchant_id.toString());
+                            console.log("STORED ACC: ",storedAcc);
+                            if(storedAcc!=null){
+                                navigate('/eaterychoice/book')
+                                sessionStorage.setItem('merch_idtoBook', props.merchant_id.toString());
+                            }else{
+                                props.trigger?.();
+                            }
                         }}>
                         <BsBookFill className='text-[1em] mr-[2%]'/>Book Now
                     </button>

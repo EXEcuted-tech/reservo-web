@@ -3,26 +3,45 @@ import Card from '../../../components/card/viewCard.tsx'
 import Rating from '@mui/material/Rating';
 import {GrLocation} from 'react-icons/gr'
 import {AiOutlineFolderView, AiFillStar, AiOutlineArrowLeft} from 'react-icons/ai'
-import {BsBookFill} from 'react-icons/bs'
+import {BsBookFill, BsExclamationCircle} from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom';
 import CommentSec from './commentSec.tsx';
 import RatingModal from '../../../components/modals/ratingModal/RatingModal';
 import MerchDeetsLoad from '../../../components/loaders/merchDeetsLoad.tsx';
 import axios from 'axios';
 import config from '../../../common/config.ts';
+import UserNotification from '../../../components/alerts/UserNotification.tsx';
 
 const MerchDeets = () =>{
     const [openRatingMod,setOpenRatingMod]= useState(false);
+    const [notif,setNotif] = useState(false);
+
+    const triggerNotification = () =>{
+        setTimeout(() => {
+          setNotif(true);
+          
+          setTimeout(() => {
+            setNotif(false);
+          }, 5000); 
+        }, 500);
+      }
     return (
         <div>
-            
+            {notif &&
+            <UserNotification
+                icon={<BsExclamationCircle/>}
+                logocolor='#ff0000'
+                title="You are not authorized to do this action!"
+                message="Log in or create an account first in order to access our features."
+            />
+            }
             {openRatingMod && 
             <>
                 <div className='fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,0.5)] opacity-0.5 z-[100] overscroll-none'></div>
                 <RatingModal setOpenRatingMod={setOpenRatingMod} openRatingMod={openRatingMod}/>
             </>
             }
-            <MerchDeetsBack setOpenRatingMod={setOpenRatingMod} openRatingMod={openRatingMod}/>
+            <MerchDeetsBack setOpenRatingMod={setOpenRatingMod} openRatingMod={openRatingMod} trigger={triggerNotification}/>
         </div>
     )
 }
@@ -41,6 +60,7 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
     const [packages, setPackages] = useState<PackageItem[]>([]);
     const merchIdString = sessionStorage.getItem('merch_idtoView');
     const merchantId = merchIdString !== null ? parseInt(merchIdString) : 0;
+    const storedAcc = localStorage.getItem('userDetails');
 
     useEffect(() => {
         retrieveMerchant();
@@ -238,9 +258,13 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                         <button className='w-[100%] flex items-center justify-center text-black bg-[#f8c93f] mb-[4%] px-[3%] 
                             py-[4%] rounded-3xl hover:bg-[#ffd950] font-medium text-[1.3em] transition-colors delay-250 duration-[3000] ease-in xl:max-2xl:text-[0.9em] xl:max-2xl:h-[2.5rem]'
                             onClick={()=>{
-                                navigate('/eaterychoice/book');
-                                if (typeof merchIdString === 'string') {
-                                    sessionStorage.setItem('merch_idtoBook', merchIdString);
+                                if(storedAcc!=null){
+                                    navigate('/eaterychoice/book');
+                                    if (typeof merchIdString === 'string') {
+                                        sessionStorage.setItem('merch_idtoBook', merchIdString);
+                                    }
+                                }else{
+                                    props.trigger?.();
                                 }
                             }}>
                             <BsBookFill className='text-center text-[1em] mr-[2%]'/>Book Now
@@ -248,9 +272,13 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                         <button className='w-[100%] flex items-center justify-center text-white bg-[#FF8A00] px-[3%] py-[4%] z-[50] rounded-3xl
                             hover:bg-[#df9148] hover:text-black font-medium text-[1.3em] transition-colors delay-250 duration-[3000] ease-in xl:max-2xl:text-[0.9em] xl:max-2xl:h-[2.5rem]'
                             onClick={()=>{
-                                setOpenRatingMod(true)
-                                if (typeof merchIdString === 'string') {
-                                    sessionStorage.setItem('merch_idtoRate', merchIdString);
+                                if(storedAcc!=null){
+                                    setOpenRatingMod(true)
+                                    if (typeof merchIdString === 'string') {
+                                        sessionStorage.setItem('merch_idtoRate', merchIdString);
+                                    }
+                                }else{
+                                    props.trigger?.();
                                 }
                             }}>
                             <AiFillStar className='text-[1.5em]'/>Rate Here

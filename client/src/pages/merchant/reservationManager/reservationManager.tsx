@@ -244,7 +244,7 @@ const ReservationManager = () => {
             {pageMode === PAGE_MODE.READ &&
                   existingList?.length > 0 && (
                     <div className="flex flex-wrap">
-                  {existingList.map((item: any, index: number) => (
+                  {existingList?.map((item: any, index: number) => (
                     <Fragment key={index}>
                       <div className="w-1/2 pb-5 px-10">
                         <div className="flex items-center gap-1">
@@ -284,7 +284,7 @@ const ReservationManager = () => {
                 </div>
                 {existingList?.length > 0 && (
                   <div className="grid grid-cols-3 gap-4 mt-[1%]">
-                  {existingList.map((item: any, index: number) => (
+                  {existingList?.map((item: any, index: number) => (
                     <Fragment key={index}>
                       <Field
                         {...item}
