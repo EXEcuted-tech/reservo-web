@@ -71,7 +71,7 @@ useEffect(() => {
   }, [data]);
   return (
     <>
-    <div className='bg-[rgba(0,0,0,0.6)] w-[100vw] h-[100vh] z-20 absolute top-0 left-0 duration-100 animate-fade-in' onClick={()=>{props.close();}}>
+    <div className='bg-[rgba(0,0,0,0.6)] w-[100vw] h-[100vh] z-10 absolute top-0 left-0 duration-100 animate-fade-in overflow-hidden'>
     <div className="animate-slide-up font-poppins fixed top-[8%] left-[18%] right-0 bg-white z-50 bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
       {isLoading 
        ?
