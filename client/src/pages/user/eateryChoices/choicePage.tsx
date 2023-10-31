@@ -5,11 +5,14 @@ import SingleCard from '../../../components/loaders/singleLoad';
 import MerchCardLoad from '../../../components/loaders/merchCardLoad';
 import axios from 'axios';
 import config from '../../../common/config';
+import UserNotification from '../../../components/alerts/UserNotification';
+import {BsExclamationCircle} from 'react-icons/bs'
 
 const ChoicePage = () => {
   const [isLoading,setLoading] = useState(false);
   
   const [merchantData,setMerchantData]= useState<MerchCardProps[]>([]);
+  const [notif,setNotif] = useState(false);
 
   useEffect(()=>{
     retrieveMerchants();
@@ -59,8 +62,23 @@ const ChoicePage = () => {
       });
   }
 
+  const triggerNotification = () =>{
+      setTimeout(()=>{
+        setNotif(true);
+      },1500)
+      setNotif(false);
+  }
+
   return (
     <div className={`font-poppins bg-[#F9F2EA] h-[80vh] animate-fade-in`}>
+        {notif &&
+          <UserNotification
+            icon={<BsExclamationCircle/>}
+            logocolor='#ff0000'
+            title="You are not authorized to do this action!"
+            message="Log in or create an account first in order to access our features."
+          />
+        }
         <div className='text-center text-[#DD2803]'>
           <h1 className='text-[2em] pt-[0.2%] font-bold xl:max-2xl:text-[1.5em]'>Browse. Select. Reserve.</h1>
           <p className='text-[1.2em] pb-[0.2%] xl:max-2xl:text-[0.9em]'>Choose and book for your favorite occasion!</p>
@@ -114,7 +132,7 @@ const ChoicePage = () => {
               <div className='overflow-y-scroll h-[57vh] z-10 '>
                 {merchantData.map((merchant, index) => (
                   <div className='px-[2%]'>
-                    <MerchCard key={index} {...merchant} />
+                    <MerchCard key={index} {...merchant} trigger={triggerNotification} />
                     <hr className='pb-[1%]'/>
                   </div>
                 ))}

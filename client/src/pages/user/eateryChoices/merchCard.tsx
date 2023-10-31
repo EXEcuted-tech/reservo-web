@@ -15,6 +15,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
   const [maxPrice,setMaxPrice] = useState(0);
   const [ratingCount,setRatingCount] = useState(0);
   const [avg,setAvg] = useState(0);
+  //get const here nga makaget sa userDetails para itan.aw if naay userDetails ni exist
 
   useEffect(() => {
     sessionStorage.removeItem('merch_idtoView');
