@@ -94,7 +94,7 @@ const ReserveForm = () => {
             const list = res.data.formDeets?.form
             setFirstList(res.data.formDeets?.form)
 
-            const newExistingList = list.map((item:any) => ({
+            const newExistingList = list?.map((item:any) => ({
                 label: item.label,
                 type: item.type,
                 value: '',
@@ -163,7 +163,7 @@ const ReserveForm = () => {
             location: location,
             size: size,
             settings: {additional_details: existingList},
-            adddeets: add,
+            adddeets: add == '' ? null : add,
             acc_id: userId,
             merch_id: merchantId,
             pack_id: packId,
@@ -426,7 +426,7 @@ const ReserveForm = () => {
             {/* Add ug one click */}
             <div className='flex flex-wrap px-[4%] py-[1%]'>
                 {existingList?.length > 0 &&
-                  existingList.map((item: any, index: number) => (
+                  existingList?.map((item: any, index: number) => (
                     <div className='w-[20%] pl-[0.5%] mr-[5%] my-[2%]'>
                     {clickTen && 
                     <div className='relative'>
