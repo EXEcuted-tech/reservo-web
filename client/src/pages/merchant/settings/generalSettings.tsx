@@ -10,8 +10,10 @@ import GenSpinner from '../../../components/loaders/genSpinner'
 import config from '../../../common/config'
 import ImageEditModal from '../../../components/modals/settingsModal/imageEditModal.tsx';
 import Notification from '../../../components/alerts/Notification.tsx'
+import MerchSettingsLoad from '../../../components/loaders/merchSettingsLoad.tsx'
 
 export default function GeneralSettings() {
+    const [load,setLoad]=useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [newImageUrl, setNewImageUrl] = useState('');
@@ -137,6 +139,7 @@ export default function GeneralSettings() {
     }, [notification]);
 
     const fetchData = async ()=>{
+        setLoad(true);
         /*get DB data*/
         try{
             await axios.get(`${config.API}/merchant/retrieve`, request).then((res)=>{
@@ -146,21 +149,25 @@ export default function GeneralSettings() {
                 if (tempResponse.settings == null || '') {
                     tempResponse.settings = '';
                 }
-                console.log("TEMP RESPONSE =>>>", tempResponse);
+                
                 setData(tempResponse);
                 setSelectedCountry (response.address.country);
                 setSelectedRegion(response.address.region);
                 setSelectedProvince(response.address.province);
                 setSelectedMunicipality(response.address.municipality);
                 setSelectedBarangay(response.address.barangay);
+                setTimeout(()=>{
+                    setLoad(false);
+                },1800)
                 //console.log("DATAAAAa => ", data);
             })
         }catch(error){
             setColor('#660605')
-            setNotification("API: Failed to fetch merchant data")
-            
+            setNotification("API: Failed to fetch merchant data");
+            setTimeout(()=>{
+                setLoad(false);
+            },1800)
         }
-           
     }
 
     const loadRegions = async()=>{
@@ -179,7 +186,7 @@ export default function GeneralSettings() {
             }
             else{
             setSelectedRegionId(region.regionId);
-            //console.log("DATA REGIONS : ", regionNames);
+            
             }
         }
         catch(error){
@@ -193,7 +200,7 @@ export default function GeneralSettings() {
     }
 
     const loadProvinces = async ()=>{
-        //console.log("REGION ID : ", selectedRegionId);
+       
         if (selectedRegionId === '' || selectedCountry != 'Philippines'){
             setProvinceNames([]);
             setSelectedProvinceId('');
@@ -208,10 +215,10 @@ export default function GeneralSettings() {
            setProvinceNames(result);
            const province:any = result.find((prov:any)=> prov.name === selectedProvince) || {};
            setSelectedProvinceId(province.provinceId);
-           //console.log("PROVID: ", province.provinceId)
+           
            })
            .catch((error) => {
-             //console.log("Failed to fetch province data:", error);
+             
              setColor('#660605')
              setNotification("API: Failed to get province data")
            });
@@ -233,14 +240,14 @@ export default function GeneralSettings() {
                   const  municipality = result.filter((muni:{name: string, municipalityId: string, provinceId: string, regionId: string})=> 
                     muni.provinceId === selectedProvinceId
                   ) || [];
-                    //console.log("MUNICIPALITIES ==> ", selectedMunicipality)
+                    
                     setMunicipalityNames(municipality);
                     const m:any = municipality.find((res:any)=> res.name === selectedMunicipality) || {};
                     setSelectedMunicipalityId(m.municipalityId);
-                   // console.log("MUNICIPALITY : ", selectedMunicipalityId)
+                   
                 })
                 .catch((error) => {
-                  //console.log("Failed to fetch municipality data:", error);
+                 
                   setColor('#660605')
                   setNotification("API: Failed to fetch municipality data")
                 });
@@ -260,7 +267,7 @@ export default function GeneralSettings() {
                     barangayId: barangay.code,
                   }));
                   setBarangayNames(result);
-                  //console.log("DATA BARANGaAY : ", result);
+                  
                   const  barangay = result.filter((brgy:{name: string, municipalityId: string, provinceId: string, regionId: string})=> 
                   brgy.name === selectedBarangay
                   ) || [];
@@ -268,7 +275,7 @@ export default function GeneralSettings() {
                   setRequiredFields(false);
                 })
                 .catch((error) => {
-                  //console.log("Failed to fetch barangay data:", error);
+                  
                   setColor('#660605')
                   setNotification("API: Failed to fetch barangay data")
                 });
@@ -288,7 +295,7 @@ export default function GeneralSettings() {
             //if input data is from object settings
             if (name.startsWith('settings.')) {
                 const settingsKey = name.split('.')[1]
-                //console.log("CURRENTLY CHANGING ==> ", settingsKey)
+                
                 return {
                     ...prevData,
                     settings: {
@@ -374,7 +381,7 @@ export default function GeneralSettings() {
                             },
                         }));
                     } else {
-                        //console.log("I AM HEREE!! BETCH!!");
+                        
                         // Update the selected region
                         setSelectedRegion(value);
                         setSelectedProvince('');
@@ -506,7 +513,7 @@ export default function GeneralSettings() {
                     } else {
                         // Update the selected region
                         setSelectedBarangay(value);
-                       // console.log("CURRENT BRGY SEL ==> ", value)
+                       
                         setSelectedBarangayId('');
                             // Update data state
                             setData((prevData: any) => ({
@@ -528,7 +535,7 @@ export default function GeneralSettings() {
                         [addressKey]: value,
                     },
                 }
-               // console.log("CURRENT ADDRESS ==> ", data.address);
+               
             }
             else if (name.startsWith('merchant.')) {
                 const merchantKey = name.split('.')[1]
@@ -552,11 +559,11 @@ export default function GeneralSettings() {
         data.merchant.logo = newImageUrl ? newImageUrl: data.merchant.logo;
 
         const formData = data;
-        //console.log("FORMDATA ==> ", formData);
+        
 
         axios.post(`${config.API}/merchant/update`, formData)
         .then(function(response){
-        //console.log("SERVER RESPONDED WITH ==> ", response);
+        
           if (response.data.success === true){
             setNotification("Successfully Saved!");
           }else{
@@ -564,7 +571,7 @@ export default function GeneralSettings() {
           }
         })
         .catch(function(error){
-            //console.log(error.request.status);
+            
             setNotification("Error with code "+ error.request.status);
         })
         setTimeout(() => {
@@ -574,17 +581,23 @@ export default function GeneralSettings() {
     
     return (
         <>
-        {(notification === '')? <></>:  <Notification message={notification} color={color}/>}
-       
-            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in   ">
+        {load ?
+            <>
+                <MerchSettingsLoad/>
+            </>
+        :
+        (
+            <>
+            {(notification === '')? <></>:  <Notification message={notification} color={color}/>}
+            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in xs:max-sm:w-[130%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
                 <div className='flex flex-row mr-5 ml-5'>
-                    <PiBinoculars className="text-4xl xl:max-2xl:text-[1.5em]" />
-                    <h3 className='text-2xl mb-2 p-1 xl:max-2xl:text-lg'><strong>Business Overview</strong></h3>
+                    <PiBinoculars className="text-4xl xs:max-sm:text-[1.3em] xs:max-sm:mt-[0.5rem] xl:max-2xl:text-[1.5em]" />
+                    <h3 className='text-2xl mb-2 p-1 xs:max-sm:text-[1.1rem] xl:max-2xl:text-lg'><strong>Business Overview</strong></h3>
                 </div>
                 
-                <form className="mt-2 mr-5 ml-5" onSubmit={handleSubmit}> 
+                <form className="mt-2 mr-5 ml-5 xs:max-sm:ml-2" onSubmit={handleSubmit}> 
                     <div className="m-2 mb-8 flex flex-row  ">
-                        <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
+                        <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
                                 Business Logo
                             </label>
                             <input name="settings.logo" type="button" id="logoInput" onClick={openEditModal} className=''></input>
@@ -598,7 +611,7 @@ export default function GeneralSettings() {
                                     </img>                                    
                                     <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 opacity-0 hover:opacity-80 bg-white'>
                                         <IoCameraSharp className='relative text-[50px] left-[39%] bottom-[11.2%] xl:max-2xl:text-[1.3em] xl:max-2xl:left-[43%]'/>
-                                        <p className='relative text-black font-bold text-[14px] top-[10%] right-[8%] xl:max-2xl:text-[0.6em] xl:max-2xl:right-[4%]'>Change Image</p>
+                                        <p className='relative text-black font-bold text-[14px] top-[10%] right-[8%] xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.6em] xl:max-2xl:right-[4%]'>Change Image</p>
                                     </div>                                  
                                 </label>}
 
@@ -609,7 +622,7 @@ export default function GeneralSettings() {
                                 />
                         </div>
                         <div className="m-2 flex flex-row ">
-                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
+                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
                                 Business Name
                             </label>
                             <input
@@ -619,12 +632,12 @@ export default function GeneralSettings() {
                                 disabled = {isLoading}
                                 onChange={handleChange}
                                 name="merchant.merchant_name"
-                                className={`m-2 ml-2 p-2 w-full flex border border-gray-300 rounded-md xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
+                                className={`m-2 ml-2 p-2 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
                                 required
                             />
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-lg mr-4 p-2 w-auto flex-shrink-0 font-semibold text-black xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
+                            <label className="text-lg mr-4 p-2 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
                                 Branch Name
                             </label>
                             <input
@@ -634,12 +647,12 @@ export default function GeneralSettings() {
                                 disabled = {isLoading}
                                 onChange={handleChange}
                                 name="settings.branch"
-                                className={`m-2 p-2 text w-full flex border border-gray-300 rounded-md xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
+                                className={`m-2 p-2 text w-full flex border border-gray-300 rounded-md xs:max-sm:w-[100vw] xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
                                 
                             />
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-lg mr-9 p-2 w-auto flex-shrink-0 font-semibold text-black xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
+                            <label className="text-lg mr-9 p-2 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
                                 Description
                             </label>
                             <textarea
@@ -648,7 +661,7 @@ export default function GeneralSettings() {
                                 disabled = {isLoading}
                                 onChange={handleChange}
                                 name="settings.description"
-                                className={`m-2 p-2 text w-full flex border border-gray-300 rounded-md resize-none xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
+                                className={`m-2 p-2 text w-full flex border border-gray-300 rounded-md resize-none xs:max-sm:h-[15vh] xs:max-sm:text-[0.6em] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
                             />
                         </div>
                         <div className='m-4 flow-root'>
@@ -657,14 +670,14 @@ export default function GeneralSettings() {
                 </form>
             </div>
 
-            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg">
+            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg xs:max-sm:w-[130%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
                 <div className='flex flex-row mr-5 ml-5'>
-                    <IoLocation className="text-4xl xl:max-2xl:text-[1.5em]" />
-                    <h3 className='text-2xl mb-2 p-1 xl:max-2xl:text-lg '><strong>Business Address</strong></h3>
+                    <IoLocation className="text-4xl xs:max-sm:text-[1.3em] xs:max-sm:mt-[0.5rem] xl:max-2xl:text-[1.5em]" />
+                    <h3 className='text-2xl mb-2 p-1 xs:max-sm:text-[1.1rem] xl:max-2xl:text-lg '><strong>Business Address</strong></h3>
                 </div>
-                <form className="mt-2 mr-5 ml-5" onSubmit={handleSubmit}> 
+                <form className="mt-2 mr-5 ml-5 xs:max-sm:ml-2" onSubmit={handleSubmit}> 
                         <div className="m-2 flex flex-row">
-                            <label className="text-lg mr-16 p-2 w-auto flex-shrink-0 font-semibold text-black xl:max-2xl:text-[0.8em]" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-lg mr-16 p-2 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '2.5rem' }}>
                                 Country
                             </label>
                             <select
@@ -672,7 +685,7 @@ export default function GeneralSettings() {
                                 value={data.address.country}
                                 onChange={handleChange}
                                 disabled={isLoading}
-                                className={`m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500  ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
+                                className={`m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500  ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
                                 required
                             >
                                 <option value="Philippines">{isLoading? "Loading...":"Philippines"}</option>
@@ -680,7 +693,7 @@ export default function GeneralSettings() {
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-lg p-2 mr-16 w-auto flex-shrink-0 font-semibold text-black xl:max-2xl:text-[0.8em]" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-lg p-2 mr-16 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '2.5rem' }}>
                                 Region
                             </label>
                             <select
@@ -688,7 +701,7 @@ export default function GeneralSettings() {
                                 value={isLoading? "Loading ..." : selectedRegion || ""}
                                 onChange={handleChange}
                                 disabled={isLoading}
-                                className={`m-2 p-2 ml-[1.1rem] text-gray-500 w-full flex border border-gray-300 rounded-md  xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500  ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
+                                className={`m-2 p-2 ml-[1.1rem] text-gray-500 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[43vw]  xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500  ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
                                 required
                             >
                                 {!isLoading ? 
@@ -706,7 +719,7 @@ export default function GeneralSettings() {
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className=" text-lg p-2 mr-[3.6rem] w-auto flex-shrink-0 font-semibold text-black xl:max-2xl:text-[0.8em]" style={{ lineHeight: '2.5rem' }}>
+                            <label className=" text-lg p-2 mr-[3.6rem] w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '2.5rem' }}>
                                 Province
                             </label>
                             <select
@@ -714,7 +727,7 @@ export default function GeneralSettings() {
                                 value={selectedProvince}
                                 onChange={handleChange}
                                 disabled={isLoading}
-                                className={`m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none xl:max-2xl:text-[0.7em] focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
+                                className={`m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md focus:outline-none xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
                                 required
                             >
                                 {!isLoading ? 
@@ -731,7 +744,7 @@ export default function GeneralSettings() {
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-lg p-2 mr-6 w-auto flex-shrink-0 font-semibold text-black xl:max-2xl:text-[0.8em]" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-lg p-2 mr-6 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '2.5rem' }}>
                                 Municipality
                             </label>
                             <select
@@ -739,7 +752,7 @@ export default function GeneralSettings() {
                                 value={selectedMunicipality}
                                 onChange={handleChange}
                                 disabled={isLoading}
-                                className={`m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
+                                className={`m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
                                 required
                             >
                                 {!isLoading ? 
@@ -755,7 +768,7 @@ export default function GeneralSettings() {
                             </select>
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-lg p-2 mr-[2.85rem] w-auto flex-shrink-0 font-semibold text-black xl:max-2xl:text-[0.8em]" style={{ lineHeight: '2.5rem' }}>
+                            <label className="text-lg p-2 mr-[2.85rem] w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '2.5rem' }}>
                                 Barangay
                             </label>
                             <select
@@ -763,7 +776,7 @@ export default function GeneralSettings() {
                                 value={selectedBarangay}
                                 onChange={handleChange}
                                 disabled={isLoading}
-                                className={`m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
+                                className={`m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
                                 required
                             >
                                 {!isLoading ? 
@@ -783,14 +796,14 @@ export default function GeneralSettings() {
                 </form>
             </div>
 
-            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg">
+            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg xs:max-sm:w-[130%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
                 <div className='flex flex-row mr-5 ml-5'>
-                    <MdPhone className="text-4xl xl:max-2xl:text-[1.5em]" />
-                    <h3 className='text-2xl mb-2 p-1 xl:max-2xl:text-lg'><strong>Contact Details</strong></h3>
+                    <MdPhone className="text-4xl xs:max-sm:text-[1.3em] xs:max-sm:mt-[0.5rem] xl:max-2xl:text-[1.5em]" />
+                    <h3 className='text-2xl mb-2 p-1 xs:max-sm:text-[1.1rem] xl:max-2xl:text-lg'><strong>Contact Details</strong></h3>
                 </div>
-                <form className="mt-2 mr-5 ml-5" onSubmit={handleSubmit}> 
+                <form className="mt-2 mr-5 ml-5 xs:max-sm:ml-2" onSubmit={handleSubmit}> 
                         <div className="m-2 flex flex-row">
-                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
+                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
                                 Contact Number
                             </label>
                             <input
@@ -801,12 +814,12 @@ export default function GeneralSettings() {
                                 value={data.merchant.contact_number}
                                 disabled= {isLoading}
                                 onChange={handleChange}
-                                className={`m-2 ml-5 p-2 text w-full flex border border-gray-300 rounded-md xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed': ''} `}
+                                className={`m-2 ml-5 p-2 text w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[80vw] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed': ''} `}
                                 required
                             />
                         </div>
                         <div className="m-2 flex flex-row">
-                            <label className="text-lg p-2 mr-[2.15rem] w-auto flex-shrink-0 font-semibold text-black xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
+                            <label className="text-lg p-2 mr-[2.15rem] w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
                                 Email Address
                             </label>
                             <input
@@ -816,7 +829,7 @@ export default function GeneralSettings() {
                                 value={data.merchant.email_address}
                                 disabled = {isLoading}
                                 onChange={handleChange}
-                                className={`m-2 p-2 text w-full flex border border-gray-300 rounded-md xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed': ''}`}
+                                className={`m-2 p-2 text w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[80vw] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed': ''}`}
                                 required
                             />
                         </div>
@@ -825,13 +838,16 @@ export default function GeneralSettings() {
                             <button
                                 type="submit"
                                 disabled={isLoading || requiredFields}
-                                className={`px-10 py-1 mr-2 float-right text-white rounded-2xl xl:max-2xl:text-[0.7em] xl:max-2xl:px-8 focus:outline-none focus:ring focus:ring-blue-500 ${isLoading || requiredFields? 'bg-[#c58f8f] cursor-not-allowed' : ' bg-[#840705] hover:bg-[#660605]'}`}
+                                className={`px-10 py-1 mr-2 float-right text-white rounded-2xl xs:max-sm:text-[0.7em] xs:max-sm:px-8 xs:max-sm:mr-1 xl:max-2xl:text-[0.7em] xl:max-2xl:px-8 
+                                focus:outline-none focus:ring focus:ring-blue-500 ${isLoading || requiredFields? 'bg-[#c58f8f] cursor-not-allowed' : ' bg-[#840705] hover:bg-[#660605]'}`}
                             >
                              {isLoading? "Loading...":"Save"}
                             </button>
                         </div>
                 </form>
             </div>
+            </>
+            )}
         </>
         
     )

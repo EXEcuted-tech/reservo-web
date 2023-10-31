@@ -40,6 +40,8 @@ function Calendar2() {
     const [monthNdx, setMonthNdx] = useState(new Date().getMonth());
     const merchant_id = localStorage.getItem('merch_id');
     const [dataSet, setDataSet] = useState();
+    const [errMsg, setErrMsg] = useState('');
+    const [errTitle, setErrTitle] = useState('');
     const [reservationCounts, setReservationCounts] = useState({});
     const calendarDates = new Date();
 
@@ -62,7 +64,6 @@ function Calendar2() {
         }else{
             setShowReservations(false)
         }
-        console.log("RESERVATION MODAL STATUS: ", showReservations);
     }
 
     const months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -90,35 +91,34 @@ function Calendar2() {
                     default:
                         break;
                 }
-              //console.log("FILTER IS: ", filter);
+              
               const response = await axios.get(`${config.API}/reserve/retrievecountnparams`, {
                 params: {
                     cols: 'res_date as res_date, COUNT(*) as count',
                   condition: `merchant_id = ${merchant_id} AND res_date LIKE '${yy}-${mm}-%' AND status LIKE '${filter}' GROUP BY res_date`
                 },
               });
-              //console.log("RES DATAAA ==> ", response.data.records);
+              
               // Inside your fetchData function
                 var data:any = {};
-                //console.log("[CALENDAR]:::", response.data.data);
+                
                 for (const record of response.data.data) {
                 if (response.data.data.length > 0) {
                     const resDate:any = record.res_date;
                     const count = record.count;
 
                     data[resDate] = count;
-                   // console.log("DATA AT DATE: ", data[resDate]);
+                   
                 }
                 }
                 
                 setReservationCounts(data);
 
-                //console.log("2DATA=======>", reservationCounts);
-                //console.log("DATA=======>", data.tempData);
+
                 setDataSet(data.tempData);
-                //console.log("FETCHED DATA ==>", setDataSet);
-              } catch (err) {
-              console.log("AXIOS ERROR!!: ", err);
+              } catch (err:any) {
+                setErrTitle('Server Error');
+                setErrMsg(err.body);
             }
           }
    
@@ -146,10 +146,8 @@ function Calendar2() {
         fetchData()
             .then(() => {
                 setIsLoading(false);
-                //console.log("FETCHED DATA ==>", dataSet);
             })
             .catch((error) => {
-                console.log("ERROR FETCHING DATA ==>", error);
                 setIsLoading(false);
             });
     
@@ -174,12 +172,12 @@ function Calendar2() {
         fetchData().then(()=>{
             setIsLoading(false);
         }).catch((error)=>{
-            console.log("ERROR FETCHING DATA ==>", error);
+
             setIsLoading(false);
         });
         
         
-        // console.log("DATA ==> ", dataSet[0]);
+        
         
     }, [year, monthNdx, window.location.pathname])
 
@@ -220,13 +218,13 @@ function Calendar2() {
                   condition: `merchant_id = ${merchant_id} AND status LIKE '${filter}' AND res_date = '${yy}-${mm}-${dd}' `
                 }
               }).then((response)=>{
-                  //console.log("COUNT ==> for date:", yy, "-", mm, "-", dd, "-->", response.data.count)
-                 // console.log("LENGTH fefe======>>", response.data.data[0].count);
+                
                   retval = response.data.data[0].count;
               });
                
-        } catch (err) {
-          console.log("AXIOS ERROR!!: ", err);
+        } catch (err:any) {
+          setErrTitle('Server Error');
+          setErrMsg(err.message);
         }   
       
         const obj = {
@@ -236,7 +234,6 @@ function Calendar2() {
           count: Number(retval),
         };
         setSelected(obj);
-        //console.log("OBJECT CLICKED ===> ", obj);
         setIsLoading(false);
       };
       

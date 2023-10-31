@@ -133,7 +133,6 @@ const EditModal:React.FC<EditModalProps> = (props) => {
   // handleStateChanges
   const handleRecordChange = (event: { target: { name: any; value: any; }; }) => {
     const { name, value } = event.target;
-    console.log("Name: ",name," Value: ",value);
     setRecord((prevRecord) => {
       const updatedRecord = prevRecord.map((record, index) => {
         if (index === 0) {
@@ -170,7 +169,6 @@ const EditModal:React.FC<EditModalProps> = (props) => {
 
   const handleInventoryChange = (event: { target: { name: any; value: any; }; }) => {
     const { name, value } = event.target;
-    console.log("Name: ",name," Value: ",value);
     setInventory((prevInventory) => {
       const updatedInv = prevInventory.map((record, index) => {
         if (index === 0) {
@@ -187,7 +185,6 @@ const EditModal:React.FC<EditModalProps> = (props) => {
     const modifiedList = existingList.map((item, index) => {
       return index === fieldIndex ? { ...item, value: event.target.value } : item;
     });
-    console.log("MODIFIED! ",modifiedList);
     setExistingList(modifiedList);
   }
 
@@ -208,31 +205,29 @@ const EditModal:React.FC<EditModalProps> = (props) => {
 
   const updateRes = (existingList:any) => {
     const res_id = editId;
-    // console.log("RECORD: ",record[0])
-    // console.log("EXIST!",existingList[0]);
     const list = {additional_details: existingList}
     record[0].settings = JSON.stringify(list);
     axios.post(`${config.API}/reserve/update?res_id=${res_id}`,record[0])
     .then((res)=>{
-      console.log("Reservation Update: ",res);
+     
     })
   }
 
   const updatePayment = () => {
     const payId = record[0].payment_id;
-    console.log("PAYMENT: ",payment[0])
+    
     axios.post(`${config.API}/payment/update?payId=${payId}`,payment[0])
     .then((res)=>{
-      console.log("Payment Update: ",res);
+      
     })
   }
 
   const updateInventory = () => {
     const inventoryID = record[0].inventory_id;
-    console.log("INVENTORY: ",inventory[0])
+    
     axios.post(`${config.API}/inventory/update?inventoryID=${inventoryID}`,inventory[0])
     .then((res)=>{
-      console.log("Inventory Update: " ,res);
+      
     })
   }
 
@@ -241,13 +236,13 @@ const EditModal:React.FC<EditModalProps> = (props) => {
     axios.post(`${config.API}/user/edit?userID=${userID}`,{
       "contact_number":contact
     }).then((res)=>{
-      console.log(res);
+      
     })
   }
 
 
   return (
-    <div className="animate-slide-up font-poppins fixed top-[7%] left-[18%] right-0 bg-white z-50 bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
+    <div className="animate-slide-up font-poppins fixed top-[7%] left-[18%] right-0 bg-white z-[100] bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
       {!isLoading 
        ?
         <div className='flex justify-center ml-[-2%] mt-[25%]'>

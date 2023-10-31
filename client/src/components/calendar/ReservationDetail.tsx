@@ -115,21 +115,21 @@ export default function ReservationList(props: { year: number, today: Date, day:
           order: 'ASC'
         }
       });
-      console.log("RESPONSE BEH ===> ", response)
+
       setData(response.data.records);
     } catch (err) {
-      console.log("AXIOS ERROR!!: ", err);
+      //PUT ERROR NOTIF 
     }
   }
 
   useEffect(()=>{
     //fetchData();
-    console.log("RES DEETS DATAAA ==> ",data);
+    
   }, [year, monthNdx, day])
 
   useEffect(()=>{
     const date = props.today.toISOString().split('T')[0];
-    console.log("CURRENT DATE KO BEH ==> ", date);
+    
   })
 
   const isReserved = (elem: details) => {
@@ -202,8 +202,6 @@ export default function ReservationList(props: { year: number, today: Date, day:
     backgroundColor: today ? "red" : "none",
     color: today ? "white" : "",
   }
-
-  console.log(reserveFilter);
   return (
     <div>
       {reserveList(reserveFilter)}

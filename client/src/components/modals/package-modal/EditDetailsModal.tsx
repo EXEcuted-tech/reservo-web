@@ -70,9 +70,8 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
             image_filepath: editedFilePath,
             item_list: editedItems,
         });
-        console.log("RESPONSE IS: " + response.data)
     }catch(error){
-        console.log(error);
+        //PUT ERROR NOTIF 
     }
      setIsLoading(false);
      onClose();
@@ -88,13 +87,12 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
             package_id: packageID,
 
         }).then(response=>{
-            console.log(response);
+            
         })
 
-        console.log('Delete request successful:', response);}
+        }
     catch(error:any|undefined){
-        console.log('Error deleting package:', error);
-        console.log('Status Code:', error.response?.status);
+        //PUT ERROR NOTIF 
     }
     onClose();
     setDeleteModal(false);
@@ -179,54 +177,57 @@ function formatDateToMMDDYYYY(date: string) {
           onConfirmDelete={handleConfirmDelete}
         />
       )}
-            <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'>
-              <div className='flex start items-center text-2xl mb-4 xl:max-2xl:text-xl'>
-                <LuPackage2 className="text-4xl mr-[2%] xl:max-2xl:text-2xl"/>
-                <p><b>Package ID: </b>{packageID}</p>
-              </div>
-              <div className='flex justify-end'>
-                <button onClick={onClose} className='flex items-center text-3xl mb-4 xl:max-2xl:text-2xl '><AiFillCloseCircle className='mx-2 detailsClose' /></button>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
-              <div>
-                <div className='h-[40vh] text-xl xl:max-2xl:text-[0.8em]'>
-                <p><span className='text-red-600 text-base xl:max-2xl:text-[0.9em]'>Fields with * are required.</span></p>
-                  <p><b>Package Name: <span className='text-red-600'>*</span></b><input onChange={handlePackageNameChange} type="text" value={editedPackageName} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
-                  <p><b>Total Price: <span className='text-red-600'>*</span></b> <input type="text" value={editedPrice} onChange={handlePriceChange} className="h-[4vh] my-2 border-solid border-[#000000] border-2 p-2 rounded-md mx-4 pl-2"></input></p>
-                  <p><b>Available From: <span className='text-red-600'>*</span></b> <input type="date" value={editedDateStart.toISOString().split('T')[0]} onChange={handleDateStartChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
-                  <p><b>Expiry Date: <span className='text-red-600'>*</span></b> <input type="date" value={editedDateEnd.toISOString().split('T')[0]} onChange={handleDateEndChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
-                  <p><b>Tags: </b> <span className='text-red-600'>*</span><input onChange={handleTagsChange} type="text" value={editedTags} className="h-[4vh] my-2 border-solid p-2 border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
-                  <p><b>Visibility: <span className='text-red-600'>*</span></b>
-                    <select id="sortDropdown" name="sortDropdown" className={`h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2`}
-                      onChange={handleVisibilityChange}
-                      value={editedVisibility}
-                    >
-                      <option value="PUBLISHED">Published</option>
-                      <option value="NOT PUBLISHED">Not Published</option>
-                    </select>
-                  </p>
-                  <p><b>Description: <span className='text-red-600'>*</span></b></p>
-                  <textarea onChange={handleDescriptionChange} className="w-[80%] p-2 h-[25%] overflow-y-auto border-black border-2 rounded-md" value={editedDescription}></textarea>
-                </div>
-              </div>
-              <div className='flex flex-col w-[100%] h-[100%]'>
-          <div className='IMAGE_PLACEHOLDER block w-[45%] h-[45%] rounded-2xl text-xl'>
-              <img
-                src={editedFilePath} // Use your image URL from the DB here
-                alt="Package Image"
-                onError={(e) => {
-                  e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
-                  e.currentTarget.src = 'https://i.imgur.com/YNoZzmJ.png'; // Use a placeholder image as a fallback
-                }}
+  
+  <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'>
+      <div className='flex start items-center text-2xl mb-4 xl:max-2xl:text-xl'>
+            <LuPackage2 className="text-4xl mr-[2%] xl:max-2xl:text-2xl"/>
+            <p><b>Package ID: </b>{packageID}</p>
+      </div>
+    
+      <div className='flex justify-end'>
+          <button onClick={onClose} className='flex items-center text-3xl mb-4 xl:max-2xl:text-2xl '><AiFillCloseCircle className='mx-2 detailsClose' /></button>
+      </div>
+    </div>
+            
+    <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
+      <div>
+        <div className='h-[40vh] text-xl xl:max-2xl:text-[0.8em]'>
+            <p><span className='text-red-600 text-base xl:max-2xl:text-[0.9em]'>Fields with * are required.</span></p>
+            <p><b>Package Name: <span className='text-red-600'>*</span></b><input onChange={handlePackageNameChange} type="text" value={editedPackageName} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+            <p><b>Total Price: <span className='text-red-600'>*</span></b> <input type="text" value={editedPrice} onChange={handlePriceChange} className="h-[4vh] my-2 border-solid border-[#000000] border-2 p-2 rounded-md mx-4 pl-2"></input></p>
+            <p><b>Available From: <span className='text-red-600'>*</span></b> <input type="date" value={editedDateStart.toISOString().split('T')[0]} onChange={handleDateStartChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+            <p><b>Expiry Date: <span className='text-red-600'>*</span></b> <input type="date" value={editedDateEnd.toISOString().split('T')[0]} onChange={handleDateEndChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+            <p><b>Tags: </b> <span className='text-red-600'>*</span><input onChange={handleTagsChange} type="text" value={editedTags} className="h-[4vh] my-2 border-solid p-2 border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+            <p><b>Visibility: <span className='text-red-600'>*</span></b>
+              <select id="sortDropdown" name="sortDropdown" className={`h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2`}
+                onChange={handleVisibilityChange}
+                value={editedVisibility}>
+                <option value="PUBLISHED">Published</option>
+                <option value="NOT PUBLISHED">Not Published</option>
+              </select>
+            </p>
+            <p><b>Description: <span className='text-red-600'>*</span></b></p>
+                <textarea onChange={handleDescriptionChange} className="w-[80%] p-2 h-[25%] overflow-y-auto border-black border-2 rounded-md" value={editedDescription}></textarea>
+        </div>
+      </div>
+    
+    <div className='flex flex-col w-[100%] h-[100%]'>
+        <div className='IMAGE_PLACEHOLDER block w-[45%] h-[45%] rounded-2xl text-xl'>
+            <img
+              src={editedFilePath} // Use your image URL from the DB here
+              alt="Package Image"
+              onError={(e) => {
+                e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
+                e.currentTarget.src = 'https://i.imgur.com/YNoZzmJ.png'; // Use a placeholder image as a fallback
+              }}
                 
-                className="w-full h-full object-cover rounded-2xl"
-                />
-            <div className="mt-[3%]">
+              className="w-full h-full object-cover rounded-2xl"
+            />
+          <div className="mt-[3%]">
               <label htmlFor="packageImage" className="text-xl xl:max-2xl:text-[0.7em]">Upload Image Here: <span className='text-red-600 font-bold '>*</span></label>
                 <input className="my-2 w-[100%] px-2 ml-[4%] border-black border-solid rounded-lg border-2 xl:max-2xl:text-[0.55em]" value={editedFilePath} onChange={handleFilePathChange} type="text" name="packageImage" placeholder='Paste Link Here'/>
-            </div>
-             </div>
+          </div>
+        </div>
 
                 <div className='my-8 block text-xl mt-14 xl:max-2xl:text-[0.8em]'>
                   <b>Items: <span className='text-red-600'>*</span></b>

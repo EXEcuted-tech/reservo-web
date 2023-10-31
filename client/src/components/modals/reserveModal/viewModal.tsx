@@ -68,7 +68,7 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
     axios.get(`${config.API}/user/retrieve?col=${col}&val=${val}`)
     .then((res)=>{
        if(res.status === 200){
-        // console.log("RESULT: ",res.data);
+        
         const user = res.data.users[0];
         setName(user?.account_name);
         setEmail(user?.email_address);
@@ -85,7 +85,7 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
     axios.get(`${config.API}/inventory/retrieve?col=${col}&val=${val}`)
     .then((res)=>{
        if(res.status === 200){
-        console.log("RESULT: ",res.data);
+       
         const inventoryData = res.data.records[0];
         setInventory({
           no_of_tables: inventoryData?.no_of_tables,
@@ -111,7 +111,7 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
   };
   
   return (
-    <div className="animate-slide-up font-poppins fixed top-[8%] left-[18%] right-0 bg-white z-50 bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
+    <div className="animate-slide-up font-poppins fixed top-[8%] left-[18%] right-0 bg-white z-[100] bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
       {!isLoading 
        ?
         <div className='flex justify-center ml-[-2%] mt-[25%]'>
@@ -144,7 +144,9 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
             <p className='my-[1%]'><span className='font-bold'>Event Time: </span>{record[0]?.res_time}</p>
             <p className='my-[1%]'><span className='font-bold'>Event Size: </span>{record[0]?.party_size}</p>
             <p className='my-[1%]'><span className='font-bold'>Location: </span>{record[0]?.res_location}</p>
-            <p className='my-[1%]'><span className='font-bold'>Remarks: </span>{record[0]?.additional_details}</p>
+            <p className='my-[1%]'><span className='font-bold'>Remarks: </span>{
+              record[0]?.additional_details !=null ? record[0]?.additional_details : "No Remarks."
+            }</p>
           </div>
           <div className='w-[50%]'>
             <p className='my-[1%]'><span className='font-bold'>Date Booked: </span>{formatDate(new Date(record[0]?.date_received))}</p>
@@ -159,14 +161,38 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block px-[1%] mt-[2%] text-white rounded-lg mb-[0.5%] xl:max-2xl:text-[1.0em]'>Inventory</h1>
         <div className='flex mx-[2%] text-[1.2em] xl:max-2xl:text-[0.8em]'>
           <div className='w-[33%]'>
-            <p className='my-[1%]'><span className='font-bold'>No. of Tables: </span>{inventory?.no_of_tables}</p>
-            <p className='my-[1%]'><span className='font-bold'>No. of Chairs: </span>{inventory?.no_of_chairs}</p>
-            <p className='my-[1%]'><span className='font-bold'>No. of Plates: </span>{inventory?.no_of_plates}</p>
+            <p className={`my-[1%]`}><span className={`font-bold`}>No. of Tables: </span>
+              <span className={`${inventory?.no_of_tables == null && 'italic text-gray-400'}`}>
+                {inventory?.no_of_tables != null ? inventory?.no_of_tables : "To be added."}
+              </span>
+            </p>
+            <p className='my-[1%]'><span className='font-bold'>No. of Chairs: </span>
+              <span className={`${inventory?.no_of_chairs == null && 'italic text-gray-400'}`}>
+                {inventory?.no_of_chairs != null ? inventory?.no_of_chairs : "To be added."}
+              </span>
+            </p>
+            <p className='my-[1%]'><span className='font-bold'>No. of Plates: </span>
+              <span className={`${inventory?.no_of_plates == null && 'italic text-gray-400'}`}>
+                {inventory?.no_of_plates != null ? inventory?.no_of_plates : "To be added."}
+              </span>
+            </p>
           </div>
           <div className='w-[33%]'>
-            <p className='my-[1%]'><span className='font-bold'>No. of Glasses: </span>{inventory?.no_of_glasses}</p>
-            <p className='my-[1%]'><span className='font-bold'>No. of Table Cloths: </span>{inventory?.no_of_tableCloths}</p>
-            <p className='my-[1%]'><span className='font-bold'>No. of Chair Covers: </span>{inventory?.no_of_chairCovers}</p>
+            <p className='my-[1%]'><span className='font-bold'>No. of Glasses: </span>
+              <span className={`${inventory?.no_of_glasses == null && 'italic text-gray-400'}`}>
+                {inventory?.no_of_glasses != null ? inventory?.no_of_glasses : "To be added."}
+              </span>
+            </p>
+            <p className='my-[1%]'><span className='font-bold'>No. of Table Cloths: </span>
+              <span className={`${inventory?.no_of_tableCloths == null && 'italic text-gray-400'}`}>
+                {inventory?.no_of_tableCloths != null ? inventory?.no_of_tableCloths : "To be added."}
+              </span>
+            </p>
+            <p className='my-[1%]'><span className='font-bold'>No. of Chair Covers: </span>
+              <span className={`${inventory?.no_of_chairCovers == null && 'italic text-gray-400'}`}>
+                {inventory?.no_of_chairCovers != null ? inventory?.no_of_chairCovers : "To be added."}
+              </span>            
+            </p>
           </div>
         </div>
 

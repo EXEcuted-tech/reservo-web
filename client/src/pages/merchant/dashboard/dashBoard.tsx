@@ -11,14 +11,21 @@ import axios from 'axios'
 import config from '../../../common/config'
 import GenSpinner from '../../../components/loaders/genSpinner'
 
+interface GraphItem {
+  year: number;
+  month: number;
+  books: number;
+}
+
 const MerchDashboard = () => {
   const storedAcc = localStorage.getItem('admerchDetails')
 
   const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState<any[]>([]);
-  const userDetails = localStorage.getItem('userDetails');
+  const userDetails = localStorage.getItem('admerchDetails');
   const userID = userDetails ? JSON.parse(userDetails).userID : "0";
   const userName = userDetails ? JSON.parse(userDetails).user: "UNDEFINED";
+  const merchant_id = localStorage.getItem("merch_id");
   const [reservationCount, setReservationCount] = useState(0);
   const [cateredCount, setCateredCount] = useState(0);
   const [cancelledCount, setCancelledCount] = useState(0);
@@ -30,25 +37,27 @@ const MerchDashboard = () => {
       const responseBooks = await axios.get(`${config.API}/reserve/retrievebooks`,{
         params: {
           year: "2023",
-          merchID: 2
+          merchID: merchant_id
         }
       })
+     
       setgraphList(responseBooks.data.count)
     } catch (error) {
-      console.log(error);
+      //PUT ERROR NOTIF 
     }
   }
 
-  // const formattedData = graphList.map(item => [new Date(item.year,item.month-1 ), item.books])
-  // const LineData = [
-  //   [
-  //     { type: "date", label: 'Day'},
-  //     'Bookings'
-  //   ],
-  //   ...formattedData
-  // ]
+  const formattedData = (graphList as GraphItem[]).map(item => [new Date(item.year, item.month - 1), item.books]);
+
+  const LineData = [
+    [
+      { type: "date", label: 'Day' },
+      'Bookings',
+    ],
+    ...formattedData,
+  ];
   const LineChartOptions = {
-    title: 'Rervations Graph',
+    title: 'Reservations Graph',
     linewidth: graphList.length,
     hAxis: {
       title: 'Monthly',
@@ -80,12 +89,11 @@ const MerchDashboard = () => {
   }
 
   const fetchInfo = async() =>{
-    console.log(localStorage.userDetails)
     try{
       const responseCount = await axios.get(`${config.API}/reserve/retrievecount`, {
         params: {
           col: "merchant_id",
-          val: "1" //needs to be changed to get through loc storage
+          val: merchant_id
         }
       })
       setReservationCount(responseCount.data.count);
@@ -93,7 +101,7 @@ const MerchDashboard = () => {
       const responseCatered = await axios.get(`${config.API}/reserve/retrievecountparams`,{
         params:{
           col1: "merchant_id",
-          val1: "1", //needs to be changed to get through loc storage
+          val1: merchant_id,
           col2: "status",
           val2: "Finished"
         }
@@ -103,7 +111,7 @@ const MerchDashboard = () => {
       const responseCancelled = await axios.get(`${config.API}/reserve/retrievecountparams`,{
         params:{
           col1: "merchant_id",
-          val1: "1", //needs to be changed to get through loc storage
+          val1: merchant_id,
           col2: "status",
           val2: "Cancelled"
         }
@@ -114,7 +122,7 @@ const MerchDashboard = () => {
       const responseToday = await axios.get(`${config.API}/reserve/retrievecount3params`,{
         params:{
           col1: "merchant_id",
-          val1: "1", //needs to be changed to get through loc storage
+          val1: merchant_id,
           col2: "status",
           val2: "Cancelled",
           col3: "res_date",
@@ -123,93 +131,98 @@ const MerchDashboard = () => {
       });
       setTodayCount(responseToday.data.count);
     }catch(error){
-      console.log(error);
+      //PUT ERROR NOTIF 
     }
   }
 
   useEffect(() => {
+    setIsLoading(true);
     fetchInfo();
     fetchGraphInfo();
+  setIsLoading(false);
   }, []);
   
 
   return (
-    <div className='flex-col animate-fade-in overflow-y-auto overflow-x-hidden'>
+    <div className='animate-fade-in flex-col  '>
       {/* Header Section */}
         <MerchAdHeader icon={RiDashboard3Line} title="Dashboard"/>
         {/* Welcome Section */}
-        <div className='bg-[#F3F3F3] h-[30vh] flex overflow-y-auto overflow-x-hidden'>
-           <div className='w-[60%] p-[1%] text-center'>
-              <div className='align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-b from-[#9a1a00] to-black'>
-                <h1 className='text-[1.8em] text-white xl:max-2xl:text-[1.5em]'>
+        <div className='bg-[#F3F3F3] h-[30vh] flex overflow-y-auto overflow-x-hidden xs:max-sm:mt-[3%] xs:max-sm:mb-[3%]'>
+           <div className='w-[60%] p-[1%] text-center xs:max-sm:w-[40%] xs:max-sm:p-[0.5%]'>
+              <div className='align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-b from-[#9a1a00] to-black xs:max-sm:p-4'>
+                <h1 className='text-[1.8em] text-white xs:max-sm:text-[1.3em] xl:max-2xl:text-[1.5em]'>
                   Welcome, {userName}!
                 </h1>
-                <p className='text-[1.3em] text-white xl:max-2xl:text-[1em]'><br/>Lorem ipsum dolor sit amet, <br/>consectetur adipiscing elit!</p>
+                <p className='text-[1.3em] text-white xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]'>
+                  <br/>Lorem ipsum dolor sit amet, <br/>consectetur adipiscing elit!</p>
               </div>
             </div>
 
-            <div className='w-[40%] p-[1%] text-center'>
+            <div className='w-[40%] p-[1%] text-center xs:max-sm:w-[60%]'>
               <div className='p-[0.5%] h-[100%] rounded-3xl bg-black grid-cols-2 grid-rows-2 grid gap-1'>
                 <div className='bg-[#660605] rounded-tl-2xl flex'>
-                  <div className='w-[70%]'>
-                    <p className="text-white mt-[-5%] text-[5em] font-bold display xl:max-2xl:text-[3em]">{reservationCount}</p>
-                    <p className='text-white text-[1.2em] mt-[-13%] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>RESERVATION</p>
+                  <div className='w-[70%] xs:max-sm:mt-[13%] xs:max-sm:ml-[13%]'>
+                    <p className="text-white mt-[-5%] text-[5em] font-bold display xs:max-sm:text-[3em]  xl:max-2xl:text-[3em]">{reservationCount}</p>
+                    <p className='text-white text-[1.2em] mt-[-13%] xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>RESERVATION</p>
                   </div>
-                  <div className='w-[30%] pt-[10%] text-center'>
-                      <IoCalendarSharp className='text-white text-[4em] xl:max-2xl:text-[2.5em]'/>
+                  <div className='w-[30%] pt-[10%] text-center xs:max-sm:pt-[25%] xs:max-sm:ml-[-12%]'>
+                      <IoCalendarSharp className='text-white text-[4em] xs:max-sm:text-[1.7em] xl:max-2xl:text-[2.5em]'/>
                   </div>
                 </div>
                 <div className='bg-[#660605] rounded-tr-2xl flex'>
-                <div className='w-[70%]'>
-                    <p className='text-white mt-[-5%] text-[5em] font-bold display xl:max-2xl:text-[3em]'>{todayCount}</p>
-                    <p className='text-white text-[1.2em] mt-[-13%] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>TODAY'S TABLE</p>
+                <div className='w-[70%] xs:max-sm:mt-[13%] xs:max-sm:ml-[13%]'>
+                    <p className='text-white mt-[-5%] text-[5em] font-bold display xs:max-sm:text-[3em] xl:max-2xl:text-[3em]'>{todayCount}</p>
+                    <p className='text-white text-[1.2em] mt-[-13%] xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>TODAY'S TABLE</p>
                   </div>
-                  <div className='w-[30%] pt-[10%] text-center'>
-                      <MdGroups2 className='text-white text-[4em] xl:max-2xl:text-[2.5em]'/>
+                  <div className='w-[30%] pt-[10%] text-center xs:max-sm:pt-[25%] xs:max-sm:ml-[-16%]'>
+                      <MdGroups2 className='text-white text-[4em] xs:max-sm:text-[1.7em] xl:max-2xl:text-[2.5em]'/>
                   </div>
                 </div>
                 <div className='bg-[#660605] rounded-bl-2xl flex'>
-                <div className='w-[70%]'>
-                    <p className='text-white mt-[-5%] text-[5em] font-bold display xl:max-2xl:text-[3em]'>{cateredCount}</p>
-                    <p className='text-white text-[1.2em] mt-[-13%] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>CATERED</p>
+                <div className='w-[70%] xs:max-sm:mt-[13%] xs:max-sm:ml-[13%]'>
+                    <p className='text-white mt-[-5%] text-[5em] font-bold display xs:max-sm:text-[3em] xl:max-2xl:text-[3em]'>{cateredCount}</p>
+                    <p className='text-white text-[1.2em] mt-[-13%] xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>CATERED</p>
                   </div>
-                  <div className='w-[30%] pt-[10%] text-center'>
-                      <GiJuggler className='text-white text-[4em] xl:max-2xl:text-[2.5em]'/>
+                  <div className='w-[30%] pt-[10%] text-center xs:max-sm:pt-[25%] xs:max-sm:ml-[-18%]'>
+                      <GiJuggler className='text-white text-[4em] xs:max-sm:text-[1.7em] xl:max-2xl:text-[2.5em]'/>
                   </div>
                 </div>
                 <div className='bg-[#660605] rounded-br-2xl flex'>
-                <div className='w-[70%]'>
-                    <p className='text-white mt-[-5%] text-[5em] font-bold display xl:max-2xl:text-[3em]'>{cancelledCount}</p>
-                    <p className='text-white text-[1.2em] mt-[-13%] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>CANCELLED</p>
+                <div className='w-[70%] xs:max-sm:mt-[13%] xs:max-sm:ml-[13%]'>
+                    <p className='text-white mt-[-5%] text-[5em] font-bold display xs:max-sm:text-[3em] xl:max-2xl:text-[3em]'>{cancelledCount}</p>
+                    <p className='text-white text-[1.2em] mt-[-13%] xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>CANCELLED</p>
                   </div>
-                  <div className='w-[30%] pt-[10%] text-center'>
-                      <AiFillCloseCircle className='text-white text-[4em] xl:max-2xl:text-[2.5em]'/>
+                  <div className='w-[30%] pt-[10%] text-center xs:max-sm:pt-[25%] xs:max-sm:ml-[-18%]'>
+                      <AiFillCloseCircle className='text-white text-[4em] xs:max-sm:text-[1.7em] xl:max-2xl:text-[2.5em]'/>
                   </div>
                 </div>
               </div>
             </div> 
         </div>
         {/* Graph Section */}
-        <div className='bg-[#F3F3F3] h-[30vh] flex p-[1%]'>
+        <div className='bg-[#F3F3F3] h-[30vh] flex p-[1%] xs:max-sm:mb-[3%]'>
            <div className='align-center text-center w-[100%] rounded-3xl bg-[#F0E5D8]'>
+            {isLoading? <div className='flex items-center justify-center mt-[5vh]'><GenSpinner/></div>:
             <Chart
           width={'100%'}
           height={'100%'}
           chartType="LineChart"
           loader={<div>Loading Chart...</div>}
-          // data={LineData}
+           data={LineData}
           options={LineChartOptions}
           rootProps={{ 'data-testid': '2' }}
           />
+            }
            </div>
         </div>
         {/* Reservation Section */}
-        <div className='bg-[#F3F3F3] h-[30vh] flex overflow-auto'>
+        <div className='bg-[#F3F3F3] h-[30vh] flex overflow-auto xs:max-sm:h-[35vh]'>
             <div className='w-[75%] m-[1%] text-center bg-white rounded-3xl flex-col pt-0 p-[1%] overflow-auto'>
               <div className='text-left border-b-2 border-black'>
-              <p className='flex font-bold text-[1.5em] xl:max-2xl:text-[1.2em]'> Recent Reservation <br/></p>
+              <p className='flex font-bold text-[1.5em] xs:max-sm:text-[1.2em] xl:max-2xl:text-[1.2em]'> Recent Reservation <br/></p>
               </div>
-              <table className='flex-col w-[100%] text-left bg-white rounded-3xl overflow-auto xl:max-2xl:text-[0.8em]'>
+              <table className='flex-col w-[100%] text-left bg-white rounded-3xl overflow-auto xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'>
               <tr>
                 <th>Client Name</th>
                 <th>Event</th>
@@ -217,19 +230,26 @@ const MerchDashboard = () => {
                 <th>Time</th>
               </tr>
               <tbody id="data-table-row">
+              {isLoading? <td colSpan={4} className='animate-pulse text-center mt-[5vh]'> Loading... </td>:<p>DATA LOADED</p>}
               </tbody>
               </table> 
             </div>
+
             <div className='w-[35%] m-[1%] text-center bg-white rounded-3xl px-[1%]'>
               <table className='flex-col w-[100%] text-center bg-white rounded-3xl'>
-                <tr className='border-b-2 border-black text-[1.5em] xl:max-2xl:text-[1.2em]'>
+                <tr className='border-b-2 border-black text-[1.5em] xs:max-sm:text-[0.85em] xl:max-2xl:text-[1.2em]'>
                   <th>Time In</th>
                   <th>Time Out</th>
                 </tr>
                 <tr>
-                  <td className='h-[100%] border-black border-r-2 xl:max-2xl:text-[0.8em]'>Time In</td>
-                  <td className='h-[100%] xl:max-2xl:text-[0.8em]'>Time Out</td>
+                  <td className='h-[100%] border-black border-r-2 xs:max-sm:text-[0.85em]  xl:max-2xl:text-[0.8em]'>
+                    Time In</td>
+                  <td className='h-[100%] xs:max-sm:text-[0.85em] xl:max-2xl:text-[0.8em]'>
+                    Time Out</td>
                 </tr>
+                <tbody>
+                  {isLoading? <td colSpan={2} className='animate-pulse text-center mt-[5vh]'> Loading... </td>:<p>DATA LOADED</p>}
+                </tbody>
               </table>
             </div> 
         </div>

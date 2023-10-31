@@ -12,9 +12,10 @@ function Notification({message, color}:{message:string, color:string}) {
     return () => {
       clearTimeout(timer);
     };
-  }, []);
+  }, [message]);
     return (
       <span>
+        {!message? 
       <div
         className={`animate-fade-in fixed top-0 right-0 m-4 p-4 bg-[${color}] w-[25%] text-center text-white rounded-lg ${
           visible
@@ -25,6 +26,7 @@ function Notification({message, color}:{message:string, color:string}) {
       >
         {message}
       </div>
+:<></>}
     </span>
     );
 }

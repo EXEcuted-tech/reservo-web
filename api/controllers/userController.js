@@ -1,19 +1,30 @@
 const express = require('express');
-const db = require('./a_db'); 
+const db = require('./a_db');
+const saltRounds = 10;
+const bcrypt = require('bcrypt'); 
 
-const updateUser = (req,res)=>{
+const updateUser = async (req,res)=>{
     try {
         const {userID} = req.query
         const userUpdate = req.body
 
         const cols = Object.keys(userUpdate)
-        const values = Object.values(userUpdate)
+        const values = Object.values(userUpdate);
+
+        if (userUpdate.passwd) {
+          const hashedpassword = await bcrypt.hash(userUpdate.passwd, saltRounds);
+          const passwdIndex = cols.indexOf("passwd");
+    
+          if (passwdIndex !== -1) {
+            values[passwdIndex] = hashedpassword;
+          }
+        }
 
       const setClause = cols.map((col) => `${col} = ?`).join(', ')
 
       const sql = `UPDATE account SET ${setClause} WHERE account_id = ?`
 
-        db.query(sql,[values,userID],(err,results) =>{
+        db.query(sql,[...values,userID],(err,results) =>{
             if(err){
                 console.error('Error Getting data:', err)
                 res.status(500).json({
@@ -46,7 +57,7 @@ const retrieveAll = (req,res)=>{
         const sql = "SELECT * FROM account";
         db.query(sql, (err, results) => {
             if(err){
-                console.log("Error fetching data")
+
                 res.status(500).json({error: 'Internal server error'})
             }else{
                 res.json({
@@ -70,7 +81,7 @@ const retrieveByParams = (req,res)=>{
         const sql = "SELECT * FROM account WHERE ?? = ?"
         db.query(sql,[col, val], (err, results) => {
             if(err){
-                // console.log("Error fetching data")
+
                 res.status(201).json({error: 'Account does not exist'})
             }else{
                 res.status(200).json({

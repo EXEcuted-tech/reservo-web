@@ -17,6 +17,7 @@ interface MerchCardProps {
     settings : Record<string,any> | null;
     sched_id: null;
     accounts: Record<string,any> | null;
+    trigger?: () => void;
 }
 
 interface ReserveCardProps {

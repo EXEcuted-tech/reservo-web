@@ -15,8 +15,8 @@ const Calendar = ()=> {
 
     return(
 
-        <div className=' bg-white h-[82vh] flex'>
-            <div className='bg-[#840705] m-[2%] w-[100%] rounded-2xl p-[2%] flex '>
+        <div className=' bg-white h-[82vh] flex xs:max-sm:h-full'>
+            <div className='bg-[#840705] m-[2%] w-[100%] rounded-2xl p-[2%] flex xs:max-sm:w-[150%] xs:max-sm:h-full '>
                 <div className= 'w-[100%] text-center m-0 xl:max-2xl:text-[0.95em]'>
                     <ul className='flex flex-row'>
                         {listdays}
