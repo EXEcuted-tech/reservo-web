@@ -69,6 +69,7 @@ const login = (req,res)=>{
                                         user: dbresult[0].account_name,
                                         email: dbresult[0].email_address,
                                         type: dbresult[0].account_type,
+                                        pic: dbresult[0].profile_picture,
                                     },
                                 });
                             });
