@@ -55,14 +55,13 @@ function Tile(props:{
                 condition: `merchant_id = ${merchant_id} AND status LIKE '${filter}' AND res_date = '${yy}-${mm}-${dd}' `
               }
             }).then((response)=>{
-                //console.log("COUNT ==> for date:", yy, "-", mm, "-", dd, "-->", response.data.data[0].count)
                 setCount(response.data.data[0].count);
                 props.setIsLoading(false);
                 return;
             });
             
           } catch (err) {
-            console.log("AXIOS ERROR!!: ", err);
+            //PUT ERROR NOTIF 
           } 
           setCount(-1);
           props.setIsLoading(false)

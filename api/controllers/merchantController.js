@@ -21,8 +21,6 @@ const createMerchant = (req,res)=>{
       }
   
       if (results.length > 0) {
-        // console.log("Accounts:", typeof(results[0].accounts));
-        // console.log("New Account: ",newAccount);
         const existingAccounts = JSON.parse(results[0].accounts);
 
         const updatedAccounts = { ...existingAccounts, ...newAccount };
@@ -32,7 +30,7 @@ const createMerchant = (req,res)=>{
           [JSON.stringify(updatedAccounts), business_name],
           (updateError, updateResult) => {
             if (updateError) {
-              console.log("Error updating existing record", updateError);
+
               return res.status(500).json({
                 status: 500,
                 success: false,
@@ -61,7 +59,7 @@ const createMerchant = (req,res)=>{
           [business_name, JSON.stringify(newAccount)],
           (insertError, insertResult) => {
             if (insertError) {
-              console.log("Error inserting new record", insertError);
+              
               return res.status(500).json({
                 status: 500,
                 success: false,
@@ -96,21 +94,18 @@ const updateMerchant = (req,res)=>{
     const updatedAccounts = req.body.accounts ? JSON.stringify(req.body.accounts) : null;
     const updatedForm = req.body.form_deets ? JSON.stringify(req.body.form_deets) : null;
     const merchantId = updatedMerchant.merchant_id;
-    console.log("Updated Form",updatedForm);
-
+   
     updatedMerchant.address = updatedAddress;
     updatedMerchant.settings = updatedSettings;
     updatedMerchant.accounts = updatedAccounts;
     updatedMerchant.form_deets = updatedForm;
 
-    console.log("Update Merchant: ",updatedMerchant);
+   
     const columns = Object.keys(updatedMerchant);
     const values = Object.values(updatedMerchant);
 
     const setClause = columns.map((column) => `${column} = ?`).join(', ');
-    console.log("SET CLAUSE: ",setClause);
-    console.log("Values: ",...values);
-    console.log("merchantId: ",merchantId);
+
     db.query(`UPDATE merchant SET ${setClause} WHERE merchant_id = ?`, [...values, merchantId],
     (error, result) => {
         if(error){
@@ -143,7 +138,7 @@ const updateMerchant = (req,res)=>{
 const retrieveAll = (req,res)=>{
     db.query('SELECT * , DATEDIFF(DATE_ADD(date_registered, INTERVAL 30 DAY), CURDATE()) AS days_left FROM merchant', (error, results) => {
         if(error){
-            console.log("error retrieving data",error);
+
             res.status(500).json({error: 'Internal server error'})
         }
         else{
@@ -173,10 +168,9 @@ const retrieveAll = (req,res)=>{
 
 const retrieveByParams = (req,res)=>{
     const { col, val } = req.query;
-    console.log("TEST");
+
     db.query('SELECT * FROM merchant WHERE ?? = ?', [col, val], (error, result) => {
         if(error){
-            console.log("error retrieving data",error);
             res.status(500).json({error: 'Error retrieving data'})
         }
         else{

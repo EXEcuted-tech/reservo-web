@@ -18,7 +18,7 @@ const AdminDashboard = () => {
       })
       setadgraphList(responseAccounts.data.acctCount)
     } catch (error) {
-      console.log(error);
+      //PUT ERROR NOTIF 
     }
   }
 

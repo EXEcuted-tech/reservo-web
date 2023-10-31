@@ -10,6 +10,7 @@ import EditUsername from './modals/editUsername';
 import { Chip, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
 import { IoCameraSharp } from 'react-icons/io5';
 import DisplayEditModal from '../../../components/modals/profile-modal/displayEditModal';
+import EditProfile from './modals/editProfile';
 
 
 function UserProfilePage() {
@@ -78,7 +79,7 @@ function UserProfilePage() {
             setReservations(result.data.records);
             setIsLoading(false);
         } catch (error) {
-            console.log(error);
+            //PUT ERROR NOTIF 
         }
     }
 
@@ -157,7 +158,7 @@ function UserProfilePage() {
                         <br />
                         {data ? (
                             <>
-                                <h1 className="text-center font-bold text-[20pt]"><EditUsername userName={userName} userID={userID} /></h1>
+                                <h1 className="text-center flex flex-rows justify-center font-bold text-[20pt]"><span className='mr-2'>{userName}</span><EditProfile phoneData={data.contact_number}/></h1>
                                 <br />
                                 <br />
                                 <br />

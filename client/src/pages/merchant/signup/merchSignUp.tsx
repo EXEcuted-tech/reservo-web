@@ -51,7 +51,7 @@ const MerchSignUp = () => {
       }).catch((err)=>{
         setIsLoading(false);
         setErrMessage("Failed to sign up successfully. Try again!")
-        console.log("Error: ",err);
+        
       })
     }else{
       setErrMessage("Passwords do not match.");
@@ -75,7 +75,7 @@ const MerchSignUp = () => {
     }).catch((err)=>{
       setIsLoading(false);
       setErrMessage("Failed to sign up successfully. Try again!")
-      console.log("Error: ",err);
+      
     })
   }
 
