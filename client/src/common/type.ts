@@ -4,6 +4,12 @@ type MerchDeetsBackProps = {
     trigger?: () => void;
 };
 
+type ChangePassProps = {
+    setErrMess: React.Dispatch<React.SetStateAction<string>>;
+    email: string;
+    trigger?: () => void;
+}
+
 type ReserveProps = {
     setOpenModalView: React.Dispatch<React.SetStateAction<boolean>>;
     setOpenModalEdit: React.Dispatch<React.SetStateAction<boolean>>;
