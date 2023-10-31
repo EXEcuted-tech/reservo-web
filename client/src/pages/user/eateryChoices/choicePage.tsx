@@ -60,7 +60,7 @@ const ChoicePage = () => {
       });
   }
 
-  const HandleSearchQuery = (e) => {
+  const HandleSearchQuery = (e:any) => {
     setSearchQuery(e.target.value);
   }
 
