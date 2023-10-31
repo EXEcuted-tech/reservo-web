@@ -1,33 +1,31 @@
 import React, {useState} from 'react'
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
 import {MdOutlineReviews} from 'react-icons/md'
-import MerchApplications from '../../../components/merchant-review/MerchApplications'
 import MerchantTeams from '../../../components/merchant-review/MerchantTeams'
-import ToggleHeader from '../../../components/headers/toggleHeader.tsx';
+import MerchantApplications from '../../../components/merchant-review/MerchApplications'
 
 const tabs = ['Merchant Applications','Merchant Teams'];
 
 const MerchantReview = () => {
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(false);
 
   return (
     <div className='bg-[#FFFFFF] h-full font-poppins overflow-y-auto overflow-x-hidden animate-fade-in xs:max-sm:w-full xs:max-sm:overflow-x-hidden'>
       <div className="w-full">
       {/* Header Section */}
       <MerchAdHeader icon={MdOutlineReviews} title="Merchant Manager"/>
-        {/* Main Content Area */}
-        <div className='bg-[#F3F3F3] h-[110vh] px-[3%] py-[1%] overflow-x-hidden overflow-y-auto xs:max-sm:w-[120%] xl:max-2xl:h-[115vh]'>
-          {/* Navigation Section */}
-            <div className="flex ml-[-0.6rem] mr-10 text-xl xs:max-sm:ml-[-1rem] xs:max-sm:mr-14">
-                <ToggleHeader
-                  title1="Merchant Applications"
-                  title2="Merchant Teams"
-                  component1={<MerchApplications />}
-                  component2={<MerchantTeams />}
-                />
-              </div>
-        </div>
+      {/* Main Content Area */}
+      <div className='bg-[#F3F3F3] h-[90vh] px-[3%] py-[1%]'>
+        {/* Navigation Section */}
+        <ul className='overflow-hidden text-[1.2em] font-bold'>
+          <li className='float-left border-[#660605] pb-[0.5%] border-b-4 mr-[5%] hover:cursor-pointer hover:translate-y-[-0.1em] transition-all' onClick={() => setActive(false)}>Merchant Applications</li>
+          <li className='hover:cursor-pointer hover:translate-y-[-0.1em] transition-all' onClick={() => setActive(true)}>Merchant Teams</li>
+          <hr className='border-black w-full'/>
+        </ul>
+        {/* Content Section */}
+        {active === false ? <MerchantApplications/> : <MerchantTeams/>}
       </div>
+    </div>
     </div>
   )
 }

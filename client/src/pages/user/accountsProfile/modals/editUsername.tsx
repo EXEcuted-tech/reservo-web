@@ -13,7 +13,7 @@ export default function EditUsername(props: { userName : string, userID : number
 
     const handleEditClick = () => {
         setIsEdit(true);
-        console.log(isEdit);
+        
     }
 
     const handleCancelClick = () => {

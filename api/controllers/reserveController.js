@@ -3,9 +3,7 @@ const db = require('./a_db');
 
 const createReserve = (req,res)=>{
     const {date,timestart,location,size,settings,adddeets,acc_id,merch_id,sched_id,pack_id,pay_id,invent_id} = req.body;
-    console.log("Received: ",req.body);
-    const insertQuery = 
-    'INSERT INTO reservation (res_date,res_time,res_location,date_received,party_size,settings,additional_details,account_id,merchant_id,sched_id,package_id,payment_id,inventory_id,status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+    const insertQuery = 'INSERT INTO reservation (res_date,res_time,res_location,date_received,party_size,settings,additional_details,account_id,merchant_id,sched_id,package_id,payment_id,inventory_id,status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 
     const date_received = new Date();
     const status = "Ongoing";
@@ -240,7 +238,6 @@ const retrieveCountByTwoParams = (req, res) => {
     } else {
       // Extract the count from the result
       const count = rows[0].count;
-      //console.log("QUERY: =>", req.query, "COUNT is ===>", count);
       return res.status(200).json({
         status: 200,
         success: true,
@@ -266,7 +263,7 @@ const retrieveCountByThreeParams = (req, res) => {
       // Extract the count from the result
       
       const count = rows[0].count;
-      //console.log("QUERY ==> ", req.query, "COUNT ==>", count);
+
 
       return res.status(200).json({
         status: 200,
@@ -293,7 +290,7 @@ const retrieveThreeParams = (req, res) => {
       // Extract the count from the result
       
       const count = rows[0].count;
-      //console.log("QUERY ==> ", req.query, "COUNT ==>", count);
+
 
       return res.status(200).json({
         status: 200,
@@ -320,7 +317,7 @@ const retrieveCountLikeByThreeParams = (req, res) => {
       // Extract the count from the result
 
       const count = rows[0].count;
-     // console.log("THE QUERY IS ==> ",req.query, "COUNT ==>", count);
+
 
       return res.status(200).json({
         status: 200,
@@ -335,7 +332,7 @@ const retrieveNParams = (req, res) => {
   const query = String(req.query.query);
   
   const retrieveSpecific = 'SELECT * FROM reservation WHERE '+query;
-  //console.log("QUERY IS ===>>> ", retrieveSpecific);
+
   db.query(retrieveSpecific, (err, rows) => {
     if (err) {
       console.error('Error retrieving records:', err);
@@ -347,8 +344,6 @@ const retrieveNParams = (req, res) => {
          sql_msg: err.sqlMessage,
         });
     } else {
-      //console.log("THE QUERY IS ==> ",req.query, "COUNT ==>", count);
-
       return res.status(200).json({
         status: 200,
         success: true,
@@ -363,10 +358,8 @@ const retrievecountnparams = (req, res) => {
   const cols = req.query.cols;
   const condition = req.query.condition
   const retrieveSpecific = 'SELECT '+cols+' FROM reservation WHERE ' + condition;
-  //console.log("[retrievecountnparams]: QUERY IS ===>>> ", retrieveSpecific);
   db.query(retrieveSpecific, (err, rows) => {
     if (err) {
-      console.error('Error retrieving records:', err);
       return res.status(500).json({
          status: 500, 
          success: false, 
@@ -375,7 +368,6 @@ const retrievecountnparams = (req, res) => {
          sql_msg: err.sqlMessage,
         });
     } else {
-      //console.log("THE QUERY IS ==> ",req.query, "COUNT ==>", count);
 
       return res.status(200).json({
         status: 200,

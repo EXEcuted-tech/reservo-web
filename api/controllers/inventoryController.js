@@ -36,9 +36,9 @@ const updateInventory = (req,res)=>{
                    no_of_tableCloths=?,no_of_chairCovers=? WHERE inventory_id = ?`;
       
       const values=[no_of_tables,no_of_chairs,no_of_plates,no_of_glasses,no_of_tableCloths,no_of_chairCovers,inventoryID];
-      console.log("Inventory : ",values);
+ 
       db.query(sql, values, (err, results) => {
-        console.log("RESULTS: ",results);
+
         if(err){
           console.error('Error Getting data:', err)
                 res.status(500).json({
@@ -72,7 +72,7 @@ const retrieveAll = (req,res)=>{
           const sql = "SELECT * FROM inventory";
           db.query(sql, (err, results) => {
           if(err){
-              console.log("Error fetching data")
+
               res.status(500).json({error: 'Internal server error'})
           }else{
               res.json({
@@ -96,7 +96,7 @@ const retrieveByParams = (req,res)=>{
         const sql = "SELECT * FROM inventory WHERE ?? = ?"
         db.query(sql,[col, val], (err, results) => {
             if(err){
-                console.log("Error fetching data")
+
                 res.status(500).json({error: 'Internal server error'})
             }else{
                 res.status(200).json({

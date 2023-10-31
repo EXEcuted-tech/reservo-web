@@ -1,5 +1,4 @@
 import React from 'react'
-import Calendar from '../../../components/calendar/Calendar'
 import Calendar2 from '../../../components/calendar/Calendar2'
 
 

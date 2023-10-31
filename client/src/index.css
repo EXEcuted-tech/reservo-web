@@ -46,6 +46,26 @@ body {
   height: 88.5vh;
 }
 
+.animate-slide-right {
+  background-size: 400%;
+
+  animation: slide-right 3s ease infinite;
+  /* animation: slide-right 5s linear infinite;
+  background-image: linear-gradient(to right, #660605 0%, #9a1a00 100%);
+  background-size: 200% 100%;
+  background-position: 100% 0; */
+}
+
+@keyframes slide-right {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
 @media (min-width: 300px) {
   @media not all and (min-width: 640px) {
     .bg-logout {

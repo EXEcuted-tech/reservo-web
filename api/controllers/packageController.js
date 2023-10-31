@@ -2,7 +2,7 @@ const express = require('express');
 const db = require('./a_db'); 
 
 const createPackage = (req,res)=>{
-  console.log(req);
+
     const {
       package_name,
       package_desc,
@@ -23,7 +23,7 @@ const createPackage = (req,res)=>{
     db.query(insert, data, (err, result) => {
       
       if (err) {
-        console.error('Error inserting data:', err);
+        
         return res.status(500).json({ status: 500, success:false,error: 'Error inserting data' });
       }
   
@@ -41,7 +41,7 @@ const createPackage = (req,res)=>{
 
 const updatePackage = (req,res)=>{
     const {package_id,package_name,package_desc,price,date_start,date_end,time_start,time_end,visibility,item_list,image_filepath,tags} = req.body;
-    console.log(req.body)
+
     const update = 'UPDATE package SET package_name=?,package_desc=?, price=?, date_start=?,date_end=?,time_start=?,time_end=?,visibility=?,item_list=?,image_filepath=?,tags=? WHERE package_id=?';
 
     const data = [package_name,package_desc,price,date_start,date_end,time_start,time_end,visibility,item_list,image_filepath,tags, package_id]
@@ -115,8 +115,6 @@ const retrieveByTwoParams = (req,res)=>{
       console.error('Error retrieving records:', err);
       return res.status(500).json({ status: 500, success:false,error: 'Error retrieving records' });
     }else{
-      // console.log("ROWWWWWWSSS");
-      // console.log(rows);
       return res.status(200).json({
         status: 200,
         success: true,
@@ -128,7 +126,7 @@ const retrieveByTwoParams = (req,res)=>{
 }
 
 const deletePackage = (req,res)=>{
-  console.log("REQUEST BODY: "+ req.body);
+
     const {package_id} = req.body;
 
     const deleteQuery = 'DELETE FROM package WHERE package_id = ?';

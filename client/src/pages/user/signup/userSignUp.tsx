@@ -44,7 +44,6 @@ const SignupPage = () => {
           setError(res.data.error);
         }
     }).catch((err) => { 
-      console.log("ERROR: ",err);
         setError(err.error);
         setIsLoading(false);
     });

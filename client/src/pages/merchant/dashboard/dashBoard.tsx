@@ -11,18 +11,27 @@ import axios from 'axios'
 import config from '../../../common/config'
 import GenSpinner from '../../../components/loaders/genSpinner'
 
+interface GraphItem {
+  year: number;
+  month: number;
+  books: number;
+}
+
 const MerchDashboard = () => {
   const storedAcc = localStorage.getItem('admerchDetails')
 
   const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState<any[]>([]);
-  const userDetails = localStorage.getItem('userDetails');
+  const userDetails = localStorage.getItem('admerchDetails');
   const userID = userDetails ? JSON.parse(userDetails).userID : "0";
   const userName = userDetails ? JSON.parse(userDetails).user: "UNDEFINED";
+  const merchant_id = localStorage.getItem("merch_id");
   const [reservationCount, setReservationCount] = useState(0);
   const [cateredCount, setCateredCount] = useState(0);
   const [cancelledCount, setCancelledCount] = useState(0);
   const [todayCount, setTodayCount] = useState(0);
+  const [mess1, setMess1] = useState('');
+  const [mess2,setMess2] = useState('')
   const [graphList, setgraphList] = useState([{}]);
   
   const fetchGraphInfo = async() => {
@@ -30,25 +39,27 @@ const MerchDashboard = () => {
       const responseBooks = await axios.get(`${config.API}/reserve/retrievebooks`,{
         params: {
           year: "2023",
-          merchID: 2
+          merchID: Number(localStorage.getItem('merch_ID'))
         }
       })
+     
       setgraphList(responseBooks.data.count)
     } catch (error) {
-      console.log(error);
+      //PUT ERROR NOTIF 
     }
   }
 
-  // const formattedData = graphList.map(item => [new Date(item.year,item.month-1 ), item.books])
-  // const LineData = [
-  //   [
-  //     { type: "date", label: 'Day'},
-  //     'Bookings'
-  //   ],
-  //   ...formattedData
-  // ]
+  const formattedData = (graphList as GraphItem[]).map(item => [new Date(item.year, item.month - 1), item.books]);
+
+  const LineData = [
+    [
+      { type: "date", label: 'Day' },
+      'Bookings',
+    ],
+    ...formattedData,
+  ];
   const LineChartOptions = {
-    title: 'Rervations Graph',
+    title: 'Reservations Graph',
     linewidth: graphList.length,
     hAxis: {
       title: 'Monthly',
@@ -80,12 +91,11 @@ const MerchDashboard = () => {
   }
 
   const fetchInfo = async() =>{
-    console.log(localStorage.userDetails)
     try{
       const responseCount = await axios.get(`${config.API}/reserve/retrievecount`, {
         params: {
           col: "merchant_id",
-          val: "1" //needs to be changed to get through loc storage
+          val: merchant_id
         }
       })
       setReservationCount(responseCount.data.count);
@@ -93,7 +103,7 @@ const MerchDashboard = () => {
       const responseCatered = await axios.get(`${config.API}/reserve/retrievecountparams`,{
         params:{
           col1: "merchant_id",
-          val1: "1", //needs to be changed to get through loc storage
+          val1: merchant_id,
           col2: "status",
           val2: "Finished"
         }
@@ -103,7 +113,7 @@ const MerchDashboard = () => {
       const responseCancelled = await axios.get(`${config.API}/reserve/retrievecountparams`,{
         params:{
           col1: "merchant_id",
-          val1: "1", //needs to be changed to get through loc storage
+          val1: merchant_id,
           col2: "status",
           val2: "Cancelled"
         }
@@ -114,22 +124,40 @@ const MerchDashboard = () => {
       const responseToday = await axios.get(`${config.API}/reserve/retrievecount3params`,{
         params:{
           col1: "merchant_id",
-          val1: "1", //needs to be changed to get through loc storage
+          val1: merchant_id,
           col2: "status",
-          val2: "Cancelled",
+          val2: "Ongoing",
           col3: "res_date",
           val3: getTodaysDate() //todays date
         }
       });
       setTodayCount(responseToday.data.count);
+
+      const resStatus = await axios.get(`${config.API}/reserve/retrievecountparams`,{
+        params:{
+          col1: "merchant_id",
+          val1: merchant_id,
+          col2: "date_received",
+          val2: getTodaysDate()
+        }
+      });
+      if(resStatus.data.count > 0){
+        setMess1('As of the moment,')
+        setMess2('everything looks great!')
+      }else{
+        setMess1('Hmmm... Unfortunately,')
+        setMess2('Looks like we are in a rut today!')
+      }
     }catch(error){
-      console.log(error);
+      //PUT ERROR NOTIF 
     }
   }
 
   useEffect(() => {
+    setIsLoading(true);
     fetchInfo();
     fetchGraphInfo();
+  setIsLoading(false);
   }, []);
   
 
@@ -139,13 +167,14 @@ const MerchDashboard = () => {
         <MerchAdHeader icon={RiDashboard3Line} title="Dashboard"/>
         {/* Welcome Section */}
         <div className='bg-[#F3F3F3] h-[30vh] flex overflow-y-auto overflow-x-hidden xs:max-sm:mt-[3%] xs:max-sm:mb-[3%]'>
-           <div className='w-[60%] p-[1%] text-center xs:max-sm:w-[40%] xs:max-sm:p-[0.5%]'>
-              <div className='align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-b from-[#9a1a00] to-black xs:max-sm:p-4'>
-                <h1 className='text-[1.8em] text-white xs:max-sm:text-[1.3em] xl:max-2xl:text-[1.5em]'>
+           <div className='font-poppins w-[60%] p-[1%] text-center xs:max-sm:w-[40%] xs:max-sm:p-[0.5%]'>
+              <div className='animate-slide-right align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-r from-[#660605] via-[#ae1313] to-[#9a1a00] xs:max-sm:p-4'>
+                <h1 className='animate-up-down text-[2.5em] font-extrabold text-white xs:max-sm:text-[1.3em] xl:max-2xl:text-[1.5em]'>
                   Welcome, {userName}!
                 </h1>
-                <p className='text-[1.3em] text-white xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]'>
-                  <br/>Lorem ipsum dolor sit amet, <br/>consectetur adipiscing elit!</p>
+                <p className='font-extralight text-[1.3em] mt-[-3%] text-white xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]'>
+                  <br/>{mess1}<br/>{mess2}</p>
+                <p className='hover:animate-shake hover:cursor-pointer mt-[3%] italic font-light text-[1em] text-white'>Check further updates now!</p>
               </div>
             </div>
 
@@ -193,15 +222,17 @@ const MerchDashboard = () => {
         {/* Graph Section */}
         <div className='bg-[#F3F3F3] h-[30vh] flex p-[1%] xs:max-sm:mb-[3%]'>
            <div className='align-center text-center w-[100%] rounded-3xl bg-[#F0E5D8]'>
+            {isLoading? <div className='flex items-center justify-center mt-[5vh]'><GenSpinner/></div>:
             <Chart
           width={'100%'}
           height={'100%'}
           chartType="LineChart"
           loader={<div>Loading Chart...</div>}
-          // data={LineData}
+           data={LineData}
           options={LineChartOptions}
           rootProps={{ 'data-testid': '2' }}
           />
+            }
            </div>
         </div>
         {/* Reservation Section */}
@@ -218,6 +249,7 @@ const MerchDashboard = () => {
                 <th>Time</th>
               </tr>
               <tbody id="data-table-row">
+              {isLoading? <td colSpan={4} className='animate-pulse text-center mt-[5vh]'> Loading... </td>:<p>DATA LOADED</p>}
               </tbody>
               </table> 
             </div>
@@ -234,6 +266,9 @@ const MerchDashboard = () => {
                   <td className='h-[100%] xs:max-sm:text-[0.85em] xl:max-2xl:text-[0.8em]'>
                     Time Out</td>
                 </tr>
+                <tbody>
+                  {isLoading? <td colSpan={2} className='animate-pulse text-center mt-[5vh]'> Loading... </td>:<p>DATA LOADED</p>}
+                </tbody>
               </table>
             </div> 
         </div>
