@@ -137,11 +137,13 @@ const MerchDashboard = () => {
   }
 
   useEffect(() => {
+    setIsLoading(true);
     fetchInfo();
     fetchGraphInfo();
     console.log("LineData:", LineData);
   console.log("LineChartOptions:", LineChartOptions);
   console.log("localstorage: ", localStorage)
+  setIsLoading(false);
   }, []);
   
 
@@ -205,6 +207,7 @@ const MerchDashboard = () => {
         {/* Graph Section */}
         <div className='bg-[#F3F3F3] h-[30vh] flex p-[1%] xs:max-sm:mb-[3%]'>
            <div className='align-center text-center w-[100%] rounded-3xl bg-[#F0E5D8]'>
+            {isLoading? <div className='flex items-center justify-center mt-[5vh]'><GenSpinner/></div>:
             <Chart
           width={'100%'}
           height={'100%'}
@@ -214,6 +217,7 @@ const MerchDashboard = () => {
           options={LineChartOptions}
           rootProps={{ 'data-testid': '2' }}
           />
+            }
            </div>
         </div>
         {/* Reservation Section */}
@@ -230,6 +234,7 @@ const MerchDashboard = () => {
                 <th>Time</th>
               </tr>
               <tbody id="data-table-row">
+              {isLoading? <td colSpan={4} className='animate-pulse text-center mt-[5vh]'> Loading... </td>:<p>DATA LOADED</p>}
               </tbody>
               </table> 
             </div>
@@ -247,7 +252,7 @@ const MerchDashboard = () => {
                     Time Out</td>
                 </tr>
                 <tbody>
-
+                  {isLoading? <td colSpan={2} className='animate-pulse text-center mt-[5vh]'> Loading... </td>:<p>DATA LOADED</p>}
                 </tbody>
               </table>
             </div> 

@@ -7,6 +7,7 @@ import axios from 'axios'
 
 const AdminDashboard = () => {
   const [adgraphList, setadgraphList] = useState([{}])
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchGraphInfo = async() => {
     try {
@@ -52,7 +53,9 @@ const AdminDashboard = () => {
   }
 
   useEffect(() => {
+    setIsLoading(true);
     fetchGraphInfo();
+    setIsLoading(false);
   }, []);
   return (
     <div className='flex-col animate-fade-in overflow-y-auto overflow-x-hidden'>
@@ -89,6 +92,8 @@ const AdminDashboard = () => {
         {/* Graph Section */}
         <div className='bg-[#F3F3F3] h-[30vh] flex p-[1%]'>
            <div className='align-center text-center w-[100%] rounded-3xl bg-[#F0E5D8]'>
+            {isLoading? <></>:
+            <>
             <Chart
           width={'100%'}
           height={'100%'}
@@ -98,6 +103,8 @@ const AdminDashboard = () => {
           options={LineChartOptions}
           rootProps={{ 'data-testid': '2' }}
           />
+          </>
+            }
            </div>
         </div>
         {/* Reservation Section */}
