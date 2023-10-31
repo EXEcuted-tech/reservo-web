@@ -30,7 +30,7 @@ const MerchantTeams = () => {
 
     const [selectedMerchantID, setSelectedMerchantID] = useState(null);
 
-    const paginate = (pageNumbers) => setCurrentPage(pageNumbers)
+    const paginate = (pageNumbers: any) => setCurrentPage(pageNumbers)
 
     const fetchMerchInfo = async() => {
         try {
@@ -47,9 +47,10 @@ const MerchantTeams = () => {
 
     useEffect(() => {
         fetchMerchInfo();
+        console.log("Current Pages: ",currentPage);
       }, []);
 
-    const handlePageChange = (event, newPage) => {
+    const handlePageChange = (event: any, newPage:any) => {
         setCurrentPage(newPage);
     };
 
@@ -57,7 +58,7 @@ const MerchantTeams = () => {
     const firstIndex = lastIndex - recordsPerPage
     const currentPages = merchTeam.slice(firstIndex,lastIndex)
 
-    const handleMoreDetailsClick = (merchantID) => {
+    const handleMoreDetailsClick = (merchantID:any) => {
     sessionStorage.setItem('viewDetails', 'true');
     setSelectedMerchantID(merchantID);
     };
@@ -69,7 +70,7 @@ const MerchantTeams = () => {
             {currentPages.map((data,i) => (
                 <div className='bg-white h-[180px] flex-row py-[1%] px-[2%] text-[#838383] border-[#F3F3F3] border-b-2 p-[1%] flex rounded-xl'
                 key={i}>
-                    <div className='w-[20%] p-[0.5%] pl-[3%] flex'>
+                    {/* <div className='w-[20%] p-[0.5%] pl-[3%] flex'>
                         <img src={data.logo} className='w-auto h-[100%] rounded-[50px]' alt="Logo"/>
                         </div>
                         <div className='w-[55%] justify-center items-left px-[1%] py-[2%] flex flex-col'>
@@ -88,7 +89,7 @@ const MerchantTeams = () => {
                             </div>
                             }
                         </div>
-                        </div>  
+                        </div>   */}
                 </div>  
             ))}
             <div className="flex justify-center w-full absolute bottom-8">

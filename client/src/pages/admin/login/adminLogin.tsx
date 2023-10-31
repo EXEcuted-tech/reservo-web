@@ -117,11 +117,11 @@ const AdminLogin = () => {
                 <form className='formBox w-[70%] flex flex-col xs:max-sm:scale-45' onSubmit={submitHandler} >
                     <div className="inputs">
                         <div className="I-Box flex flex-col space-y-2 mb-[20px]">
-                            <label htmlFor="email" className='font-thin text-white xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.8em] '>Email</label>
+                            <label htmlFor="email" className='font-light text-white xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.8em] '>Email</label>
                             <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc] xs:max-sm:h-[3vh] xs:max-sm:text-[0.4rem] xl:max-2xl:h-[6vh] xl:max-2xl:text-[0.7em]' name="email" id="Email" value={email} onChange={(e) =>{setEmail(e.target.value)}}/>
                         </div>
                         <div className="I-Box flex flex-col space-y-2 mb-[10px]">
-                            <label htmlFor="email" className='font-thin text-white xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.8em] '>Password</label>
+                            <label htmlFor="email" className='font-light text-white xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.8em] '>Password</label>
                             <input type="password" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc] xs:max-sm:h-[3vh] xs:max-sm:text-[0.4rem] xl:max-2xl:h-[6vh] xl:max-2xl:text-[0.7em]' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}}/>
                         </div>
                     </div>

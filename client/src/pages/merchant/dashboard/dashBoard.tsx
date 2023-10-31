@@ -30,6 +30,8 @@ const MerchDashboard = () => {
   const [cateredCount, setCateredCount] = useState(0);
   const [cancelledCount, setCancelledCount] = useState(0);
   const [todayCount, setTodayCount] = useState(0);
+  const [mess1, setMess1] = useState('');
+  const [mess2,setMess2] = useState('')
   const [graphList, setgraphList] = useState([{}]);
   
   const fetchGraphInfo = async() => {
@@ -125,12 +127,28 @@ const MerchDashboard = () => {
           col1: "merchant_id",
           val1: merchant_id,
           col2: "status",
-          val2: "Cancelled",
+          val2: "Ongoing",
           col3: "res_date",
           val3: getTodaysDate() //todays date
         }
       });
       setTodayCount(responseToday.data.count);
+
+      const resStatus = await axios.get(`${config.API}/reserve/retrievecountparams`,{
+        params:{
+          col1: "merchant_id",
+          val1: merchant_id,
+          col2: "date_received",
+          val2: getTodaysDate()
+        }
+      });
+      if(resStatus.data.count > 0){
+        setMess1('As of the moment,')
+        setMess2('everything looks great!')
+      }else{
+        setMess1('Hmmm... Unfortunately,')
+        setMess2('Looks like we are in a rut today!')
+      }
     }catch(error){
       console.log(error);
     }
@@ -153,13 +171,14 @@ const MerchDashboard = () => {
         <MerchAdHeader icon={RiDashboard3Line} title="Dashboard"/>
         {/* Welcome Section */}
         <div className='bg-[#F3F3F3] h-[30vh] flex overflow-y-auto overflow-x-hidden xs:max-sm:mt-[3%] xs:max-sm:mb-[3%]'>
-           <div className='w-[60%] p-[1%] text-center xs:max-sm:w-[40%] xs:max-sm:p-[0.5%]'>
-              <div className='align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-b from-[#9a1a00] to-black xs:max-sm:p-4'>
-                <h1 className='text-[1.8em] text-white xs:max-sm:text-[1.3em] xl:max-2xl:text-[1.5em]'>
+           <div className='font-poppins w-[60%] p-[1%] text-center xs:max-sm:w-[40%] xs:max-sm:p-[0.5%]'>
+              <div className='animate-slide-right align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-r from-[#660605] via-[#ae1313] to-[#9a1a00] xs:max-sm:p-4'>
+                <h1 className='animate-up-down text-[2.5em] font-extrabold text-white xs:max-sm:text-[1.3em] xl:max-2xl:text-[1.5em]'>
                   Welcome, {userName}!
                 </h1>
-                <p className='text-[1.3em] text-white xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]'>
-                  <br/>Lorem ipsum dolor sit amet, <br/>consectetur adipiscing elit!</p>
+                <p className='font-extralight text-[1.3em] mt-[-3%] text-white xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]'>
+                  <br/>{mess1}<br/>{mess2}</p>
+                <p className='hover:animate-shake hover:cursor-pointer mt-[3%] italic font-light text-[1em] text-white'>Check further updates now!</p>
               </div>
             </div>
 

@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
 import {MdOutlineReviews} from 'react-icons/md'
-import MerchApplications from '../../../components/merchant-review/MerchApplications'
 import MerchantTeams from '../../../components/merchant-review/MerchantTeams'
+import MerchantApplications from '../../../components/merchant-review/MerchApplications'
 
 const tabs = ['Merchant Applications','Merchant Teams'];
 
@@ -24,6 +24,7 @@ const MerchantReview = () => {
         {/* Content Section */}
         {active === false ? <MerchantApplications/> : <MerchantTeams/>}
       </div>
+    </div>
     </div>
   )
 }

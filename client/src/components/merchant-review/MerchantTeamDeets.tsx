@@ -16,7 +16,7 @@ const theme = createTheme({
   },
 });
 
-const MerchantTeamDeets = ( {merchantID} ) => {
+const MerchantTeamDeets = ( {merchantID} :{merchantID:any} ) => {
     const [buttonStatus, setbuttonStatus] = useState(false)
     const [merchData, setMerchData] = useState([{}])
     const [loading, setLoading] = useState(false)
@@ -44,7 +44,7 @@ const MerchantTeamDeets = ( {merchantID} ) => {
             });
       
             const usernames = await Promise.all(usernamePromises);
-            setaccNames(usernames);
+            // setaccNames(usernames);
             console.log(usernames)
           }catch (err){
             console.log(err)
@@ -56,7 +56,7 @@ const MerchantTeamDeets = ( {merchantID} ) => {
   }
 
   // buggy 😔 when retrieving account_name/employee, remove account_id first then save then add account_id again then save to appear account_name/employee
-  const getUsernameById = async (userId) => {
+  const getUsernameById = async (userId:any) => {
     try {
       const col = 'account_id';
       const val = userId;
@@ -78,7 +78,7 @@ const MerchantTeamDeets = ( {merchantID} ) => {
       fetchMerchAccounts();
     }, [merchantID]);
 
-    const handlePageChange = (event, newPage) => {
+    const handlePageChange = (event:any, newPage:any) => {
       setCurrentPage(newPage);
   };
 
@@ -94,16 +94,16 @@ const MerchantTeamDeets = ( {merchantID} ) => {
           </div>
           <div className='bg-white h-[25%] flex-row py-[1%] px-[2%] text-[#838383] p-[1%] flex rounded-xl'>
                 <div className='w-[20%] p-[0.5%] pl-[3%] flex'>
-                <img src={merchData[0].logo} className='w-auto h-[100%] rounded-[50px]' alt="Logo"/>
+                {/* <img src={merchData[0].logo} className='w-auto h-[100%] rounded-[50px]' alt="Logo"/> */}
                 </div>
                 <div className='w-[55%] justify-center items-left px-[1%] py-[2%] flex flex-col'>
-                  <p className='text-[1.5em] text-black text-bold'>{merchData[0].merchant_name}</p>
-                  <p className='text-[1.2em] text-black'>{merchAddress.barangay}, {merchAddress.municipality}, {merchAddress.country}</p>
+                  {/* <p className='text-[1.5em] text-black text-bold'>{merchData[0].merchant_name}</p> */}
+                  {/* <p className='text-[1.2em] text-black'>{merchAddress.barangay}, {merchAddress.municipality}, {merchAddress.country}</p> */}
                   <div className='flex'>
                     <p className='text-[1.2em] text-[#838383] flex'><IoPeopleOutline className='text-[1.5em]'/> {Object.keys(merchAccounts).length} members • </p>
-                    <div className={` ml-[1%] w-[15%] text-center rounded-2xl  border-2 ${merchData[0].merch_status === 'Active' ? 'text-[#238700] bg-[#DCFFD0] border-[#238700]' : 'text-[#FFB800] bg-[#FFEEC2] border-[#FFB800]'}`}>
+                    {/* <div className={` ml-[1%] w-[15%] text-center rounded-2xl  border-2 ${merchData[0].merch_status === 'Active' ? 'text-[#238700] bg-[#DCFFD0] border-[#238700]' : 'text-[#FFB800] bg-[#FFEEC2] border-[#FFB800]'}`}>
                       <p>{merchData[0].merch_status}</p> 
-                    </div>
+                    </div> */}
                   </div>                 
                 </div>
                 <div className='w-[25%] ml-[25%] flex flex-col p-[1%] justify-center items-center text-black'>
@@ -129,8 +129,8 @@ const MerchantTeamDeets = ( {merchantID} ) => {
                       .map((data, i) => (
                         <tr className='border-[#F3F3F3] border-t-2 p-[1%] my-[2%]' key={i}>
                           <td>{accNames[i]}</td>
-                          <td>{merchAccounts[data].email}</td>
-                          <td>{merchAccounts[data].position}</td>
+                          {/* <td>{merchAccounts[data].email}</td>
+                          <td>{merchAccounts[data].position}</td> */}
                           <button className='bg-[#DD2803] items-center text-white p-[1%] px-[16%] m-[7%] rounded-md'>
                             <p className='flex items-center text-center justify-center text-[1em]'>
                               <BsTrash className='text-[1em]' /> Delete

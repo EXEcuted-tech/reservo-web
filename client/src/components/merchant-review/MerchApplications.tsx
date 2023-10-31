@@ -45,11 +45,11 @@ const MerchantApplications = () => {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentData = merchTeam
-    .filter(data => data.merch_status === 'Pending')
-    .slice(startIndex, endIndex);
+  // const currentData = merchTeam
+  //   .filter(data => data.merch_status === 'Pending')
+  //   .slice(startIndex, endIndex);
 
-  const handlePageChange = (event, newPage) => {
+  const handlePageChange = (event:any, newPage:any) => {
     setCurrentPage(newPage);
   };
 
@@ -57,7 +57,7 @@ const MerchantApplications = () => {
         <div className='w-[100%] bg-white h-[90%] mt-[1%] rounded-ss-2xl flex-row align-center overflow-y-auto'>
           <div>
           {/* {merchTeam.filter(data => data.merch_status === 'Pending').map((data,i) => ( */}
-          {currentData.map((data, i) => (
+          {/* {currentData.map((data, i) => (
           <div className='bg-white h-[180px] flex-row py-[1%] px-[2%] text-[#838383] border-[#F3F3F3] border-b-2 p-[1%] flex' key={i}>
           <div className='w-[20%] p-[0.5%] pl-[3%] flex'>
           <img src={data.logo} className='w-auto h-[150px] rounded-[50px]' alt="Logo"/>
@@ -89,7 +89,7 @@ const MerchantApplications = () => {
             </div>
           </div>
           </div>
-          ))}
+          ))} */}
             <div className="flex justify-center w-[78%] absolute bottom-1">
               <ThemeProvider theme={theme}>
                 <Pagination
