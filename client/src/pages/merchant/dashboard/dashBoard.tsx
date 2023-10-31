@@ -11,14 +11,21 @@ import axios from 'axios'
 import config from '../../../common/config'
 import GenSpinner from '../../../components/loaders/genSpinner'
 
+interface GraphItem {
+  year: number;
+  month: number;
+  books: number;
+}
+
 const MerchDashboard = () => {
   const storedAcc = localStorage.getItem('admerchDetails')
 
   const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState<any[]>([]);
-  const userDetails = localStorage.getItem('userDetails');
+  const userDetails = localStorage.getItem('admerchDetails');
   const userID = userDetails ? JSON.parse(userDetails).userID : "0";
   const userName = userDetails ? JSON.parse(userDetails).user: "UNDEFINED";
+  const merchant_id = localStorage.getItem("merch_id");
   const [reservationCount, setReservationCount] = useState(0);
   const [cateredCount, setCateredCount] = useState(0);
   const [cancelledCount, setCancelledCount] = useState(0);
@@ -30,25 +37,27 @@ const MerchDashboard = () => {
       const responseBooks = await axios.get(`${config.API}/reserve/retrievebooks`,{
         params: {
           year: "2023",
-          merchID: 2
+          merchID: merchant_id
         }
       })
+     
       setgraphList(responseBooks.data.count)
     } catch (error) {
       console.log(error);
     }
   }
 
-  // const formattedData = graphList.map(item => [new Date(item.year,item.month-1 ), item.books])
-  // const LineData = [
-  //   [
-  //     { type: "date", label: 'Day'},
-  //     'Bookings'
-  //   ],
-  //   ...formattedData
-  // ]
+  const formattedData = (graphList as GraphItem[]).map(item => [new Date(item.year, item.month - 1), item.books]);
+
+  const LineData = [
+    [
+      { type: "date", label: 'Day' },
+      'Bookings',
+    ],
+    ...formattedData,
+  ];
   const LineChartOptions = {
-    title: 'Rervations Graph',
+    title: 'Reservations Graph',
     linewidth: graphList.length,
     hAxis: {
       title: 'Monthly',
@@ -85,7 +94,7 @@ const MerchDashboard = () => {
       const responseCount = await axios.get(`${config.API}/reserve/retrievecount`, {
         params: {
           col: "merchant_id",
-          val: "1" //needs to be changed to get through loc storage
+          val: merchant_id
         }
       })
       setReservationCount(responseCount.data.count);
@@ -93,7 +102,7 @@ const MerchDashboard = () => {
       const responseCatered = await axios.get(`${config.API}/reserve/retrievecountparams`,{
         params:{
           col1: "merchant_id",
-          val1: "1", //needs to be changed to get through loc storage
+          val1: merchant_id,
           col2: "status",
           val2: "Finished"
         }
@@ -103,7 +112,7 @@ const MerchDashboard = () => {
       const responseCancelled = await axios.get(`${config.API}/reserve/retrievecountparams`,{
         params:{
           col1: "merchant_id",
-          val1: "1", //needs to be changed to get through loc storage
+          val1: merchant_id,
           col2: "status",
           val2: "Cancelled"
         }
@@ -114,7 +123,7 @@ const MerchDashboard = () => {
       const responseToday = await axios.get(`${config.API}/reserve/retrievecount3params`,{
         params:{
           col1: "merchant_id",
-          val1: "1", //needs to be changed to get through loc storage
+          val1: merchant_id,
           col2: "status",
           val2: "Cancelled",
           col3: "res_date",
@@ -128,8 +137,13 @@ const MerchDashboard = () => {
   }
 
   useEffect(() => {
+    setIsLoading(true);
     fetchInfo();
     fetchGraphInfo();
+    console.log("LineData:", LineData);
+  console.log("LineChartOptions:", LineChartOptions);
+  console.log("localstorage: ", localStorage)
+  setIsLoading(false);
   }, []);
   
 
@@ -193,15 +207,17 @@ const MerchDashboard = () => {
         {/* Graph Section */}
         <div className='bg-[#F3F3F3] h-[30vh] flex p-[1%] xs:max-sm:mb-[3%]'>
            <div className='align-center text-center w-[100%] rounded-3xl bg-[#F0E5D8]'>
+            {isLoading? <div className='flex items-center justify-center mt-[5vh]'><GenSpinner/></div>:
             <Chart
           width={'100%'}
           height={'100%'}
           chartType="LineChart"
           loader={<div>Loading Chart...</div>}
-          // data={LineData}
+           data={LineData}
           options={LineChartOptions}
           rootProps={{ 'data-testid': '2' }}
           />
+            }
            </div>
         </div>
         {/* Reservation Section */}
@@ -218,6 +234,7 @@ const MerchDashboard = () => {
                 <th>Time</th>
               </tr>
               <tbody id="data-table-row">
+              {isLoading? <td colSpan={4} className='animate-pulse text-center mt-[5vh]'> Loading... </td>:<p>DATA LOADED</p>}
               </tbody>
               </table> 
             </div>
@@ -234,6 +251,9 @@ const MerchDashboard = () => {
                   <td className='h-[100%] xs:max-sm:text-[0.85em] xl:max-2xl:text-[0.8em]'>
                     Time Out</td>
                 </tr>
+                <tbody>
+                  {isLoading? <td colSpan={2} className='animate-pulse text-center mt-[5vh]'> Loading... </td>:<p>DATA LOADED</p>}
+                </tbody>
               </table>
             </div> 
         </div>
