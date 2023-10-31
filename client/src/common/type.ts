@@ -1,6 +1,7 @@
 type MerchDeetsBackProps = {
     setOpenRatingMod: React.Dispatch<React.SetStateAction<boolean>>;
     openRatingMod: boolean;
+    trigger?: () => void;
 };
 
 type ReserveProps = {

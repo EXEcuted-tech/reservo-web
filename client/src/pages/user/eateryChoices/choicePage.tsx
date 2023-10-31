@@ -64,13 +64,16 @@ const ChoicePage = () => {
   }
 
   const triggerNotification = () =>{
-      setTimeout(()=>{
-        setNotif(true);
-      },1500)
-      setNotif(false);
+    setTimeout(() => {
+      setNotif(true);
+      
+      setTimeout(() => {
+        setNotif(false);
+      }, 5000); 
+    }, 500);
   }
 
-  const HandleSearchQuery = (e) => {
+  const HandleSearchQuery = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchQuery(e.target.value);
   }
 
