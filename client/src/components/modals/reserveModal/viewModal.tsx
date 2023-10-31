@@ -161,14 +161,38 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block px-[1%] mt-[2%] text-white rounded-lg mb-[0.5%] xl:max-2xl:text-[1.0em]'>Inventory</h1>
         <div className='flex mx-[2%] text-[1.2em] xl:max-2xl:text-[0.8em]'>
           <div className='w-[33%]'>
-            <p className='my-[1%]'><span className='font-bold'>No. of Tables: </span>{inventory?.no_of_tables}</p>
-            <p className='my-[1%]'><span className='font-bold'>No. of Chairs: </span>{inventory?.no_of_chairs}</p>
-            <p className='my-[1%]'><span className='font-bold'>No. of Plates: </span>{inventory?.no_of_plates}</p>
+            <p className={`my-[1%]`}><span className={`font-bold`}>No. of Tables: </span>
+              <span className={`${inventory?.no_of_tables == null && 'italic text-gray-400'}`}>
+                {inventory?.no_of_tables != null ? inventory?.no_of_tables : "To be added."}
+              </span>
+            </p>
+            <p className='my-[1%]'><span className='font-bold'>No. of Chairs: </span>
+              <span className={`${inventory?.no_of_chairs == null && 'italic text-gray-400'}`}>
+                {inventory?.no_of_chairs != null ? inventory?.no_of_chairs : "To be added."}
+              </span>
+            </p>
+            <p className='my-[1%]'><span className='font-bold'>No. of Plates: </span>
+              <span className={`${inventory?.no_of_plates == null && 'italic text-gray-400'}`}>
+                {inventory?.no_of_plates != null ? inventory?.no_of_plates : "To be added."}
+              </span>
+            </p>
           </div>
           <div className='w-[33%]'>
-            <p className='my-[1%]'><span className='font-bold'>No. of Glasses: </span>{inventory?.no_of_glasses}</p>
-            <p className='my-[1%]'><span className='font-bold'>No. of Table Cloths: </span>{inventory?.no_of_tableCloths}</p>
-            <p className='my-[1%]'><span className='font-bold'>No. of Chair Covers: </span>{inventory?.no_of_chairCovers}</p>
+            <p className='my-[1%]'><span className='font-bold'>No. of Glasses: </span>
+              <span className={`${inventory?.no_of_glasses == null && 'italic text-gray-400'}`}>
+                {inventory?.no_of_glasses != null ? inventory?.no_of_glasses : "To be added."}
+              </span>
+            </p>
+            <p className='my-[1%]'><span className='font-bold'>No. of Table Cloths: </span>
+              <span className={`${inventory?.no_of_tableCloths == null && 'italic text-gray-400'}`}>
+                {inventory?.no_of_tableCloths != null ? inventory?.no_of_tableCloths : "To be added."}
+              </span>
+            </p>
+            <p className='my-[1%]'><span className='font-bold'>No. of Chair Covers: </span>
+              <span className={`${inventory?.no_of_chairCovers == null && 'italic text-gray-400'}`}>
+                {inventory?.no_of_chairCovers != null ? inventory?.no_of_chairCovers : "To be added."}
+              </span>            
+            </p>
           </div>
         </div>
 

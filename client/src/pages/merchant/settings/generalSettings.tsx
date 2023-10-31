@@ -10,8 +10,10 @@ import GenSpinner from '../../../components/loaders/genSpinner'
 import config from '../../../common/config'
 import ImageEditModal from '../../../components/modals/settingsModal/imageEditModal.tsx';
 import Notification from '../../../components/alerts/Notification.tsx'
+import MerchSettingsLoad from '../../../components/loaders/merchSettingsLoad.tsx'
 
 export default function GeneralSettings() {
+    const [load,setLoad]=useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [newImageUrl, setNewImageUrl] = useState('');
@@ -137,6 +139,7 @@ export default function GeneralSettings() {
     }, [notification]);
 
     const fetchData = async ()=>{
+        setLoad(true);
         /*get DB data*/
         try{
             await axios.get(`${config.API}/merchant/retrieve`, request).then((res)=>{
@@ -153,14 +156,18 @@ export default function GeneralSettings() {
                 setSelectedProvince(response.address.province);
                 setSelectedMunicipality(response.address.municipality);
                 setSelectedBarangay(response.address.barangay);
-                
+                setTimeout(()=>{
+                    setLoad(false);
+                },1800)
+                //console.log("DATAAAAa => ", data);
             })
         }catch(error){
             setColor('#660605')
-            setNotification("API: Failed to fetch merchant data")
-            
+            setNotification("API: Failed to fetch merchant data");
+            setTimeout(()=>{
+                setLoad(false);
+            },1800)
         }
-           
     }
 
     const loadRegions = async()=>{
@@ -574,8 +581,14 @@ export default function GeneralSettings() {
     
     return (
         <>
-        {(notification === '')? <></>:  <Notification message={notification} color={color}/>}
-       
+        {load ?
+            <>
+                <MerchSettingsLoad/>
+            </>
+        :
+        (
+            <>
+            {(notification === '')? <></>:  <Notification message={notification} color={color}/>}
             <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in xs:max-sm:w-[130%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
                 <div className='flex flex-row mr-5 ml-5'>
                     <PiBinoculars className="text-4xl xs:max-sm:text-[1.3em] xs:max-sm:mt-[0.5rem] xl:max-2xl:text-[1.5em]" />
@@ -833,6 +846,8 @@ export default function GeneralSettings() {
                         </div>
                 </form>
             </div>
+            </>
+            )}
         </>
         
     )
