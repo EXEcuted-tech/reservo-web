@@ -1,7 +1,14 @@
 type MerchDeetsBackProps = {
     setOpenRatingMod: React.Dispatch<React.SetStateAction<boolean>>;
     openRatingMod: boolean;
+    trigger?: () => void;
 };
+
+type ChangePassProps = {
+    setErrMess: React.Dispatch<React.SetStateAction<string>>;
+    email: string;
+    trigger?: () => void;
+}
 
 type ReserveProps = {
     setOpenModalView: React.Dispatch<React.SetStateAction<boolean>>;
