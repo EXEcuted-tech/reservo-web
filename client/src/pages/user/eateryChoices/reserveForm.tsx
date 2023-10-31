@@ -68,7 +68,6 @@ const ReserveForm = () => {
 
   useEffect (()=>{
     retrieveMerchant();
-    console.log("VALUE OF CLICK: ",clickEleven);
     if(storedAcc){
         setMatchEmail(JSON.parse(storedAcc).email);
         setUserId(JSON.parse(storedAcc).userID);
