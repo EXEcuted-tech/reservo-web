@@ -247,7 +247,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
 
 
   return (
-    <div className="animate-slide-up font-poppins fixed top-[7%] left-[18%] right-0 bg-white z-50 bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
+    <div className="animate-slide-up font-poppins fixed top-[7%] left-[18%] right-0 bg-white z-[100] bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
       {!isLoading 
        ?
         <div className='flex justify-center ml-[-2%] mt-[25%]'>
