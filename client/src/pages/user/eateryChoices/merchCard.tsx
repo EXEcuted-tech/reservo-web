@@ -148,7 +148,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                     <button className='w-[15vh] flex items-center text-black bg-[#F4D147] px-[5%] py-[1.5%] rounded-2xl
                         hover:bg-[#FFB800] font-medium transition-colors delay-450 duration-[3000] ease-in-out'
                         onClick={()=>{
-                            console.log("STORED ACC: ",storedAcc);
+                            
                             if(storedAcc!=null){
                                 navigate('/eaterychoice/book')
                                 sessionStorage.setItem('merch_idtoBook', props.merchant_id.toString());

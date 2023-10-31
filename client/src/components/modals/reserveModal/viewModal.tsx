@@ -68,7 +68,7 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
     axios.get(`${config.API}/user/retrieve?col=${col}&val=${val}`)
     .then((res)=>{
        if(res.status === 200){
-        // console.log("RESULT: ",res.data);
+        
         const user = res.data.users[0];
         setName(user?.account_name);
         setEmail(user?.email_address);
@@ -85,7 +85,7 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
     axios.get(`${config.API}/inventory/retrieve?col=${col}&val=${val}`)
     .then((res)=>{
        if(res.status === 200){
-        console.log("RESULT: ",res.data);
+       
         const inventoryData = res.data.records[0];
         setInventory({
           no_of_tables: inventoryData?.no_of_tables,

@@ -43,7 +43,7 @@ const MerchDashboard = () => {
      
       setgraphList(responseBooks.data.count)
     } catch (error) {
-      console.log(error);
+      //PUT ERROR NOTIF 
     }
   }
 
@@ -89,7 +89,6 @@ const MerchDashboard = () => {
   }
 
   const fetchInfo = async() =>{
-    console.log(localStorage.userDetails)
     try{
       const responseCount = await axios.get(`${config.API}/reserve/retrievecount`, {
         params: {
@@ -132,7 +131,7 @@ const MerchDashboard = () => {
       });
       setTodayCount(responseToday.data.count);
     }catch(error){
-      console.log(error);
+      //PUT ERROR NOTIF 
     }
   }
 
@@ -140,9 +139,6 @@ const MerchDashboard = () => {
     setIsLoading(true);
     fetchInfo();
     fetchGraphInfo();
-    console.log("LineData:", LineData);
-  console.log("LineChartOptions:", LineChartOptions);
-  console.log("localstorage: ", localStorage)
   setIsLoading(false);
   }, []);
   

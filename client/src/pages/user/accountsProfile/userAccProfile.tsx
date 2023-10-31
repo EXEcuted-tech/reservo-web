@@ -78,7 +78,7 @@ function UserProfilePage() {
             setReservations(result.data.records);
             setIsLoading(false);
         } catch (error) {
-            console.log(error);
+            //PUT ERROR NOTIF 
         }
     }
 

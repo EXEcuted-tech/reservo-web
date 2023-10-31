@@ -146,14 +146,14 @@ export default function GeneralSettings() {
                 if (tempResponse.settings == null || '') {
                     tempResponse.settings = '';
                 }
-                console.log("TEMP RESPONSE =>>>", tempResponse);
+                
                 setData(tempResponse);
                 setSelectedCountry (response.address.country);
                 setSelectedRegion(response.address.region);
                 setSelectedProvince(response.address.province);
                 setSelectedMunicipality(response.address.municipality);
                 setSelectedBarangay(response.address.barangay);
-                //console.log("DATAAAAa => ", data);
+                
             })
         }catch(error){
             setColor('#660605')
@@ -179,7 +179,7 @@ export default function GeneralSettings() {
             }
             else{
             setSelectedRegionId(region.regionId);
-            //console.log("DATA REGIONS : ", regionNames);
+            
             }
         }
         catch(error){
@@ -193,7 +193,7 @@ export default function GeneralSettings() {
     }
 
     const loadProvinces = async ()=>{
-        //console.log("REGION ID : ", selectedRegionId);
+       
         if (selectedRegionId === '' || selectedCountry != 'Philippines'){
             setProvinceNames([]);
             setSelectedProvinceId('');
@@ -208,10 +208,10 @@ export default function GeneralSettings() {
            setProvinceNames(result);
            const province:any = result.find((prov:any)=> prov.name === selectedProvince) || {};
            setSelectedProvinceId(province.provinceId);
-           //console.log("PROVID: ", province.provinceId)
+           
            })
            .catch((error) => {
-             //console.log("Failed to fetch province data:", error);
+             
              setColor('#660605')
              setNotification("API: Failed to get province data")
            });
@@ -233,14 +233,14 @@ export default function GeneralSettings() {
                   const  municipality = result.filter((muni:{name: string, municipalityId: string, provinceId: string, regionId: string})=> 
                     muni.provinceId === selectedProvinceId
                   ) || [];
-                    //console.log("MUNICIPALITIES ==> ", selectedMunicipality)
+                    
                     setMunicipalityNames(municipality);
                     const m:any = municipality.find((res:any)=> res.name === selectedMunicipality) || {};
                     setSelectedMunicipalityId(m.municipalityId);
-                   // console.log("MUNICIPALITY : ", selectedMunicipalityId)
+                   
                 })
                 .catch((error) => {
-                  //console.log("Failed to fetch municipality data:", error);
+                 
                   setColor('#660605')
                   setNotification("API: Failed to fetch municipality data")
                 });
@@ -260,7 +260,7 @@ export default function GeneralSettings() {
                     barangayId: barangay.code,
                   }));
                   setBarangayNames(result);
-                  //console.log("DATA BARANGaAY : ", result);
+                  
                   const  barangay = result.filter((brgy:{name: string, municipalityId: string, provinceId: string, regionId: string})=> 
                   brgy.name === selectedBarangay
                   ) || [];
@@ -268,7 +268,7 @@ export default function GeneralSettings() {
                   setRequiredFields(false);
                 })
                 .catch((error) => {
-                  //console.log("Failed to fetch barangay data:", error);
+                  
                   setColor('#660605')
                   setNotification("API: Failed to fetch barangay data")
                 });
@@ -288,7 +288,7 @@ export default function GeneralSettings() {
             //if input data is from object settings
             if (name.startsWith('settings.')) {
                 const settingsKey = name.split('.')[1]
-                //console.log("CURRENTLY CHANGING ==> ", settingsKey)
+                
                 return {
                     ...prevData,
                     settings: {
@@ -374,7 +374,7 @@ export default function GeneralSettings() {
                             },
                         }));
                     } else {
-                        //console.log("I AM HEREE!! BETCH!!");
+                        
                         // Update the selected region
                         setSelectedRegion(value);
                         setSelectedProvince('');
@@ -506,7 +506,7 @@ export default function GeneralSettings() {
                     } else {
                         // Update the selected region
                         setSelectedBarangay(value);
-                       // console.log("CURRENT BRGY SEL ==> ", value)
+                       
                         setSelectedBarangayId('');
                             // Update data state
                             setData((prevData: any) => ({
@@ -528,7 +528,7 @@ export default function GeneralSettings() {
                         [addressKey]: value,
                     },
                 }
-               // console.log("CURRENT ADDRESS ==> ", data.address);
+               
             }
             else if (name.startsWith('merchant.')) {
                 const merchantKey = name.split('.')[1]
@@ -552,11 +552,11 @@ export default function GeneralSettings() {
         data.merchant.logo = newImageUrl ? newImageUrl: data.merchant.logo;
 
         const formData = data;
-        //console.log("FORMDATA ==> ", formData);
+        
 
         axios.post(`${config.API}/merchant/update`, formData)
         .then(function(response){
-        //console.log("SERVER RESPONDED WITH ==> ", response);
+        
           if (response.data.success === true){
             setNotification("Successfully Saved!");
           }else{
@@ -564,7 +564,7 @@ export default function GeneralSettings() {
           }
         })
         .catch(function(error){
-            //console.log(error.request.status);
+            
             setNotification("Error with code "+ error.request.status);
         })
         setTimeout(() => {
