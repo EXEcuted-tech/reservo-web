@@ -1,5 +1,4 @@
-CREATE DATABASE reservo;
-USE reservo;
+USE bqjztpetpvrvxxbc7tbl;
 
 
 CREATE TABLE `account` (
