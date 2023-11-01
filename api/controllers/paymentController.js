@@ -29,12 +29,13 @@ const createPayment = (req,res)=>{
 }
 
 const updatePayment = (req,res)=>{
+  const {payId} = req.query;
   const {total_expense,balance,payment_status,payment_date} = req.body;
     
   const updatePay = 
   'UPDATE payment SET total_expense=?,balance=?,payment_status=?,payment_date=? WHERE payment_id=?';
 
-  const data = [total_expense,balance,payment_status,payment_date]
+  const data = [total_expense,balance,payment_status,payment_date,payId]
   db.query(updatePay, data, (err, result) => {
     if (err) {
       console.error('Error inserting data:', err);
@@ -108,10 +109,32 @@ const deletePayment = (req,res)=>{
   });
 }
 
+const retrieveCountByParams = (req, res) => {
+  const { col, val } = req.query;
+
+  const retrieveSpecific = 'SELECT COUNT(*) AS record_count FROM payment WHERE ?? = ?';
+
+  db.query(retrieveSpecific, [col, val], (err, row) => {
+      if (err) {
+          console.error('Error retrieving records:', err);
+          return res.status(500).json({ status: 500, success: false, error: 'Error retrieving records' });
+      } else {
+          const recordCount = row[0].record_count;
+
+          return res.status(200).json({
+              status: 200,
+              success: true,
+              payCount: recordCount,
+          });
+      }
+  });
+};
+
 module.exports = {
     createPayment,
     updatePayment,
     retrieveAll,
     retrieveByParams,
     deletePayment,
+    retrieveCountByParams
 }

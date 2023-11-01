@@ -2,7 +2,6 @@ const express = require('express');
 const db = require('./a_db'); 
 
 const createInventory = (req,res)=>{
-    console.log("DATABSE: ",db);
     const {numTables, numChairs, numPlates, numGlasses, numTableCloth, numChairCovers} = req.body;
  
       const insertQuery = 'INSERT INTO inventory (no_of_tables, no_of_chairs, no_of_plates, no_of_glasses, no_of_tableCloths, no_of_chairCovers) VALUES (?,?,?,?,?,?)';
@@ -30,17 +29,16 @@ const createInventory = (req,res)=>{
 
 const updateInventory = (req,res)=>{
     try{
-      const {inventoryID} = req.params
-      const inventoryUpdate = req.body
+      const { inventoryID } = req.query;
+      const {no_of_tables,no_of_chairs,no_of_plates,no_of_glasses,no_of_tableCloths,no_of_chairCovers} = req.body;
+  
+      const sql = `UPDATE inventory SET no_of_tables=?,no_of_chairs=?,no_of_plates=?,no_of_glasses=?,
+                   no_of_tableCloths=?,no_of_chairCovers=? WHERE inventory_id = ?`;
+      
+      const values=[no_of_tables,no_of_chairs,no_of_plates,no_of_glasses,no_of_tableCloths,no_of_chairCovers,inventoryID];
+ 
+      db.query(sql, values, (err, results) => {
 
-      const cols = Object.keys(inventoryUpdate)
-      const values = Object.values(inventoryUpdate)
-
-      const setClause = cols.map((col) => `${col} = ?`).join(', ')
-
-      const sql = `UPDATE inventory SET ${setClause} WHERE inventory_id = ?`
-
-      db.query(sql,[inventoryUpdate,inventoryID],(err,results) => {
         if(err){
           console.error('Error Getting data:', err)
                 res.status(500).json({
@@ -52,7 +50,7 @@ const updateInventory = (req,res)=>{
         }else{
           res.status(200).json({
             status: 200,
-            success: false,
+            success: true,
             message: "Successfully updated inventory",
             data: results
         })
@@ -74,7 +72,7 @@ const retrieveAll = (req,res)=>{
           const sql = "SELECT * FROM inventory";
           db.query(sql, (err, results) => {
           if(err){
-              console.log("Error fetching data")
+
               res.status(500).json({error: 'Internal server error'})
           }else{
               res.json({
@@ -98,7 +96,7 @@ const retrieveByParams = (req,res)=>{
         const sql = "SELECT * FROM inventory WHERE ?? = ?"
         db.query(sql,[col, val], (err, results) => {
             if(err){
-                console.log("Error fetching data")
+
                 res.status(500).json({error: 'Internal server error'})
             }else{
                 res.status(200).json({
@@ -147,10 +145,32 @@ const deleteInventory = (req,res)=>{
   }
 }
 
+const retrieveCountByParams = (req, res) => {
+  const { col, val } = req.query;
+
+  const retrieveSpecific = 'SELECT COUNT(*) AS record_count FROM inventory WHERE ?? = ?';
+
+  db.query(retrieveSpecific, [col, val], (err, row) => {
+      if (err) {
+          console.error('Error retrieving records:', err);
+          return res.status(500).json({ status: 500, success: false, error: 'Error retrieving records' });
+      } else {
+          const recordCount = row[0].record_count;
+
+          return res.status(200).json({
+              status: 200,
+              success: true,
+              inventoryCount: recordCount,
+          });
+      }
+  });
+};
+
 module.exports = {
     createInventory,
     updateInventory,
     retrieveAll,
     retrieveByParams,
     deleteInventory,
+    retrieveCountByParams
 }

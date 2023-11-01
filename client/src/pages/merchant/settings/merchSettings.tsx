@@ -1,52 +1,33 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { BsFillBuildingFill } from "react-icons/bs";
 import MerchAdHeader from '../../../components/headers/MerchAdHeader.tsx';
-import { Divider } from '@mui/material';
 import GeneralSettings from './generalSettings';
 import AdvancedSettings from './advancedSettings';
+import ToggleHeader from '../../../components/headers/toggleHeader.tsx';
 
 const MerchSettings = () => {
-    const [activeTab, setActiveTab] = useState(1);
-    
-    const handleTabClick = (tabNumber: number) => {
-        setActiveTab(tabNumber);
-    };
 
-    return (
-        <div className={`bg-[#FFFFFF] h-[100vh] font-poppins overflow-y-auto overflow-x-hidden`}>
-        <div className="w-[80vw]">
+return (
+        
+    <div className={`bg-[#FFFFFF] h-full font-poppins overflow-y-auto overflow-x-hidden animate-fade-in xs:max-sm:w-full xs:max-sm:overflow-x-auto`}>
+      <div className="w-full">
+        {/* Header Section */}
         <MerchAdHeader icon={BsFillBuildingFill} title={'Merchant Settings'}/>
-
-            <div className="bg-[#F3F3F3] h-full w-full">
- 
-                <div style={{fontFamily: 'Poppins, sans-serif'}} className="flex ml-10 mr-10">
-                    <div
-                        className={`hover:underline tab-item cursor-pointer p-4 transition duration-300 ease-in-out ${activeTab === 0 ? 'font-bold' : ''}`}
-                        onClick={() => handleTabClick(1)}
-                    >
-                        General Settings
+            {/* Main Content Area */}
+              <div className="bg-[#F3F3F3] h-[175vh] xs:max-sm:w-full xl:max-2xl:h-[245vh]">
+                {/* Navigation Section */}
+                    <div className="flex ml-10 mr-10 text-xl xs:max-sm:ml-[-1rem] xs:max-sm:mr-14">
+                        <ToggleHeader
+                            title1="General Settings"
+                            title2="Advanced Settings"
+                            component1={<GeneralSettings />}
+                            component2={<AdvancedSettings />}
+                        />
                     </div>
-                   
-                    <div
-                        className={`hover:underline tab-item cursor-pointer p-4 transition duration-300 ease-in-out ${activeTab === 0 ? 'font-bold' : ''}`}
-                        onClick={() => handleTabClick(2)}
-                    >
-                        Advanced
-                    </div>
-                    <div
-                        className={`underline transition-transform duration-300 ease-in-out ${activeTab === 0 ? 'translate-x-0' : activeTab === 1 ? 'translate-x-full' : 'translate-x-full*2'}`}
-                    ></div>
-                </div>
-
-                <Divider />
-                {activeTab === 1 && <GeneralSettings />}
-                {activeTab === 2 && <AdvancedSettings />}
-            </div>
-            </div>
-        </div>  
+              </div>  
+        </div>
+    </div>
     )
 }
-
-
 
 export default MerchSettings

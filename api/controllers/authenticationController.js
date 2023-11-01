@@ -7,15 +7,13 @@ const createAccount = async (req, res) => {
     try {
         const { account_name, account_email, password, account_type, contact_number } = req.body;
 
-        // Use a parameterized query to prevent SQL injection
         const sql = "INSERT INTO account (account_name, email_address, passwd, account_type, contact_number) VALUES (?, ?, ?, ?, ?)";
         const hashedpassword = await bcrypt.hash(password, saltRounds)
         const values = [account_name, account_email, hashedpassword, account_type, contact_number];
         db.query(sql, values, (err, result) => {
             console.log(db);
             if (err) {
-                console.log(result);
-                res.status(200).json({
+                res.status(404).json({
                     success: false,
                     message: "Account add fail",
                     result: err,
@@ -24,7 +22,7 @@ const createAccount = async (req, res) => {
                 res.status(200).json({
                     success: true,
                     message: "Account created successfully",
-                    result: result,
+                    data: result,
                 });
             }
 
@@ -47,43 +45,50 @@ const login = (req,res)=>{
         const sql = "SELECT * FROM account WHERE email_address = ?";
         const values = [account_email];
         db.query(sql, values, (err, dbresult) => {
-            //console.log("W: " + account_type + " DB: "+dbresult[0].account_type);
-
             if (!err && dbresult.length === 1){
+
                 if (account_type != dbresult[0].account_type){
-                    return res.status(400).json({
+                    res.status(200).json({
                         success: false,
-                        message: "Account Type Mismatch",
+                        error: "Account Type Mismatch! Check if you are logging in the right page.",
                     });
                 }else{
                     const hash = dbresult[0].passwd;
                     bcrypt.compare(password,hash).then(function(result) {
                         if (result == true){
-                            res.status(201).json({
-                                success: true,
-                                message: "Retrieved",
-                                account_info:{
-                                    userID: dbresult[0].account_id,
-                                    user: dbresult[0].account_name,
-                                    email: dbresult[0].account_email,
-                                    type: dbresult[0].account_type                           
+                            const updateLogin = "UPDATE account SET last_login = CURRENT_TIMESTAMP() WHERE account_id = ?";
+                            const accountLogged = [dbresult[0].account_id];
+
+                            db.query(updateLogin, accountLogged, (updateErr) => {
+                                if (updateErr) {
+                                    console.error("Error updating last_login:", updateErr);
                                 }
+
+                                res.status(201).json({
+                                    success: true,
+                                    message: "Retrieved",
+                                    account_info: {
+                                        userID: dbresult[0].account_id,
+                                        user: dbresult[0].account_name,
+                                        email: dbresult[0].email_address,
+                                        type: dbresult[0].account_type,
+                                        pic: dbresult[0].profile_picture,
+                                    },
+                                });
                             });
                         }else{
                             res.status(200).json({
                                 success: false,
-                                message: "Incorrect Credentials",
+                                error: "Incorrect Credentials",
                             });
                         }
                     });
-                }
-                    
+                }        
             }else{
                 res.status(200).json({
                     success: false,
-                    message: "Bad Request",
+                    error: "Account does not exist!",
                 });
-                console.log(err);
             }
 
             
