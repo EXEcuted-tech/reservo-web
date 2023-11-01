@@ -4,10 +4,12 @@ import {LiaSearchSolid} from 'react-icons/lia'
 import {GoPencil} from 'react-icons/go'
 import config from '../../../../common/config'
 import axios from 'axios'
+import GenSpinner from '../../../../components/loaders/genSpinner'
 
 const ReserveCard: 
     React.FC<{bookings: ReserveCardProps[],openModal: ReserveProps}> =  ({bookings, openModal}) => {
   
+    const [isLoading, setIsLoading] = useState(false);
     const {setOpenModalEdit,setOpenModalView, openModalEdit, openModalView} = openModal;
     const [date, setDate] = useState<Date | null>(null);
     const [newRecs, setNewRecs] = useState<Array<{ booking: ReserveCardProps; clientName: string }>>([]);
@@ -32,6 +34,7 @@ const ReserveCard:
     };
   
     const getClient = async (id: number) => {
+      setIsLoading(true)
       try {
         const col = 'account_id';
         const val = id;
@@ -39,13 +42,17 @@ const ReserveCard:
         const response = await axios.get(`${config.API}/user/retrieve?col=${col}&val=${val}`);
   
         if (response.data.status === 200) {
+          setIsLoading(false)
           return response.data.users[0].account_name;
         }
+        setIsLoading(false)
         return '';
       } catch (error) {
         console.error(error);
+        setIsLoading(false)
         return '';
       }
+
     };
 
     return (
@@ -69,6 +76,10 @@ const ReserveCard:
         </thead>
         {/* <hr className='border-[1px] w-[100vw]'/> */}
             <tbody>
+              { isLoading? 
+                   <></>
+
+              :<>
             {newRecs.map(({booking, clientName},index) => (
                 
               <tr className='text-center xs:max-sm:text-[0.8em] xs:max-sm:h-[10vh] xl:max-2xl:text-[0.8em]'>
@@ -112,8 +123,20 @@ const ReserveCard:
                 </td>
               </tr>
             ))}
+                             </> }
             </tbody>
         </table>
+        {isLoading? 
+        <div className='w-[100%] justify-center items-center h-[20vh] grid grid-rows-2'>
+          <div className='flex items-center justify-center text-center'>
+          <p>Loading Reservations</p>
+          </div>
+          <div className='flex items-center justify-center ml-[-25%] mb-[15vh]'>
+          <GenSpinner/>
+          </div>
+                  </div>
+    :<>
+    </>}
         </div>
     </div>
   )
