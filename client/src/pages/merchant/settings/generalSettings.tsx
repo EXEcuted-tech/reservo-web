@@ -20,6 +20,7 @@ export default function GeneralSettings() {
     const [selectedCountry, setSelectedCountry] = useState('');
     const [notification, setNotification] = useState('');
     const [color, setColor] = useState('#660605');
+    const [formDeets,setFormDeets] = useState<any>(null);
   
     const openEditModal = () => {
       setIsEditModalOpen(true);
@@ -68,7 +69,7 @@ export default function GeneralSettings() {
             email_address: "",
             logo: "",
             contact_number: '',
-            sched_id: ""
+            sched_id: "",
         },
         address: {
             country: "",  
@@ -85,6 +86,9 @@ export default function GeneralSettings() {
         accounts: {
             email: "",
             position: "",
+        },
+        formDeets: {
+            form: []
         }
     });
 
@@ -151,6 +155,7 @@ export default function GeneralSettings() {
                 }
                 
                 setData(tempResponse);
+                setFormDeets(tempResponse.formDeets);
                 setSelectedCountry (response.address.country);
                 setSelectedRegion(response.address.region);
                 setSelectedProvince(response.address.province);
@@ -558,12 +563,11 @@ export default function GeneralSettings() {
         e.preventDefault();
         data.merchant.logo = newImageUrl ? newImageUrl: data.merchant.logo;
 
+        data.formDeets = formDeets;
         const formData = data;
-        
 
         axios.post(`${config.API}/merchant/update`, formData)
         .then(function(response){
-        
           if (response.data.success === true){
             setNotification("Successfully Saved!");
           }else{
@@ -571,14 +575,13 @@ export default function GeneralSettings() {
           }
         })
         .catch(function(error){
-            
             setNotification("Error with code "+ error.request.status);
         })
         setTimeout(() => {
             setIsLoading(false);
         }, 500);
     }
-    
+
     return (
         <>
         {load ?
@@ -588,7 +591,7 @@ export default function GeneralSettings() {
         :
         (
             <>
-            {(notification === '')? <></>:  <Notification message={notification} color={color}/>}
+            {(notification !== '') && <Notification message={notification} color={color}/>}
             <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in xs:max-sm:w-[130%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
                 <div className='flex flex-row mr-5 ml-5'>
                     <PiBinoculars className="text-4xl xs:max-sm:text-[1.3em] xs:max-sm:mt-[0.5rem] xl:max-2xl:text-[1.5em]" />

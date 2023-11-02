@@ -8,6 +8,7 @@ const createMerchant = (req,res)=>{
         [insert_id]: {
           email: email,
           position: position,
+          status: 'Pending',
         },
       };
 
@@ -92,7 +93,7 @@ const updateMerchant = (req,res)=>{
     const updatedAddress = req.body.address ? JSON.stringify(req.body.address) : null;
     const updatedSettings = req.body.settings ? JSON.stringify(req.body.settings) : null;
     const updatedAccounts = req.body.accounts ? JSON.stringify(req.body.accounts) : null;
-    const updatedForm = req.body.form_deets ? JSON.stringify(req.body.form_deets) : null;
+    const updatedForm = req.body.formDeets ? JSON.stringify(req.body.formDeets) : null;
     const merchantId = updatedMerchant.merchant_id;
    
     updatedMerchant.address = updatedAddress;
@@ -105,7 +106,7 @@ const updateMerchant = (req,res)=>{
     const values = Object.values(updatedMerchant);
 
     const setClause = columns.map((column) => `${column} = ?`).join(', ');
-
+    console.log("setClause",setClause,"Values: ",values);
     db.query(`UPDATE merchant SET ${setClause} WHERE merchant_id = ?`, [...values, merchantId],
     (error, result) => {
         if(error){
@@ -149,7 +150,7 @@ const retrieveAll = (req,res)=>{
             for(const result of results){
                 const parsedAddress = JSON.parse(result.address);
                 const parsedSettings = JSON.parse(result.settings);
-                const parsedAccounts = JSON.parse(result.accounts);
+                const parsedAccounts = result.accounts && JSON.parse(result.accounts);
                 parsedSettingsArray.push(parsedSettings);
                 parsedAddressArray.push(parsedAddress);
                 parsedAccountsArray.push(parsedAccounts);
@@ -182,7 +183,7 @@ const retrieveByParams = (req,res)=>{
             return res.status(200).json({
                 status: 200,
                 success: true,
-                merchant: result,
+                merchant: result[0],
                 address: parsedAddress,
                 settings: parsedSettings,
                 accounts: parsedAccounts,

@@ -51,10 +51,12 @@ const MerchAdHeader: React.FC<MerchAdHeaderProps> = ({ icon: Icon, title }) => {
         for (const merchant of merchants) {
           const accounts = JSON.parse(merchant.accounts);
           
-          if (accounts.hasOwnProperty(userID.toString())) {
-            const merchantID = merchant.merchant_id;
-            localStorage.setItem('merch_id', JSON.stringify(merchantID));
-            break; 
+          if(accounts!=null){
+            if (accounts.hasOwnProperty(userID.toString())) {
+              const merchantID = merchant.merchant_id;
+              localStorage.setItem('merch_id', JSON.stringify(merchantID));
+              break; 
+            }
           }
         }
       }

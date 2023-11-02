@@ -97,7 +97,7 @@ interface MerchData{
 }
 
 
-// interface Account{
+// interface MerchAcc{
 //     account_id:number;
 //     account_name:string;
 //     account_status:string;
