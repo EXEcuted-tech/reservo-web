@@ -20,7 +20,7 @@ function Notification({message, color}:{message:string, color:string}) {
 
     return (
       <span className='z-[100]'>
-        {!message &&
+        {message &&
         <>
       <div
         className={`animate-fade-in fixed top-0 right-0 m-4 p-4 w-[25%] text-center text-white rounded-lg ${
@@ -32,7 +32,11 @@ function Notification({message, color}:{message:string, color:string}) {
       >
         {message}
       </div>
-      <div className={`animate-slide-left bg-gradient-to-l fixed top-[2.8%] right-0 rounded-b-lg m-4 w-[25%] h-[5px]`} style={divStyle}></div>
+      <div className={`animate-slide-left bg-gradient-to-l fixed top-[4%] right-0 rounded-b-lg m-4 w-[25%] h-[5px]
+            ${visible}
+            ? 'transition-opacity duration-300 opacity-100'
+            : 'transition-opacity duration-300 opacity-0 pointer-events-none'
+      `} style={divStyle}></div>
       </>}
     </span>
     );

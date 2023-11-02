@@ -53,7 +53,7 @@ body {
 
 .animate-slide-left {
   background-size: 400%;
-  animation: slide-left 6s ease infinite;
+  animation: slide-left 6s ease;
 }
 
 @keyframes slide-left {

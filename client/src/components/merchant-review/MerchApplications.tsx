@@ -8,6 +8,7 @@ import axios from 'axios'
 import config from '../../common/config'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Pagination from '@mui/material/Pagination';
+import Notification from '../alerts/Notification'
 
 const theme = createTheme({
   palette: {
@@ -22,6 +23,8 @@ const MerchantApplications = () => {
   const [accountData, setAccountData] = useState<{ [key: string]: any }>({});
   // const [merchAddress, setmerchAddress] = useState([{}])
   const [loading, setLoading] = useState(false)
+  const [notif,setNotif] = useState('');
+  const [color,setColor] = useState('')
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
@@ -104,7 +107,7 @@ const MerchantApplications = () => {
 
   useEffect(() => {
     fetchDataForSlicedData();
-  }, [merchAccounts]);
+  }, [merchAccounts,notif]);
   
   const fetchDataForSlicedData = async () => {
     const newData: { [key: string]: any } = {};
@@ -162,22 +165,25 @@ const MerchantApplications = () => {
       merchRecord.accounts = accounts;
       merchRecord.form_deets = res.data?.formDeets;
       console.log("Accounts: ",accounts);
-      if(Object.keys(accounts).length == 0){
-        console.log("Went in here>");
-        //Only deletes Teams nga wa pa jud ni exist sa other tables sa db ha
-        axios.post(`${config.API}/merchant/delete`,{merch_id:merch_id})
-      }else{
-        console.log("Merchant Rec: ",merchRecord)
-        axios.post(`${config.API}/merchant/update`, {
-          merchant: merchRecord,
-          address: merchRecord.address,
-          settings: merchRecord.settings,
-          accounts: merchRecord.accounts,
-          formDeets: merchRecord.form_deets
-        })
-      }
+      // if(Object.keys(accounts).length == 0){
+      //   console.log("Went in here>");
+      //   //Only deletes Teams nga wa pa jud ni exist sa other tables sa db ha
+      //   axios.post(`${config.API}/merchant/delete`,{merch_id:merch_id})
+      // }else{
+      //   console.log("Merchant Rec: ",merchRecord)
+      //   axios.post(`${config.API}/merchant/update`, {
+      //     merchant: merchRecord,
+      //     address: merchRecord.address,
+      //     settings: merchRecord.settings,
+      //     accounts: merchRecord.accounts,
+      //     formDeets: merchRecord.form_deets
+      //   })
+      // }
 
       //Delete Account dayon!
+      fetchDataForSlicedData();
+      setNotif('Denied Applicant!')
+      setColor('#660605')
     })
     .catch((error) => {
       
@@ -188,8 +194,16 @@ const MerchantApplications = () => {
     setCurrentPage(newPage);
   };
 
+  useEffect(()=>{
+    setTimeout(()=>{
+        setNotif('');
+        setColor('#660605')
+    }, 5200)
+}, [notif]);
+
     return (
         <div className='font-poppins w-[100%] bg-white h-[90%] mt-[1%] rounded-ss-2xl flex-row align-center overflow-y-auto'>
+           {(notif !== '') && <Notification message={notif} color={color}/>}
           <div>
             <div className='flex items-center py-[0.9%] border-[#F3F3F3] border-b-2'>
               <p className='ml-[2%] text-gray-500 mr-[0.8%]'>Filter by:</p>
