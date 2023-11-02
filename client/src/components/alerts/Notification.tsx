@@ -15,7 +15,7 @@ function Notification({message, color}:{message:string, color:string}) {
   }, [message]);
 
   const divStyle = {
-    backgroundImage: `linear-gradient(270deg, ${color}, white, white)`,
+    backgroundImage: `linear-gradient(-270deg, ${color}, white)`,
   };
 
     return (
@@ -32,10 +32,10 @@ function Notification({message, color}:{message:string, color:string}) {
       >
         {message}
       </div>
-      <div className={`animate-slide-left bg-gradient-to-l fixed top-[4%] right-0 rounded-b-lg m-4 w-[25%] h-[5px]
+      <div className={`animate-slide-left fixed top-[5.35%] right-0 rounded-b-lg m-4 w-[25%] h-[5px]
             ${visible}
-            ? 'transition-opacity duration-300 opacity-100'
-            : 'transition-opacity duration-300 opacity-0 pointer-events-none'
+            ? 'opacity-100'
+            : ' opacity-0'
       `} style={divStyle}></div>
       </>}
     </span>
