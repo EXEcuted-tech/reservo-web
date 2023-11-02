@@ -165,25 +165,25 @@ const MerchantApplications = () => {
       merchRecord.accounts = accounts;
       merchRecord.form_deets = res.data?.formDeets;
       console.log("Accounts: ",accounts);
-      // if(Object.keys(accounts).length == 0){
-      //   console.log("Went in here>");
-      //   //Only deletes Teams nga wa pa jud ni exist sa other tables sa db ha
-      //   axios.post(`${config.API}/merchant/delete`,{merch_id:merch_id})
-      // }else{
-      //   console.log("Merchant Rec: ",merchRecord)
-      //   axios.post(`${config.API}/merchant/update`, {
-      //     merchant: merchRecord,
-      //     address: merchRecord.address,
-      //     settings: merchRecord.settings,
-      //     accounts: merchRecord.accounts,
-      //     formDeets: merchRecord.form_deets
-      //   })
-      // }
+      if(Object.keys(accounts).length == 0){
+        console.log("Went in here>");
+        //Only deletes Teams nga wa pa jud ni exist sa other tables sa db ha
+        axios.post(`${config.API}/merchant/delete`,{merch_id:merch_id})
+      }else{
+        console.log("Merchant Rec: ",merchRecord)
+        axios.post(`${config.API}/merchant/update`, {
+          merchant: merchRecord,
+          address: merchRecord.address,
+          settings: merchRecord.settings,
+          accounts: merchRecord.accounts,
+          formDeets: merchRecord.form_deets
+        })
+      }
 
       //Delete Account dayon!
-      fetchDataForSlicedData();
       setNotif('Denied Applicant!')
       setColor('#660605')
+      fetchDataForSlicedData();
     })
     .catch((error) => {
       
