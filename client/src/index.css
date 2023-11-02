@@ -48,12 +48,21 @@ body {
 
 .animate-slide-right {
   background-size: 400%;
-
   animation: slide-right 3s ease infinite;
-  /* animation: slide-right 5s linear infinite;
-  background-image: linear-gradient(to right, #660605 0%, #9a1a00 100%);
-  background-size: 200% 100%;
-  background-position: 100% 0; */
+}
+
+.animate-slide-left {
+  background-size: 400%;
+  animation: slide-left 6s ease infinite;
+}
+
+@keyframes slide-left {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: -100% 50%;
+  }
 }
 
 @keyframes slide-right {

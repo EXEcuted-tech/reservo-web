@@ -90,10 +90,10 @@ const updateMerchant = (req,res)=>{
     const updatedMerchant = req.body.merchant;
 
     //objects
-    const updatedAddress = updatedMerchant.address ? JSON.stringify(updatedMerchant.address) : null;
-    const updatedSettings = updatedMerchant.settings ? JSON.stringify(updatedMerchant.settings) : null;
-    const updatedAccounts = updatedMerchant.accounts ? JSON.stringify(updatedMerchant.accounts) : null;
-    const updatedForm = updatedMerchant.form_deets ? JSON.stringify(updatedMerchant.form_deets) : null;
+    const updatedAddress = req.body.address ? JSON.stringify(req.body.address) : null;
+    const updatedSettings = req.body.settings ? JSON.stringify(req.body.settings) : null;
+    const updatedAccounts = req.body.accounts ? JSON.stringify(req.body.accounts) : null;
+    const updatedForm = req.body.formDeets ? JSON.stringify(req.body.formDeets) : null;
     const merchantId = updatedMerchant.merchant_id;
    
     updatedMerchant.address = updatedAddress;
@@ -106,7 +106,7 @@ const updateMerchant = (req,res)=>{
     const values = Object.values(updatedMerchant);
 
     const setClause = columns.map((column) => `${column} = ?`).join(', ');
-    // console.log("setClause",setClause,"Values: ",values);
+    console.log("setClause",setClause,"Values: ",values);
     db.query(`UPDATE merchant SET ${setClause} WHERE merchant_id = ?`, [...values, merchantId],
     (error, result) => {
         if(error){
@@ -183,7 +183,7 @@ const retrieveByParams = (req,res)=>{
             return res.status(200).json({
                 status: 200,
                 success: true,
-                merchant: result,
+                merchant: result[0],
                 address: parsedAddress,
                 settings: parsedSettings,
                 accounts: parsedAccounts,

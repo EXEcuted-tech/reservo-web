@@ -61,7 +61,6 @@ const MerchantApplications = () => {
 
   useEffect(() => {
     fetchMerchInfo();
-    console.log("Merch Team: ",merchAccounts);
   }, []);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -80,7 +79,12 @@ const MerchantApplications = () => {
       }
     
       if (Object.keys(filteredAccounts).length > 0) {
-        currentData.push(filteredAccounts);
+        const keys = Object.keys(filteredAccounts);
+        const condition =  (keys.length === 4 && keys.includes("merchant_name") && keys.includes("logo") && 
+                            keys.includes("days_left") && keys.includes("merchant_id"))
+        if(!condition){
+          currentData.push(filteredAccounts);
+        }
       }
     });
   }
@@ -99,28 +103,28 @@ const MerchantApplications = () => {
   }
 
   useEffect(() => {
-    const fetchDataForSlicedData = async () => {
-      const newData: { [key: string]: any } = {};
-      for (const data of slicedData) {
-        if (data && data[Object.keys(data)[0]]) {
-          const id = Object.keys(data)[0];
-          const result = await fetchAccount(id);
-          newData[id] = result;
-        }
-      }
-      setAccountData(newData);
-    };
-
     fetchDataForSlicedData();
   }, [merchAccounts]);
   
+  const fetchDataForSlicedData = async () => {
+    const newData: { [key: string]: any } = {};
+    for (const data of slicedData) {
+      if (data && data[Object.keys(data)[0]]) {
+        const id = Object.keys(data)[0];
+        const result = await fetchAccount(id);
+        newData[id] = result;
+      }
+    }
+    setAccountData(newData);
+  };
+
+
   const approveApplicant = (user_id:string,merch_id:number) =>{
     let merchRecord:MerchData;
 
     axios.get(`${config.API}/merchant/retrieve?col=merchant_id&val=${merch_id}`)
     .then((res)=>{
-      merchRecord=res.data.merchant[0];
-
+      merchRecord=res.data.merchant;
       const accounts = JSON.parse(merchRecord.accounts);
 
       if (accounts[user_id]) {
@@ -130,7 +134,15 @@ const MerchantApplications = () => {
       merchRecord.accounts = accounts;
       merchRecord.address = JSON.parse(merchRecord.address);
       merchRecord.settings = JSON.parse(merchRecord.settings);
-      axios.post(`${config.API}/merchant/update`,{merchant:merchRecord})
+      merchRecord.form_deets = res.data.formDeets;
+
+      axios.post(`${config.API}/merchant/update`,{
+        merchant:merchRecord,
+        address: merchRecord.address,
+        settings: merchRecord.settings,
+        accounts: merchRecord.accounts,
+        formDeets: merchRecord.form_deets
+      })
       .then((res)=>{
 
       })
@@ -140,22 +152,29 @@ const MerchantApplications = () => {
   const denyApplicant = (user_id:string,merch_id:number) =>{
     axios.get(`${config.API}/merchant/retrieve?col=merchant_id&val=${merch_id}`)
     .then((res) => {
-      const merchRecord: MerchData = res.data.merchant[0];
+      const merchRecord: MerchData = res.data.merchant;
       const accounts = JSON.parse(merchRecord.accounts);
 
-      console.log("USER ID: ",user_id);
       if (accounts[user_id]) {
         delete accounts[user_id];
       }
 
       merchRecord.accounts = accounts;
+      merchRecord.form_deets = res.data?.formDeets;
       console.log("Accounts: ",accounts);
       if(Object.keys(accounts).length == 0){
         console.log("Went in here>");
+        //Only deletes Teams nga wa pa jud ni exist sa other tables sa db ha
         axios.post(`${config.API}/merchant/delete`,{merch_id:merch_id})
       }else{
         console.log("Merchant Rec: ",merchRecord)
-        axios.post(`${config.API}/merchant/update`, {merchant: merchRecord})
+        axios.post(`${config.API}/merchant/update`, {
+          merchant: merchRecord,
+          address: merchRecord.address,
+          settings: merchRecord.settings,
+          accounts: merchRecord.accounts,
+          formDeets: merchRecord.form_deets
+        })
       }
 
       //Delete Account dayon!
@@ -193,7 +212,7 @@ const MerchantApplications = () => {
             <p className='text-[1.2em] text-[#838383] flex capitalize'>{data[Object.keys(data)[0]].position}</p>
             <div className='flex'>
               <p className='text-[1em] text-[#838383] flex mr-[1%]'>{data.days_left} days to go • </p>
-              <p className={`text-[1em] flex ${data[Object.keys(data)[0]].status === 'Active' ? 'text-[#238700]' : 'text-[#FFB800]'}`}>{data[Object.keys(data)[0]].status}</p>
+              <p className={`text-[1em] flex ${data[Object.keys(data)[0]].status === 'Approved' ? 'text-[#238700]' : 'text-[#FFB800]'}`}>{data[Object.keys(data)[0]].status}</p>
             </div>
           </div>
           <div className='w-[25%] flex flex-col p-[1%] justify-center items-center'>
