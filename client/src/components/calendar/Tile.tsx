@@ -71,9 +71,15 @@ function Tile(props:{
       <div onClick={showReservations} className={`border-b-slate-950 border-solid d-flex align-items-end justify-content-end`}>
       <p className=' text-right'>{props.day}</p>
         {props.isLoading ? <p className='text-center'>...</p> :
-          <div className={`flex justify-center duration-200 items-center w-[3vw] h-[3vw] rounded-full ${count > 0? 'bg-yellow-400 hover:bg-yellow-300': ''}`}>
-            {count > 0 ? <p>{count}<BiSearchAlt /></p> : <></>}
+        <>
+          <div className={`flex justify-center duration-200 items-center w-[3.0rem] h-[3.0rem] rounded-full ${count > 0? 'bg-yellow-400 hover:bg-yellow-300': ''}`}>
+          {count > 0 ? <BiSearchAlt /> : <></>}
           </div>
+           {count > 0 ? <div className={`relative duration-200 items-center w-[1.5rem] h-[1.5rem] mt-[-3.7rem] rounded-full bg-[#840705]`}>
+           <p className='text-white text-center'>{count}</p>
+            </div>:<></>
+            }
+            </>
         }
         
        
