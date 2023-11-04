@@ -142,6 +142,10 @@ export default function GeneralSettings() {
         }, 5200)
     }, [notification]);
 
+    useEffect(()=>{
+        console.log("Tags ==> ", data.settings.tags)
+    }, [data.settings.tags])
+
     const fetchData = async ()=>{
         setLoad(true);
         /*get DB data*/
@@ -665,6 +669,23 @@ export default function GeneralSettings() {
                                 onChange={handleChange}
                                 name="settings.description"
                                 className={`m-2 p-2 text w-full flex border border-gray-300 rounded-md resize-none xs:max-sm:h-[15vh] xs:max-sm:text-[0.6em] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
+                            />
+                        </div>
+
+                        <div className="m-2 flex flex-row ">
+                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
+                                Tags
+                            </label>
+                            
+                            <input
+                                type="text"
+                                placeholder={isLoading? "Loading...": "Enter your tags here... (Separate by Commas)"}
+                                value={data.settings.tags}
+                                disabled = {isLoading}
+                                onChange={handleChange}
+                                name="settings.tags"
+                                className={`m-2 ml-24 p-2 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
+                                required
                             />
                         </div>
                         <div className='m-4 flow-root'>
