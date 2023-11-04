@@ -684,7 +684,7 @@ export default function GeneralSettings() {
                                 disabled = {isLoading}
                                 onChange={handleChange}
                                 name="settings.tags"
-                                className={`m-2 ml-24 p-2 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
+                                className={`m-2 ml-[6.5rem] p-2 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
                                 required
                             />
                         </div>
