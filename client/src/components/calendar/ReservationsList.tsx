@@ -23,7 +23,7 @@ function ReservationsList(props:{
 const [isLoading, setIsLoading] = useState(false);
 const [data, setData] = useState([]);
 const merchant_id = localStorage.getItem('merch_id');
-const dayOfWeek = ["NULL", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+const dayOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 const monthName = ["NULL", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const urlPart = window.location.pathname.split("/");
       var filter:string = '%';

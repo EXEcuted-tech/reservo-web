@@ -241,8 +241,11 @@ function Calendar2() {
 
     const styleToday = ' bg-[#f9dcc5]'
 
+    
+
     return (
-        <div className='flex flex-col font-poppins w-[100%] h-[100%] p-[1%] bg-red-200'>
+        <div className='p-[3%]'>
+        <div className='flex flex-col font-poppins w-[100%] h-[100%] p-[1%] bg-[#840705] rounded-3xl'>
             <div>
                 <div className='grid grid-cols-7 my-[1%]' >
                     <div></div>
@@ -251,29 +254,29 @@ function Calendar2() {
                         <button onClick={(event) => {
                             event.preventDefault();
                             handleMonthChange("back");
-                        }} className='w-[2vw] h-[2vw] border-solid border-black border-2 flex justify-center items-center rounded-full duration-100 hover:border-[rgba(0,0,0,0.5)] '> <GrPrevious /></button>
+                        }} className='w-[2vw] h-[2vw] border-solid border-black border-2 flex justify-center bg-[white] items-center rounded-full duration-100 hover:border-[rgba(0,0,0,0.5)] '> <GrPrevious color='light' /></button>
                         </div> 
 
-                        <div className='flex justify-center items-center text-[1.5rem] font-bold'>
+                        <div className='flex justify-center items-center text-[1.5rem] font-bold text-white'>
                         <span>{months[monthNdx]}</span>
                         <p> - </p>
                         <span>{String(year)}</span>
                         </div>
                     
-                        <div className='flex justify-center items-center'>
+                        <div className='flex justify-center items-center '>
                     <button onClick={(event) => {
                             event.preventDefault();
                             handleMonthChange("next");
-                        }} className='w-[2vw] h-[2vw] border-solid border-black border-2 flex justify-center items-center rounded-full duration-100 hover:border-[rgba(0,0,0,0.5)]'> <GrNext /></button>
+                        }} className='w-[2vw] h-[2vw] border-solid bg-[white] border-black border-2 flex justify-center items-center rounded-full duration-100 hover:border-[rgba(0,0,0,0.5)]'> <GrNext /></button>
                         </div>
                         <div></div>
                     <div></div>
                 </div>
-                <div className='grid grid-cols-7 gap-4 mx-5'>
+                <div className='grid grid-cols-7 gap-4 mx-5 place-items-center' >
                     {Array.from({ length: 7 }).map((_, indx) => {
                         const dayOfWeek = (indx + 1) % 7; // Adjusting for Sunday as the start of the week
                         return (
-                            <span className='text-center font-poppins' key={indx}>{weekly[dayOfWeek]}</span>
+                            <div className=' w-[7vw] text-center font-poppins rounded-lg bg-[#FFFFFF] border-solid border-black border-2' key={indx}>{weekly[dayOfWeek]}</div>
                         );
                     })}
                     {Array.from({ length: getFirstDayOfMonth(year, monthNdx) }).map((_, index) => (
@@ -285,7 +288,7 @@ function Calendar2() {
                     {cell.map((day) => (
                             <div
                                 key={day}
-                                className={`h-[12vh] w-[10vw] cursor-pointer p-2 rounded-xl border-black border-2 border-solid ${
+                                className={`h-[5vw] w-[5vw] flex justify-center cursor-pointer p-2 rounded-xl border-black border-2 border-solid ${
                                 checkToday(day) === true ? styleToday : 'bg-[#FFFFFF]'
                                 } hover:bg-slate-300 duration-300`}
                                 onClick={() => handleDayClick(day)}
@@ -314,6 +317,7 @@ function Calendar2() {
                     }
                 </div>
             </div>
+        </div>
         </div>
 
     )
