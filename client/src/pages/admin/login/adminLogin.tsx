@@ -136,6 +136,7 @@ const AdminLogin = () => {
                                 <Link to={'/merchregister'} className='text-white font-bold pl-1  hover:text-black  transition-colors delay-250 duration-[3000] ease-in xl:max-2xl:text-[0.7em]'>Sign Up</Link>
                             </div>
                         </div>
+                    </div>
                     </form>
                 </div>
             </div>
