@@ -15,7 +15,7 @@ import {PiPasswordDuotone} from 'react-icons/pi'
 import {IoKeySharp, IoKeyOutline} from 'react-icons/io5'
 import {AiFillCheckCircle} from 'react-icons/ai'
 import UserNotification from '../components/alerts/UserNotification';
-import bcrypt from 'bcryptjs';
+// import bcrypt from 'bcryptjs';
 
 
 const ForgetPassword = () => {
