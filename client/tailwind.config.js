@@ -113,6 +113,14 @@ module.exports = {
           transform: 'translateX(10px)',
         },
       },
+      'up-down': {
+        '0%, 100%': {
+          transform: 'translateY(0)',
+        },
+        '50%': {
+          transform: 'translateY(-5px)',
+        },
+      },
       },
       animation: {
         'slide-down': 'slide-down 0.3s ease-out',
@@ -126,8 +134,17 @@ module.exports = {
         'fade-in': 'fade-in 0.5s ease-in-out',
         'fade-out': 'fade-out 0.5s ease-in-out',
         'shake': 'shake 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97)',
+        'up-down': 'up-down 2s infinite',
       },
     },
+  screens:{
+    'xs': '300px',
+    'sm': '640px',
+    'md': '768px',
+    'lg': '1024px',
+    'xl': '1280px',
+    '2xl': '1536px',
+  },
   },
   plugins: [],
 }

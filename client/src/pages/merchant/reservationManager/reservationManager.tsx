@@ -1,18 +1,18 @@
 import { Fragment, useEffect, useRef, useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
-import { BiEdit } from "react-icons/bi";
-import { IoCalendarOutline } from "react-icons/io5";
+import { IoCalendarOutline,IoAddCircle } from "react-icons/io5";
 import { LiaEdit } from "react-icons/lia";
 import { BsPerson } from "react-icons/bs";
 import { MdFormatListNumbered } from "react-icons/md";
 import { HiOutlineMail } from "react-icons/hi";
-import { AiOutlinePhone } from "react-icons/ai";
+import { AiOutlinePhone} from "react-icons/ai";
 import { LiaCommentSolid } from "react-icons/lia";
 import { FiClock } from "react-icons/fi";
-import {SiReacthookform} from 'react-icons/si'
-import {IoAddCircle} from 'react-icons/io5'
+import {PiClipboardText} from 'react-icons/pi'
+import {IoIosSave} from 'react-icons/io'
+import {TbTrashXFilled} from 'react-icons/tb'
 import axios from "axios";
 import config from "../../../common/config";
+import Notification from '../../../components/alerts/Notification'
 
 const PAGE_MODE = {
   READ: 0,
@@ -26,14 +26,8 @@ const ReservationManager = () => {
 
   const [data, setData] = useState<{ type: string; label: string; value: string } | any>(null);
   const [merchData,setMerchData] = useState<MerchData>()
-
-  // const [fieldList, setFieldList] = useState<
-  //   Array<{
-  //     label: string;
-  //     type: string;
-  //     value: string;
-  //   }>
-  // >([]);
+  const [notif,setNotif] = useState(false);
+  const [notifMess,setNotifMess] = useState("");
 
   const [existingList, setExistingList] = useState<
   Array<{
@@ -57,29 +51,35 @@ const ReservationManager = () => {
   const address = merchData?.address && JSON.parse(merchData?.address);
 
   useEffect (()=>{
-    // console.log("Retrieved!",existingList);
+    
     retrieveExisting();
   },[])
 
   const [pageMode, setPageMode] = useState(PAGE_MODE.READ);
 
   const handleChange = (event: any) => {
+    setNotif(false);
+    setNotifMess("");
     const newData = { ...data, [event.target.name]: event.target.value };
 
     setData(newData);
   };
 
   const handleSubmit = (event: any) => {
+    setNotif(false);
     event.preventDefault();
 
-    if (data && (!Object.hasOwn(data, "label") || !Object.hasOwn(data, "type"))) return;
-    console.log("DATA in Reservation Manager: ",data);
+    if (!data || !data.label || !data.type) {
+      setNotif(true);
+      setNotifMess("Fill in all details!");
+      return;
+    }
+
     formRef.current?.reset();
-    dialogRef.current?.close();
 
     const newField = { label: data?.label ?? "", type: data?.type ?? "", value: "" };
 
-    const isDuplicate = existingList.some(item => item.label === newField.label && item.type === newField.type);
+    const isDuplicate = existingList?.some(item => item.label === newField.label && item.type === newField.type);
 
     if (!isDuplicate) {
       const updatedExistingList = [...existingList || [], newField];
@@ -93,25 +93,36 @@ const ReservationManager = () => {
          "address":address,
          "form_deets":{form:form_deets},
        }).then((res)=>{
-         console.log("Update: \n",res);
+         
+         if(res.data.success==true){
+          setNotif(false);
+          setData(null);
+          formRef.current?.reset();
+          dialogRef.current?.close();
+         }
        })
     }else{
-      console.log("Value is repeated!");
+      setNotif(true);
+      setNotifMess("Label and Type given already exists!");
     }
   };
 
   const retrieveExisting = () =>{
+    setNotif(false);
+    setNotifMess("");
     const col = "merchant_id"
     const val = merchID
     axios.get(`${config.API}/merchant/retrieve?col=${col}&val=${val}`)
     .then((res)=>{
-      console.log("Response: ", res.data);
+      
       setMerchData(res.data.merchant);
       setExistingList(res.data.formDeets?.form);
     })
   }
 
   const handleRemove = (fieldIndex: number) => {
+    setNotif(false);
+    setNotifMess("");
     const filteredList = existingList.filter((item, index) => index !== fieldIndex);
     setExistingList(filteredList);
 
@@ -123,11 +134,13 @@ const ReservationManager = () => {
        "address":address,
        "form_deets":{form:form_deets},
      }).then((res)=>{
-       console.log("SaveDeets: \n",res);
+       
      })
   };
 
   const updateFieldList = ({ event, fieldIndex }: { event: any; fieldIndex: number }) => {
+    setNotif(false);
+    setNotifMess("");
     const modifiedList = existingList.map((item, index) => {
       return index === fieldIndex ? { ...item, value: event.target.value } : item;
     });
@@ -145,78 +158,98 @@ const ReservationManager = () => {
        "address":address,
        "form_deets":{form:form_deets},
      }).then((res)=>{
-       console.log("SaveDeets: \n",res);
+       setNotif(true);
+       setNotifMess("Reservation Form Updated!");
      })
   }
   return (
-    <div className="animate-fade-in font-poppins bg-[#F3F3F3] p-8 overflow-y-auto">
+    <div className="animate-fade-in font-poppins bg-[#F3F3F3] p-8 overflow-y-auto xs:max-sm:flex xs:max-sm:w-[100%] xs:max-sm:mr-[5%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
+      {notif && <Notification message={notifMess} color="#660605"/>}
       <div className="flex items-center justify-center">
         <div className="rounded-lg bg-[#FFFFFF] w-full p-5 mt-[1rem]">
           <div className="flex w-full items-center ">
-            <h1 className="flex items-center text-[1.5em] w-[80%] font-bold xl:max-2xl:text-[1.2em]"><SiReacthookform className="mr-[0.5%] text-[1.2em]"/> Current Reservation Form</h1>
+            <h1 className="flex items-center text-[1.5em] w-[80%] font-bold xs:max-sm:text-[1em] xl:max-2xl:text-[1.2em]">
+              <PiClipboardText className="mr-[0.5%] text-[1.2em]"/> Current Reservation Form</h1>
             <button
               type="button"
               onClick={() => (pageMode === PAGE_MODE.READ ? setPageMode(PAGE_MODE.UPDATE) : setPageMode(PAGE_MODE.READ))}
               className="text-black p-0 cursor-pointer ml-auto"
             >
-              <LiaEdit className="hover:animate-zoom-in text-4xl xl:max-2xl:text-2xl" />
+              <LiaEdit className="hover:animate-zoom-in text-4xl xs:max-sm:text-3xl xl:max-2xl:text-2xl" />
             </button>
           </div>
+
           <div className="flex flex-col text-xl text-black w-full h-full bg-[#F0E5D8] rounded-3xl mt-5 xl:max-2xl:mt-2">
-          <h1 className='font-black ml-[3%] mt-[3%] text-[1.7em] text-[#840705] xl:max-2xl:text-[1.7em] underline'>GENERAL SECTION</h1>
-            <div className="flex px-10 pb-10 pt-5">
-              <div className="flex flex-col gap-5 w-1/2 font-bold">
+          <h1 className='font-black ml-[3%] mt-[3%] text-[1.7em] text-[#840705] xs:max-sm:text-[1em] xl:max-2xl:text-[1.3em] underline'>
+            GENERAL SECTION</h1>
+            <div className="flex px-10 pb-10 xs:max-sm:p-5 xs:max-sm:flex-col pt-5">
+              <div className="flex flex-col gap-5 w-1/2 font-bold xs:max-sm:mr-[10%] xs:max-sm:w-[100%]">
                 <div className="flex items-center gap-1">
-                  <IoCalendarOutline className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Date: 
-                    <span className="text-[20px] ml-[5%] text-[#363636] font-extralight">YYYY/MM/DD</span>
+                  <IoCalendarOutline className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.1em] xl:max-2xl:text-[1.1em]"/> 
+                  <h3 className="xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Date: 
+                    <span className="text-[20px] ml-[5%] text-[#363636] font-extralight xs:max-sm:text-[0.9em]  xl:max-2xl:text-[1em]
+                    ">YYYY/MM/DD</span>
                   </h3>
                 </div>
                 <div className="flex items-center gap-1">
-                  <FiClock className="mr-[0.5rem] xl:max-2xl:text-[1.1em]" /> <h3 className="xl:max-2xl:text-[0.8em]">Time:
-                  <span className="text-[20px] ml-[5%] text-[#363636] font-extralight">mm:hh:ss</span>
+                  <FiClock className="mr-[0.5rem] xs:max-sm:text-[1.1em] xl:max-2xl:text-[1.1em]" /> 
+                  <h3 className="xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Time:
+                  <span className="text-[20px] ml-[5%] text-[#363636] font-extralight xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
+                  ">mm:hh:ss</span>
                   </h3>
                 </div>
                 <div className="flex items-center">
-                  <BsPerson className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="w-full xl:max-2xl:text-[0.8em]">Client Name:
-                    <span className="text-[20px] ml-[1%] text-[#363636] font-extralight">John Doe</span>
+                  <BsPerson className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.6em] xl:max-2xl:text-[1.1em]"/> 
+                  <h3 className="w-full xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Client Name:
+                    <span className="text-[20px] ml-[1%] text-[#363636] font-extralight xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
+                    ">John Doe</span>
                   </h3>
                 </div>
                 <div className="flex items-center">
-                  <LiaCommentSolid className="text-[22px] mr-[0.5rem]"/><h3 className="w-full xl:max-2xl:text-[0.8em]"> Remarks:
-                    <span className="text-[20px] ml-[1%] text-[#363636] font-extralight">The service was swift and great!</span>
+                  <LiaCommentSolid className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.6em] xs:max-sm:mb-[2rem] xl:max-2xl:text-[1.1em] "/>
+                  <h3 className="w-full xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]"> Remarks:
+                    <span className="text-[20px] ml-[1%] text-[#363636] font-extralight xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
+                    ">The service was swift and great!</span>
                   </h3>
                 </div>
               </div>
-              <div className="flex flex-col gap-5 w-1/2 font-bold">
+              <div className="flex flex-col gap-5 w-1/2 font-bold xs:max-sm:w-[100%]">
                 <div className="flex items-center">
-                  <MdFormatListNumbered className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="w-full xl:max-2xl:text-[0.8em]">Event Size:
-                   <span className="text-[20px] ml-[1%] text-[#363636] font-extralight">100</span>
+                  <MdFormatListNumbered className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.6em] xl:max-2xl:text-[1.1em]"/>
+                  <h3 className="w-full xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Event Size:
+                   <span className="text-[20px] ml-[1%] text-[#363636] font-extralight xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
+                   ">100</span>
                   </h3>
                 </div>
                 <div className="flex items-center">
-                  <HiOutlineMail className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="xl:max-2xl:text-[0.8em]">Email:
-                  <span className="text-[20px] ml-[3%] text-[#363636] font-extralight">john@abc.com</span>
+                  <HiOutlineMail className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.1em] xl:max-2xl:text-[1.1em]"/> 
+                  <h3 className="xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Email:
+                  <span className="text-[20px] ml-[3%] text-[#363636] font-extralight xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
+                  ">john@abc.com</span>
                   </h3>
                 </div>
                 <div className="flex items-center">
-                  <AiOutlinePhone className="text-[22px] mr-[0.5rem] xl:max-2xl:text-[1.1em]"/> <h3 className="w-full xl:max-2xl:text-[0.8em]">Contact Number:
-                  <span className="text-[20px] ml-[1%] text-[#363636] font-extralight">09123456789</span>
+                  <AiOutlinePhone className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.4em] xs:max-sm:mb-[2rem] xl:max-2xl:text-[1.1em]"/> 
+                  <h3 className="w-full xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Contact Number:
+                  <span className="text-[20px] ml-[1%] text-[#363636] font-extralight xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
+                  ">09123456789</span>
                   </h3>
                 </div>
               </div>
             </div>
-            <h1 className='font-black ml-[3%] mb-[2%] text-[1.7em] text-[#840705] xl:max-2xl:text-[1.7em] underline'>ADDITIONAL SECTION</h1>
+            <h1 className='font-black ml-[3%] mb-[2%] text-[1.7em] text-[#840705]  xs:max-sm:text-[1em] xl:max-2xl:text-[1.3em] underline'>
+              ADDITIONAL SECTION</h1>
             
             
             {pageMode === PAGE_MODE.READ &&
                   existingList?.length > 0 && (
-                    <div className="flex flex-wrap">
-                  {existingList.map((item: any, index: number) => (
+                <div className="flex flex-wrap">
+                  {existingList?.map((item: any, index: number) => (
                     <Fragment key={index}>
                       <div className="w-1/2 pb-5 px-10">
-                        <div className="flex items-center gap-1">
-                          <h3 className="font-bold xl:max-2xl:text-[0.8em]">{`${item.label}:`} 
-                            <span className="text-[20px] ml-[5%] text-[#363636] font-extralight">{`${item.value}`} </span>
+                        <div className="flex flex-wrap items-center gap-1">
+                          <h3 className="font-bold w-[50%] xl:max-2xl:text-[0.8em]">{`${item.label}:`} 
+                            <span className="text-[20px] ml-[1%] text-[#363636] font-extralight">{`${item.value}`} </span>
                           </h3>
                         </div>
                       </div>
@@ -226,13 +259,13 @@ const ReservationManager = () => {
                   )
               }
             {pageMode === PAGE_MODE.UPDATE && (
-              <div className="px-5 pb-5 ml-[1rem] animate-fade-in">
-                <div className="flex items-center">
+              <div className="px-5 pb-5 ml-[1rem] animate-fade-in xs:max-sm:ml-[0rem]">
+                <div className="flex items-center w-full">
                 <button
                   onClick={() => {
                     dialogRef.current?.showModal();
                   }}
-                  className="flex justify-center items-center p-3 text-[1em] bg-[#008927] text-white rounded-lg  xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
+                  className="flex justify-center items-center p-3 text-[1em] bg-[#008927] text-white rounded-3xl xs:max-sm:text-[0.8em] xs:max-sm:p-2  xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
                     hover:bg-[#077827] transition-colors delay-250 duration-[3000] ease-in"
                 >
                   <IoAddCircle/> Add Field
@@ -242,15 +275,16 @@ const ReservationManager = () => {
                   onClick={() => {
                     saveForm();
                   }}
-                  className="p-3 text-[1em] ml-[2%] bg-[#008927] text-white rounded-lg  xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
-                    hover:bg-[#077827] transition-colors delay-250 duration-[3000] ease-in"
+                  className="flex justify-center items-center p-3 text-[1em] ml-[1%] bg-[#f78d02] text-white rounded-3xl  xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
+                    hover:bg-[#d17802] transition-colors delay-250 duration-[3000] ease-in"
                 >
+                  <IoIosSave className="mr-[2%]"/>
                   Save
                 </button>
                 </div>
                 {existingList?.length > 0 && (
                   <div className="grid grid-cols-3 gap-4 mt-[1%]">
-                  {existingList.map((item: any, index: number) => (
+                  {existingList?.map((item: any, index: number) => (
                     <Fragment key={index}>
                       <Field
                         {...item}
@@ -338,9 +372,12 @@ const Field = ({
       <div className="flex flex-col gap-1 grow">
         <label htmlFor="label" className="font-bold">{label}</label>
         <div className="flex items-center gap-2">
-          <input type={type} name={label} value={value} className="border p-2" onChange={(event: any) => handleFieldOnChange({ event, fieldIndex: index})} />
+          <input type={type} name={label} value={value} 
+              className="border border-black rounded-2xl bg-[#fff7ed] w-[85%] p-2" 
+              onChange={(event: any) => handleFieldOnChange({ event, fieldIndex: index})} />
           <button onClick={onClick}>
-            <AiOutlineClose />
+            {/* <AiOutlineClose className="hover:text-[#e60000] hover:animate-zoom-in" /> */}
+            <TbTrashXFilled className="text-[1.2em] hover:text-[#e60000] hover:animate-zoom-in" />
           </button>
         </div>
       </div>

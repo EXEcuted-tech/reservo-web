@@ -6,7 +6,7 @@ interface ImageEditModalProps {
   onSave: (newImageUrl: string) => void;
 }
 
-const ImageEditModal: React.FC<ImageEditModalProps> = ({ isOpen, onClose, onSave }) => {
+const DisplayEditModal: React.FC<ImageEditModalProps> = ({ isOpen, onClose, onSave }) => {
   const [newImageUrl, setNewImageUrl] = useState('');
 
   const handleSave = () => {
@@ -14,7 +14,7 @@ const ImageEditModal: React.FC<ImageEditModalProps> = ({ isOpen, onClose, onSave
   };
 
   return (
-    <div className={`modal ${isOpen ? 'block animate-fade-in h-[7rem] w-[40%] ml-[2%] ' : 'hidden'}`}>
+    <div className={`modal ${isOpen ? 'absolute bg-white p-[1%] rounded-3xl top-[40%] left-[32%] z-[100] animate-fade-in h-[18vh] drop-shadow-lg w-[40%] ' : 'hidden'}`}>
       <div className="modal-overlay" onClick={onClose}></div>
 
       <div className="modal-container">
@@ -30,7 +30,7 @@ const ImageEditModal: React.FC<ImageEditModalProps> = ({ isOpen, onClose, onSave
           />
         </div>
 
-        <div className="modal-footer mt-[2%] ml-[63%] xl:max-2xl:ml-[55%]">
+        <div className="modal-footer xl:max-2xl:ml-[55%]">
           <button 
                 type="submit"
                 className="btn btn-primary w-[5rem] text-white bg-[#1B6E1E] p-[0.30rem] text-[1.1rem] xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.7rem] xs:max-sm:w-[4rem] xl:max-2xl:p-[0.05rem] xl:max-2xl:w-[4rem] items-center rounded-lg hover:bg-[#00962a] transition-colors delay-250 duration-[3000] ease-in" 
@@ -48,4 +48,4 @@ const ImageEditModal: React.FC<ImageEditModalProps> = ({ isOpen, onClose, onSave
   );
 };
 
-export default ImageEditModal;
+export default DisplayEditModal;

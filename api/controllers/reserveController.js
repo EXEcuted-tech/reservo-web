@@ -16,7 +16,6 @@ const createReserve = (req, res) => {
 		pay_id,
 		invent_id,
 	} = req.body;
-	console.log("Received: ", req.body);
 	const insertQuery =
 		"INSERT INTO reservation (res_date,res_time,res_location,date_received,party_size,settings,additional_details,account_id,merchant_id,sched_id,package_id,payment_id,inventory_id,status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
@@ -55,13 +54,11 @@ const createReserve = (req, res) => {
 					data: result,
 				});
 			} else {
-				return res
-					.status(500)
-					.json({
-						status: 500,
-						success: false,
-						error: "Record insertion failed",
-					});
+				return res.status(500).json({
+					status: 500,
+					success: false,
+					error: "Record insertion failed",
+				});
 			}
 		});
 	} catch (error) {
@@ -138,13 +135,11 @@ const retrieveAll = (req, res) => {
 	db.query(retrieveRecs, (err, rows) => {
 		if (err) {
 			console.error("Error retrieving all records:", err);
-			return res
-				.status(500)
-				.json({
-					status: 500,
-					success: false,
-					error: "Error retrieving all records",
-				});
+			return res.status(500).json({
+				status: 500,
+				success: false,
+				error: "Error retrieving all records",
+			});
 		} else {
 			return res.status(200).json({
 				status: 200,
@@ -166,13 +161,11 @@ const retrieveByParams = (req, res) => {
 	db.query(retrieveSpecific, [col, val], (err, row) => {
 		if (err) {
 			console.error("Error retrieving records:", err);
-			return res
-				.status(500)
-				.json({
-					status: 500,
-					success: false,
-					error: "Error retrieving records",
-				});
+			return res.status(500).json({
+				status: 500,
+				success: false,
+				error: "Error retrieving records",
+			});
 		} else {
 			return res.status(200).json({
 				status: 200,
@@ -320,6 +313,55 @@ const retrieveCountByThreeParams = (req, res) => {
 			}
 		},
 	);
+};
+
+const retrieveNParams = (req, res) => {
+	const query = String(req.query.query);
+
+	const retrieveSpecific = "SELECT * FROM reservation WHERE " + query;
+
+	db.query(retrieveSpecific, (err, rows) => {
+		if (err) {
+			console.error("Error retrieving records:", err);
+			return res.status(500).json({
+				status: 500,
+				success: false,
+				error_no: err.errno,
+				error_msg: err.message,
+				sql_msg: err.sqlMessage,
+			});
+		} else {
+			return res.status(200).json({
+				status: 200,
+				success: true,
+				data: rows,
+			});
+		}
+	});
+};
+
+const retrievecountnparams = (req, res) => {
+	const cols = req.query.cols;
+	const condition = req.query.condition;
+	const retrieveSpecific =
+		"SELECT " + cols + " FROM reservation WHERE " + condition;
+	db.query(retrieveSpecific, (err, rows) => {
+		if (err) {
+			return res.status(500).json({
+				status: 500,
+				success: false,
+				error_no: err.errno,
+				error_msg: err.message,
+				sql_msg: err.sqlMessage,
+			});
+		} else {
+			return res.status(200).json({
+				status: 200,
+				success: true,
+				data: rows,
+			});
+		}
+	});
 };
 
 const deleteReserve = (req, res) => {
