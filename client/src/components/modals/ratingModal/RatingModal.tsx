@@ -24,7 +24,6 @@ const RatingModal: React.FC<MerchDeetsBackProps> = (props) => {
   
   const submitRating = (event: { preventDefault: () => void }) =>{
     event?.preventDefault();
-    console.log("HERE");
     const merchant_id = merchId !=0 ? merchId : merchantId ;
     axios.post(`${config.API}/feedback/create`,{
       acc_id: accID,
@@ -32,7 +31,6 @@ const RatingModal: React.FC<MerchDeetsBackProps> = (props) => {
       value: ratingVal,
       comment: comment,
     }).then((res)=>{
-      console.log("Response: ",res);
       if(res.data.success==true){
         window.location.reload();
       }else{
@@ -41,7 +39,7 @@ const RatingModal: React.FC<MerchDeetsBackProps> = (props) => {
         }
       }
     }).catch((err)=>{
-      console.log("ERROR: ",err);
+      //PUT ERROR NOTIF 
     })
   }
 

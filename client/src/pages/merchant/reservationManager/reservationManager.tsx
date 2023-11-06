@@ -51,7 +51,7 @@ const ReservationManager = () => {
   const address = merchData?.address && JSON.parse(merchData?.address);
 
   useEffect (()=>{
-    // console.log("Retrieved!",existingList);
+    
     retrieveExisting();
   },[])
 
@@ -79,7 +79,7 @@ const ReservationManager = () => {
 
     const newField = { label: data?.label ?? "", type: data?.type ?? "", value: "" };
 
-    const isDuplicate = existingList.some(item => item.label === newField.label && item.type === newField.type);
+    const isDuplicate = existingList?.some(item => item.label === newField.label && item.type === newField.type);
 
     if (!isDuplicate) {
       const updatedExistingList = [...existingList || [], newField];
@@ -93,7 +93,7 @@ const ReservationManager = () => {
          "address":address,
          "form_deets":{form:form_deets},
        }).then((res)=>{
-         console.log("Update: \n",res);
+         
          if(res.data.success==true){
           setNotif(false);
           setData(null);
@@ -114,7 +114,7 @@ const ReservationManager = () => {
     const val = merchID
     axios.get(`${config.API}/merchant/retrieve?col=${col}&val=${val}`)
     .then((res)=>{
-      console.log("Response: ", res.data);
+      
       setMerchData(res.data.merchant);
       setExistingList(res.data.formDeets?.form);
     })
@@ -243,13 +243,13 @@ const ReservationManager = () => {
             
             {pageMode === PAGE_MODE.READ &&
                   existingList?.length > 0 && (
-                    <div className="flex flex-wrap">
+                <div className="flex flex-wrap">
                   {existingList?.map((item: any, index: number) => (
                     <Fragment key={index}>
                       <div className="w-1/2 pb-5 px-10">
-                        <div className="flex items-center gap-1">
-                          <h3 className="font-bold xl:max-2xl:text-[0.8em]">{`${item.label}:`} 
-                            <span className="text-[20px] ml-[5%] text-[#363636] font-extralight">{`${item.value}`} </span>
+                        <div className="flex flex-wrap items-center gap-1">
+                          <h3 className="font-bold w-[50%] xl:max-2xl:text-[0.8em]">{`${item.label}:`} 
+                            <span className="text-[20px] ml-[1%] text-[#363636] font-extralight">{`${item.value}`} </span>
                           </h3>
                         </div>
                       </div>

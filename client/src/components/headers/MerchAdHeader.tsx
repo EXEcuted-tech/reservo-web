@@ -16,7 +16,6 @@ const MerchAdHeader: React.FC<MerchAdHeaderProps> = ({ icon: Icon, title }) => {
   const [shortLet,setShortLet] = useState("");
 
   useEffect(() => {
-    // console.log("STORED ACC: ",storedAcc);
     if(storedAcc) {
       setUsername(JSON.parse(storedAcc).user);
     }
@@ -52,11 +51,12 @@ const MerchAdHeader: React.FC<MerchAdHeaderProps> = ({ icon: Icon, title }) => {
         for (const merchant of merchants) {
           const accounts = JSON.parse(merchant.accounts);
           
-          if (accounts.hasOwnProperty(userID.toString())) {
-            const merchantID = merchant.merchant_id;
-            // console.log(`User with userID ${userID} is associated with merchant ID ${merchantID}`);
-            localStorage.setItem('merch_id', JSON.stringify(merchantID));
-            break; 
+          if(accounts!=null){
+            if (accounts.hasOwnProperty(userID.toString())) {
+              const merchantID = merchant.merchant_id;
+              localStorage.setItem('merch_id', JSON.stringify(merchantID));
+              break; 
+            }
           }
         }
       }

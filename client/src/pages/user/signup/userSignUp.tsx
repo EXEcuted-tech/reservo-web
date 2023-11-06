@@ -26,6 +26,7 @@ const SignupPage = () => {
   const signUp = (event: FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
+<<<<<<< HEAD
     axios.post(`${config.API}/signup`, {
       account_name: accName,
       account_email: emailAdd,
@@ -47,6 +48,28 @@ const SignupPage = () => {
       console.log("ERROR: ", err);
       setError(err.error);
       setIsLoading(false);
+=======
+    axios.post(`${config.API}/signup`,{
+        account_name:  accName, 
+        account_email: emailAdd,
+        password : password,
+        account_type: 1,
+        contact_number: contactNum
+    }).then((res)=>{
+        if (res.data.success == true){
+          setTimeout(()=>{
+            setIsLoading(false);
+          },1500);
+          alert("Registered Successfully!");
+          Navigate('/uslogin');
+        }else{
+          setTimeout(()=>{setIsLoading(false)},800);
+          setError(res.data.error);
+        }
+    }).catch((err) => { 
+        setError(err.error);
+        setIsLoading(false);
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f
     });
   }
 

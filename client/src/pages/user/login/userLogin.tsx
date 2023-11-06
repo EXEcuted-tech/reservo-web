@@ -125,6 +125,38 @@ const UserLogin = () => {
                         </div>
                     </form>
                 </div>
+<<<<<<< HEAD
+=======
+                <form className='formBox w-[70%] flex flex-col xs:max-sm:scale-45 xl:max-2xl:scale-90'>
+                    <div className="inputs">
+                        <div className="I-Box flex flex-col space-y-2 mb-[20px] ">
+                            <label htmlFor="email" className='font-light xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.8em]'>Email</label>
+                            <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc] xs:max-sm:h-[3vh] xs:max-sm:text-[0.4rem] xl:max-2xl:h-[6vh] xl:max-2xl:text-[0.7em]' name="email" id="Email" value={email} onChange={(e) =>{setEmail(e.target.value)}} required/>
+                        </div>
+                        <div className="I-Box flex flex-col space-y-2 mb-[10px]">
+                            <label htmlFor="pass" className='font-light xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.8em]'>Password</label>
+                            <input type="password" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc] xs:max-sm:h-[3vh] xs:max-sm:text-[0.4rem] xl:max-2xl:h-[6vh] xl:max-2xl:text-[0.7em]' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}} required/>
+                        </div>
+                    </div>
+                    <div className="frgt text-right text-[0.8em] mb-[2rem] hover:text-[#9a1a00] transition-colors delay-250 duration-[3000] xs:max-sm:text-[0.3em] xs:max-sm:mb-[1rem] xl:max-2xl:text-[0.6em]">
+                        <Link to={'/forgpass'}>Forgot Password?</Link>
+                    </div>
+                    <div className="buttons flex flex-col items-center space-y-5 xs:max-sm:space-y-1">
+                        <button type='submit' onClick={submitHandler} className='flex items-center justify-center button bg-[#DD2803] text-white p-[0.5em] w-[50%] rounded-full 
+                                hover:bg-[#9a1a00] font-bold transition-colors delay-250 duration-[3000] ease-in xs:max-sm:text-[0.4em] xs:max-sm:w-[9vh] xl:max-2xl:text-[0.7em]'>
+                                {isLoading && <Spinner className='mr-[1%]'/>}
+                                    Sign in
+                        </button>
+                        <button type='submit' onClick={guestHandler} className='font-poppins button text-[#DD2803] p-[0.5em] w-[50%] rounded-full border-solid border-2 border-[#DD2803] font-bold 
+                            hover:bg-[#DD2803] hover:text-white transition-colors delay-250 duration-[3000] ease-in xs:max-sm:text-[0.4em] xs:max-sm:w-[9vh] xl:max-2xl:text-[0.7em] '>Log in as Guest</button>
+                        <div className="signBox">
+                            <span className='capitalize xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.7em]'>need an account ?</span>
+                            <Link to={'/usregister'} className='link text-[#DD2803] font-bold pl-1 hover:text-[#9a1a00] transition-colors delay-250 duration-[3000] ease-in xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.7em]'>Sign Up</Link>
+                        </div>    
+                    </div>
+                </form>
+           </div>
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f
 
             </div>
         </div>

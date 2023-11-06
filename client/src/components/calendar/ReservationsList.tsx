@@ -23,7 +23,7 @@ function ReservationsList(props:{
 const [isLoading, setIsLoading] = useState(false);
 const [data, setData] = useState([]);
 const merchant_id = localStorage.getItem('merch_id');
-const dayOfWeek = ["NULL", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+const dayOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 const monthName = ["NULL", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const urlPart = window.location.pathname.split("/");
       var filter:string = '%';
@@ -43,20 +43,18 @@ const fetchData = async (year:number, month:number, day:number)=>{
       const yy = String(year);
       const mm = String(month).padStart(2, '0'); // Ensure two digits for month
       const dd = String(day).padStart(2,'0');
-      console.log("FILTER IS: ", filter);
+
       axios.get(`${config.API}/reserve/retrievenparams`, {
         params: {
           query: `merchant_id = ${merchant_id} AND res_date = '${yy}-${mm}-${dd}' AND status LIKE '${filter}' ORDER BY res_time ASC`
         },
 
         }).then((response)=>{
-            //console.log("COUNT ==> for date:", yy, "-", mm, "-", dd, "-->", response.data.count)
             setData(response.data.data);
-            console.log("DATA from reservations list ===> ", response.data.data);
         });
         
       } catch (err) {
-        console.log("AXIOS ERROR!!: ", err);
+        //PUT ERROR NOTIF 
       } 
 }
 
@@ -70,12 +68,10 @@ useEffect(() => {
   }, [props.year, props.month, props.day]);
 
   useEffect(() => {
-    // Log the data whenever it changes
-    //console.log("DATA from reservations list ===>", data);
   }, [data]);
   return (
     <>
-    <div className='bg-[rgba(0,0,0,0.6)] w-[100vw] h-[100vh] z-20 absolute top-0 left-0 duration-100 animate-fade-in' onClick={()=>{props.close();}}>
+    <div className='bg-[rgba(0,0,0,0.6)] w-[100vw] h-[100vh] z-10 absolute top-0 left-0 duration-100 animate-fade-in overflow-hidden'>
     <div className="animate-slide-up font-poppins fixed top-[8%] left-[18%] right-0 bg-white z-50 bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
       {isLoading 
        ?
@@ -129,7 +125,6 @@ useEffect(() => {
                                 className="flex justify-center items-center w-[80%] bg-[#ffbb38] py-[3%] px-[15%] rounded-3xl xl:max-2xl:text-[0.9em] xl:max-2xl:mb-[3%]"
                                 onClick={() => {
                                   sessionStorage.setItem('res_id', reservation.reservation_id);
-                                  console.log("SET SESSION RESID =>", sessionStorage.getItem('res_id'));
                                   props.openView(true);
                                 }}
                             >
@@ -142,7 +137,6 @@ useEffect(() => {
                                 className="flex justify-center items-center w-[80%] bg-[#ff8e4f] py-[3%] px-[18%] rounded-3xl xl:max-2xl:text-[0.9em] xl:max-2xl:mb-[7%] xl:max-2xl:px-[19%]"
                                 onClick={() => {
                                   sessionStorage.setItem('res_id', reservation.reservation_id);
-                                  console.log("SET SESSION RESID =>", sessionStorage.getItem('res_id'));
                                   props.openEdit(true);
                                 }}
                             >

@@ -88,13 +88,16 @@ interface MerchData{
     contact_number: string;
     address: string;
     settings: string;
-    form_deets: string;
+    form_deets?: string;
     sched_id: number;
     accounts: string;
+    date_registered?: string;
+    merch_status?: string;
+    days_left?:number;
 }
 
 
-// interface Account{
+// interface MerchAcc{
 //     account_id:number;
 //     account_name:string;
 //     account_status:string;

@@ -68,7 +68,7 @@ const ForgetPassword = () => {
                 }
             })
         }catch(err){
-            console.log(err);
+            
             setErrMess('Incorrect OTP code!');
         }
     }
@@ -93,7 +93,7 @@ const ForgetPassword = () => {
       }, [countdown]);
 
       const triggerNotification = () =>{
-        console.log("TRIGGERED?!");
+        
         setTimeout(() => {
           setNotif(true);
           
@@ -221,12 +221,12 @@ const ChangePass: React.FC<ChangePassProps> = (props) => {
             return;
         }else{
             const passwordMatch = await bcrypt.compare(currPass, storedPass);
-            console.log("Con: ",newPass == conNewPass && passwordMatch,"ID",ID);
+            
             if(newPass == conNewPass && passwordMatch){
                 axios.post(`${config.API}/user/edit?userID=${ID}`,{
                     passwd: newPass,
                   }).then((res)=>{
-                    console.log("Response: ",res);
+                    
                     if(res.data.success==true){
                       setChanged(true);
                       setCurrPass('');
@@ -238,7 +238,7 @@ const ChangePass: React.FC<ChangePassProps> = (props) => {
                       props.trigger?.()
                     }
                   }).catch((err)=>{
-                    console.log("ERROR: ",err);
+                    //PUT ERROR NOTIF 
                   })
             }else{
                 props.setErrMess("Current Password Incorrect!")

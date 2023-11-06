@@ -7,7 +7,6 @@ const router = express.Router();
 const otpData = {};
 
 const sendEmail = async (req, res) => {
-console.log("Here");
   const { email } = req.body;
 
   // Create a Nodemailer transporter with your email service credentials

@@ -20,6 +20,7 @@ export default function GeneralSettings() {
     const [selectedCountry, setSelectedCountry] = useState('');
     const [notification, setNotification] = useState('');
     const [color, setColor] = useState('#660605');
+    const [formDeets,setFormDeets] = useState<any>(null);
   
     const openEditModal = () => {
       setIsEditModalOpen(true);
@@ -68,7 +69,7 @@ export default function GeneralSettings() {
             email_address: "",
             logo: "",
             contact_number: '',
-            sched_id: ""
+            sched_id: "",
         },
         address: {
             country: "",  
@@ -85,6 +86,9 @@ export default function GeneralSettings() {
         accounts: {
             email: "",
             position: "",
+        },
+        formDeets: {
+            form: []
         }
     });
 
@@ -138,6 +142,10 @@ export default function GeneralSettings() {
         }, 5200)
     }, [notification]);
 
+    useEffect(()=>{
+        console.log("Tags ==> ", data.settings.tags)
+    }, [data.settings.tags])
+
     const fetchData = async ()=>{
         setLoad(true);
         /*get DB data*/
@@ -149,8 +157,9 @@ export default function GeneralSettings() {
                 if (tempResponse.settings == null || '') {
                     tempResponse.settings = '';
                 }
-                console.log("TEMP RESPONSE =>>>", tempResponse);
+                
                 setData(tempResponse);
+                setFormDeets(tempResponse.formDeets);
                 setSelectedCountry (response.address.country);
                 setSelectedRegion(response.address.region);
                 setSelectedProvince(response.address.province);
@@ -186,7 +195,7 @@ export default function GeneralSettings() {
             }
             else{
             setSelectedRegionId(region.regionId);
-            //console.log("DATA REGIONS : ", regionNames);
+            
             }
         }
         catch(error){
@@ -200,7 +209,7 @@ export default function GeneralSettings() {
     }
 
     const loadProvinces = async ()=>{
-        //console.log("REGION ID : ", selectedRegionId);
+       
         if (selectedRegionId === '' || selectedCountry != 'Philippines'){
             setProvinceNames([]);
             setSelectedProvinceId('');
@@ -215,10 +224,10 @@ export default function GeneralSettings() {
            setProvinceNames(result);
            const province:any = result.find((prov:any)=> prov.name === selectedProvince) || {};
            setSelectedProvinceId(province.provinceId);
-           //console.log("PROVID: ", province.provinceId)
+           
            })
            .catch((error) => {
-             //console.log("Failed to fetch province data:", error);
+             
              setColor('#660605')
              setNotification("API: Failed to get province data")
            });
@@ -240,14 +249,14 @@ export default function GeneralSettings() {
                   const  municipality = result.filter((muni:{name: string, municipalityId: string, provinceId: string, regionId: string})=> 
                     muni.provinceId === selectedProvinceId
                   ) || [];
-                    //console.log("MUNICIPALITIES ==> ", selectedMunicipality)
+                    
                     setMunicipalityNames(municipality);
                     const m:any = municipality.find((res:any)=> res.name === selectedMunicipality) || {};
                     setSelectedMunicipalityId(m.municipalityId);
-                   // console.log("MUNICIPALITY : ", selectedMunicipalityId)
+                   
                 })
                 .catch((error) => {
-                  //console.log("Failed to fetch municipality data:", error);
+                 
                   setColor('#660605')
                   setNotification("API: Failed to fetch municipality data")
                 });
@@ -267,7 +276,7 @@ export default function GeneralSettings() {
                     barangayId: barangay.code,
                   }));
                   setBarangayNames(result);
-                  //console.log("DATA BARANGaAY : ", result);
+                  
                   const  barangay = result.filter((brgy:{name: string, municipalityId: string, provinceId: string, regionId: string})=> 
                   brgy.name === selectedBarangay
                   ) || [];
@@ -275,7 +284,7 @@ export default function GeneralSettings() {
                   setRequiredFields(false);
                 })
                 .catch((error) => {
-                  //console.log("Failed to fetch barangay data:", error);
+                  
                   setColor('#660605')
                   setNotification("API: Failed to fetch barangay data")
                 });
@@ -295,7 +304,7 @@ export default function GeneralSettings() {
             //if input data is from object settings
             if (name.startsWith('settings.')) {
                 const settingsKey = name.split('.')[1]
-                //console.log("CURRENTLY CHANGING ==> ", settingsKey)
+                
                 return {
                     ...prevData,
                     settings: {
@@ -381,7 +390,7 @@ export default function GeneralSettings() {
                             },
                         }));
                     } else {
-                        //console.log("I AM HEREE!! BETCH!!");
+                        
                         // Update the selected region
                         setSelectedRegion(value);
                         setSelectedProvince('');
@@ -513,7 +522,7 @@ export default function GeneralSettings() {
                     } else {
                         // Update the selected region
                         setSelectedBarangay(value);
-                       // console.log("CURRENT BRGY SEL ==> ", value)
+                       
                         setSelectedBarangayId('');
                             // Update data state
                             setData((prevData: any) => ({
@@ -535,7 +544,7 @@ export default function GeneralSettings() {
                         [addressKey]: value,
                     },
                 }
-               // console.log("CURRENT ADDRESS ==> ", data.address);
+               
             }
             else if (name.startsWith('merchant.')) {
                 const merchantKey = name.split('.')[1]
@@ -558,12 +567,11 @@ export default function GeneralSettings() {
         e.preventDefault();
         data.merchant.logo = newImageUrl ? newImageUrl: data.merchant.logo;
 
+        data.formDeets = formDeets;
         const formData = data;
-        //console.log("FORMDATA ==> ", formData);
 
         axios.post(`${config.API}/merchant/update`, formData)
         .then(function(response){
-        //console.log("SERVER RESPONDED WITH ==> ", response);
           if (response.data.success === true){
             setNotification("Successfully Saved!");
           }else{
@@ -571,14 +579,13 @@ export default function GeneralSettings() {
           }
         })
         .catch(function(error){
-            //console.log(error.request.status);
             setNotification("Error with code "+ error.request.status);
         })
         setTimeout(() => {
             setIsLoading(false);
         }, 500);
     }
-    
+
     return (
         <>
         {load ?
@@ -588,7 +595,7 @@ export default function GeneralSettings() {
         :
         (
             <>
-            {(notification === '')? <></>:  <Notification message={notification} color={color}/>}
+            {(notification !== '') && <Notification message={notification} color={color}/>}
             <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in xs:max-sm:w-[130%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
                 <div className='flex flex-row mr-5 ml-5'>
                     <PiBinoculars className="text-4xl xs:max-sm:text-[1.3em] xs:max-sm:mt-[0.5rem] xl:max-2xl:text-[1.5em]" />
@@ -662,6 +669,23 @@ export default function GeneralSettings() {
                                 onChange={handleChange}
                                 name="settings.description"
                                 className={`m-2 p-2 text w-full flex border border-gray-300 rounded-md resize-none xs:max-sm:h-[15vh] xs:max-sm:text-[0.6em] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
+                            />
+                        </div>
+
+                        <div className="m-2 flex flex-row ">
+                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
+                                Tags
+                            </label>
+                            
+                            <input
+                                type="text"
+                                placeholder={isLoading? "Loading...": "Enter your tags here... (Separate by Commas)"}
+                                value={data.settings.tags}
+                                disabled = {isLoading}
+                                onChange={handleChange}
+                                name="settings.tags"
+                                className={`m-2 ml-[6.5rem] p-2 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
+                                required
                             />
                         </div>
                         <div className='m-4 flow-root'>

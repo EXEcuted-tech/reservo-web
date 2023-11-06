@@ -62,7 +62,28 @@ INSERT INTO `account` (`account_id`, `account_name`, `email_address`, `account_t
 (42, 'Waweeeee', 'wawee@abc.com', 10, 'active', '$2b$10$NL3mGwf9L2KfQAZ/jJdOjO9b8xXs039VdpoYh/EYdY0K7hf4hVw4u', '09551957592', NULL, '2023-10-10 10:10:07', NULL),
 (43, 'yipyapyopp', 'katheamarizz@gmail.com', 10, 'active', '$2b$10$POYnX0hEocF1U3WE6OCZDeV112mxJq.WoMTI7t1YcAYF3MrAzogSW', '09551957592', NULL, '2023-10-26 04:30:24', NULL);
 
+<<<<<<< HEAD
 -- --------------------------------------------------------
+=======
+INSERT INTO `account` (`account_id`, `account_name`, `email_address`, `account_type`, `account_status`, `passwd`, `contact_number`, `profile_picture`, `date_signedup`, `last_login`) VALUES
+(1, 'Kathea Mari', 'kath@abc.com', 1, 'active', '$2b$10$/CgUHtvttyHLJ.7H8ipTsOLn8kFYSco4y0do7YHt0ODhxO68ZVr3S', '09551957593', 'https://i.imgur.com/zb1h8kj.jpg', '2023-10-10 10:10:07', '2023-10-31 21:05:33'),
+(2, 'Zoro Ror', 'zoro@abc.com', 10, 'active', '$2a$12$aE46NqPsGf721SSnEWt/Helz3hZb82cnDO6X2oygMALeChrLelEsm', '09486526630', NULL, '2023-10-10 10:10:07', '2023-10-31 22:42:20'),
+(3, 'PwenzWafow', 'pwinz@gmail.com', 10, 'active', '$2b$10$nFpIXKKEyDlX8Zzr/J6VCO9sgdRZHr.twcNaZMHkCSpAuDJMAlJIG', '09184920392', NULL, '2023-10-10 10:10:07', NULL),
+(4, 'teste', 'test@abc.com', 1, 'active', '$2b$10$woTWU2Ssp9093XpKhUCujuCquhoZtJmBjAoV0bJYJYDKqFcIGstrm', '091231923090', NULL, '2023-10-10 10:10:07', NULL),
+(8, 'Wawawow', 'waw@gmail.com', 10, 'active', '$2b$10$FDUiV57cDCwckqU1Dudk5.i7Kavt4sZ3LnZqyXYsbFSQkBxcizAyW', '09184920392', NULL, '2023-10-10 10:10:07', NULL),
+(9, 'Wewew', 'ewe@gmail.com', 10, 'active', '$2b$10$ll6Ml.Ymam4xTP1N/q9CYeFT.GpyVeFiS/t8EF9F2izxkHfU1qJI6', '09184920392', NULL, '2023-10-10 10:10:07', NULL),
+(26, 'Kathea Mari', 'katheamari@gmail.com', 10, 'active', '$2b$10$2wDQDZB08c8qIXYngtCtuu6XLcQa7o1MgMQmb4SUB4quXazs/Mbru', '09551957592', NULL, '2023-10-10 10:10:07', '2023-10-31 17:31:43'),
+(27, 'Kathea Mari', 'mike@abc.com', 10, 'active', '$2b$10$Zo.FxMnq93tkeJvNLiZSSeG9cXWLyGZ9PUyNkYHKGZS5UhQNBTVk6', '09551957592', NULL, '2023-10-10 10:10:07', '2023-10-11 23:05:03'),
+(28, 'Kiddim', 'kidd@abc.com', 10, 'active', '$2b$10$1/RHiAm8iAndqWbGOyN6.e48vt5enUH7w2MXo4cm4rbUFolEThyhe', '09551957592', NULL, '2023-10-10 10:10:07', NULL),
+(29, 'heyater', 'heya@abc.com', 10, 'active', '$2b$10$UH4gCTVUF/MlOaSsSLB9MOaNWPJd1SPYXQjYUCb3s0K0kle9n683m', '09551957592', NULL, '2023-10-10 10:10:07', NULL),
+(38, 'heyater', 'heyazz@abc.com', 10, 'active', '$2b$10$iVfQvYHE4PBq/9wdPMcxIOYxMKIe4hjmQWsJz5loOwXQc6wDu4MVi', '09551957592', NULL, '2023-10-10 10:10:07', NULL),
+(39, 'heyater', 'heyazzz@abc.com', 10, 'active', '$2b$10$NZWMTSHjaHims.ca0skRaudfE1lI2Ra9LxTFa2dHQ1KUxqxHog4j.', '09551957592', NULL, '2023-10-10 10:10:07', '2023-10-11 23:05:28'),
+(40, 'SUPERGODZ', 'katteu@xyz.com', 50, 'active', '$2a$12$aE46NqPsGf721SSnEWt/Helz3hZb82cnDO6X2oygMALeChrLelEsm', '09551957592', NULL, '2023-10-10 10:10:07', '2023-10-31 19:35:33'),
+(41, 'testerr', 'testeri@gmail.com', 1, 'active', '$2b$10$4wJ1ZqzSlfJ.WH1qNa7jZuQxFS4OFVgd2GVJwKdP7oHoDPO0zkA.i', '09551957592', NULL, '2023-10-10 10:10:07', NULL),
+(42, 'Waweeeee', 'wawee@abc.com', 10, 'active', '$2b$10$NL3mGwf9L2KfQAZ/jJdOjO9b8xXs039VdpoYh/EYdY0K7hf4hVw4u', '09551957592', NULL, '2023-10-10 10:10:07', NULL),
+(43, 'yipyapyopp', 'katheamarizz@gmail.com', 10, 'active', '$2b$10$POYnX0hEocF1U3WE6OCZDeV112mxJq.WoMTI7t1YcAYF3MrAzogSW', '09551957592', NULL, '2023-10-26 04:30:24', NULL);
+
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f
 
 --
 -- Table structure for table `feedback`
@@ -76,9 +97,12 @@ CREATE TABLE `feedback` (
   `comment` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+<<<<<<< HEAD
 --
 -- Dumping data for table `feedback`
 --
+=======
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f
 
 INSERT INTO `feedback` (`feedback_id`, `account_id`, `merchant_id`, `rating_value`, `comment`) VALUES
 (1, 1, 1, 5, 'test'),
@@ -180,7 +204,10 @@ INSERT INTO `merchant` (`merchant_id`, `merchant_name`, `email_address`, `logo`,
 (2, 'J&J Lechon Belly', 'j&j@abc.com', 'https://i.imgur.com/uRdrrhL.jpg', '09123456789', '{\"country\":\"Philippines\",\"region\":\"Central Visayas\",\"province\":\"Cebu\",\"municipality\":\"Cebu City\",\"barangay\":\"Talamban\"}', '{\"description\":\"Most delicious lechon belly found in Cebu! We also offer other kinds of Filipino viands that will surely suit to your taste!\",\"tags\":[\"On-Site\",\"Off-Site\",\"Delivery\"]}', NULL, NULL, '{\"27\":{\"email\":\"mike@abc.com\",\"position\":\"employee\"}}', '2023-10-26 04:22:48', 'Pending'),
 (3, 'Kuzina D\' Aiman', 'kuzina@abc.com', 'https://i.imgur.com/UID7wOz.jpg', '09123456793', '{\"country\":\"Philippines\",\"region\":\"Central Visayas\",\"province\":\"Cebu\",\"municipality\":\"\",\"barangay\":\"Asturias\"}', '{\"description\":\"The best silogan on Asturias! We serve various Filipino viands especially our Silogan dishes!\",\"tags\":[\"On-Site\",\"Reserve\",\"Delivery\"]}', NULL, NULL, '{\"42\":{\"email\":\"wawee@abc.com\",\"position\":\"manager\"}}', '2023-10-26 04:22:48', 'Pending');
 
+<<<<<<< HEAD
 -- --------------------------------------------------------
+=======
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f
 
 --
 -- Table structure for table `merchant_sched`
@@ -196,10 +223,13 @@ CREATE TABLE `merchant_sched` (
 
 -- --------------------------------------------------------
 
+<<<<<<< HEAD
 --
 -- Table structure for table `package`
 --
 
+=======
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f
 CREATE TABLE `package` (
   `package_id` bigint(20) NOT NULL,
   `package_name` varchar(255) NOT NULL,
@@ -216,9 +246,12 @@ CREATE TABLE `package` (
   `merchant_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+<<<<<<< HEAD
 --
 -- Dumping data for table `package`
 --
+=======
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f
 
 INSERT INTO `package` (`package_id`, `package_name`, `package_desc`, `price`, `date_start`, `date_end`, `time_start`, `time_end`, `visibility`, `item_list`, `image_filepath`, `tags`, `merchant_id`) VALUES
 (1, 'Package A', 'test', 500, '0000-00-00', NULL, '00:00:00', NULL, 'PUBLISHED', NULL, 'https://i.imgur.com/AZOtzD7.jpg', NULL, 1),
@@ -227,8 +260,11 @@ INSERT INTO `package` (`package_id`, `package_name`, `package_desc`, `price`, `d
 (4, 'Package D', 'test', 1500, '2023-10-07', NULL, '19:21:57', NULL, 'PUBLISHED', NULL, 'https://i.imgur.com/zb1h8kj.jpg', NULL, 2),
 (5, 'Package E', 'test', 150, '2023-10-03', NULL, '19:21:57', NULL, 'PUBLISHED', NULL, 'https://i.imgur.com/zb1h8kj.jpg', NULL, 3),
 (6, 'Package F', 'test', 800, '2023-10-07', NULL, '19:21:57', NULL, 'PUBLISHED', NULL, 'https://i.imgur.com/zb1h8kj.jpg', NULL, 3);
+<<<<<<< HEAD
 
 -- --------------------------------------------------------
+=======
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f
 
 --
 -- Table structure for table `payment`
@@ -242,9 +278,12 @@ CREATE TABLE `payment` (
   `payment_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+<<<<<<< HEAD
 --
 -- Dumping data for table `payment`
 --
+=======
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f
 
 INSERT INTO `payment` (`payment_id`, `total_expense`, `balance`, `payment_status`, `payment_date`) VALUES
 (1, 0.00, 12.21, 'PENDING', '0000-00-00 00:00:00'),
@@ -303,9 +342,12 @@ CREATE TABLE `reservation` (
   `status` enum('Ongoing','Finished') NOT NULL DEFAULT 'Ongoing'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+<<<<<<< HEAD
 --
 -- Dumping data for table `reservation`
 --
+=======
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f
 
 INSERT INTO `reservation` (`reservation_id`, `res_date`, `res_time`, `res_location`, `date_received`, `party_size`, `settings`, `additional_details`, `account_id`, `merchant_id`, `sched_id`, `package_id`, `payment_id`, `inventory_id`, `status`) VALUES
 (1, '2023-10-05', '22:30:03', 'Philippines', '2023-10-10 17:33:03', 9, '{\"additional_details\":[]}', 'why', 1, 1, NULL, 1, 1, 1, 'Finished'),
@@ -351,9 +393,13 @@ ALTER TABLE `feedback`
   ADD KEY `account_idfk_1` (`account_id`),
   ADD KEY `merchant_idfk_1` (`merchant_id`);
 
+<<<<<<< HEAD
 --
 -- Indexes for table `inventory`
 --
+=======
+
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f
 ALTER TABLE `inventory`
   ADD PRIMARY KEY (`inventory_id`);
 
@@ -377,9 +423,12 @@ ALTER TABLE `package`
   ADD PRIMARY KEY (`package_id`),
   ADD KEY `merchant_id` (`merchant_id`);
 
+<<<<<<< HEAD
 --
 -- Indexes for table `payment`
 --
+=======
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f
 ALTER TABLE `payment`
   ADD PRIMARY KEY (`payment_id`);
 
@@ -399,6 +448,7 @@ ALTER TABLE `reservation`
 -- AUTO_INCREMENT for dumped tables
 --
 
+<<<<<<< HEAD
 --
 -- AUTO_INCREMENT for table `account`
 --
@@ -410,18 +460,36 @@ ALTER TABLE `account`
 --
 ALTER TABLE `feedback`
   MODIFY `feedback_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+=======
+
+
+ALTER TABLE `account`
+  MODIFY `account_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
+ALTER TABLE `feedback`
+  MODIFY `feedback_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f
 
 --
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
   MODIFY `inventory_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f
 
 --
 -- AUTO_INCREMENT for table `merchant`
 --
 ALTER TABLE `merchant`
   MODIFY `merchant_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f
 
 --
 -- AUTO_INCREMENT for table `merchant_sched`
@@ -429,6 +497,7 @@ ALTER TABLE `merchant`
 ALTER TABLE `merchant_sched`
   MODIFY `sched_id` bigint(20) NOT NULL AUTO_INCREMENT;
 
+<<<<<<< HEAD
 --
 -- AUTO_INCREMENT for table `package`
 --
@@ -438,6 +507,13 @@ ALTER TABLE `package`
 --
 -- AUTO_INCREMENT for table `payment`
 --
+=======
+
+ALTER TABLE `package`
+  MODIFY `package_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f
 ALTER TABLE `payment`
   MODIFY `payment_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
@@ -446,6 +522,12 @@ ALTER TABLE `payment`
 --
 ALTER TABLE `reservation`
   MODIFY `reservation_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f
 
 --
 -- Constraints for dumped tables
@@ -480,8 +562,11 @@ ALTER TABLE `reservation`
   ADD CONSTRAINT `reservation_ibfk_4` FOREIGN KEY (`package_id`) REFERENCES `package` (`package_id`),
   ADD CONSTRAINT `reservation_ibfk_5` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`payment_id`),
   ADD CONSTRAINT `reservation_ibfk_6` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`inventory_id`);
+<<<<<<< HEAD
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+=======
+>>>>>>> 91e01f0be09e6dc32bb07a9aeef34c3d4fabbc7f

@@ -11,10 +11,10 @@ export default function AdvancedSettings(){
     const HandleEvent = () => {
         axios.post(`${config.API}/user/delete`, { user_id: userId })
         .then((response) => {
-            console.log(response.data);
+            
         })
         .catch((error) => {
-            console.log(error);       
+            //PUT ERROR NOTIF      
         })
     }
 
@@ -24,10 +24,10 @@ export default function AdvancedSettings(){
         };
         axios.post(`${config.API}/user/edit?userID=${userId}`, updateData)
         .then((response) => {
-            console.log(response.data);
+           
         })
         .catch((error) => {
-            console.log(error);        
+            //PUT ERROR NOTIF       
         })
     }
     

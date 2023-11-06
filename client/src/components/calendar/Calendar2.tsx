@@ -10,6 +10,7 @@ import Tile from './Tile';
 import ReservationsList from './ReservationsList';
 import ViewModal from '../modals/reserveModal/viewModal';
 import EditModal from '../modals/reserveModal/editModal';
+import { GrNext, GrPrevious } from 'react-icons/gr';
 
 interface details {
     id: number,
@@ -39,6 +40,8 @@ function Calendar2() {
     const [monthNdx, setMonthNdx] = useState(new Date().getMonth());
     const merchant_id = localStorage.getItem('merch_id');
     const [dataSet, setDataSet] = useState();
+    const [errMsg, setErrMsg] = useState('');
+    const [errTitle, setErrTitle] = useState('');
     const [reservationCounts, setReservationCounts] = useState({});
     const calendarDates = new Date();
 
@@ -61,7 +64,6 @@ function Calendar2() {
         }else{
             setShowReservations(false)
         }
-        console.log("RESERVATION MODAL STATUS: ", showReservations);
     }
 
     const months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -89,35 +91,34 @@ function Calendar2() {
                     default:
                         break;
                 }
-              //console.log("FILTER IS: ", filter);
+              
               const response = await axios.get(`${config.API}/reserve/retrievecountnparams`, {
                 params: {
                     cols: 'res_date as res_date, COUNT(*) as count',
                   condition: `merchant_id = ${merchant_id} AND res_date LIKE '${yy}-${mm}-%' AND status LIKE '${filter}' GROUP BY res_date`
                 },
               });
-              //console.log("RES DATAAA ==> ", response.data.records);
+              
               // Inside your fetchData function
                 var data:any = {};
-                //console.log("[CALENDAR]:::", response.data.data);
+                
                 for (const record of response.data.data) {
                 if (response.data.data.length > 0) {
                     const resDate:any = record.res_date;
                     const count = record.count;
 
                     data[resDate] = count;
-                   // console.log("DATA AT DATE: ", data[resDate]);
+                   
                 }
                 }
                 
                 setReservationCounts(data);
 
-                //console.log("2DATA=======>", reservationCounts);
-                //console.log("DATA=======>", data.tempData);
+
                 setDataSet(data.tempData);
-                //console.log("FETCHED DATA ==>", setDataSet);
-              } catch (err) {
-              console.log("AXIOS ERROR!!: ", err);
+              } catch (err:any) {
+                setErrTitle('Server Error');
+                setErrMsg(err.body);
             }
           }
    
@@ -145,10 +146,8 @@ function Calendar2() {
         fetchData()
             .then(() => {
                 setIsLoading(false);
-                //console.log("FETCHED DATA ==>", dataSet);
             })
             .catch((error) => {
-                console.log("ERROR FETCHING DATA ==>", error);
                 setIsLoading(false);
             });
     
@@ -173,17 +172,25 @@ function Calendar2() {
         fetchData().then(()=>{
             setIsLoading(false);
         }).catch((error)=>{
-            console.log("ERROR FETCHING DATA ==>", error);
+
             setIsLoading(false);
         });
         
         
-        // console.log("DATA ==> ", dataSet[0]);
+        
         
     }, [year, monthNdx, window.location.pathname])
 
     const handleDayClick = (day:number) => {
         setSelectedDay(day);
+    }
+
+    const checkToday = (day:number)=>{
+        var retval
+        
+        retval =  day === calendarDates.getDate() && year === calendarDates.getFullYear() && monthNdx === calendarDates.getMonth() ? true : false;
+        //console.log(year, "-", monthNdx,"-", day, "===", retval)
+        return retval
     }
 
     const updateSelected = async (year: number, month: number, day: number) => {
@@ -211,13 +218,13 @@ function Calendar2() {
                   condition: `merchant_id = ${merchant_id} AND status LIKE '${filter}' AND res_date = '${yy}-${mm}-${dd}' `
                 }
               }).then((response)=>{
-                  //console.log("COUNT ==> for date:", yy, "-", mm, "-", dd, "-->", response.data.count)
-                 // console.log("LENGTH fefe======>>", response.data.data[0].count);
+                
                   retval = response.data.data[0].count;
               });
                
-        } catch (err) {
-          console.log("AXIOS ERROR!!: ", err);
+        } catch (err:any) {
+          setErrTitle('Server Error');
+          setErrMsg(err.message);
         }   
       
         const obj = {
@@ -227,39 +234,49 @@ function Calendar2() {
           count: Number(retval),
         };
         setSelected(obj);
-        //console.log("OBJECT CLICKED ===> ", obj);
         setIsLoading(false);
       };
       
 
 
-    const styleToday = `bg-[${colors.beige}]`
+    const styleToday = ' bg-[#f9dcc5]'
+
+    
 
     return (
-        <div className='flex flex-col font-poppins w-[100%] h-[80vh] bg-red-200'>
+        <div className='p-[3%]'>
+        <div className='flex flex-col font-poppins w-[100%] h-[100%] p-[1%] bg-[#840705] rounded-3xl'>
             <div>
-                <div className='flex flex-cols justify-center' >
-                    <span>
-                        <ButtonC title='prev' isDisable={false} onClick={(event) => {
+                <div className='grid grid-cols-7 my-[1%]' >
+                    <div></div>
+                    <div></div>
+                    <div className='flex justify-center items-center'>
+                        <button onClick={(event) => {
                             event.preventDefault();
                             handleMonthChange("back");
-                        }} />  </span>
+                        }} className='w-[2vw] h-[2vw] border-solid border-black border-2 flex justify-center bg-[white] items-center rounded-full duration-100 hover:border-[rgba(0,0,0,0.5)] '> <GrPrevious color='light' /></button>
+                        </div> 
 
-                    <div className=''>
+                        <div className='flex justify-center items-center text-[1.5rem] font-bold text-white'>
                         <span>{months[monthNdx]}</span>
-                        <span>{year}</span>
-                    </div>
-                    <span>
-                        <ButtonC title='next' isDisable={false} onClick={(event) => {
+                        <p> - </p>
+                        <span>{String(year)}</span>
+                        </div>
+                    
+                        <div className='flex justify-center items-center '>
+                    <button onClick={(event) => {
                             event.preventDefault();
                             handleMonthChange("next");
-                        }} />  </span>
+                        }} className='w-[2vw] h-[2vw] border-solid bg-[white] border-black border-2 flex justify-center items-center rounded-full duration-100 hover:border-[rgba(0,0,0,0.5)]'> <GrNext /></button>
+                        </div>
+                        <div></div>
+                    <div></div>
                 </div>
-                <div className='grid grid-cols-7 gap-4 mx-5'>
+                <div className='grid grid-cols-7 gap-4 mx-5 place-items-center' >
                     {Array.from({ length: 7 }).map((_, indx) => {
                         const dayOfWeek = (indx + 1) % 7; // Adjusting for Sunday as the start of the week
                         return (
-                            <span className='text-center font-poppins' key={indx}>{weekly[dayOfWeek]}</span>
+                            <div className=' w-[7vw] text-center font-poppins rounded-lg bg-[#FFFFFF] border-solid border-black border-2' key={indx}>{weekly[dayOfWeek]}</div>
                         );
                     })}
                     {Array.from({ length: getFirstDayOfMonth(year, monthNdx) }).map((_, index) => (
@@ -271,8 +288,8 @@ function Calendar2() {
                     {cell.map((day) => (
                             <div
                                 key={day}
-                                className={`h-[12vh] w-[10vw] cursor-pointer p-2 rounded-lg ${
-                                day === calendarDates.getDate() ? styleToday : 'bg-[#FFFFFF]'
+                                className={`h-[5vw] w-[5vw] flex justify-center cursor-pointer p-2 rounded-xl border-black border-2 border-solid ${
+                                checkToday(day) === true ? styleToday : 'bg-[#FFFFFF]'
                                 } hover:bg-slate-300 duration-300`}
                                 onClick={() => handleDayClick(day)}
                             >
@@ -282,7 +299,7 @@ function Calendar2() {
                                     year={year}
                                     day={day}
                                     month={monthNdx}
-                                    today={day === calendarDates.getDate() ? true : false}
+                                    today={checkToday(day)}
                                     setIsLoading={setIsLoading}
                                     isLoading={isLoading}
                                 />
@@ -300,6 +317,7 @@ function Calendar2() {
                     }
                 </div>
             </div>
+        </div>
         </div>
 
     )

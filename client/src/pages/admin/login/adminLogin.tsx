@@ -36,26 +36,26 @@ const AdminLogin = () => {
                 setIsLoading(false);
                 setErrMess("Fill all the fields required!");
                 // setInvalid(true);
-            } else {
+            }else{
                 // console.log("TYPE:",account?.account_type);
-                axios.post(`${config.API}/login`, {
-                    account_email: email,
-                    password: pass,
-                    account_type: account.account_type ? account.account_type : 10
-                }).then((res) => {
-                    if (res.data.success == true) {
-                        setErrMess('');
-                        setTimeout(() => {
+                axios.post(`${config.API}/login`,{
+                    account_email: email , 
+                    password : pass,
+                    account_type: account.account_type == 50 ? account.account_type : 10
+                }).then((res)=>{
+                        if(res.data.success == true){
+                            setErrMess('');
+                            setTimeout(()=>{
+                                setIsLoading(false);
+                            },800)
+                            localStorage.setItem('admerchDetails', JSON.stringify(res.data.account_info));
+                            account.account_type == 10 ? Navigate('/merchdash') : Navigate('/admindash');
+                        }else{
                             setIsLoading(false);
-                        }, 800)
-                        localStorage.setItem('admerchDetails', JSON.stringify(res.data.account_info));
-                        account.account_type == 10 ? Navigate('/merchdash') : Navigate('/admindash');
-                    } else {
-                        setIsLoading(false);
-                        setErrMess(res.data.error);
+                            setErrMess(res.data.error);   
+                        }
                     }
-                }
-                ).catch((err) => {
+                ).catch((err) => { 
                     setIsLoading(false);
                     setErrMess("Login failed. Try again!");
                     // setInvalid(true);
@@ -70,7 +70,6 @@ const AdminLogin = () => {
     //     await axios.get(`${config.API}/user/retrieve?col=${col}&val=${val}`)
     //     .then((res)=>{
     //        if(res.status === 200){
-    //         // console.log("RESULT: ",res.data);
     //         const account = res.data.users[0];
     //         setAccountType(account?.account_type);
     //        }
@@ -112,17 +111,16 @@ const AdminLogin = () => {
                         {/* <div className="invalid p-[5px]">
                     <span className={(!invalid) ? 'text-white hidden' : 'text-white'}>{errMess} please Try again</span>
                     </div> */}
-                    </div>
-                    <form className='formBox w-[70%] flex flex-col' onSubmit={submitHandler} >
-                        <div className="inputs">
-                            <div className="I-Box flex flex-col space-y-2 mb-[20px]">
-                                <label htmlFor="email" className='font-thin text-white xl:max-2xl:text-[0.8em] '>Email</label>
-                                <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc] xl:max-2xl:h-[6vh] xl:max-2xl:text-[0.7em]' name="email" id="Email" value={email} onChange={(e) => { setEmail(e.target.value) }} />
-                            </div>
-                            <div className="I-Box flex flex-col space-y-2 mb-[10px]">
-                                <label htmlFor="email" className='font-thin text-white xl:max-2xl:text-[0.8em] '>Password</label>
-                                <input type="password" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc] xl:max-2xl:h-[6vh] xl:max-2xl:text-[0.7em]' name="pass" id="pass" value={pass} onChange={(e) => { setPass(e.target.value) }} />
-                            </div>
+                </div>
+                <form className='formBox w-[70%] flex flex-col xs:max-sm:scale-45' onSubmit={submitHandler} >
+                    <div className="inputs">
+                        <div className="I-Box flex flex-col space-y-2 mb-[20px]">
+                            <label htmlFor="email" className='font-thin text-white xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.8em] '>Email</label>
+                            <input type="email" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc] xs:max-sm:h-[3vh] xs:max-sm:text-[0.4rem] xl:max-2xl:h-[6vh] xl:max-2xl:text-[0.7em]' name="email" id="Email" value={email} onChange={(e) =>{setEmail(e.target.value)}}/>
+                        </div>
+                        <div className="I-Box flex flex-col space-y-2 mb-[10px]">
+                            <label htmlFor="email" className='font-thin text-white xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.8em] '>Password</label>
+                            <input type="password" className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-3 border-solid border-[#ccc] xs:max-sm:h-[3vh] xs:max-sm:text-[0.4rem] xl:max-2xl:h-[6vh] xl:max-2xl:text-[0.7em]' name="pass" id="pass" value={pass} onChange={(e) =>{setPass(e.target.value)}}/>
                         </div>
                         <div className="frgt text-right text-[12px] mb-[2rem] text-white  hover:text-black transition-colors delay-250 duration-[3000] ease-in xl:max-2xl:text-[0.6em]">
                             <Link to={'/forgpass'}>Forgot Password?</Link>
