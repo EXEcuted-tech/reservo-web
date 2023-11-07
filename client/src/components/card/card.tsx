@@ -77,7 +77,7 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
               <div className="mx-10 flex space-x-5 items-center xs:max-sm:mt-[5%]">
                   <button className='CardButton flex DetailsButton text-[1.1rem] w-1/2 items-center justify-center xs:max-sm:text-[1em] xl:max-2xl:text-[0.7em]' 
                     onClick={openModal}><HiOutlineMagnifyingGlass className="mr-[3%]"/>Details</button>
-                  {isModalOpen && <DetailsModal onClose={closeModal} packageID={package_id} packageName={packageName} date_start={date_start} date_end={date_end} price={price} description={description} tags={tags} visibility={visibility} items={items} time_start={time_start} time_end={time_end} filePath={filePath} openEditModal={function (): void {
+                  {isModalOpen && <DetailsModal onClose={closeModal} packageId={package_id}  openEditModal={function (): void {
                   throw new Error('Function not implemented.');
                 } }/>}
                   {oneButton === false &&

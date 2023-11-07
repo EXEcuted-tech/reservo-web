@@ -1,5 +1,5 @@
 import colors from '../../../common/colors'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {AiFillCloseCircle, AiFillDelete} from "react-icons/ai"
 import { HiOutlineMagnifyingGlass, HiMiniPencilSquare } from "react-icons/hi2";
 import {LuPackage2} from "react-icons/lu";
@@ -13,37 +13,50 @@ import DeleteConfirmationModal from '../../card/DeleteConfirmationModal';
 interface DetailsModalProps {
     onClose: () => void;
     openEditModal: ()=>void;
-    packageID: string;
-    packageName: string;
-    description: string;
-    date_start: Date;
-    date_end: Date;
-    tags: string[];
-    price: string;
-    visibility: string;
-    items: string[];
-    time_start: string;
-    time_end: string;
-    filePath: string;
+    packageId: string;
   }
 
   
-const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, packageName,date_start, date_end, description, price, tags, visibility, items, time_start, time_end, filePath }) => {
+const DetailsModal: React.FC<DetailsModalProps> = ({onClose, openEditModal, packageId}) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
+    //DATA for the Modal
+    const [packageName, setPackageName] = useState('UNDEFINED');
+    const [dateStart, setDateStart] = useState('1970-01-01');
+    const [dateEnd, setDateEnd] = useState('');
+    const [description, setDescription] = useState('UNDEFINED');
+    const [price, setPrice] = useState(0.00);
+    const [tags, setTags] = useState([]);
+    const [visibility, setVisibilility] = useState()
+    const [items, setItems] = useState([])
+    const [timeStart, setTimeStart] = useState('12:00')
+    const [timeEnd, setTimeEnd] = useState('');
+    const [image, setImage] = useState('');
+    
+
+
+
+
+
+    useEffect(() => {
+      fetchData()
+    }, [packageId])
+    
     const handleDeleteClick = () => {
       setDeleteModal(true);
     };
     const handleConfirmDelete = async () => {
       try {
-          const response = await axios.post(`${config.API}/package/delete/`,{
-              package_id: packageID,
-  
-          }).then(response=>{
+          await axios.post(`${config.API}/package/delete/`,{
+              package_id: packageId,
               
           })
+            
+           
+          
   
           
         }
@@ -54,6 +67,41 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
       setDeleteModal(false);
       
     };
+
+    const fetchData = async ()=>{
+      if (packageId){
+        try{
+          setIsLoading(true);
+          const response = await axios.get(`${config.API}/package/retrieve`, {
+            params: {
+              col: 'package_id',
+              val: packageId
+            }
+          })
+        
+        //console.log("DATA BEHHH ==>", response);
+        const data = response.data.data[0]
+        setPackageName(data.package_name)
+        setDescription(data.package_desc);
+        setPrice(data.price);
+        setDateStart(String(data.date_start))
+        setDateEnd(String(data.date_end))
+        var temptags = data.tags!== null || data.tags !== ''? data.tags.split(","): []
+        //console.log("TEMPTAGSSS:::: ", temptags)
+        setTags(temptags)
+        setVisibilility(data.visibility);
+        var items = data.item_list !== null || data.tags !== ''? data.item_list.split(","): []
+        setItems(items);
+        setTimeEnd(data.time_end)
+        setTimeStart(data.time_start)
+        }
+        catch(error){
+          console.log(error);
+        }finally{
+          setIsLoading(false);
+        }
+      }
+    }
   
   
     const handleCloseDeleteModal = () => {
@@ -64,14 +112,6 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
         setIsModalOpen(false);
       };
     
-    const openEditModal = ()=>{
-        setIsModalOpen(false);
-        setIsEditModalOpen(true);
-      };
-    
-      const closeEditModal = ()=>{
-        setIsEditModalOpen(false);
-      };
 
 
     return (
@@ -89,7 +129,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
       <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black '> {/*this is the header for the modal*/}
           <div className='flex start items-center text-2xl mb-4 font-bold xs:max-sm:text-[1.2em] xs:max-sm:w-[60vw] xl:max-2xl:text-xl'>
               <LuPackage2 className="text-4xl mr-[2%] xs:max-sm:text-[1.3em] xl:max-2xl:text-2xl"/>
-              <p>Package ID: {packageID}</p>
+              <p>Package ID: {packageId}</p>
           </div>
           <div className='flex justify-end mb-4'><button onClick={onClose} className='flex items-center text-3xl xs:max-sm:text-[1.5em] xl:max-2xl:text-2xl '>
             <AiFillCloseCircle className='mx-2 detailsClose'/></button>
@@ -101,9 +141,10 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
               <div className='h-[40vh] text-xl xs:max-sm:text-[1em] xs:max-sm:mt-[100%] xs:max-sm:h-[30vh] xl:max-2xl:text-[0.8em] '>
                   <p><b>Package Name: </b>{packageName}</p>
                   <p><b>Total Price: </b> {price}</p>
-                  <p><b>Available From: </b>{date_start.toDateString()}</p>
-                  <p><b>Expiry Date: </b>{date_end.toDateString()}</p>
-                  <p><b>Tags: </b>{tags.map((tag, index) => (
+                  <p><b>Available From: </b> {dateStart.split("T")[0]}</p>
+                  <p><b>Expiry Date: </b> {dateEnd.split("T")[0]}</p>
+                  <p><b>Time:</b> {timeStart}{timeEnd == null? '': ` - ${timeEnd}`}</p>
+                  <p><b>Tags: </b> {tags.map((tag, index) => (
                                               <span key={index}>{tag}{index < tags.length - 1 ? ', ' : ''}</span>
                                           ))}  
                   </p>
@@ -113,8 +154,8 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
             <div className='my-4 text-xl xs:max-sm:text-[1em] xl:max-2xl:text-[0.8em]'>
                     <p><b>Items: </b>
                     <ul className='list-disc  ml-[6%]'>
-                    {items.map((tag, index) => (
-                                            <li key={index} className=''>{tag}</li>
+                    {items.map((item, index) => (
+                                            <li key={index} className=''>{item}</li>
                                         ))}      
                     </ul>
                     </p>
@@ -123,7 +164,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
 
         <div className='IMAGE_PLACEHOLDER block w-[50%] h-[50%] rounded-2xl xs:max-sm:w-[35vw] xs:max-sm:h-[15vh] xs:max-sm:ml-[-50%]'>
             <img
-                src={filePath} // Use your image URL from the DB here
+                src={image} // Use your image URL from the DB here
                 alt="Package Image"
                 onError={(e) => {
                   e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
@@ -144,20 +185,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
                 hover:bg-[#ffcf76] transition-colors delay-250 duration-[3000] ease-in' 
                   onClick={openEditModal}><HiMiniPencilSquare className="mr-[3%]"/>Edit</button>
                 {isEditModalOpen && 
-                <EditDetailsModal    
-                onClose={closeEditModal}
-                packageID={packageID} 
-                packageName={packageName} 
-                price={price} 
-                description={description} 
-                tags={tags} 
-                visibility={visibility} 
-                items={items} // Handle empty or null item_list 
-                dateStart={date_start} 
-                dateEnd={date_end} 
-                timeStart={time_start} 
-                timeEnd={time_end} 
-                filePath={filePath}/>}
+                <EditDetailsModal onClose={onClose} packageID={packageId} packageName={''} description={''} dateStart={new Date()} dateEnd={new Date()} timeStart={''} timeEnd={''} price={''} tags={[]} filePath={''} visibility={''} items={[]}                />}
             </div>
         </div>
     </div>

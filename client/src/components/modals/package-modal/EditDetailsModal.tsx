@@ -42,8 +42,8 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
 }) => {
   const [editedPackageName, setEditedPackageName] = useState(packageName);
   const [editedPrice, setEditedPrice] = useState(price);
-  const [editedDateStart, setEditedDateStart] = useState(dateStart);
-  const [editedDateEnd, setEditedDateEnd] = useState(dateEnd);
+  const [editedDateStart, setEditedDateStart] = useState(Date())
+  const [editedDateEnd, setEditedDateEnd] = useState()
   const [editedTags, setEditedTags] = useState(tags.join(', '));
   const [editedVisibility, setEditedVisibility] = useState(visibility);
   const [editedFilePath, setEditedFilePath] = useState(filePath);
@@ -53,6 +53,10 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   const [deleteModal, setDeleteModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(()=>{
+    fetchData();
+    console.log(editedDateStart)
+  }, [])
   const editInfo = async ()=>{
     setIsLoading(true)
     try{
@@ -75,6 +79,44 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
     }
      setIsLoading(false);
      onClose();
+  }
+
+  const fetchData = async ()=>{
+    
+    if (packageID){
+      setIsLoading(true);
+          try {
+            const response = await axios.get(`${config.API}/package/retrieve`, {
+              params:{
+                  col: "package_id",
+                  val: packageID
+              }
+            })
+
+            const data = response.data.data[0];
+            console.log("DATEEEEEEEEE", data.date_start)
+            //console.log("RESPONSE ==>> ", response.data)
+            //console.log(data)
+            if (data.date_start == "0000-00-00" || data.date_start === null){
+              const date = new Date(1970, 1, 1);
+              //console.log("DATE==>", date)
+            }
+              var tempdate = new Date(data.date_start)
+              var newdate = tempdate.toISOString()
+              console.log("DATE BEHHH =>>", newdate)
+            
+            setEditedPackageName(data.package_name)
+            setEditedDescription(data.package_desc)
+            setEditedFilePath(data.image_filepath)
+            
+          }  
+          catch(error){
+            
+          }
+          finally{
+            setIsLoading(false);
+          }
+        }
   }
 
   const handleDeleteClick = () => {
@@ -142,12 +184,12 @@ function formatDateToMMDDYYYY(date: string) {
 
   const handleDateStartChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newDate = new Date(e.target.value); // Create a new Date object from the input value
-    setEditedDateStart(newDate);
+   // setEditedDateStart(newDate);
 }
 
   const handleDateEndChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newDate = new Date(e.target.value);
-    setEditedDateEnd(newDate);
+   // setEditedDateEnd(newDate);
   };
 
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -195,8 +237,8 @@ function formatDateToMMDDYYYY(date: string) {
             <p><span className='text-red-600 text-base xl:max-2xl:text-[0.9em]'>Fields with * are required.</span></p>
             <p><b>Package Name: <span className='text-red-600'>*</span></b><input onChange={handlePackageNameChange} type="text" value={editedPackageName} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
             <p><b>Total Price: <span className='text-red-600'>*</span></b> <input type="text" value={editedPrice} onChange={handlePriceChange} className="h-[4vh] my-2 border-solid border-[#000000] border-2 p-2 rounded-md mx-4 pl-2"></input></p>
-            <p><b>Available From: <span className='text-red-600'>*</span></b> <input type="date" value={editedDateStart.toISOString().split('T')[0]} onChange={handleDateStartChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
-            <p><b>Expiry Date: <span className='text-red-600'>*</span></b> <input type="date" value={editedDateEnd.toISOString().split('T')[0]} onChange={handleDateEndChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+            <p><b>Available From: <span className='text-red-600'>*</span></b> <input type="date" value={editedDateStart} placeholder={editedDateStart} onChange={handleDateStartChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
+            <p><b>Expiry Date: <span className='text-red-600'>*</span></b> <input type="date" value={editedDateEnd} onChange={handleDateEndChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
             <p><b>Tags: </b> <span className='text-red-600'>*</span><input onChange={handleTagsChange} type="text" value={editedTags} className="h-[4vh] my-2 border-solid p-2 border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
             <p><b>Visibility: <span className='text-red-600'>*</span></b>
               <select id="sortDropdown" name="sortDropdown" className={`h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2`}

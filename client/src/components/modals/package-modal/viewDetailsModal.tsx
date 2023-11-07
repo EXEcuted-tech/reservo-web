@@ -16,8 +16,8 @@ interface DetailsModalProps {
     packageID: string;
     packageName: string;
     description: string;
-    date_start: Date;
-    date_end: Date;
+    date_start: string;
+    date_end: string;
     tags: string[];
     price: string;
     visibility: string;
@@ -50,8 +50,8 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
             <div className='h-[40vh] text-xl xs:max-sm:text-[0.9em] xs:max-sm:h-[30vh] xl:max-2xl:text-[0.9em] xl:max-2xl:text-[0.9em]'>
                 <p><b>Package Name: </b>{packageName}</p>
                 <p><b>Total Price: </b> {price}</p>
-                <p><b>Available From: </b>{date_start.toDateString()}</p>
-                <p><b>Expiry Date: </b>{date_end.toDateString()}</p>
+                <p><b>Available From: </b>{date_start.split("T")[0]}</p>
+                <p><b>Expiry Date: </b>{date_end.split("T")[0]}</p>
                 <p><b>Tags: </b>{tags.map((tag, index) => (
                                             <span key={index}>{tag}{index < tags.length - 1 ? ', ' : ''}</span>
                                         ))}

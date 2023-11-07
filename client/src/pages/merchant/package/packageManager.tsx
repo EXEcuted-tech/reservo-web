@@ -169,8 +169,8 @@ return (
                   key={packageItem.package_id}
                   package_id={packageItem.package_id}
                   packageName={packageItem.package_name}
-                  date_start={new Date(packageItem.date_start)}
-                  date_end={new Date(packageItem.date_end)}
+                  date_start={packageItem.date_start}
+                  date_end={packageItem.date_end}
                   description={packageItem.package_desc} // Make sure to use the correct property name
                   price={packageItem.price} // Make sure to use the correct property name
                   tags={packageItem.tags ? (packageItem.tags as any).split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags

@@ -83,7 +83,7 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
                 <div className="flex items-center justify-center">
                 <button className='CardButton DetailsButton text-[1.1rem] items-center justify-center xs:max-sm:w-[90vw] xl:max-2xl:text-[0.8em]' onClick={openModal}>
                   <HiOutlineMagnifyingGlass className="mr-[3%]"/>Details</button>
-                {isModalOpen && <DetailsModal onClose={closeModal} packageID={package_id} packageName={packageName} date_start={date_start} date_end={date_end} price={price} description={description} tags={tags} visibility={visibility} items={items} time_start={time_start} time_end={time_end} filePath={filePath} openEditModal={function (): void {
+                {isModalOpen && <DetailsModal onClose={closeModal} packageID={package_id} packageName={packageName} date_start={String(date_start)} date_end={String(date_end)} price={price} description={description} tags={tags} visibility={visibility} items={items} time_start={time_start} time_end={time_end} filePath={filePath} openEditModal={function (): void {
                 throw new Error('Function not implemented.');
               } }/>}
                 </div>
