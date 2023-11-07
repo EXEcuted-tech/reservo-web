@@ -112,7 +112,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                     </div>
                 </div>
                 {/* For PC Responsiveness */}
-                <div className='flex justify-end mt-[9%] mr-[2%] w-[100%] xs:max-sm:hidden xl:max-2xl:mt-[7%]'>
+                <div className='flex justify-end mt-[9%] mr-[1%] w-[100%] xs:max-sm:hidden xl:max-2xl:mt-[7%]'>
                     <button className='flex items-center text-white bg-[#FF8A00] mr-[2%] px-[3%] py-[1.5%] rounded-2xl xl:max-2xl:mr-[5%]
                         hover:bg-[#FFD8AA] hover:text-black font-medium transition-colors delay-450 duration-[3000] ease-in-out xl:max-2xl:text-[0.7em] xl:max-2xl:h-[2.5rem]'
                         onClick={()=>{
