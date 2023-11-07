@@ -11,11 +11,11 @@ import axios from 'axios'
 import config from '../../../common/config'
 import GenSpinner from '../../../components/loaders/genSpinner'
 
-interface GraphItem {
-  year: number;
-  month: number;
-  books: number;
-}
+// interface GraphItem {
+//   year: number;
+//   month: number;
+//   books: number;
+// }
 
 const MerchDashboard = () => {
   const storedAcc = localStorage.getItem('admerchDetails')
@@ -32,35 +32,36 @@ const MerchDashboard = () => {
   const [todayCount, setTodayCount] = useState(0);
   const [mess1, setMess1] = useState('');
   const [mess2,setMess2] = useState('')
-  const [graphList, setgraphList] = useState([{}]);
+  const [graphList, setgraphList] = useState([{
+      "year": 2023,
+      "month": 0,
+      "books": 0
+  }]);
   
   const fetchGraphInfo = async() => {
     try {
       const responseBooks = await axios.get(`${config.API}/reserve/retrievebooks`,{
         params: {
-          year: "2023",
+          year: 2023,
           merchID: Number(localStorage.getItem('merch_ID'))
         }
       })
      
-      setgraphList(responseBooks.data.count)
+      setgraphList(responseBooks.data.countData)
     } catch (error) {
       //PUT ERROR NOTIF 
     }
   }
 
-  const formattedData = (graphList as GraphItem[]).map(item => [new Date(item.year, item.month - 1), item.books]);
+  const formattedData = graphList.map(item => [new Date(item.year, item.month - 1), item.books]);
 
   const LineData = [
-    [
-      { type: "date", label: 'Day' },
-      'Bookings',
-    ],
+    ['x','Bookings'],
     ...formattedData,
   ];
   const LineChartOptions = {
     title: 'Reservations Graph',
-    linewidth: graphList.length,
+    lineWidth: graphList.length,
     hAxis: {
       title: 'Monthly',
       format: "MMM yyyy",

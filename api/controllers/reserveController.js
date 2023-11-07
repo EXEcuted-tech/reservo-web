@@ -201,7 +201,7 @@ const retrieveCountByParams = (req, res) => {
 const retrieveBookingsByMonth = (req, res) =>{
   const { year, merchID } = req.query
 
-  const retrieveYear = 'SELECT YEAR(date_received) as year, MONTH(date_received) as month, COUNT(*) as books FROM reservation WHERE YEAR(date_received) = ? AND merchant_id = ? GROUP BY reservation.date_received;'
+  const retrieveYear = 'SELECT YEAR(date_received) as year, MONTH(date_received) as month, COUNT(*) as books FROM reservation WHERE YEAR(date_received) = ? AND merchant_id = ? GROUP BY YEAR(date_received), MONTH(date_received);'
 
   db.query(retrieveYear,[year , merchID], (err,books) => {
     if (err) {
@@ -268,7 +268,7 @@ const retrieveCountByThreeParams = (req, res) => {
       return res.status(200).json({
         status: 200,
         success: true,
-        count: count,
+        countData: count,
       });
     }
   });
