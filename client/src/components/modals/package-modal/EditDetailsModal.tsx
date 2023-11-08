@@ -345,11 +345,11 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
               <b>Visibility: <span className='text-red-600'>*</span></b>
               </td>
               <td>
-              <select id="sortDropdown" name="sortDropdown" className={`h-[3vh] my-2 border focus:outline-none focus:ring focus:ring-blue-500 rounded-2xl mx-4 pl-2 ${editedVisibility === 'PUBLISHED'? 'bg-green-300 text-green-800':'bg-blue-200 text-blue-800'}`}
+              <select id="sortDropdown" name="sortDropdown" className={`h-[3vh] w-[10vw] my-2 border focus:outline-none focus:ring focus:ring-blue-500 rounded-2xl mx-4 pl-2 text-center ${editedVisibility === 'PUBLISHED'? 'bg-green-600 text-white':'bg-blue-200 text-blue-500'}`}
                 onChange={handleVisibilityChange}
                 placeholder={editedVisibility}
                 value={editedVisibility}>
-                <option value="PUBLISHED" className='bg-green-300 text-green-800'>Published</option>
+                <option value="PUBLISHED" className='bg-green-600 text-white'>Published</option>
                 <option value="NOT PUBLISHED"   className='bg-blue-300 text-blue-800'>Not Published</option>
               </select>
               </td>
