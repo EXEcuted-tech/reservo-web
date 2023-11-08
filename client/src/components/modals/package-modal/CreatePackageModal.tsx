@@ -36,13 +36,13 @@ interface CreatePackageModal{
     const [packageDesc, setPackageDesc] = useState('');
     const [price, setPrice] = useState(0);
     const [dateStart, setDateStart] = useState(getCurrentDate);
-    const [dateEnd, setDateEnd] = useState(getCurrentDate);
-    const [timeStart, setTimeStart] = useState('00:00:00');
-    const [timeEnd, setTimeEnd] = useState('23:59:59');
+    const [dateEnd, setDateEnd] = useState<any>(null);
+    const [timeStart, setTimeStart] = useState<any>('00:00:00');
+    const [timeEnd, setTimeEnd] = useState<string|null>(null);
     const [visibility, setVisibility] = useState('NOT PUBLISHED');
     const [itemList, setItemList] = useState<string[]>([]);
     const [filePath, setFilePath] = useState('');
-    const [tags, setTags] = useState('');
+    const [tags, setTags] = useState<any>([]);
     const [merchantId, setMerchantId] = useState('1'); 
     //change this since this ↑ is not static it will get data on the currently logged in merchant
     const [isLoading, setIsLoading] = useState(false);
@@ -70,7 +70,7 @@ interface CreatePackageModal{
     };
   
     const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setTags(e.target.value);
+      setTags(e.target.value.split(','));
       updateIncompleteAlert();
     };
   
@@ -116,6 +116,12 @@ interface CreatePackageModal{
       try {
         setIncompleteAlert(false);
         setIsLoading(true);
+        var temptags = JSON.stringify({
+          tags: tags
+        })
+        var tempitems = JSON.stringify({
+          items: itemList
+        })
         const response = await axios.post(`${config.API}/package/create`, {
           package_name: packageName,
           package_desc: packageDesc || '', // Provide a default value if it's null
@@ -125,9 +131,9 @@ interface CreatePackageModal{
           time_start: timeStart || '', // Provide a default value if it's null
           time_end: timeEnd || null, // Use null if it's null
           visibility: visibility,
-          item_list: itemList.join(',') || "none", // Use null if it's null
+          item_list: tempitems, // Use null if it's null
           image_filepath: filePath,
-          tags: tags || "untagged", // Use null if it's null
+          tags: temptags, // Use null if it's null
           merchant_id: merchantId,
         });
     
@@ -148,11 +154,12 @@ interface CreatePackageModal{
       // Check if any of the required fields are empty
       if (
         packageName.trim() === '' ||
-        price === 0 || // Modify this condition as needed for other fields
-        dateStart === '0000-00-00' || // Adjust this condition as needed
-        visibility.trim() === '' ||
-        filePath.trim() === '' ||
-        tags.trim() === '' ||
+        !price || // Modify this condition as needed for other fields
+        !dateStart || // Adjust this condition as needed
+        !timeStart ||
+        !visibility ||
+        !filePath ||
+        tags.length === 0 ||
         items.length === 0
       ) {
         setIncompleteAlert(true);
@@ -244,9 +251,9 @@ interface CreatePackageModal{
                   onClick={onClose}><AiFillDelete className="mr-[3%]"/>Cancel</button>
                 <button
                   className={`w-[8vw] h-[4vh] text-[1.1rem] mx-5 rounded-md duration-300 xs:max-sm:w-[20vw] xs:max-sm:mx-2 xs:max-sm:mr-[8%] xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em] xl:max-2xl:mx-2 ${
-                    isLoading || incompleteAlert? 'bg-[#bbd89e] cursor-not-allowed' : 'bg-[#1f8022] hover:bg-[#00962a] transition-colors delay-250 duration-[3000] ease-in'
+                    incompleteAlert || isLoading? 'bg-[#a6bb92] cursor-not-allowed' : 'bg-[#1f8022] hover:bg-[#00962a] transition-colors delay-250 duration-[3000] ease-in'
                   } flex items-center justify-center`}
-                  disabled={isLoading}
+                  disabled={incompleteAlert||isLoading}
                   onClick={createPackage}
                 >
                   {isLoading? <>Processing...</>:<><IoAddCircleSharp className="mr-[3%]"/>Add</>}
