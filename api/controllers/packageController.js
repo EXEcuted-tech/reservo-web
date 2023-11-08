@@ -39,29 +39,44 @@ const createPackage = (req,res)=>{
     });
 }
 
-const updatePackage = (req,res)=>{
-    const {package_id,package_name,package_desc,price,date_start,date_end,time_start,time_end,visibility,item_list,image_filepath,tags} = req.body;
+const updatePackage = (req, res) => {
+  const inputData = req.body; // Use the JSON object directly
 
-    const update = 'UPDATE package SET package_name=?,package_desc=?, price=?, date_start=?,date_end=?,time_start=?,time_end=?,visibility=?,item_list=?,image_filepath=?,tags=? WHERE package_id=?';
+  // Construct the SET clause for the SQL update statement
+  const setClauses = Object.keys(inputData)
+    .filter(key => key !== 'package_id') // Exclude package_id from the update
+    .map(key => `${key} = ?`)
+    .join(', ');
 
-    const data = [package_name,package_desc,price,date_start,date_end,time_start,time_end,visibility,item_list,image_filepath,tags, package_id]
-    db.query(update, data, (err, result) => {
-      if (err) {
-        console.error('Error updating data:', err);
-        return res.status(500).json({ status: 500, success:false,error: 'Error updating data' });
-      }
-  
-      if (result.affectedRows > 0) {
-        return res.status(200).json({
-          status: 200,
-          success: true,
-          data: result,
-        });
-      } else {
-        return res.status(500).json({ status: 500, success: false, error: 'Record update failed' });
-      }
-    });
-}
+  // Create the data array by mapping values from the JSON object
+  const data = Object.keys(inputData)
+    .filter(key => key !== 'package_id') // Exclude package_id from the data
+    .map(key => inputData[key]);
+
+  // Add the package_id to the end of the data array
+  data.push(inputData.package_id);
+
+  const update = `UPDATE package SET ${setClauses} WHERE package_id = ?`;
+
+  db.query(update, data, (err, result) => {
+    if (err) {
+      console.error('Error updating data:', err);
+      return res.status(500).json({ status: 500, success: false, error: 'Error updating data' });
+    }
+
+    if (result.affectedRows > 0) {
+      console.log(result)
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        data: result,
+      });
+    } else {
+      return res.status(500).json({ status: 500, success: false, error: 'Record update failed' });
+    }
+  });
+};
+
 
 const retrieveAll = (req,res)=>{
     const retrieveRecs = 'SELECT * FROM package'
