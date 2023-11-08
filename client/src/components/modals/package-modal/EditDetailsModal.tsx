@@ -1,66 +1,69 @@
 import React, { useEffect, useState } from 'react';
-import { AiFillCloseCircle, AiFillDelete } from "react-icons/ai";
-import { HiOutlineMagnifyingGlass, HiMiniPencilSquare } from "react-icons/hi2";
+import { AiFillCloseCircle, AiFillDelete, AiOutlineCloseCircle, AiOutlineUndo } from "react-icons/ai";
+import { HiMiniPencilSquare } from "react-icons/hi2";
 import "../../../assets/css/card.css";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import {LuPackage2} from "react-icons/lu";
-import { BsDot } from "react-icons/bs";
 import axios from 'axios';
 import config from '../../../common/config'
 import DeleteConfirmationModal from '../../card/DeleteConfirmationModal';
+import GenSpinner from '../../loaders/genSpinner';
+import Notification from '../../alerts/Notification';
+import {dayMMDDYYYY} from '../../../common/functions'
 
 interface EditDetailsModalProps {
   onClose: () => void;
+  errorMsg: (message:string)=>void;
   packageID: string;
-  packageName: string;
-  description: string;
-  dateStart: Date;
-  dateEnd: Date;
-  timeStart: string;
-  timeEnd: string;
-  price: string;
-  tags: string[];
-  filePath: string;
-  visibility: string;
-  items: string[];
 }
 
 const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   onClose,
+  errorMsg,
   packageID,
-  packageName,
-  description,
-  dateStart,
-  dateEnd,
-  timeStart,
-  timeEnd,
-  price,
-  tags,
-  filePath,
-  visibility,
-  items,
+  
 }) => {
-  const [editedPackageName, setEditedPackageName] = useState(packageName);
-  const [editedPrice, setEditedPrice] = useState(price);
-  const [editedDateStart, setEditedDateStart] = useState(Date())
-  const [editedDateEnd, setEditedDateEnd] = useState()
-  const [editedTags, setEditedTags] = useState(tags.join(', '));
-  const [editedVisibility, setEditedVisibility] = useState(visibility);
-  const [editedFilePath, setEditedFilePath] = useState(filePath);
-  const [editedDescription, setEditedDescription] = useState(description);
-  const [editedItems, setEditedItems] = useState(items.join(', '));
+  const [editedPackageName, setEditedPackageName] = useState('');
+  const [editedPrice, setEditedPrice] = useState('');
+  const [editedDateStart, setEditedDateStart] = useState('')
+  const [editedDateEnd, setEditedDateEnd] = useState<string|undefined>('')
+  const [editedTimeStart, setEditedTimeStart] = useState('');
+  const [editedTimeEnd, setEditedTimeEnd] = useState('');
+  const [editedTags, setEditedTags] = useState<string[]>([]);
+  const [editedVisibility, setEditedVisibility] = useState('NOT PUBLISHED');
+  const [editedFilePath, setEditedFilePath] = useState('');
+  const [editedDescription, setEditedDescription] = useState('');
+  const [editedItems, setEditedItems] = useState<string[]>([]);
   const [itemName, setItemName] = useState(''); // State for the input field
   const [deleteModal, setDeleteModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  
 
-  useEffect(()=>{
-    fetchData();
-    console.log(editedDateStart)
-  }, [])
+
   const editInfo = async ()=>{
     setIsLoading(true)
     try{
-        const response = await axios.post(`${config.API}/package/update`,{
+      // const dateStartModified = editedDateStart
+      // console.log("EDIT INFO", dateStartModified)
+      const preformatTags = JSON.stringify(
+        {
+          tags: editedTags
+        }
+      )
+
+      const preformatItems = JSON.stringify(
+        {
+          items: editedItems
+        }
+      )
+      // console.log("PREFOR Items", preformatItems)
+      // console.log("PREFOR TAGS", preformatTags)
+      var timeEnd:string|null = editedTimeEnd;
+      if(editedTimeEnd === '00:00:00'){
+        timeEnd = null;
+      }
+      const request = {
             package_id: packageID,
             package_name: editedPackageName,
             package_desc: editedDescription,
@@ -68,12 +71,18 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
             date_start: editedDateStart,
             date_end: editedDateEnd,
             time_end: timeEnd,
-            time_start: timeStart,
-            tags: editedTags,
+            time_start: editedTimeStart,
+            tags: preformatTags,
             visibility: editedVisibility,
             image_filepath: editedFilePath,
-            item_list: editedItems,
-        });
+            item_list: preformatItems,
+        }
+    //  console.log(request)
+        await axios.post(`${config.API}/package/update`, request);
+        setErrorMessage('Successfully Updated!');
+        setTimeout(()=>{
+          setErrorMessage('')
+        }, 5000)
     }catch(error){
         //PUT ERROR NOTIF 
     }
@@ -94,28 +103,69 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
             })
 
             const data = response.data.data[0];
-            console.log("DATEEEEEEEEE", data.date_start)
-            //console.log("RESPONSE ==>> ", response.data)
-            //console.log(data)
-            if (data.date_start == "0000-00-00" || data.date_start === null){
-              const date = new Date(1970, 1, 1);
-              //console.log("DATE==>", date)
+            if (data.date_start === "0000-00-00" || data.date_start === null){
+              setEditedDateStart('2000-01-01')
+            }else{
+              var parsed_date:Date = new Date(data.date_start)
+              
+              var newDate = parsed_date.toISOString()
+              
+              newDate = newDate.split('T')[0];
+              var arrDate = newDate.split('-');
+              arrDate[1] = arrDate[1].padStart(2, '0');
+              arrDate[2] = arrDate[2].padStart(2, '0');
+              setEditedDateStart(`${arrDate[0]}-${arrDate[1]}-${arrDate[2]}`)
+              console.log("PARSED DATE KO BEH ==>", editedDateStart)
+             
             }
-              var tempdate = new Date(data.date_start)
-              var newdate = tempdate.toISOString()
-              console.log("DATE BEHHH =>>", newdate)
+
+            if (data.date_end && data.date_end !== '0000-00-00'){
+              var parsed_date:Date = new Date(data.date_end)
+              var newDate = parsed_date.toISOString()
+              newDate = newDate.split('T')[0];
+              var arrDate = newDate.split('-');
+              arrDate[1] = arrDate[1].padStart(2, '0');
+              arrDate[2] = arrDate[2].padStart(2, '0');
+              setEditedDateEnd(`${arrDate[0]}-${arrDate[1]}-${arrDate[2]}`)
+              
+            }else{
+              setEditedDateEnd(undefined);
+            }
+
+
+
+           
+            if (data.tags){
+              const retrieved_tags = JSON.parse(data.tags)
+              setEditedTags(retrieved_tags.tags);
+            }
+
+            if (data.item_list) {
+              const retrievedItems:{items:string[]} = JSON.parse(data.item_list);
+              setEditedItems(retrievedItems.items);
+            }
+            
             
             setEditedPackageName(data.package_name)
             setEditedDescription(data.package_desc)
+            setEditedPrice(data.price)
+            setEditedFilePath(data.image_filepath)
+            setEditedTimeStart(data.time_start)
+            setEditedTimeEnd(data.time_end)
             setEditedFilePath(data.image_filepath)
             
-          }  
-          catch(error){
-            
-          }
-          finally{
+           
+            console.log("TIMESA==>", editedTimeStart)
             setIsLoading(false);
+          }  
+          catch(error:any){
+            setErrorMessage(error.message);
+            setTimeout(()=>{
+            setErrorMessage('')
+         }, 5000)
+
           }
+          
         }
   }
 
@@ -127,14 +177,18 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
     try {
         const response = await axios.post(`${config.API}/package/delete/`,{
             package_id: packageID,
-
-        }).then(response=>{
-            
         })
-
+          console.log(response.data)
+          setErrorMessage('Deleted Package Successfully!');
+          setTimeout(()=>{
+            setErrorMessage('')
+          }, 5000)
         }
     catch(error:any|undefined){
-        //PUT ERROR NOTIF 
+        setErrorMessage(error.message);
+        setTimeout(()=>{
+          setErrorMessage('')
+        }, 5000)
     }
     onClose();
     setDeleteModal(false);
@@ -145,20 +199,6 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   const handleCloseDeleteModal = () => {
     setDeleteModal(false);
   };
-
-
-
-// Convert from "YYYY/MM/DD" to "MM/DD/YYYY"
-function formatDateToMMDDYYYY(date: string) {
-    const [year, month, day] = date.split('/');
-    return `${month}-${day}-${year}`;
-  }
-  
-  // Convert from "MM/DD/YYYY" to "YYYY/MM/DD"
-  function formatDateToYYYYMMDD(date: string) {
-    const [month, day, year] = date.split('-');
-    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-  }
 
   const handleFilePathChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditedFilePath(e.target.value);
@@ -172,9 +212,10 @@ function formatDateToMMDDYYYY(date: string) {
   const handleAddItemClick = () => {
     if (itemName.trim() !== '') {
       // Add the new item to the editedItems state
-      setEditedItems((prevItems) => prevItems + `, ${itemName.trim()}`);
+      setEditedItems((prevItems) => [...prevItems, itemName.trim()]);
       // Clear the input field
       setItemName('');
+      console.log("ADDED ITEMS: ", editedItems)
     }
   };
 
@@ -183,17 +224,31 @@ function formatDateToMMDDYYYY(date: string) {
   };
 
   const handleDateStartChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newDate = new Date(e.target.value); // Create a new Date object from the input value
-   // setEditedDateStart(newDate);
+    const newDate = e.target.value // Create a new Date object from the input value
+    //console.log("INPUT", newDate)
+    setEditedDateStart(newDate);
 }
 
+  const handleTimeStartChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newDate = e.target.value // Create a new Date object from the input value
+    //console.log("INPUT", newDate)
+    setEditedDateStart(newDate);
+  }
+
+  const handleTimeEndChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newDate = e.target.value // Create a new Date object from the input value
+    //console.log("INPUT", newDate)
+    setEditedDateEnd(newDate);
+  }
+
   const handleDateEndChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newDate = new Date(e.target.value);
-   // setEditedDateEnd(newDate);
+    const newDate = e.target.value // Create a new Date object from the input value
+    //console.log("INPUT", newDate)
+    setEditedDateEnd(newDate);
   };
 
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditedTags(e.target.value);
+    setEditedTags(e.target.value.split(','));
   };
 
   const handleVisibilityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -204,7 +259,14 @@ function formatDateToMMDDYYYY(date: string) {
     setEditedDescription(e.target.value);
   };
 
+  useEffect(()=>{
+    fetchData();
+  },[packageID])
 
+  // Use a useEffect to log the updated state
+  useEffect(() => {
+    console.log("ITEMS KO BEH", editedItems);
+  }, [editedItems]);
 
   return (
     <div className=''>
@@ -230,26 +292,69 @@ function formatDateToMMDDYYYY(date: string) {
           <button onClick={onClose} className='flex items-center text-3xl mb-4 xl:max-2xl:text-2xl '><AiFillCloseCircle className='mx-2 detailsClose' /></button>
       </div>
     </div>
-            
+    {(errorMessage !== '') && <Notification message={errorMessage} color='#840705'/>}
+    {isLoading? 
+      <div className='h-[60vh] my-5 border flex justify-center pt-[5%]'><p className='text-center'><GenSpinner/></p><p className='pt-[5%] text-center animate-pulse'>Loading...</p></div>
+      :    
     <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
       <div>
         <div className='h-[40vh] text-xl xl:max-2xl:text-[0.8em]'>
-            <p><span className='text-red-600 text-base xl:max-2xl:text-[0.9em]'>Fields with * are required.</span></p>
-            <p><b>Package Name: <span className='text-red-600'>*</span></b><input onChange={handlePackageNameChange} type="text" value={editedPackageName} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
-            <p><b>Total Price: <span className='text-red-600'>*</span></b> <input type="text" value={editedPrice} onChange={handlePriceChange} className="h-[4vh] my-2 border-solid border-[#000000] border-2 p-2 rounded-md mx-4 pl-2"></input></p>
-            <p><b>Available From: <span className='text-red-600'>*</span></b> <input type="date" value={editedDateStart} placeholder={editedDateStart} onChange={handleDateStartChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
-            <p><b>Expiry Date: <span className='text-red-600'>*</span></b> <input type="date" value={editedDateEnd} onChange={handleDateEndChange} className="h-[4vh] my-2 p-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
-            <p><b>Tags: </b> <span className='text-red-600'>*</span><input onChange={handleTagsChange} type="text" value={editedTags} className="h-[4vh] my-2 border-solid p-2 border-[#000000] border-2 rounded-md mx-4 pl-2"></input></p>
-            <p><b>Visibility: <span className='text-red-600'>*</span></b>
-              <select id="sortDropdown" name="sortDropdown" className={`h-[4vh] my-2 border-solid border-[#000000] border-2 rounded-md mx-4 pl-2`}
+        <p><span className='text-red-600 text-xs xl:max-2xl:text-[0.9em]'>Fields with * are required.</span></p>
+          <table className='border-separateborder-spacing-8'>
+            <tr><td><b>Package Name: <span className='text-red-600'>*</span></b></td>
+            <td><input onChange={handlePackageNameChange} type="text" value={editedPackageName} className="h-[4vh] my-2 p-2 border rounded-md mx-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500"/></td>
+            </tr>
+            <tr>
+              <td><b>Total Price: <span className='text-red-600'>*</span></b></td>
+              <td><input type="text" value={editedPrice} onChange={handlePriceChange} className="h-[4vh] my-2 border p-2 rounded-md mx-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500"/></td>
+            </tr>
+            <tr>
+              <td>
+              <b>Available From: <span className='text-red-600'>*</span></b>
+              </td>
+              <td>
+              <input type="date" value={editedDateStart} placeholder={editedDateStart} onChange={handleDateStartChange} className="h-[4vh] my-2 p-2 border rounded-md ml-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500"></input>
+              <input type="time" value={editedTimeStart} placeholder={editedTimeStart} onChange={handleTimeStartChange} className="h-[4vh] my-2 p-2 border rounded-md ml-2 pl-2 focus:outline-none focus:ring focus:ring-blue-500"></input>
+              </td>
+            </tr>
+            <tr>
+              <td>
+              <b>Expiry Date:</b>
+              </td>
+              <td>
+              <input type="date" value={editedDateEnd} placeholder={editedDateEnd} onChange={handleDateEndChange} className="h-[4vh] my-2 p-2 border rounded-md ml-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500"></input>
+              <input type="time" value={editedTimeEnd} placeholder={editedTimeEnd} onChange={handleTimeEndChange} className="h-[4vh] my-2 p-2 border rounded-md ml-2 pl-2 focus:outline-none focus:ring focus:ring-blue-500"></input>
+              <button className='duration-200 ml-2 rounded-full hover:ring-2 hover:ring-blue-400' 
+              onClick={()=>{
+                setEditedTimeEnd('')
+                setEditedDateEnd('')
+              }}><AiOutlineUndo/></button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+              <b>Tags: </b><span className='text-red-600'>*</span>
+              </td>
+              <td>
+              <input onChange={handleTagsChange} type="text" value={editedTags} className="h-[4vh] my-2 border rounded-md mx-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+              <b>Visibility: <span className='text-red-600'>*</span></b>
+              </td>
+              <td>
+              <select id="sortDropdown" name="sortDropdown" className={`h-[3vh] my-2 border focus:outline-none focus:ring focus:ring-blue-500 rounded-2xl mx-4 pl-2 ${editedVisibility === 'PUBLISHED'? 'bg-green-300 text-green-800':'bg-blue-200 text-blue-800'}`}
                 onChange={handleVisibilityChange}
                 value={editedVisibility}>
-                <option value="PUBLISHED">Published</option>
-                <option value="NOT PUBLISHED">Not Published</option>
+                <option value="PUBLISHED" className='bg-green-300 text-green-800'>Published</option>
+                <option value="NOT PUBLISHED"  className='bg-blue-300 text-blue-800'>Not Published</option>
               </select>
-            </p>
+              </td>
+            </tr>
+          </table>
             <p><b>Description: <span className='text-red-600'>*</span></b></p>
-                <textarea onChange={handleDescriptionChange} className="w-[80%] p-2 h-[25%] overflow-y-auto border-black border-2 rounded-md" value={editedDescription}></textarea>
+                <textarea onChange={handleDescriptionChange} className="text-sm mt-[2%] w-[80%] h-[35%] focus:outline-none focus:ring focus:ring-blue-500 border p-2 overflow-y-auto rounded-md resize-none" value={editedDescription}></textarea>
         </div>
       </div>
     
@@ -266,19 +371,29 @@ function formatDateToMMDDYYYY(date: string) {
               className="w-full h-full object-cover rounded-2xl"
             />
           <div className="mt-[3%]">
-              <label htmlFor="packageImage" className="text-xl xl:max-2xl:text-[0.7em]">Upload Image Here: <span className='text-red-600 font-bold '>*</span></label>
-                <input className="my-2 w-[100%] px-2 ml-[4%] border-black border-solid rounded-lg border-2 xl:max-2xl:text-[0.55em]" value={editedFilePath} onChange={handleFilePathChange} type="text" name="packageImage" placeholder='Paste Link Here'/>
+              <label htmlFor="packageImage" className="text-xl xl:max-2xl:text-[0.7em]">Paste Image Link Here: <span className='text-red-600 font-bold '>*</span></label>
+                <input className="h-[4vh] my-2 w-[100%] px-2 ml-[4%] rounded-lg border xl:max-2xl:text-[0.55em]" value={editedFilePath} onChange={handleFilePathChange} type="text" name="packageImage" placeholder='Paste Link Here'/>
           </div>
         </div>
 
-                <div className='my-8 block text-xl mt-14 xl:max-2xl:text-[0.8em]'>
+                <div className='block text-xl mt-[7vh] xl:max-2xl:text-[0.8em] border p-2 rounded-lg'>
                   <b>Items: <span className='text-red-600'>*</span></b>
-                  <div className='overflow-y-auto h-[8vh] mb-6 xl:max-2xl:mb-2'>
+                  <div className='p-2 overflow-y-auto h-[8vh] mb-6 xl:max-2xl:mb-2'>
+                    {editedItems && Array.isArray(editedItems) && editedItems.length > 0 ?
                     <ul>
-                      {editedItems.split(',').map((item, index) => (
-                        <li key={index}>{item.trim()}</li>
+                    {editedItems.map((element, index) => (
+                        <div className='flex items-center' ><li key={index}><button className='hover:bg-red:200 rounded-full duration-200 mx-2 hover:border-red-200 hover:ring-2 ring-red-500 text-[1rem]'
+                        onClick={() => {
+                          const newItems = [...editedItems]; // Create a copy of editedItems
+                          newItems.splice(index, 1);
+                          setEditedItems(newItems);
+                          console.log("Removed: ", newItems);
+                          setItemName('');
+                        }}
+                        ><AiOutlineCloseCircle/></button><span className='text-sm'>{element}</span></li></div>
                       ))}
                     </ul>
+                    : <p className=' italic text-sm'>No items in list</p>}
                   </div>
                   <div className='flex flex-row items-center'>
                     <button
@@ -291,13 +406,14 @@ function formatDateToMMDDYYYY(date: string) {
                       type="text"
                       value={itemName}
                       onChange={(e) => setItemName(e.target.value)}
-                      className="h-[4vh] border-solid border-[#000000] border-2 rounded-md mx-4"
+                      className="h-[4vh] border-solid border-[#000000] border-2 rounded-md mx-4 px-2"
                     />
                   </div>
                 </div>
               
               </div>
             </div>
+              }
             <div className='flex justify-end items-center h-[3vh]'>
               <button className='w-[8vw] h-[4vh] mx-3 rounded-md text-[1.1rem] bg-[#e14f4c] flex items-center justify-center xl:max-2xl:text-[0.8em]
               hover:bg-[#ff5d5b] transition-colors delay-250 duration-[3000] ease-in'

@@ -47,7 +47,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
             </div>
             <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000] xs:max-sm:grid-cols-1">
             <div>
-            <div className='h-[40vh] text-xl xs:max-sm:text-[0.9em] xs:max-sm:h-[30vh] xl:max-2xl:text-[0.9em] xl:max-2xl:text-[0.9em]'>
+            <div className='h-[40vh] text-xl xs:max-sm:text-[0.9em] xs:max-sm:h-[30vh] xl:max-2xl:text-[0.9em]'>
                 <p><b>Package Name: </b>{packageName}</p>
                 <p><b>Total Price: </b> {price}</p>
                 <p><b>Available From: </b>{date_start.split("T")[0]}</p>
@@ -55,8 +55,6 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
                 <p><b>Tags: </b>{tags.map((tag, index) => (
                                             <span key={index}>{tag}{index < tags.length - 1 ? ', ' : ''}</span>
                                         ))}
-                                        
-                
                 </p>
                 <p><b>Visibility: </b>{visibility}</p>
                 <p><b>Description: </b></p><p>{description}</p>
