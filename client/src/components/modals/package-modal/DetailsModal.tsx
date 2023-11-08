@@ -91,7 +91,6 @@ const DetailsModal: React.FC<DetailsModalProps> = ({onClose, openEditModal, erro
         }
         
         setVisibilility(data.visibility);
-        setVisibilility("NOT PUBLISHED")
         setTimeEnd(data.time_end)
         setTimeStart(data.time_start)
         setIsLoading(false);
