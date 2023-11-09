@@ -162,58 +162,60 @@ const MerchDashboard = () => {
   
 
   return (
-    <div className='animate-fade-in flex-col  '>
+    <div className='animate-fade-in flex-col'>
       {/* Header Section */}
         <MerchAdHeader icon={RiDashboard3Line} title="Dashboard"/>
         {/* Welcome Section */}
         <div className='bg-[#F3F3F3] h-[30vh] flex overflow-y-auto overflow-x-hidden xs:max-sm:mt-[3%] xs:max-sm:mb-[3%]'>
-           <div className='font-poppins w-[60%] p-[1%] text-center xs:max-sm:w-[40%] xs:max-sm:p-[0.5%]'>
-              <div className='animate-slide-right align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-r from-[#660605] via-[#ae1313] to-[#9a1a00] xs:max-sm:p-4'>
+           <div className='font-poppins w-[60%] p-[1%] text-center xs:max-sm:w-[40%] xs:max-sm:p-[0.5%] '>
+              <div className='animate-slide-right align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-r from-[#660605] via-[#ae1313] to-[#9a1a00] xs:max-sm:overflow-y-auto'>
                 <h1 className='animate-up-down text-[2.5em] font-extrabold text-white xs:max-sm:text-[1.3em] xl:max-2xl:text-[1.5em]'>
                   Welcome, {userName}!
                 </h1>
-                <p className='font-extralight text-[1.3em] mt-[-3%] text-white xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]'>
+                <p className='font-extralight text-[1.3em] mt-[-3%] text-white xs:max-sm:text-[0.7em] xl:max-2xl:text-[1em] '>
                   <br/>{mess1}<br/>{mess2}</p>
-                <p className='hover:animate-shake hover:cursor-pointer mt-[3%] italic font-light text-[1em] text-white'>Check further updates now!</p>
+                <p className='hover:animate-shake hover:cursor-pointer mt-[3%] italic font-light text-[1em] text-white xs:max-sm:text-[0.7em] xs:max-sm:mt-[5%]'>
+                  Check further updates now!</p>
               </div>
             </div>
 
             <div className='w-[40%] p-[1%] text-center xs:max-sm:w-[60%]'>
               <div className='p-[0.5%] h-[100%] rounded-3xl bg-black grid-cols-2 grid-rows-2 grid gap-1'>
                 <div className='bg-[#660605] rounded-tl-2xl flex'>
-                  <div className='w-[70%] xs:max-sm:mt-[13%] xs:max-sm:ml-[13%]'>
+
+                  <div className='w-[70%] xs:max-sm:mt-[7%] xs:max-sm:ml-[13%]'>
                     <p className="text-white mt-[-5%] text-[5em] font-bold display xs:max-sm:text-[3em]  xl:max-2xl:text-[3em]">{reservationCount}</p>
-                    <p className='text-white text-[1.2em] mt-[-13%] xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>RESERVATION</p>
+                    <p className='text-white text-[1.2em] mt-[-13%] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>RESERVATION</p>
                   </div>
-                  <div className='w-[30%] pt-[10%] text-center xs:max-sm:pt-[25%] xs:max-sm:ml-[-12%]'>
-                      <IoCalendarSharp className='text-white text-[4em] xs:max-sm:text-[1.7em] xl:max-2xl:text-[2.5em]'/>
+                  <div className='w-[30%] pt-[10%] text-center xs:max-sm:pt-[25%] xs:max-sm:ml-[-6%]'>
+                      <IoCalendarSharp className='text-white text-[4em] xs:max-sm:text-[1.0em] xl:max-2xl:text-[2.5em]'/>
                   </div>
                 </div>
                 <div className='bg-[#660605] rounded-tr-2xl flex'>
-                <div className='w-[70%] xs:max-sm:mt-[13%] xs:max-sm:ml-[13%]'>
+                <div className='w-[100%] xs:max-sm:mt-[7%] xs:max-sm:ml-[13%]'>
                     <p className='text-white mt-[-5%] text-[5em] font-bold display xs:max-sm:text-[3em] xl:max-2xl:text-[3em]'>{todayCount}</p>
-                    <p className='text-white text-[1.2em] mt-[-13%] xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>TODAY'S TABLE</p>
+                    <p className='text-white text-[1.2em] mt-[-13%] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>TODAY'S TABLE</p>
                   </div>
-                  <div className='w-[30%] pt-[10%] text-center xs:max-sm:pt-[25%] xs:max-sm:ml-[-16%]'>
-                      <MdGroups2 className='text-white text-[4em] xs:max-sm:text-[1.7em] xl:max-2xl:text-[2.5em]'/>
+                  <div className='w-[30%] pt-[10%] text-center  xs:max-sm:pt-[25%] xs:max-sm:ml-[-16%]'>
+                      <MdGroups2 className='text-white text-[4em] ml-[-30%] xs:max-sm:text-[1.0em] xl:max-2xl:text-[2.5em]'/>
                   </div>
                 </div>
                 <div className='bg-[#660605] rounded-bl-2xl flex'>
-                <div className='w-[70%] xs:max-sm:mt-[13%] xs:max-sm:ml-[13%]'>
+                <div className='w-[70%] xs:max-sm:mt-[7%] xs:max-sm:ml-[13%]'>
                     <p className='text-white mt-[-5%] text-[5em] font-bold display xs:max-sm:text-[3em] xl:max-2xl:text-[3em]'>{cateredCount}</p>
-                    <p className='text-white text-[1.2em] mt-[-13%] xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>CATERED</p>
+                    <p className='text-white text-[1.2em] mt-[-13%] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>CATERED</p>
                   </div>
                   <div className='w-[30%] pt-[10%] text-center xs:max-sm:pt-[25%] xs:max-sm:ml-[-18%]'>
-                      <GiJuggler className='text-white text-[4em] xs:max-sm:text-[1.7em] xl:max-2xl:text-[2.5em]'/>
+                      <GiJuggler className='text-white text-[4em] xs:max-sm:text-[1.0em] xl:max-2xl:text-[2.5em]'/>
                   </div>
                 </div>
                 <div className='bg-[#660605] rounded-br-2xl flex'>
-                <div className='w-[70%] xs:max-sm:mt-[13%] xs:max-sm:ml-[13%]'>
+                <div className='w-[70%] xs:max-sm:mt-[7%] xs:max-sm:ml-[13%]'>
                     <p className='text-white mt-[-5%] text-[5em] font-bold display xs:max-sm:text-[3em] xl:max-2xl:text-[3em]'>{cancelledCount}</p>
-                    <p className='text-white text-[1.2em] mt-[-13%] xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>CANCELLED</p>
+                    <p className='text-white text-[1.2em] mt-[-13%] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em] xl:max-2xl:mt-[-11%]'>CANCELLED</p>
                   </div>
                   <div className='w-[30%] pt-[10%] text-center xs:max-sm:pt-[25%] xs:max-sm:ml-[-18%]'>
-                      <AiFillCloseCircle className='text-white text-[4em] xs:max-sm:text-[1.7em] xl:max-2xl:text-[2.5em]'/>
+                      <AiFillCloseCircle className='text-white text-[4em] xs:max-sm:text-[1.0em] xl:max-2xl:text-[2.5em]'/>
                   </div>
                 </div>
               </div>

@@ -98,14 +98,14 @@ useEffect(() => {
         <hr className='h-[2px] w-full my-[1.2%] bg-gray-200 border-0'/>
         
         <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block text-white px-[1%] rounded-lg mb-[0.5%] xl:max-2xl:text-[1.0em]'>As of: {dayOfWeek[props.day%7]} - {monthName[props.month]}/{props.day}/{props.year}</h1>
-        <div className='flex mx-[2%] py-[2%] text-[1.2em] xl:max-2xl:text-[0.8em]'>
+        <div className='flex mx-[2%] py-[2%] text-[1.2em] xl:max-2xl:text-[1em]'>
             <table className="w-[100%] table-fixed">
                 <thead className=''>
-                    <th className='font-bold uppercase text-[1.0em] m1-[4%] px-[1%] mt-[2%] rounded-lg mb-[0.5%] xl:max-2xl:text-[1.3em]'>Reservation ID</th>
-                <th className='font-bold uppercase text-[1.0em] ml-[4%] px-[1%] mt-[2%]  rounded-lg mb-[0.5%] xl:max-2xl:text-[1.3em]'>Client ID</th>
-                <th className='font-bold uppercase text-[1.0em] ml-[4%] mt-[2%] rounded-lg mb-[0.5%] xl:max-2xl:text-[1.3em]'>Time</th>
-                <th className='font-bold uppercase text-[1.0em] ml-[4%] mt-[2%] rounded-lg mb-[0.5%] xl:max-2xl:text-[1.3em]'>Status</th>
-                <th className='font-bold uppercase text-[1.0em] ml-[4%] mt-[2%] rounded-lg mb-[0.5%] xl:max-2xl:text-[1.3em]'>Actions</th>
+                    <th className='font-bold uppercase text-[1.0em] m1-[4%] px-[1%] mt-[2%] rounded-lg mb-[0.5%] xl:max-2xl:text-[0.9em]'>Reservation ID</th>
+                <th className='font-bold uppercase text-[1.0em] ml-[4%] px-[1%] mt-[2%]  rounded-lg mb-[0.5%] xl:max-2xl:text-[0.9em]'>Client ID</th>
+                <th className='font-bold uppercase text-[1.0em] ml-[4%] mt-[2%] rounded-lg mb-[0.5%] xl:max-2xl:text-[0.9em]'>Time</th>
+                <th className='font-bold uppercase text-[1.0em] ml-[4%] mt-[2%] rounded-lg mb-[0.5%] xl:max-2xl:text-[0.9em]'>Status</th>
+                <th className='font-bold uppercase text-[1.0em] ml-[4%] mt-[2%] rounded-lg mb-[0.5%] xl:max-2xl:text-[0.9em]'>Actions</th>
             </thead>
             <tbody className=' scroll-auto'>
               { isLoading? <>
@@ -120,9 +120,11 @@ useEffect(() => {
                         <td className='text-center  text-[0.8em]'>{reservation.res_time}</td>
                         <td  className={`text-center text-[0.8em] font-bold ${reservation.status === 'Finished'? 'text-green-800': ' text-blue-800'}`}><button className={`${reservation.status === 'Finished'? 'bg-green-200': ' bg-blue-200'} w-[50%] rounded-xl`}>{reservation.status}</button></td>
                         <td className="flex flex-col items-center justify-center space-y-2 text-[0.8em] py-4">
-                            <div className='w-full flex justify-center items-center'>
+
+                            <div className='w-full flex justify-center items-center font-semibold'>
                             <button
-                                className="flex justify-center items-center w-[80%] bg-[#ffbb38] py-[3%] px-[15%] rounded-3xl xl:max-2xl:text-[0.9em] xl:max-2xl:mb-[3%]"
+                                className="flex justify-center items-center w-[80%] bg-[#ffbb38] py-[3%] px-[15%] rounded-3xl xl:max-2xl:text-[0.9em] xl:max-2xl:mb-[3%]
+                                hover:bg-[#ffe7ba] transition-colors delay-450 duration-[3000] ease-in-out"
                                 onClick={() => {
                                   sessionStorage.setItem('res_id', reservation.reservation_id);
                                   props.openView(true);
@@ -132,9 +134,10 @@ useEffect(() => {
                                 View
                             </button>
                             </div>
-                            <div className='w-full flex justify-center items-center text-[0.8em]'>
+                            <div className='w-full flex justify-center items-center font-semibold text-[1em]'>
                             <button
-                                className="flex justify-center items-center w-[80%] bg-[#ff8e4f] py-[3%] px-[18%] rounded-3xl xl:max-2xl:text-[0.9em] xl:max-2xl:mb-[7%] xl:max-2xl:px-[19%]"
+                                className="flex justify-center items-center w-[80%] bg-[#ff8e4f] py-[3%] px-[18%] rounded-3xl xl:max-2xl:text-[1.1em] xl:max-2xl:mb-[7%] xl:max-2xl:px-[19%]
+                                hover:bg-[#ffbe9b] transition-colors delay-450 duration-[3000] ease-in-out"
                                 onClick={() => {
                                   sessionStorage.setItem('res_id', reservation.reservation_id);
                                   props.openEdit(true);

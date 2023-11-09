@@ -83,11 +83,14 @@ const FeedbackList = () => {
     <div className="animate-fade-in ">
       <MerchAdHeader icon={RiMegaphoneFill} title="Feedback List" />
       <div className="bg-[#F3F3F3] h-[90vh] px-12 py-7 overflow-y-auto xs:max-sm:px-2">
-        <div className="bg-[#FFFFFF] h-[85vh] p-4 rounded-[2rem] relativexs:max-sm:w-[100%] xl:max-2xl:h-full">
+        <div className="bg-[#FFFFFF] h-[85vh] p-4 rounded-[2rem] relative xs:max-sm:w-[100%] xl:max-2xl:h-full">
           <div className="flex font-poppins px-10 py-10 xs:max-sm:py-2 xs:max-sm:px-2">
-            <h1 className="text-3xl font-bold xs:max-sm:text-[1.5em] xl:max-2xl:text-2xl">Merchant Rating</h1>
-            <h1 className="text-2xl pl-5 font-medium xs:max-sm:text-[0.9em] xl:max-2xl:text-xl xl:max-2xl:pl-2">({averageRating.toFixed(1)})</h1>
-            <Rating name="half-rating" precision={0.5} size="large" className="pl-5 xs:max-sm:scale-75 xl:max-2xl:scale-75 xl:max-2xl:pl-1" readOnly value={averageRating} />
+            <h1 className="text-3xl font-bold xs:max-sm:text-[1.5em] xl:max-2xl:text-2xl">
+              Merchant Rating</h1>
+            <h1 className="text-2xl pl-5 font-medium xs:max-sm:text-[0.9em] xl:max-2xl:text-xl xl:max-2xl:pl-1">
+              ({averageRating.toFixed(1)})</h1>
+            <Rating name="half-rating" precision={0.5} size="large" className="pl-5 xs:max-sm:scale-75 xl:max-2xl:scale-75 xl:max-2xl:pl-1" 
+            readOnly value={averageRating} />
           </div>
 
           {currentFeedbackPage.length > 0 ? (
@@ -111,7 +114,8 @@ const FeedbackList = () => {
             <p>No feedback available.</p>
           )}
 
-          <div className="flex justify-center mb-20 w-[100%] h-[7%] ">
+      <div className="xs:max-sm:mt-[15%]">
+          <div className="flex justify-center w-[100%] h-[7%] ">
             <ThemeProvider theme={theme}>
               <Pagination
                 count={Math.ceil(feedback.length / itemsPerPage)}
@@ -119,15 +123,16 @@ const FeedbackList = () => {
                 showFirstButton
                 showLastButton
                 color="primary"
-                className="absolute bottom-8"
+                className="text-xl"
                 onChange={handlePageChange}
                 page={currentPage}
               />
             </ThemeProvider>
-            <div className="text-[#969696] text-xs absolute bottom-3">
+          </div>
+          <div className="text-[#969696] text-lg flex justify-center mb-[2%] xs:max-sm:text-base xl:max-2xl:text-[0.9em]">
               Page {currentPage} of {Math.ceil(feedback.length / itemsPerPage)}
             </div>
-          </div>
+        </div>
         </div>
       </div>
     </div>

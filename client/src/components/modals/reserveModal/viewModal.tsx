@@ -111,7 +111,7 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
   };
   
   return (
-    <div className="animate-slide-up font-poppins fixed top-[8%] left-[18%] right-0 bg-white z-[100] bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
+    <div className="animate-slide-up font-poppins fixed top-[5%] left-[18%] right-0 bg-white z-[100] bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[90%] drop-shadow rounded-3xl">
       {!isLoading 
        ?
         <div className='flex justify-center ml-[-2%] mt-[25%]'>
@@ -121,14 +121,14 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         <>
                 <div className='flex w-full h-[5vh]'>
             <div className='flex items-center w-[96%] mt-[0.5%]'>
-                <RiNewspaperFill className='text-[2.8em] ml-[1%] mr-[1%] xl:max-2xl:text-[2em]'/>
+                <RiNewspaperFill className='text-[2.8em] ml-[1%] mr-[1%] xs:max-sm:text-[2em] xl:max-2xl:text-[2em]'/>
                 <div>
-                    <h1 className='font-bold text-[1.5em] xl:max-2xl:text-[1.2em]'>Reservation Details</h1>   
-                    <p className='mt-[-1%] text-[1.2em] xl:max-2xl:text-[0.9em]'>ID: {resId}</p>
+                    <h1 className='font-bold text-[1.5em] xs:max-sm:text-[1.2em] xl:max-2xl:text-[1.2em]'>Reservation Details</h1>   
+                    <p className='mt-[-1%] text-[1.2em] xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.9em]'>ID: {resId}</p>
                 </div>
             </div>
             <div className='mt-[0.5%]'>
-                <AiFillCloseCircle className='text-[2.5em] hover:cursor-pointer xl:max-2xl:text-[1.8em]'
+                <AiFillCloseCircle className='text-[2.5em] hover:cursor-pointer xs:max-sm:text-[1.8em] xl:max-2xl:text-[1.8em]'
                  onClick={()=>{
                   sessionStorage.removeItem('res_id');
                   setOpenModalView(false)
@@ -137,8 +137,9 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         </div>
         <hr className='h-[2px] w-full my-[1.2%] bg-gray-200 border-0'/>
         
-        <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block text-white px-[1%] rounded-lg mb-[0.5%] xl:max-2xl:text-[1.0em]'>General Information</h1>
-        <div className='flex mx-[2%] text-[1.2em] xl:max-2xl:text-[0.8em]'>
+        <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block text-white px-[1%] rounded-lg mb-[0.5%] xs:max-sm:text-[1.1em] xs:max-sm:mt-[3%] xs:max-sm:mb-[1%] xl:max-2xl:text-[1.0em]'>
+          General Information</h1>
+        <div className='flex mx-[2%] text-[1.2em] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'>
           <div className='w-[50%]'>
             <p className='my-[1%]'><span className='font-bold'>Event Date: </span>{formatDate(new Date(record[0]?.res_date))}</p>
             <p className='my-[1%]'><span className='font-bold'>Event Time: </span>{record[0]?.res_time}</p>
@@ -158,9 +159,9 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         </div>
 
 
-        <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block px-[1%] mt-[2%] text-white rounded-lg mb-[0.5%] xl:max-2xl:text-[1.0em]'>Inventory</h1>
-        <div className='flex mx-[2%] text-[1.2em] xl:max-2xl:text-[0.8em]'>
-          <div className='w-[33%]'>
+        <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block px-[1%] mt-[2%] text-white rounded-lg mb-[0.5%] xs:max-sm:text-[1.1em] xl:max-2xl:text-[1.0em]'>Inventory</h1>
+        <div className='flex mx-[2%] text-[1.2em] xs:max-sm:text-[0.8em] xs:max-sm:mb-[5%] xl:max-2xl:text-[0.8em]'>
+          <div className='w-[33%] xs:max-sm:w-[50%]'>
             <p className={`my-[1%]`}><span className={`font-bold`}>No. of Tables: </span>
               <span className={`${inventory?.no_of_tables == null && 'italic text-gray-400'}`}>
                 {inventory?.no_of_tables != null ? inventory?.no_of_tables : "To be added."}
@@ -177,7 +178,7 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
               </span>
             </p>
           </div>
-          <div className='w-[33%]'>
+          <div className='w-[33%] xs:max-sm:w-[50%]'>
             <p className='my-[1%]'><span className='font-bold'>No. of Glasses: </span>
               <span className={`${inventory?.no_of_glasses == null && 'italic text-gray-400'}`}>
                 {inventory?.no_of_glasses != null ? inventory?.no_of_glasses : "To be added."}
@@ -196,8 +197,9 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
           </div>
         </div>
 
-        <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block px-[1%] mt-[2%] text-white text-center rounded-lg mb-[0.5%] xl:max-2xl:text-[1.0em]'>Additional Information</h1>
-        <div className='flex mx-[2%] text-[1.2em] xl:max-2xl:text-[0.6em] w-full'>
+        <h1 className='font-bold uppercase text-[1.5em] ml-[2%] bg-[#840705] inline-block px-[1%] mt-[2%] text-white text-center rounded-lg mb-[0.5%] xs:max-sm:text-[1.1em] xl:max-2xl:text-[1.0em]'>
+          Additional Information</h1>
+        <div className='flex mx-[2%] text-[1.2em] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.6em] w-full'>
 
           {existingList?.length > 0 ? (
                   <div className="flex w-full flex-wrap">
@@ -210,7 +212,7 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
                   )
               :
               <div>
-                <h1 className='italic text-[1em]'>User did not input additional details.</h1>
+                <h1 className='italic text-[1em] xl:max-2xl:text-[1.3em]'>User did not input additional details.</h1>
               </div>
             }
 
@@ -228,9 +230,9 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
 
         <div className='fixed bottom-[2%] ml-[-1%] w-[100%]'>
           <hr className=' w-[100%] h-[1px] bg-black border-0'/>       
-          <div className='flex justify-end mr-[3%] mt-[1%]'>
+          <div className='flex justify-end mr-[3%] mt-[1%] xs:max-sm:mr-[7%] xs:max-sm:mt-[1%]'>
             <button className='flex text-white text-[1.1em] bg-[#DD2803] px-[2%] py-[0.5%] rounded-2xl xl:max-2xl:text-[0.8em]
-            hover:bg-[#840705] transition-colors delay-450 duration-[3000] ease-in-out'>
+            hover:bg-[#840705] transition-colors delay-450 duration-[3000] ease-in-out xs:max-sm:text-[0.8em]'>
               <BsFillTrashFill className='mt-[5%] pr-[5%] '/>Delete</button>
           </div>
         </div>
