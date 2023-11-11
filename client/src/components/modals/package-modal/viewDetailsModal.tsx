@@ -88,10 +88,10 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
                   <p><b>Available From: </b></p>
                   </td>
                   <td>
-                    <div className='w-[5vw] inline-block'>
+                    <div className='w-[7vw] inline-block'>
                   {parsedStartDate} 
                   </div>
-                  <button className=' bg-green-200 px-4 rounded-2xl ml-4 w-[6vw]'><MdAccessTime className=' inline-block'/> {time_start}</button> 
+                  <button className=' bg-green-200 px-4 rounded-2xl ml-4 w-[8vw]'><MdAccessTime className=' inline-block'/> {time_start}</button> 
 
                   
                   </td>
@@ -102,10 +102,10 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
                   <p><b>Expiry Date: </b></p>
                   </td>
                   <td>
-                  <div className='w-[5vw] inline-block'>
+                  <div className='w-[7vw] inline-block'>
                   {parsedEndDate} 
                   </div>
-                  {time_end? <button className=' bg-red-200 px-4 rounded-2xl ml-4 w-[6vw]'><MdAccessTime className=' inline-block'/> {time_end}</button> : <></>}
+                  {time_end? <button className=' bg-red-200 px-4 rounded-2xl ml-4 w-[8vw]'><MdAccessTime className=' inline-block'/> {time_end}</button> : <></>}
                   </td>
                 </tr>
                 <tr>
