@@ -111,7 +111,8 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
   };
   
   return (
-    <div className="animate-slide-up font-poppins fixed top-[5%] left-[18%] right-0 bg-white z-[100] bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[90%] drop-shadow rounded-3xl">
+    <div className='bg-[rgba(0,0,0,0.6)] w-[100vw] h-[100vh] z-10 absolute top-0 left-0 duration-100 animate-fade-in overflow-hidden xs:max-sm:z-[1001] xs:max-sm:h-[110vh]'>
+    <div className="animate-slide-up font-poppins fixed top-[5%] left-[18%] right-0 bg-white z-[100] bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[90%] drop-shadow rounded-3xl xs:max-sm:w-[90%] xs:max-sm:left-[5%] xs:max-sm:z-[1001]">
       {!isLoading 
        ?
         <div className='flex justify-center ml-[-2%] mt-[25%]'>
@@ -119,7 +120,7 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         </div>
       :
         <>
-                <div className='flex w-full h-[5vh]'>
+      <div className='flex w-full h-[5vh]'>
             <div className='flex items-center w-[96%] mt-[0.5%]'>
                 <RiNewspaperFill className='text-[2.8em] ml-[1%] mr-[1%] xs:max-sm:text-[2em] xl:max-2xl:text-[2em]'/>
                 <div>
@@ -238,7 +239,7 @@ const ViewModal:React.FC<ViewModalProps> = (props) => {
         </div>
         </>
       }
-
+      </div>
     </div>
   )
 }

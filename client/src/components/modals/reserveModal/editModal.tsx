@@ -242,7 +242,8 @@ const EditModal:React.FC<EditModalProps> = (props) => {
 
 
   return (
-    <div className="animate-slide-up font-poppins fixed top-[7%] left-[18%] right-0 bg-white z-[100] bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
+    <div className='bg-[rgba(0,0,0,0.6)] w-[100vw] h-[100vh] z-10 absolute top-0 left-0 duration-100 animate-fade-in overflow-hidden xs:max-sm:z-[1001] xs:max-sm:h-[110vh]'>
+    <div className="animate-slide-up font-poppins fixed top-[7%] left-[18%] right-0 bg-white z-[100] bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl xs:max-sm:w-[90%] xs:max-sm:left-[5%] xs:max-sm:z-[1001]">
       {!isLoading 
        ?
         <div className='flex justify-center ml-[-2%] mt-[25%]'>
@@ -465,7 +466,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
         {/* Additional Details */}
         <h1 className='font-bold uppercase text-[1.5em] ml-[4%] bg-[#840705] inline-block text-white px-[1%] mt-[2%] rounded-lg mb-[0.5%] xs:max-sm:text-[1em] xl:max-2xl:text-[1.0em]'>
           Additional Details</h1>
-        <div className='flex ml-[4%] mr-[2%] text-[1.2em] xl:max-2xl:text-[0.8em]'>
+        <div className='flex ml-[4%] mr-[2%] text-[1.2em] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'>
         {existingList?.length > 0 ? (
                   <div className="flex w-full flex-wrap">
                   {existingList.map((item: any, index: number) => (
@@ -540,6 +541,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
 
         </>
         }
+        </div>
     </div>
   )
 }
