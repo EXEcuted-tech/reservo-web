@@ -1,5 +1,5 @@
 import colors from '../../../common/colors'
-import React from 'react'
+import React, { useRef } from 'react'
 import {AiFillCloseCircle, AiFillDelete, AiOutlineCloseCircle, AiOutlineUndo} from "react-icons/ai"
 import { HiOutlineMagnifyingGlass, HiMiniPencilSquare } from "react-icons/hi2";
 import "../../../assets/css/card.css"
@@ -30,6 +30,7 @@ interface CreatePackageModal{
       const day = String(today.getDate()).padStart(2, '0');
       return `${year}-${month}-${day}`;
     }
+    const merchantId = localStorage.getItem('merch_id')
 
     const [isCreatePackageModalOpen, setIsCreatePackageModalOpen] = useState(false);
     const [itemName, setItemName] = useState('');
@@ -44,13 +45,15 @@ interface CreatePackageModal{
     const [visibility, setVisibility] = useState('NOT PUBLISHED');
     const [itemList, setItemList] = useState<string[]>([]);
     const [filePath, setFilePath] = useState('');
-    const [tags, setTags] = useState<any>([]);
-    const [merchantId, setMerchantId] = useState('1'); 
-    //change this since this ↑ is not static it will get data on the currently logged in merchant
+    const [tags, setTags] = useState<String[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [incompleteAlert, setIncompleteAlert] = useState(true);
     const [alertMessage, setAlertMessage]= useState('');
     const [alertColor, setAlertColor] = useState('#840705');
+    const [isHovered, setIsHovered] = useState<Number|null>(null)
+    const [inputTag, setInputTag] = useState('');
+    const tagsScroll = useRef<HTMLDivElement>(null);
+    
 
     const handlePackageNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setPackageName(e.target.value);
@@ -80,7 +83,15 @@ interface CreatePackageModal{
     };
   
     const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setTags(e.target.value.split(','));
+      if(e.target.value !== ','){
+      if(e.target.value.indexOf(",") > -1){
+        const val = e.target.value.replaceAll(',', '');
+        setTags([...tags,val])
+        setInputTag('');
+      }else{
+        setInputTag(e.target.value)
+      }
+    }
   
     };
   
@@ -186,6 +197,12 @@ interface CreatePackageModal{
       }
     };
 
+    useEffect(() => {
+      if (tagsScroll.current) {
+        // Scroll to the rightmost when the component mounts
+        tagsScroll.current.scrollLeft = tagsScroll.current.scrollWidth;
+      }
+    }, [tags]);
 
 
     return (
@@ -260,8 +277,20 @@ interface CreatePackageModal{
                   <b>Tags: </b>
                   </td>
                   <td>
-                  <input type="text" value={tags} onChange={handleTagsChange} placeholder="Separate by commas (,)" className=" focus:outline-none h-[4vh] my-2 p-2 border rounded-md mx-4 xs:max-sm:w-[33vw] xs:max-sm:h-[4vh] xs:max-sm:my-1 xs:max-sm:mx-2 focus:ring focus:ring-blue-500">
-                  </input>
+                  <div className='ml-3 flex flex-row items-center w-[20vw] h-[6vh] overflow-y-hidden overflow-x-hidden hover:overflow-x-auto border p-4 rounded-lg' ref={tagsScroll}>
+                  {tags.length > 0? tags.map((element:any, index:any) => (
+                  <button className='w-auto h-5 p-1 flex border rounded-lg mx-1 items-center text-sm hover:border-1 hover:border-red-300'
+                  onClick={()=>{
+                    const newTags = [...tags]
+                    newTags.splice(index, 1)
+                    setTags(newTags)
+                  }}
+                  onMouseEnter={() => setIsHovered(index)}
+                  onMouseLeave={() => setIsHovered(null)}
+                  >{element} {isHovered === index && <AiFillCloseCircle className=' animate-fade-in duration-100' />}</button>
+                )):<></>}
+              <input onChange={handleTagsChange} type="text" placeholder="Separated by comma" value={inputTag} className="h-[2vh] w-[10vw] my-2 text-sm border rounded-md mx-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500"/>
+              </div>
                   </td>
                 </tr>
                 <tr>

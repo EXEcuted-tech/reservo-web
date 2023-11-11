@@ -41,7 +41,6 @@ const DetailsModal: React.FC<DetailsModalProps> = ({onClose, openEditModal, erro
 
 
 
-
     
     
     const handleDeleteClick = () => {
@@ -52,6 +51,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({onClose, openEditModal, erro
           await axios.post(`${config.API}/package/delete/`,{
               package_id: packageId,
           })
+          errorMsg('Deleted Package: '+ packageName);
           refresh()
         }
       catch(error:any|undefined){
@@ -109,6 +109,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({onClose, openEditModal, erro
         }
       }
     }
+
   
   
     const handleCloseDeleteModal = () => {
@@ -122,6 +123,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({onClose, openEditModal, erro
 
     return (
   <div>
+    
     
     <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-full overflow-hidden backdrop-blur-sm animate-zoom-in xs:max-sm:h-[58rem]'>
     <div className='flex justify-center align-center my-20 xl:max-2xl:my-16'>
@@ -177,7 +179,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({onClose, openEditModal, erro
                   </tr>
                   
                   <tr>
-                    <td><b>Tags: </b></td><td>{tags.map((tag, index) => (<span key={index}>{tag}{index < tags.length - 1 ? ', ' : ''}</span>))}  </td>
+                    <td><b>Tags: </b></td><td><div className=' w-[20vw] overflow-x-hidden hover:overflow-x-auto h-[5vh]'>{tags.map((tag:string, index) => (<button className=' w-auto text-sm mx-1 border rounded-lg px-2 hover:bg-blue-200 duration-200' key={index}>{tag}</button>))}  </div></td>
                   </tr>
                   <tr>
                     <td><b>Visibility: </b></td><td><div className={` text-center rounded-2xl ${visibility === "PUBLISHED"? ' w-[80%] bg-green-600 text-white': 'bg-blue-200 text-blue-500'}`}>{visibility}</div></td>

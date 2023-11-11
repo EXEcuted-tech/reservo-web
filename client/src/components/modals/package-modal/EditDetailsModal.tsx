@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AiFillCloseCircle, AiFillDelete, AiOutlineCloseCircle, AiOutlineUndo } from "react-icons/ai";
 import { HiMiniPencilSquare } from "react-icons/hi2";
 import "../../../assets/css/card.css";
@@ -9,7 +9,6 @@ import config from '../../../common/config'
 import DeleteConfirmationModal from '../../card/DeleteConfirmationModal';
 import GenSpinner from '../../loaders/genSpinner';
 import Notification from '../../alerts/Notification';
-import {dayMMDDYYYY} from '../../../common/functions'
 
 interface EditDetailsModalProps {
   onClose: () => void;
@@ -32,6 +31,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   const [editedTimeStart, setEditedTimeStart] = useState('');
   const [editedTimeEnd, setEditedTimeEnd] = useState('');
   const [editedTags, setEditedTags] = useState<string[]>([]);
+  const [inputTag, setInputTag] = useState('');
   const [editedVisibility, setEditedVisibility] = useState('NOT PUBLISHED');
   const [editedFilePath, setEditedFilePath] = useState('');
   const [editedDescription, setEditedDescription] = useState('');
@@ -40,6 +40,8 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   const [deleteModal, setDeleteModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const tagsScroll = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState<Number|null>(null);
   
 
 
@@ -81,11 +83,8 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
         }
     //  console.log(request)
         await axios.post(`${config.API}/package/update`, request);
-        setErrorMessage('Successfully Updated!');
+        errorMsg('Successfully Updated!');
         refresh()
-        setTimeout(()=>{
-          setErrorMessage('')
-        }, 5000)
     }catch(error){
         //PUT ERROR NOTIF 
     }
@@ -184,10 +183,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
             package_id: packageID,
         })
           console.log(response.data)
-          setErrorMessage('Deleted Package Successfully!');
-          setTimeout(()=>{
-            setErrorMessage('')
-          }, 5000)
+          errorMsg('Deleted Package Successfully!');
           refresh()
         }
     catch(error:any|undefined){
@@ -254,7 +250,15 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   };
 
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditedTags(e.target.value.split(','));
+    if(e.target.value !== ','){
+    if(e.target.value.indexOf(",") > 0){
+      const val = e.target.value.replaceAll(',', '');
+      setEditedTags([...editedTags,val])
+      setInputTag('');
+    }else{
+      setInputTag(e.target.value)
+    }
+  }
   };
 
   const handleVisibilityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -273,6 +277,13 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   useEffect(() => {
     console.log("ITEMS KO BEH", editedItems);
   }, [editedItems]);
+
+  useEffect(() => {
+    if (tagsScroll.current) {
+      // Scroll to the rightmost when the component mounts
+      tagsScroll.current.scrollLeft = tagsScroll.current.scrollWidth;
+    }
+  }, [editedTags]);
 
   return (
     <div className='overflow-hidden'>
@@ -343,7 +354,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
               <b>Tags: </b><span className='text-red-600'>*</span>
               </td>
               <td>
-                <div className='ml-3 flex flex-row items-center w-[20vw] h-[5vh] overflow-auto border'>
+                <div className='ml-3 flex flex-row items-center w-[20vw] h-[6vh] overflow-y-hidden overflow-x-hidden hover:overflow-x-auto border p-4 rounded-lg' ref={tagsScroll}>
                   {editedTags.length > 0? editedTags.map((element, index) => (
                   <button className=' h-5 p-1 flex border rounded-lg mx-1 items-center text-sm hover:border-1 hover:border-red-300'
                   onClick={()=>{
@@ -351,9 +362,11 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
                     newTags.splice(index, 1)
                     setEditedTags(newTags)
                   }}
-                  >{element} <AiFillCloseCircle/></button>
+                  onMouseEnter={() => setIsHovered(index)}
+                  onMouseLeave={() => setIsHovered(null)}
+                  >{element} {isHovered === index && <AiFillCloseCircle className=' animate-fade-in duration-100' />}</button>
                 )):<></>}
-              <input onChange={handleTagsChange} type="text" value={editedTags} className="h-[2vh] my-2 text-sm border rounded-md mx-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500"/>
+              <input onChange={handleTagsChange} type="text" placeholder="Separated by comma" value={inputTag} className="h-[2vh] w-[10vw] my-2 text-sm border rounded-md mx-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500"/>
               </div>
               </td>
             </tr>

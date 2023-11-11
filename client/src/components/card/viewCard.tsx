@@ -74,7 +74,7 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
                 className="w-full h-full object-cover rounded-2xl"/></div>
                 <p className="text-xl my-1 text-center font-bold flex flex-col">{packageName}</p>
                 <div className='text-l mx-8 h-[15vh] indent-5 break-words xl:max-2xl:text-[0.8em] xl:max-2xl:h-[12vh]'>
-                {description}
+                <textarea className=' bg-white resize-none overflow-y-hidden h-[15vh] w-[12vw] text-sm text-justify indent-2 hover:overflow-y-auto' value={description} disabled/>
                 </div>
 
                 <div className="">
