@@ -13,12 +13,13 @@ import Notification from '../../alerts/Notification';
 interface DetailsModalProps {
     onClose: () => void;
     openEditModal: ()=>void;
+    refresh: ()=>void;
     errorMsg: (message:string)=>void;
     packageId: string;
   }
 
   
-const DetailsModal: React.FC<DetailsModalProps> = ({onClose, openEditModal, errorMsg, packageId}) => {
+const DetailsModal: React.FC<DetailsModalProps> = ({onClose, openEditModal, errorMsg, refresh, packageId}) => {
     const [deleteModal, setDeleteModal] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -51,6 +52,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({onClose, openEditModal, erro
           await axios.post(`${config.API}/package/delete/`,{
               package_id: packageId,
           })
+          refresh()
         }
       catch(error:any|undefined){
         //PUT ERROR NOTIF 
@@ -121,13 +123,14 @@ const DetailsModal: React.FC<DetailsModalProps> = ({onClose, openEditModal, erro
     return (
   <div>
     
-    <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-full overflow-x-hidden backdrop-blur-sm animate-zoom-in overflow-hidden xs:max-sm:h-[58rem]'>
+    <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-full overflow-hidden backdrop-blur-sm animate-zoom-in xs:max-sm:h-[58rem]'>
     <div className='flex justify-center align-center my-20 xl:max-2xl:my-16'>
         <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl xs:max-sm:p-6 xs:max-sm:w-[85vw] xl:max-2xl:h-[83vh]">
           {deleteModal && (
         <DeleteConfirmationModal
           onClose={handleCloseDeleteModal}
           onConfirmDelete={handleConfirmDelete}
+          alertMsg={errorMsg}
         />
       )}
 
@@ -185,7 +188,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({onClose, openEditModal, erro
                   <tr>
                     
                   <td colSpan={2}>
-                  <div className='border px-4 overflow-y-auto h-[10vh] w-[25vw]'>
+                  <div className='text-sm border px-4 overflow-y-auto h-[10vh] w-[25vw]'>
                     {description}</div></td>
                   </tr>
                   <tr>
@@ -196,7 +199,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({onClose, openEditModal, erro
                     <div className='border px-4 overflow-y-auto h-[10vh] w-[25vw]'>
                     <ul className='list-disc  ml-[6%]'>
                     {items.map((item, index) => (
-                                            <li key={index} className=''>{item}</li>
+                                            <li key={index} className='text-sm'>{item}</li>
                                         ))}      
                     </ul>
                     </div>

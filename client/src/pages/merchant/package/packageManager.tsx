@@ -27,6 +27,13 @@ const PackageManager = () => {
       fetchData(selectedOption);
     }
 
+    const promptAlert = (msg:string)=>{
+      setAlertMessage(msg);
+      setTimeout(()=>{
+        setAlertMessage('')
+      },5000)
+    }
+
 
     // Function to open the modal when the empty card is clicked
     const openCreatePackageModal = () => {
@@ -70,10 +77,8 @@ const PackageManager = () => {
     
         return response.data.data;
       } catch (error) {
-        setAlertMessage("Failed to fetch Packages")
-        setTimeout(()=>{
-          setAlertMessage('')
-        }, 5000)
+        promptAlert("Failed to Fetch Published Packages")
+        
         //console.error('Error fetching published packages:', error);
         return [];
       }
@@ -93,11 +98,8 @@ const PackageManager = () => {
     
         return response.data.data;
       } catch (error) {
-        setAlertMessage("Failed to fetch Packages")
-        setAlertColor('#840705')
-        setTimeout(()=>{
-          setAlertMessage('')
-        }, 5000)
+        promptAlert("Failed to Fetch Unpublished Packages")
+        
         //console.error('Error fetching unpublished packages:', error);
         return [];
       }
@@ -190,7 +192,8 @@ return (
                   oneButton={false} 
                   time_start={packageItem.time_start} 
                   time_end={packageItem.time_end}
-                  error_msg={setAlertMessage}                
+                  error_msg={promptAlert}
+                  refresh={refreshPackageManager}                
                   />
               ))
             )}
@@ -206,6 +209,7 @@ return (
         <CardEmpty onClick={openCreatePackageModal} />
         {isCreatePackageModalOpen && 
         <CreatePackageModal 
+        alertMsg={promptAlert}
         onClose={closeCreatePackageModal}
         fetchData={refreshPackageManager} // Pass the refresh function as a prop
         selectedSortOption={sort}/>}
@@ -230,7 +234,8 @@ return (
                   oneButton={false} 
                   time_start={packageItem.time_start} 
                   time_end={packageItem.time_end} 
-                  error_msg={setAlertMessage}               
+                  error_msg={promptAlert}   
+                  refresh={refreshPackageManager}            
                   />
               ))
               

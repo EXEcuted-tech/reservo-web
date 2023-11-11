@@ -22,9 +22,10 @@ interface prop {
     filePath: string;
     oneButton: boolean;
     error_msg: (message: string)=>void;
+    refresh: ()=> void;
 }
 
-const Card: React.FC<prop>=({package_id,  packageName, price, date_start, date_end, description, tags, visibility, time_start, time_end, items,filePath, oneButton, error_msg}) => {
+const Card: React.FC<prop>=({package_id,  packageName, price, date_start, date_end, description, tags, visibility, time_start, time_end, items,filePath, oneButton, error_msg, refresh}) => {
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -62,7 +63,7 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
                       e.currentTarget.onerror = null; // Prevent infinite loop if the image itself is not found
                       e.currentTarget.src = 'https://i.imgur.com/YNoZzmJ.png'; // Use a placeholder image as a fallback
                     }}
-                    className="w-full h-full object-cover rounded-2xl"/>
+                    className="w-full h-full object-cover rounded-t-2xl"/>
                 </div>
                 <p className="text-xl my-1 text-center font-bold flex flex-col xl:max-2xl:text-lg">{packageName}</p>
                 <div className='text-l mx-8 h-[15vh] indent-5 break-words xl:max-2xl:text-[0.8em] xs:max-sm:h-[10vh]'>
@@ -76,12 +77,12 @@ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
               <div className="mx-10 flex space-x-5 items-center xs:max-sm:mt-[5%]">
                   <button className='CardButton flex DetailsButton text-[1.1rem] w-1/2 items-center justify-center xs:max-sm:text-[1em] xl:max-2xl:text-[0.7em]' 
                     onClick={openModal}><HiOutlineMagnifyingGlass className="mr-[3%]"/>Details</button>
-                  {isModalOpen && <DetailsModal onClose={closeModal} packageId={package_id}  openEditModal={openEditModal} errorMsg={error_msg}/>}
+                  {isModalOpen && <DetailsModal refresh={refresh} onClose={closeModal} packageId={package_id}  openEditModal={openEditModal} errorMsg={error_msg}/>}
                   {oneButton === false &&
                     <button className='CardButton flex EditButton text-[1.1rem] w-1/2 items-center justify-center xs:max-sm:text-[1em] xl:max-2xl:text-[0.7em]' 
                       onClick={openEditModal} ><HiMiniPencilSquare className="mr-[3%]"/>Edit</button>
                   }
-                  {isEditModalOpen && <EditDetailsModal  onClose={closeEditModal} errorMsg={error_msg} packageID={package_id}/>}
+                  {isEditModalOpen && <EditDetailsModal  onClose={closeEditModal} errorMsg={error_msg} packageID={package_id} refresh={refresh}/>}
                 </div>
             </div>
         </div>

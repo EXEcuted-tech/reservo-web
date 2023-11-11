@@ -14,12 +14,14 @@ import {dayMMDDYYYY} from '../../../common/functions'
 interface EditDetailsModalProps {
   onClose: () => void;
   errorMsg: (message:string)=>void;
+  refresh: ()=>void;
   packageID: string;
 }
 
 const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   onClose,
   errorMsg,
+  refresh,
   packageID,
   
 }) => {
@@ -80,6 +82,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
     //  console.log(request)
         await axios.post(`${config.API}/package/update`, request);
         setErrorMessage('Successfully Updated!');
+        refresh()
         setTimeout(()=>{
           setErrorMessage('')
         }, 5000)
@@ -87,6 +90,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
         //PUT ERROR NOTIF 
     }
      setIsLoading(false);
+     refresh();
      onClose();
   }
 
@@ -184,6 +188,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
           setTimeout(()=>{
             setErrorMessage('')
           }, 5000)
+          refresh()
         }
     catch(error:any|undefined){
         setErrorMessage(error.message);
@@ -231,15 +236,15 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
 }
 
   const handleTimeStartChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newDate = e.target.value // Create a new Date object from the input value
+    const newTime = e.target.value // Create a new Date object from the input value
     //console.log("INPUT", newDate)
-    setEditedDateStart(newDate);
+    setEditedTimeStart(newTime);
   }
 
   const handleTimeEndChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newDate = e.target.value // Create a new Date object from the input value
+    const newTime = e.target.value // Create a new Date object from the input value
     //console.log("INPUT", newDate)
-    setEditedDateEnd(newDate);
+    setEditedTimeEnd(newTime);
   }
 
   const handleDateEndChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -270,7 +275,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   }, [editedItems]);
 
   return (
-    <div className=''>
+    <div className='overflow-hidden'>
         
       <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh] backdrop-blur-sm animate-zoom-in overflow-hidden'>
         
@@ -280,6 +285,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
         <DeleteConfirmationModal
           onClose={handleCloseDeleteModal}
           onConfirmDelete={handleConfirmDelete}
+          alertMsg={errorMsg}
         />
       )}
   
@@ -337,7 +343,18 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
               <b>Tags: </b><span className='text-red-600'>*</span>
               </td>
               <td>
-              <input onChange={handleTagsChange} type="text" value={editedTags} className="h-[4vh] my-2 border rounded-md mx-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500"/>
+                <div className='ml-3 flex flex-row items-center w-[20vw] h-[5vh] overflow-auto border'>
+                  {editedTags.length > 0? editedTags.map((element, index) => (
+                  <button className=' h-5 p-1 flex border rounded-lg mx-1 items-center text-sm hover:border-1 hover:border-red-300'
+                  onClick={()=>{
+                    const newTags = [...editedTags]
+                    newTags.splice(index, 1)
+                    setEditedTags(newTags)
+                  }}
+                  >{element} <AiFillCloseCircle/></button>
+                )):<></>}
+              <input onChange={handleTagsChange} type="text" value={editedTags} className="h-[2vh] my-2 text-sm border rounded-md mx-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500"/>
+              </div>
               </td>
             </tr>
             <tr>
@@ -373,8 +390,8 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
               className="w-full h-full object-cover rounded-2xl"
             />
           <div className="mt-[3%]">
-              <label htmlFor="packageImage" className="text-xl xl:max-2xl:text-[0.7em]">Paste Image Link Here: <span className='text-red-600 font-bold '>*</span></label>
-                <input className="h-[4vh] my-2 w-[100%] px-2 ml-[4%] rounded-lg border xl:max-2xl:text-[0.55em]" value={editedFilePath} onChange={handleFilePathChange} type="text" name="packageImage" placeholder='Paste Link Here'/>
+              <label htmlFor="packageImage" className="p-2 text-xl xl:max-2xl:text-[0.7em]">Paste Image Link Here: <span className='text-red-600 font-bold '>*</span></label>
+                <input className="focus:outline-none focus:ring focus:ring-blue-500 text-sm h-[4vh] my-2 w-[100%] px-2 ml-[4%] rounded-lg border xl:max-2xl:text-[0.55em]" value={editedFilePath} onChange={handleFilePathChange} type="text" name="packageImage" placeholder='Paste Link Here'/>
           </div>
         </div>
 
@@ -408,7 +425,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
                       type="text"
                       value={itemName}
                       onChange={(e) => setItemName(e.target.value)}
-                      className="h-[4vh] border-solid border-[#000000] border-2 rounded-md mx-4 px-2"
+                      className="h-[4vh] border border-blue-300 focus:outline-none focus:ring focus:ring-blue-500 rounded-md mx-4 px-2"
                     />
                   </div>
                 </div>
