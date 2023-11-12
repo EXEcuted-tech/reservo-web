@@ -87,7 +87,7 @@ export default function GeneralSettings() {
             email: "",
             position: "",
         },
-        formDeets: {
+        form_deets: {
             form: []
         }
     });
@@ -567,7 +567,7 @@ export default function GeneralSettings() {
         e.preventDefault();
         data.merchant.logo = newImageUrl ? newImageUrl: data.merchant.logo;
 
-        data.formDeets = formDeets;
+        data.form_deets = formDeets;
         const formData = data;
 
         axios.post(`${config.API}/merchant/update`, formData)
