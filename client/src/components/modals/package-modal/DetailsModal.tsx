@@ -189,9 +189,9 @@ const DetailsModal: React.FC<DetailsModalProps> = ({onClose, openEditModal, erro
                   </tr>
                   <tr>
                     
-                  <td colSpan={2}>
-                  <div className='text-sm border px-4 overflow-y-auto h-[10vh] w-[25vw]'>
-                    {description}</div></td>
+                  <td colSpan={2} className='overflow-hidden'>
+                  <div className='text-sm border px-2 h-[10vh] w-[25vw] overflow-y-hidden'>
+                    <textarea className='w-[100%] h-[100%] bg-white overflow-y-hidden hover:overflow-y-visible  resize-none' value={description}></textarea></div></td>
                   </tr>
                   <tr>
                     <td colSpan={2}><b>Items: </b></td>
