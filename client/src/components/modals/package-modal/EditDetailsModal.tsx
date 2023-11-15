@@ -250,16 +250,35 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   };
 
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if(e.target.value !== ','){
-    if(e.target.value.indexOf(",") > 0){
-      const val = e.target.value.replaceAll(',', '');
-      setEditedTags([...editedTags,val])
-      setInputTag('');
-    }else{
-      setInputTag(e.target.value)
+    if (e.target.value !== '') {
+      if (e.target.value.includes(',')) {
+        const val = e.target.value.replaceAll(',', '');
+        setEditedTags((prevTags) => [...prevTags, val]);
+        setInputTag('');
+      } else {
+        setInputTag(e.target.value);
+      }
     }
-  }
   };
+  
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleTagsChange(e as unknown as React.ChangeEvent<HTMLInputElement>);
+    }
+  };
+  
+  // ...
+  
+  <input
+    onChange={handleTagsChange}
+    onKeyDown={handleKeyPress}
+    type="text"
+    placeholder="Separated by comma"
+    value={inputTag}
+    className="h-[2vh] w-[10vw] my-2 text-sm border-none rounded-md mx-4 pl-2 focus:outline-none"
+  />
+  
 
   const handleVisibilityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setEditedVisibility(e.target.value);
@@ -364,9 +383,17 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
                   }}
                   onMouseEnter={() => setIsHovered(index)}
                   onMouseLeave={() => setIsHovered(null)}
-                  >{element} {isHovered === index && <AiFillCloseCircle className=' animate-fade-in duration-100' />}</button>
+                  >{element} {isHovered === index && <AiFillCloseCircle className='ml-2 animate-fade-in duration-100' />}</button>
                 )):<></>}
-              <input onChange={handleTagsChange} type="text" placeholder="Separated by comma" value={inputTag} className="h-[2vh] w-[10vw] my-2 text-sm border rounded-md mx-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500"/>
+  <input
+  onChange={handleTagsChange}
+  onKeyDown={handleKeyPress}
+  type="text"
+  placeholder="Separated by comma"
+  value={inputTag}
+  className="h-[2vh] w-[10vw] my-2 text-sm border-none rounded-md mx-4 pl-2 focus:outline-none"
+/>
+
               </div>
               </td>
             </tr>

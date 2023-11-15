@@ -289,7 +289,7 @@ interface CreatePackageModal{
                   onMouseLeave={() => setIsHovered(null)}
                   >{element} {isHovered === index && <AiFillCloseCircle className=' animate-fade-in duration-100' />}</button>
                 )):<></>}
-              <input onChange={handleTagsChange} type="text" placeholder="Separated by comma" value={inputTag} className="h-[2vh] w-[10vw] my-2 text-sm border rounded-md mx-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500"/>
+              <input onChange={handleTagsChange} type="text" placeholder="Separated by comma" value={inputTag} className="h-[2vh] w-[10vw] my-2 text-sm border-none rounded-md mx-4 pl-2 focus:outline-none "/>
               </div>
                   </td>
                 </tr>
