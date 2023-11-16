@@ -93,7 +93,7 @@ const updateMerchant = (req,res)=>{
     const updatedAddress = req.body.address ? JSON.stringify(req.body.address) : null;
     const updatedSettings = req.body.settings ? JSON.stringify(req.body.settings) : null;
     const updatedAccounts = req.body.accounts ? JSON.stringify(req.body.accounts) : null;
-    const updatedForm = req.body.formDeets ? JSON.stringify(req.body.formDeets) : null;
+    const updatedForm = req.body.form_deets ? JSON.stringify(req.body.form_deets) : null;
     const merchantId = updatedMerchant.merchant_id;
    
     updatedMerchant.address = updatedAddress;
