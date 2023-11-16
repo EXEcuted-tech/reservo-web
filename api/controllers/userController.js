@@ -150,8 +150,8 @@ const deleteRecord = (req, res) => {
     try {
         const { user_id } = req.query;
         const sql = 'DELETE FROM account WHERE account_id = ?';
-
-        db.query(sql, [id], (err, results) => {
+        console.log("USER_ID: ",user_id);
+        db.query(sql, [user_id], (err, results) => {
             if (err) {
                 console.error('Error deleting record:', err);
                 res.status(200).json({

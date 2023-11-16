@@ -75,7 +75,9 @@ const MerchantApplications = () => {
       const filteredAccounts: any = {};
       for (const id in accountEntry) {
         if (id === "merchant_name" || id === "logo" || id === "days_left" || id === "merchant_id") {
+          console.log("1- AE", accountEntry[id],"\n",id);
           filteredAccounts[id] = accountEntry[id];
+          console.log("2- FA",filteredAccounts);
         } else if (accountEntry[id].status === 'Pending') {
           filteredAccounts[id] = accountEntry[id];
         }
@@ -85,11 +87,45 @@ const MerchantApplications = () => {
         const keys = Object.keys(filteredAccounts);
         const condition =  (keys.length === 4 && keys.includes("merchant_name") && keys.includes("logo") && 
                             keys.includes("days_left") && keys.includes("merchant_id"))
+        
         if(!condition){
           currentData.push(filteredAccounts);
         }
       }
     });
+
+    console.log("Current Data: ", currentData);
+
+    const resultData: any[] = [];
+    currentData.forEach((entry) => {
+      const keys = Object.keys(entry);
+      if (keys.length > 5) {
+        const firstPart: any = {};
+        const secondPart: any = {};
+
+        // Split the keys into two parts
+        const firstPartKeys = keys.slice(0, 5);
+        console.log("First: ",firstPartKeys);
+        const secondPartKeys = keys.slice(5);
+
+        firstPartKeys.forEach((key) => {
+          firstPart[key] = entry[key];
+        });
+
+        secondPartKeys.forEach((key) => {
+          secondPart[key] = entry[key];
+        });
+
+        // Push the two parts into the resultData array
+        resultData.push(firstPart);
+        resultData.push(secondPart);
+      } else {
+        // If less than or equal to five fields, keep it as is
+        resultData.push(entry);
+      }
+    });
+
+    console.log("Result Data: ", resultData);
   }
 
 
@@ -180,13 +216,23 @@ const MerchantApplications = () => {
         })
       }
 
+      const updatedID = Number(user_id);
       //Delete Account dayon!
-      setNotif('Denied Applicant!')
-      setColor('#660605')
-      fetchDataForSlicedData();
+      console.log("Updated ID: ",updatedID)
+      axios.post(`${config.API}/user/delete?user_id=${updatedID}`)
+      .then((res)=>{
+        if(res.data.success== true){
+          setNotif('Denied Applicant!')
+          setColor('#660605')
+          fetchDataForSlicedData();
+          fetchDataForSlicedData();
+        }
+      })
+
+
     })
     .catch((error) => {
-      
+      console.log("Error: ",error);
     });
   }
 
@@ -229,7 +275,7 @@ const MerchantApplications = () => {
               <p className={`text-[1em] flex ${data[Object.keys(data)[0]].status === 'Approved' ? 'text-[#238700]' : 'text-[#FFB800]'}`}>{data[Object.keys(data)[0]].status}</p>
             </div>
           </div>
-          <div className='w-[25%] flex flex-col p-[1%] justify-center items-center'>
+          <div className='w-[25%] flex flex-col p-[1%] ml-[3%] justify-center items-center'>
             <div className='h-[33%] bg-[#FFB800] text-center m-[2%] w-[50%] text-black rounded-xl hover:cursor-pointer'>
               <div className='flex justify-center p-[1%] m-[2%]'>
                 <BiSearchAlt className='text-[1.2em] mt-[1%]'/>View More

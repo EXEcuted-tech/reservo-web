@@ -8,6 +8,6 @@ router.get('/retrieve',retrieveByParams);
 router.get('/retrieve_all',retrieveAll);
 router.get('/retrieve_count',retrieveCountByParams);
 router.get('/retrieve_accounts', retrieveCountByAccountType)
-router.get('delete',deleteRecord);
+router.post('/delete',deleteRecord);
 
 module.exports = router;
