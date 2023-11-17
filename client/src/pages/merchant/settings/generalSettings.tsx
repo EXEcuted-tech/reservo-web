@@ -715,7 +715,7 @@ export default function GeneralSettings() {
     Tags
   </label>
 
-  <div className='flex flex-row items-center m-2 ml-[6.5rem] p-2 h-[6vh] border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 rounded-md'>
+  <div className={` w-[58.2vw] hover:overflow-x-auto overflow-x-hidden overflow-y-hidden flex flex-row items-center m-2 ml-[6.5rem] p-2 h-[7vh] border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 rounded-md`}>
     {arrTags && arrTags.length > 0 ? arrTags.map((element: any, index: any) => (
       <div key={index}> {/* Add a unique key for each tag */}
         <button className='w-auto h-5 p-1 flex border rounded-lg mx-1 items-center text-sm hover:border-1 hover:border-red-300 bg-blue-200'
@@ -738,9 +738,9 @@ export default function GeneralSettings() {
           onMouseEnter={() => setIsHovered(index)}
           onMouseLeave={() => setIsHovered(null)}
         >
-          <div className='grid grid-cols-2'></div>
+          <div className='grid grid-cols-2 '></div>
           <div className='w-auto'><p className='text-ellipsis w-[100%] whitespace-nowrap'>{element}</p></div>
-          <div className='w-[1vw]'>{isHovered === index && <AiFillCloseCircle className='animate-fade-in duration-100' />}</div>
+          <div className='w-[1vw]'>{<AiFillCloseCircle className='animate-fade-in duration-100' />}</div>
         </button>
       </div>
     )) : <></>}
@@ -751,13 +751,13 @@ export default function GeneralSettings() {
       disabled={isLoading}
       onChange={handleTagsChange}
       name="settings.tags"
-      className={`text-sm p-2 w-full flex rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] focus:ring-0 focus:outline-none ${isLoading ? 'animate-pulse cursor-not-allowed' : ''}`}
+      className={`w-[8vw] text-sm p-2 flex rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] focus:ring-0 focus:outline-none ${isLoading ? 'animate-pulse cursor-not-allowed' : ''}`}
       onKeyDown={(e)=>{
         if (e.key === "Enter"){
             handleTagsChange(e)
         }
       }}
-      required
+      
     />
   </div>
 </div>

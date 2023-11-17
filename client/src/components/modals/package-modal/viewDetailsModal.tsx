@@ -103,7 +103,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
                   </td>
                   <td>
                   <div className='w-[7vw] inline-block'>
-                  {parsedEndDate} 
+                  {parsedEndDate && parsedEndDate!== "undefined-undefined-undefined"? parsedEndDate: "Not Set."} 
                   </div>
                   {time_end? <button className=' bg-red-200 px-4 rounded-2xl ml-4 w-[8vw]'><MdAccessTime className=' inline-block'/> {time_end}</button> : <></>}
                   </td>
@@ -115,7 +115,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
                   <td className=' w-3/4'>
                   <div className=' w-[20vw] overflow-x-hidden hover:overflow-x-auto h-[5vh]'> 
                 {tags.map((tag, index) => (
-                                            <button className=' w-auto text-sm mx-1 border rounded-lg px-2 hover:bg-blue-200 duration-200' key={index}>{tag}{index < tags.length - 1 ? ', ' : ''}</button>
+                                            <button className=' w-auto text-sm mx-1 border rounded-lg px-2 hover:bg-blue-200 duration-200' key={index}>{tag}</button>
                                         ))}
                                         </div>
                   </td>
