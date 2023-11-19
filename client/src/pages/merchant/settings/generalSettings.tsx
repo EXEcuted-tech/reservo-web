@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {IoLocation, IoCameraSharp} from 'react-icons/io5'
+import { AiFillCloseCircle } from "react-icons/ai";
 import {PiBinoculars} from 'react-icons/pi'
 import {MdPhone} from 'react-icons/md'
 import {FiEdit} from 'react-icons/fi'
@@ -21,7 +22,10 @@ export default function GeneralSettings() {
     const [notification, setNotification] = useState('');
     const [color, setColor] = useState('#660605');
     const [formDeets,setFormDeets] = useState<any>(null);
-  
+    const [arrTags, setArrTags]= useState<any>([])
+    const [tagInput, setTagInput] = useState('');
+    const tagsScroll = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState<Number|null>(null);
     const openEditModal = () => {
       setIsEditModalOpen(true);
     };
@@ -64,7 +68,7 @@ export default function GeneralSettings() {
 
     const [data, setData] = useState({
         merchant: {
-            merchant_id: "", //to be changed
+            merchant_id: "",
             merchant_name: "",
             email_address: "",
             logo: "",
@@ -81,7 +85,7 @@ export default function GeneralSettings() {
         settings: {
             branch: "",
             description: "",
-            tags: "",
+            tags: {arrTags},
         },
         accounts: {
             email: "",
@@ -101,50 +105,7 @@ export default function GeneralSettings() {
 
       
       
-      useEffect(() => {
-        setIsLoading(true)
-        fetchData();
-        setIsLoading(false)
-    }, [merchID]);
-
-
-    useEffect(() => {
-        setIsLoading(true)
-        loadRegions();
-        setIsLoading(false)
-    }, [data, selectedCountry]);
-
-    useEffect(()=>{
-        setIsLoading(true)
-        loadProvinces();
-        setIsLoading(false)
-    }, [selectedProvince, selectedRegionId])
-
-    useEffect(()=>{
-        setIsLoading(true)
-        loadMunicipality();
-        setIsLoading(false)
-    }, [selectedMunicipality, selectedProvinceId])
-
-    useEffect(()=>{
-        
-        if (selectedMunicipalityId) {
-            setIsLoading(true)
-            loadBarangay();
-            setIsLoading(false)
-        }
-    }, [selectedMunicipalityId])
-
-    useEffect(()=>{
-        setTimeout(()=>{
-            setNotification('');
-            setColor('#660605')
-        }, 5200)
-    }, [notification]);
-
-    useEffect(()=>{
-        console.log("Tags ==> ", data.settings.tags)
-    }, [data.settings.tags])
+     
 
     const fetchData = async ()=>{
         setLoad(true);
@@ -165,10 +126,11 @@ export default function GeneralSettings() {
                 setSelectedProvince(response.address.province);
                 setSelectedMunicipality(response.address.municipality);
                 setSelectedBarangay(response.address.barangay);
+                setArrTags(data.settings.tags)
                 setTimeout(()=>{
                     setLoad(false);
                 },1800)
-                //console.log("DATAAAAa => ", data);
+                //console.log("DATAAAAaa => ", arrTags);
             })
         }catch(error){
             setColor('#660605')
@@ -206,6 +168,10 @@ export default function GeneralSettings() {
     else{
         setRegionNames([]);
     }
+    }
+
+    const refreshTags = async ()=>{
+        await setArrTags(data.settings.tags)
     }
 
     const loadProvinces = async ()=>{
@@ -294,6 +260,32 @@ export default function GeneralSettings() {
                 setRequiredFields(true);
             }
     }
+
+    const handleTagsChange = (e: any) => {
+        console.log("DATA ==> ", data.settings.tags);
+      
+        if (e.key === 'Enter' || e.target.value.indexOf(",") > 0) {
+          e.preventDefault();
+      
+          const val = e.target.value.indexOf(",") > 0 ? e.target.value.replaceAll(',', '') : e.target.value;
+      
+          setData((prevData:any) => {
+            const newTags = [...prevData.settings.tags, val];
+            return {
+              ...prevData,
+              settings: {
+                ...prevData.settings,
+                tags: newTags,
+              },
+            };
+          });
+      
+          setTagInput('');
+        } else {
+          setTagInput(e.target.value);
+        }
+      };
+      
 
     const handleChange = async (e:any) => {
         const { name, value } = e.target;
@@ -586,6 +578,52 @@ export default function GeneralSettings() {
         }, 500);
     }
 
+
+    useEffect(() => {
+        setIsLoading(true)
+        fetchData();
+        setIsLoading(false)
+    }, [merchID]);
+
+
+    useEffect(() => {
+        setIsLoading(true)
+        loadRegions();
+        setIsLoading(false)
+    }, [data, selectedCountry]);
+
+    useEffect(()=>{
+        setIsLoading(true)
+        loadProvinces();
+        setIsLoading(false)
+    }, [selectedProvince, selectedRegionId])
+
+    useEffect(()=>{
+        setIsLoading(true)
+        loadMunicipality();
+        setIsLoading(false)
+    }, [selectedMunicipality, selectedProvinceId])
+
+    useEffect(()=>{
+        
+        if (selectedMunicipalityId) {
+            setIsLoading(true)
+            loadBarangay();
+            setIsLoading(false)
+        }
+    }, [selectedMunicipalityId])
+
+    useEffect(()=>{
+        setTimeout(()=>{
+            setNotification('');
+            setColor('#660605')
+        }, 5200)
+    }, [notification]);
+
+    useEffect(()=>{
+        refreshTags()
+    }, [data.settings.tags])
+
     return (
         <>
         {load ?
@@ -672,22 +710,58 @@ export default function GeneralSettings() {
                             />
                         </div>
 
-                        <div className="m-2 flex flex-row ">
-                            <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
-                                Tags
-                            </label>
-                            
-                            <input
-                                type="text"
-                                placeholder={isLoading? "Loading...": "Enter your tags here... (Separate by Commas)"}
-                                value={data.settings.tags}
-                                disabled = {isLoading}
-                                onChange={handleChange}
-                                name="settings.tags"
-                                className={`m-2 ml-[6.5rem] p-2 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
-                                required
-                            />
-                        </div>
+                        <div className="m-2 flex flex-row">
+  <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
+    Tags
+  </label>
+
+  <div className={` w-[58.2vw] hover:overflow-x-auto overflow-x-hidden overflow-y-hidden flex flex-row items-center m-2 ml-[6.5rem] p-2 h-[7vh] border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 rounded-md`}>
+    {arrTags && arrTags.length > 0 ? arrTags.map((element: any, index: any) => (
+      <div key={index}> {/* Add a unique key for each tag */}
+        <button className='w-auto h-5 p-1 flex border rounded-lg mx-1 items-center text-sm hover:border-1 hover:border-red-300 bg-blue-200'
+          onClick={() => {
+            
+            setData((prevData:any) => {
+                const newTags = [...arrTags];
+                newTags.splice(index, 1);
+                setArrTags(newTags);
+                return {
+                  ...prevData,
+                  settings: {
+                    ...prevData.settings,
+                    tags: newTags,
+                  },
+                };
+                
+              })
+          }}
+          onMouseEnter={() => setIsHovered(index)}
+          onMouseLeave={() => setIsHovered(null)}
+        >
+          <div className='grid grid-cols-2 '></div>
+          <div className='w-auto'><p className='text-ellipsis w-[100%] whitespace-nowrap'>{element}</p></div>
+          <div className='w-[1vw]'>{<AiFillCloseCircle className='animate-fade-in duration-100' />}</div>
+        </button>
+      </div>
+    )) : <></>}
+    <input
+      type="text"
+      placeholder={isLoading ? "Loading..." : "Enter Tags Here"}
+      value={tagInput}
+      disabled={isLoading}
+      onChange={handleTagsChange}
+      name="settings.tags"
+      className={`w-[8vw] text-sm p-2 flex rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] focus:ring-0 focus:outline-none ${isLoading ? 'animate-pulse cursor-not-allowed' : ''}`}
+      onKeyDown={(e)=>{
+        if (e.key === "Enter"){
+            handleTagsChange(e)
+        }
+      }}
+      
+    />
+  </div>
+</div>
+
                         <div className='m-4 flow-root'>
                            
                         </div>
@@ -797,7 +871,7 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.barangay"
-                                value={selectedBarangay}
+                                value={selectedBarangay}    
                                 onChange={handleChange}
                                 disabled={isLoading}
                                 className={`m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''} `}

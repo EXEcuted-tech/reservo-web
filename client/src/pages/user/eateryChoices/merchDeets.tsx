@@ -178,6 +178,18 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
     }
   };
 
+  const parseTags = (tags:string) =>{
+    const parsed = JSON.parse(tags);
+    const retval = parsed.tags;
+    return retval;
+  }
+
+  const parseItems = (items:string) =>{
+    const parsed = JSON.parse(items);
+    const retval = parsed.items
+    return retval;
+  }
+
   return (
     <div className={`animate-fade-in font-poppins bg-[#F9F2EA] h-[100%] overflow-x-hidden ${openRatingMod ? 'z-[-10]' : 'z-1'}`}>
        <div className='text-[#DD2803] ml-[2%]'>
@@ -305,9 +317,9 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                   date_end={new Date(packageItem.date_end)}
                   description={packageItem.package_desc}
                   price={packageItem.price} 
-                  tags={packageItem.tags ? (packageItem.tags as any).split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags
+                  tags={parseTags(packageItem.tags)} // Handle empty or null tags
                   visibility={packageItem.visibility}
-                  items={packageItem.item_list ? (packageItem.item_list as any).split(',').map((item: string) => item.trim()) : []} // Handle empty or null item_list
+                  items={parseItems(packageItem.item_list)} // Handle empty or null item_list
                   filePath={packageItem.image_filepath}
                   oneButton={false} 
                   time_start={packageItem.time_start} 
