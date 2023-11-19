@@ -45,7 +45,7 @@ const MerchantLayout = () => {
       )}
 
       {showSidebar && (
-        <div className=" bg-[#840705] h-[100vh] w-[20vw] rounded-xl xs:max-sm:fixed xs:max-sm:w-[50vw] xs:max-sm:h-full xs:max-sm:z-[100] xs:max-sm:mt-[0.6rem] xs:max-sm:animate-slide-left">
+        <div className=" bg-[#840705] h-[100vh] w-[20vw] rounded-xl ml-[-0.5%] xs:max-sm:fixed xs:max-sm:w-[50vw] xs:max-sm:h-full xs:max-sm:z-[100] xs:max-sm:mt-[0.6rem] xs:max-sm:animate-slide-left">
           <MerchSide showSidebar={showSidebar} />
         </div>
       )}
