@@ -19,7 +19,7 @@ interface GraphItem {
 
 interface reservationList {
   reservation_id: number;
-  location: string;
+  res_location: string;
   res_date: string;
   res_time: string;
   merchant_id: number;
@@ -193,6 +193,7 @@ const MerchDashboard = () => {
   
         for (const reservation of recentReservations) {
           const clientName = await getClient(reservation.account_id);
+          const location = reservation.res_location;
 
            // Convert 24-hour time to 12-hour time
           const timeParts = reservation.res_time.split(':');
@@ -206,7 +207,7 @@ const MerchDashboard = () => {
           const formattedDate = new Date(reservation.res_date).toLocaleDateString();
 
           reservationsRec.push({
-            reservation: { ...reservation, res_time: formattedTime, res_date: formattedDate }, clientName,
+            reservation: { ...reservation, location, res_time: formattedTime, res_date: formattedDate }, clientName,
       });
     }
         setRecentReservations(reservationsRec);
@@ -310,7 +311,7 @@ const MerchDashboard = () => {
               <table className='flex-col w-[100%] text-left bg-white rounded-3xl overflow-auto xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'>
               <tr>
                 <th>Client Name</th>
-                <th>Event</th>
+                <th>Location</th>
                 <th>Date</th>
                 <th>Time</th>
               </tr>
@@ -325,7 +326,7 @@ const MerchDashboard = () => {
                   recentReservations.map(({ reservation, clientName }) => (
                     <tr key={reservation.reservation_id}>
                       <td>{clientName}</td>
-                      <td>{reservation.location}</td>
+                      <td>{reservation.res_location}</td>
                       <td>{reservation.res_date}</td>
                       <td>{reservation.res_time}</td>
                     </tr>
