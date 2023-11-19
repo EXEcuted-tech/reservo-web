@@ -13,6 +13,7 @@ const paymentRoutes = require('./routes/paymentRoutes')
 const packageRoutes = require('./routes/packageRoutes')
 const feedbackRoutes = require('./routes/feedbackRoutes')
 const forgetPasswordRoutes = require('./routes/forgetPasswordRoutes')
+const fileRoutes = require('./routes/fileRoutes')
 
 app.use(cors({
     origin: [process.env.CORS_ORIGIN],
@@ -48,5 +49,6 @@ app.use('/payment',paymentRoutes);
 app.use('/package',packageRoutes);
 app.use('/feedback',feedbackRoutes);
 app.use('/forgetPassword',forgetPasswordRoutes);
+app.use('/file',fileRoutes)
 
 module.exports = app;
