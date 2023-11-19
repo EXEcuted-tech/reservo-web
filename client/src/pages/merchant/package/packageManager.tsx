@@ -1,7 +1,4 @@
 import React, { useEffect } from 'react'
-import colors from '../../../common/colors.ts'
-import { FaIcons } from 'react-icons/fa'
-import { AiFillDownCircle } from "react-icons/ai";
 import Card from "../../../components/card/card.tsx";
 import CardEmpty from "../../../components/card/CardEmpty.tsx"
 import MerchAdHeader from '../../../components/headers/MerchAdHeader.tsx';
@@ -11,25 +8,30 @@ import CreatePackageModal from '../../../components/modals/package-modal/CreateP
 import config from '../../../common/config.ts'
 import axios from 'axios'
 import GenSpinner from '../../../components/loaders/genSpinner.tsx';
+import Notification from '../../../components/alerts/Notification.tsx';
 
 const PackageManager = () => {
     const [packages, setPackages] = useState<PackageItem[]>([]);
     const [unpublishedPackages, setUnpublishedPackages] = useState<PackageItem[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isCreatePackageModalOpen, setIsCreatePackageModalOpen] = useState(false);
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [sort, setSort] = useState('package_name');
-    const userDetails = localStorage.getItem('userDetails');
-    //const merchant_id = (userDetails? JSON.parse(userDetails).merchant_id:0);
-    //Use this in actual working localStorage for merchant_id
-    const merchant_id = 1;
+    const merchant_id = localStorage.getItem('merch_id');
+    const [alertMessage, setAlertMessage] = useState('')
+    const [alertColor, setAlertColor] = useState('#840705');
 
     // Function to handle sorting option change
     const handleSortChange = (event: { target: { value: any; }; }) => {
       const selectedOption = event.target.value;
       setSort(selectedOption);
       fetchData(selectedOption);
+    }
+
+    const promptAlert = (msg:string)=>{
+      setAlertMessage(msg);
+      setTimeout(()=>{
+        setAlertMessage('')
+      },5000)
     }
 
 
@@ -53,7 +55,10 @@ const PackageManager = () => {
         setUnpublishedPackages(unpublishedPackages);
         setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching packages:', error);
+        setAlertMessage("Failed to fetch Packages")
+        setTimeout(()=>{
+          setAlertMessage('')
+        }, 5000)
         setIsLoading(false);
       }
     };
@@ -72,7 +77,9 @@ const PackageManager = () => {
     
         return response.data.data;
       } catch (error) {
-        console.error('Error fetching published packages:', error);
+        promptAlert("Failed to Fetch Published Packages")
+        
+        //console.error('Error fetching published packages:', error);
         return [];
       }
     };
@@ -91,7 +98,9 @@ const PackageManager = () => {
     
         return response.data.data;
       } catch (error) {
-        console.error('Error fetching unpublished packages:', error);
+        promptAlert("Failed to Fetch Unpublished Packages")
+        
+        //console.error('Error fetching unpublished packages:', error);
         return [];
       }
     };
@@ -110,6 +119,9 @@ const PackageManager = () => {
 return (
 <div className={`bg-[#FFFFFF] h-[100vh] font-poppins overflow-y-auto overflow-x-hidden animate-fade-in`}>
     <div className="w-[80vw] xs:max-sm:w-full">
+    {(alertMessage !== '') && <Notification message={alertMessage} color={alertColor}/>}
+      
+    
     <MerchAdHeader icon={BiPackage} title={'Package Manager'}/>
 
     <div className="SortFilterSubheader flex mb-4 text-lg bg-[#f0e5d8] w-[85vw] xs:max-sm:w-full xs:max-sm:h-[7vh]">
@@ -128,7 +140,7 @@ return (
                             <option value="date_start">Oldest</option> 
                     </select>
         </div>
-        <div className="flex align-middle w-3/6 items-center mx-48 ps-8 h-20 hidden">
+        {/* <div className="flex align-middle w-3/6 items-center mx-48 ps-8 h-20 hidden">
             <label htmlFor="filterDropdown" className={`font-bold mx-2`}>Filter By: </label>
                     <select id="filterDropdown" name="filterDropdown"
                       className={`bg-transparent rounded-md h-10 w-[9vw] hover:bg-white transition duration-150 ease-out hover:ease-in`}>
@@ -137,7 +149,7 @@ return (
                         <option value="option3">Exclusive</option>
                     </select>
                 
-        </div>
+        </div> */}
     </div>
 
     <div className='PublishedPackages ps-20 xs:max-sm:ps-0'>
@@ -169,8 +181,8 @@ return (
                   key={packageItem.package_id}
                   package_id={packageItem.package_id}
                   packageName={packageItem.package_name}
-                  date_start={new Date(packageItem.date_start)}
-                  date_end={new Date(packageItem.date_end)}
+                  date_start={packageItem.date_start}
+                  date_end={packageItem.date_end}
                   description={packageItem.package_desc} // Make sure to use the correct property name
                   price={packageItem.price} // Make sure to use the correct property name
                   tags={packageItem.tags ? (packageItem.tags as any).split(',').map((tag: string) => tag.trim()) : []} // Handle empty or null tags
@@ -179,7 +191,9 @@ return (
                   filePath={packageItem.image_filepath}
                   oneButton={false} 
                   time_start={packageItem.time_start} 
-                  time_end={packageItem.time_end}                
+                  time_end={packageItem.time_end}
+                  error_msg={promptAlert}
+                  refresh={refreshPackageManager}                
                   />
               ))
             )}
@@ -195,6 +209,7 @@ return (
         <CardEmpty onClick={openCreatePackageModal} />
         {isCreatePackageModalOpen && 
         <CreatePackageModal 
+        alertMsg={promptAlert}
         onClose={closeCreatePackageModal}
         fetchData={refreshPackageManager} // Pass the refresh function as a prop
         selectedSortOption={sort}/>}
@@ -218,7 +233,9 @@ return (
                   items={packageItem.item_list ? (packageItem.item_list as any).split(',').map((item: string) => item.trim()) : []} // Handle empty or null item_list
                   oneButton={false} 
                   time_start={packageItem.time_start} 
-                  time_end={packageItem.time_end}                
+                  time_end={packageItem.time_end} 
+                  error_msg={promptAlert}   
+                  refresh={refreshPackageManager}            
                   />
               ))
               
