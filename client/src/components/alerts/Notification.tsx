@@ -19,7 +19,8 @@ function Notification({message, color}:{message:string, color:string}) {
   };
 
     return (
-      <span className='z-[100]'>
+      <div className='z-[100000]'>
+      <span className=''>
         {message &&
         <>
       <div
@@ -39,6 +40,7 @@ function Notification({message, color}:{message:string, color:string}) {
       `} style={divStyle}></div>
       </>}
     </span>
+    </div>
     );
 }
 

@@ -53,11 +53,11 @@ interface PackageItem {
     package_name: string;
     package_desc: string;
     price: string;
-    tags: string[];
+    tags: any;
     date_start: Date;
     date_end: Date;
     visibility: string;
-    item_list: string[];
+    item_list: any;
     image_filepath: string;
     oneButton: boolean;
     time_start: string;
