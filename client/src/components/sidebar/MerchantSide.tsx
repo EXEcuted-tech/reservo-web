@@ -35,8 +35,8 @@ const MerchantSide: React.FC<MerchantSideProps> = ({ showSidebar }) => {
 
   return (
     <div className={`font-poppins ${showSidebar ? '' : 'hidden'}`}>
-      <div className="text-center">
-        <img src={logo} alt="Reservo Logo" className="mx-[18%] my-[5%] w-[60%] xs:max-sm:w-[50%] xs:max-sm:ml-[35%]" />
+      <div className="text-center xs:max-sm:mt-[20%]">
+        <img src={logo} alt="Reservo Logo" className="mx-[18%] my-[5%] w-[60%] xs:max-sm:hidden" />
       </div>
       <hr className="mx-[6%]" />
       <div className='text-white mx-[8%] my-[8%]'>
@@ -87,7 +87,7 @@ const MerchantSide: React.FC<MerchantSideProps> = ({ showSidebar }) => {
                     hover:cursor-pointer hover:animate-small-fade-in-down hover:mb-[3%]  xs:max-sm:text-[1.1em] xs:max-sm:w-[40%] xs:max-sm:top-[90%] xl:max-2xl:text-[0.6em] `}>
         <button onClick={() => navigate('/logout')}>
         <p className='flex items-center ml-[3%] text-[1.5em] text-white w-[10rem] xs:max-sm:text-[1.1em] xs:max-sm:top-[90%] xs:max-sm:ml-[10%]'>
-          <FiLogOut className="mr-[1%] text-[1.3em] xs:max-sm:text-[1.1em] xs:max-sm:mr-[5%]" /> Log Out </p>
+          <FiLogOut className="mr-[3%] text-[1.3em] xs:max-sm:text-[1.1em] xs:max-sm:mr-[5%]" /> Log Out </p>
         </button>
       </div>
     </div>

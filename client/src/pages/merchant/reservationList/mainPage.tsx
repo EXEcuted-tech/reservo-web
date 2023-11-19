@@ -45,7 +45,7 @@ const ReserveList = () => {
       title={urlPart=='all' ? 'All Bookings' : urlPart=='upcoming' ? 'Upcoming' : 'Finished'}
       />
     
-      <div className='flex items-center bg-[#F0E5D8] overflow-y-auto overflow-x-hidden'>
+      <div className='flex items-center bg-[#F0E5D8] overflow-x-hidden'>
         <div className='w-[80%] py-[1%] pl-[2%] xs:max-sm:w-[70%]'>
             <label className={`font-bold mx-2 w-[4vw] text-[1.1em] xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]`}>Period: </label>
             <select id="sortDropdown" name="sortDropdown" className={`bg-transparent rounded-md h-10 w-[21vw] xs:max-sm:text-[0.8em] xs:max-sm:w-[50vw] xl:max-2xl:text-[0.8em] xl:max-2xl:w-[25vw]  hover:bg-white transition duration-150 ease-out hover:ease-in`}>
