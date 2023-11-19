@@ -83,7 +83,7 @@ const FeedbackList = () => {
     <div className="animate-fade-in ">
       <MerchAdHeader icon={RiMegaphoneFill} title="Feedback List" />
       <div className="bg-[#F3F3F3] h-[90vh] px-12 py-7 overflow-y-auto xs:max-sm:px-2">
-        <div className="bg-[#FFFFFF] h-[85vh] p-4 rounded-[2rem] relative xs:max-sm:w-[100%] xl:max-2xl:h-full">
+        <div className="bg-[#FFFFFF] h-[85vh] p-4 rounded-[2rem] relative xs:max-sm:w-[100%] xl:max-2xl:h-[100vh]">
           <div className="flex font-poppins px-10 py-10 xs:max-sm:py-2 xs:max-sm:px-2">
             <h1 className="text-3xl font-bold xs:max-sm:text-[1.5em] xl:max-2xl:text-2xl">
               Merchant Rating</h1>
@@ -114,7 +114,7 @@ const FeedbackList = () => {
             <p>No feedback available.</p>
           )}
 
-      <div className="xs:max-sm:mt-[15%]">
+      <div className="mt-[5%] xs:max-sm:mt-[15%] xl:max-2xl:mt-[5%]">
           <div className="flex justify-center w-[100%] h-[7%] ">
             <ThemeProvider theme={theme}>
               <Pagination

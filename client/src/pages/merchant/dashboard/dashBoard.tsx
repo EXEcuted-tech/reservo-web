@@ -17,6 +17,17 @@ interface GraphItem {
   books: number;
 }
 
+interface reservationList {
+  reservation_id: number;
+  location: string;
+  res_date: string;
+  res_time: string;
+  merchant_id: number;
+  account_id: number;
+  account_name: string;
+}
+
+
 const MerchDashboard = () => {
   const storedAcc = localStorage.getItem('admerchDetails')
 
@@ -33,7 +44,7 @@ const MerchDashboard = () => {
   const [mess1, setMess1] = useState('');
   const [mess2,setMess2] = useState('')
   const [graphList, setgraphList] = useState([{}]);
-  
+  const [recentReservations, setRecentReservations] = useState<Array<{reservation: reservationList, clientName: String}>>([]);
   const fetchGraphInfo = async() => {
     try {
       const responseBooks = await axios.get(`${config.API}/reserve/retrievebooks`,{
@@ -153,11 +164,64 @@ const MerchDashboard = () => {
     }
   }
 
+  const getClient = async (id: number) => {
+    try {
+      const col = 'account_id';
+      const val = id;
+      
+      const response = await axios.get(`${config.API}/user/retrieve?col=${col}&val=${val}`);
+
+      if(response.data.status === 200) {
+        return response.data.users[0].account_name;
+      }
+      return '';
+    }catch (error){
+      //PUT ERROR NOTIF 
+      return '';
+    }
+  }
+
+    const fetchRecentReservations = async () => {
+      try {
+        const todayDate = getTodaysDate();
+        const col = 'merchant_id';
+        const val = merchant_id;
+        const resReservations = await axios.get(`${config.API}/reserve/retrieve?col=${col}&val=${val}`);
+        const reservationsData = resReservations.data.records;
+        const recentReservations = reservationsData;
+        const reservationsRec = [];
+  
+        for (const reservation of recentReservations) {
+          const clientName = await getClient(reservation.account_id);
+
+           // Convert 24-hour time to 12-hour time
+          const timeParts = reservation.res_time.split(':');
+          const hours = parseInt(timeParts[0]);
+          const minutes = parseInt(timeParts[1]);
+          const ampm = hours >= 12 ? 'PM' : 'AM';
+          const formattedHours = hours % 12 || 12;
+          const formattedTime = `${formattedHours}:${minutes} ${ampm}`;
+
+         // Remove the time part from the date
+          const formattedDate = new Date(reservation.res_date).toLocaleDateString();
+
+          reservationsRec.push({
+            reservation: { ...reservation, res_time: formattedTime, res_date: formattedDate }, clientName,
+      });
+    }
+        setRecentReservations(reservationsRec);
+      } catch (error) {
+        // Handle error
+      }
+    };
+
+
   useEffect(() => {
     setIsLoading(true);
     fetchInfo();
     fetchGraphInfo();
-  setIsLoading(false);
+    fetchRecentReservations();
+    setIsLoading(false);
   }, []);
   
 
@@ -241,7 +305,7 @@ const MerchDashboard = () => {
         <div className='bg-[#F3F3F3] h-[30vh] flex overflow-auto xs:max-sm:h-[35vh]'>
             <div className='w-[75%] m-[1%] text-center bg-white rounded-3xl flex-col pt-0 p-[1%] overflow-auto'>
               <div className='text-left border-b-2 border-black'>
-              <p className='flex font-bold text-[1.5em] xs:max-sm:text-[1.2em] xl:max-2xl:text-[1.2em]'> Recent Reservation <br/></p>
+              <p className='flex font-bold text-[1.5em] xs:max-sm:text-[1.2em] xl:max-2xl:text-[1.2em]'> Recent Reservations <br/></p>
               </div>
               <table className='flex-col w-[100%] text-left bg-white rounded-3xl overflow-auto xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'>
               <tr>
@@ -251,7 +315,22 @@ const MerchDashboard = () => {
                 <th>Time</th>
               </tr>
               <tbody id="data-table-row">
-              {isLoading? <td colSpan={4} className='animate-pulse text-center mt-[5vh]'> Loading... </td>:<p>DATA LOADED</p>}
+              {recentReservations.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className='animate-pulse text-center mt-[5vh]'>
+                      Loading...
+                    </td>
+                  </tr>
+                ) : (
+                  recentReservations.map(({ reservation, clientName }) => (
+                    <tr key={reservation.reservation_id}>
+                      <td>{clientName}</td>
+                      <td>{reservation.location}</td>
+                      <td>{reservation.res_date}</td>
+                      <td>{reservation.res_time}</td>
+                    </tr>
+                  ))
+                )}
               </tbody>
               </table> 
             </div>
@@ -269,7 +348,8 @@ const MerchDashboard = () => {
                     Time Out</td>
                 </tr>
                 <tbody>
-                  {isLoading? <td colSpan={2} className='animate-pulse text-center mt-[5vh]'> Loading... </td>:<p>DATA LOADED</p>}
+                  {isLoading? <td colSpan={2} className='animate-pulse text-center mt-[5vh]'> Loading... </td>:
+                  <p>DATA LOADED</p>}
                 </tbody>
               </table>
             </div> 
