@@ -242,7 +242,8 @@ const EditModal:React.FC<EditModalProps> = (props) => {
 
 
   return (
-    <div className="animate-slide-up font-poppins fixed top-[7%] left-[18%] right-0 bg-white z-[100] bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl">
+    <div className='bg-[rgba(0,0,0,0.6)] w-[100vw] h-[100vh] z-10 absolute top-0 left-0 duration-100 animate-fade-in overflow-hidden xs:max-sm:z-[1001] xs:max-sm:h-[110vh]'>
+    <div className="animate-slide-up font-poppins fixed top-[7%] left-[18%] right-0 bg-white z-[100] bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl xs:max-sm:w-[90%] xs:max-sm:left-[5%] xs:max-sm:z-[1001]">
       {!isLoading 
        ?
         <div className='flex justify-center ml-[-2%] mt-[25%]'>
@@ -253,12 +254,12 @@ const EditModal:React.FC<EditModalProps> = (props) => {
         <div className='flex w-full h-[5vh]'>
             <div className='flex items-center w-[96%] mt-[0.5%]'>
                 <div className='flex items-center w-[100%] ml-[1%]'>
-                    <GrUpdate className='mr-[1%] text-[2em] xl:max-2xl:text-[1.3em]'/>
-                    <h1 className='font-bold text-[1.5em] xl:max-2xl:text-[1.2em]'>Update Reservation Record</h1>   
+                    <GrUpdate className='mr-[1%] text-[2em] xs:max-sm:text-[1.3em] xl:max-2xl:text-[1.3em]'/>
+                    <h1 className='font-bold text-[1.5em] xs:max-sm:text-[1.2em] xl:max-2xl:text-[1.2em]'>Update Reservation Record</h1>   
                 </div>
             </div>
             <div className='mt-[0.5%]'>
-                <AiFillCloseCircle className='text-[2.5em] hover:cursor-pointer xl:max-2xl:text-[1.8em]'
+                <AiFillCloseCircle className='text-[2.5em] hover:cursor-pointer xs:max-sm:text-[1.8em] xl:max-2xl:text-[1.8em]'
                  onClick={()=>{
                   sessionStorage.removeItem('res_id');
                   setOpenModalEdit(false)
@@ -269,16 +270,17 @@ const EditModal:React.FC<EditModalProps> = (props) => {
 
         {/* General Information */}
         <div className='flex items-center w-full'>
-          <h1 className='font-bold uppercase text-[1.5em] ml-[4%] bg-[#840705] inline-block text-white px-[1%] rounded-lg mb-[0.5%] xl:max-2xl:text-[1.0em]'>General Section</h1>
+          <h1 className='font-bold uppercase text-[1.5em] ml-[4%] bg-[#840705] inline-block text-white px-[1%] rounded-lg mb-[0.5%] xs:max-sm:w-[63%] xs:max-sm:text-[1.0em] xs:max-sm:mr-[3%] xl:max-2xl:text-[1.0em]'>
+            General Section</h1>
           <div className='relative w-[70%] ml-[1%]'>
          
             {isHovered &&
-              <p className='absolute bg-[black] opacity-80 text-white top-[-95%] rounded w-[17%] py-[0.5%]
-              px-[1%] left-[11.5%] text-[0.8em] z-10'>Change to {record[0]?.status==='Ongoing' ? 'Finished' : 'Ongoing'} ?</p>
+              <p className='absolute bg-[black] opacity-80 text-white top-[-95%] rounded w-[15.5%] py-[0.5%]
+              px-[1%] left-[11.5%] text-[0.7em] z-10 xs:max-sm:text-[0.5em] xs:max-sm:w-[55%] xl:max-2xl:text-[0.5em] xl:max-2xl:w-[17%]'>Change to {record[0]?.status==='Ongoing' ? 'Finished' : 'Ongoing'} ?</p>
             }
            
             <p className={`relative font-bold rounded-lg py-[0.5%] w-[12%] mt-[-1%] text-center
-                    hover:animate-zoom-in hover:cursor-pointer flex items-center justify-center
+                    hover:animate-zoom-in hover:cursor-pointer flex items-center justify-center xs:max-sm:text-[0.8em] xs:max-sm:w-[43%] xl:max-2xl:text-[0.8em]
                     ${record[0]?.status=='Ongoing'?'bg-[#cce1f4] text-[#0056A5]'
                         :'bg-[#ccf6d0] text-[#199250]'}`}
                         onMouseEnter={()=>{setIsHovered(!isHovered)}}
@@ -288,7 +290,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
             </p>
           </div>
         </div>        
-        <div className='flex ml-[4%] mr-[2%] text-[1.2em] w-full xl:max-2xl:text-[0.8em]'>
+        <div className='flex ml-[4%] mr-[2%] text-[1.2em] w-full xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'>
           <div className='w-[33%]'>
             <div className='mb-[2.5%]'>
                 <p className='mt-[1.5%] mb-[0.3%] mr-[1%] font-semibold'>Date</p>
@@ -387,9 +389,9 @@ const EditModal:React.FC<EditModalProps> = (props) => {
             </div>
           </div>
         </div>
-        <div className='flex ml-[4%] text-[1.2em] xl:max-2xl:text-[0.8em]'>
+        <div className='flex ml-[4%] text-[1.2em] xs:max-sm:text-[0.8em]  xl:max-2xl:text-[0.8em]'>
             <div className='mb-[2.5%] w-full'>
-                    <p className='mt-[1.5%] mb-[0.3%] mr-[1%]'>Additional Details</p>
+                    <p className='mt-[1.5%] mb-[0.3%] mr-[1%] font-semibold'>Additional Details</p>
                     <input type="text" 
                       name="additional_details"
                       className='border border-gray-500 w-[92.9%] pl-[1%] rounded-lg text-[0.9em]'
@@ -398,11 +400,12 @@ const EditModal:React.FC<EditModalProps> = (props) => {
             </div>
         </div>
         {/* Inventory */}
-        <h1 className='font-bold uppercase text-[1.5em] ml-[4%] bg-[#840705] inline-block text-white px-[1%] mt-[2%] rounded-lg mb-[0.5%] xl:max-2xl:text-[1.0em]'>Inventory</h1>
-        <div className='flex ml-[4%] text-[1.2em] w-full xl:max-2xl:text-[0.8em]'>
+        <h1 className='font-bold uppercase text-[1.5em] ml-[4%] bg-[#840705] inline-block text-white px-[1%] mt-[2%] rounded-lg mb-[0.5%] xs:max-sm:text-[1.0em] xl:max-2xl:text-[1.0em]'>
+          Inventory</h1>
+        <div className='flex ml-[4%] text-[1.2em] w-full xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'>
           <div className='w-[50%]'>
             <div className='mb-[2.5%]'>
-                <p className='mt-[1.5%] mb-[0.3%] mr-[1%]'>No. of Tables</p>
+                <p className='mt-[1.5%] mb-[0.3%] mr-[1%] font-semibold'>No. of Tables</p>
                 <input type="number" 
                   name="no_of_tables"
                   value={inventory[0]?.no_of_tables}
@@ -411,7 +414,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
                 />
             </div>
             <div className='mb-[2.5%]'>
-                <p className='mt-[1.5%] mb-[0.3%] mr-[1%]'>No. of Chairs</p>
+                <p className='mt-[1.5%] mb-[0.3%] mr-[1%] font-semibold'>No. of Chairs</p>
                 <input type="number" 
                   name="no_of_chairs"
                   value={inventory[0]?.no_of_chairs}
@@ -420,7 +423,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
                 />
             </div>
             <div className='mb-[2.5%]'>
-                <p className='mt-[1.5%] mb-[0.3%] mr-[1%]'>No. of Plates</p>
+                <p className='mt-[1.5%] mb-[0.3%] mr-[1%] font-semibold'>No. of Plates</p>
                 <input type="number" 
                   name="no_of_plates"
                   value={inventory[0]?.no_of_plates}
@@ -431,7 +434,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
           </div>
           <div className='w-[50%]'>
           <div className='mb-[2.5%]'>
-                <p className='mt-[1.5%] mb-[0.3%] mr-[1%]'>No. of Glasses</p>
+                <p className='mt-[1.5%] mb-[0.3%] mr-[1%] font-semibold'>No. of Glasses</p>
                 <input type="number" 
                   name="no_of_glasses"
                   value={inventory[0]?.no_of_glasses}
@@ -440,7 +443,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
                 />
             </div>
             <div className='mb-[2.5%]'>
-                <p className='mt-[1.5%] mb-[0.3%] mr-[1%]'>No. of Table Cloths</p>
+                <p className='mt-[1.5%] mb-[0.3%] mr-[1%] font-semibold'>No. of Table Cloths</p>
                 <input type="number" 
                   name="no_of_tableCloths"
                   value={inventory[0]?.no_of_tableCloths}
@@ -449,7 +452,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
                 />
             </div>
             <div className='mb-[2.5%]'>
-                <p className='mt-[1.5%] mb-[0.3%] mr-[1%]'>No. of Chair Covers</p>
+                <p className='mt-[1.5%] mb-[0.3%] mr-[1%] font-semibold'>No. of Chair Covers</p>
                 <input type="number" 
                   name="no_of_chairCovers"
                   value={inventory[0]?.no_of_chairCovers}
@@ -461,14 +464,15 @@ const EditModal:React.FC<EditModalProps> = (props) => {
         </div>  
 
         {/* Additional Details */}
-        <h1 className='font-bold uppercase text-[1.5em] ml-[4%] bg-[#840705] inline-block text-white px-[1%] mt-[2%] rounded-lg mb-[0.5%] xl:max-2xl:text-[1.0em]'>Additional Details</h1>
-        <div className='flex ml-[4%] mr-[2%] text-[1.2em] xl:max-2xl:text-[0.8em]'>
+        <h1 className='font-bold uppercase text-[1.5em] ml-[4%] bg-[#840705] inline-block text-white px-[1%] mt-[2%] rounded-lg mb-[0.5%] xs:max-sm:text-[1em] xl:max-2xl:text-[1.0em]'>
+          Additional Details</h1>
+        <div className='flex ml-[4%] mr-[2%] text-[1.2em] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'>
         {existingList?.length > 0 ? (
                   <div className="flex w-full flex-wrap">
                   {existingList.map((item: any, index: number) => (
                     <div className='w-[33%]'>
                         <div className='flex flex-col mb-[1%]'>
-                        <p className='mt-[1.5%] mb-[0.3%] mr-[1%]'>{item.label}</p>
+                        <p className='mt-[1.5%] mb-[0.3%] mr-[1%] font-semibold'>{item.label}</p>
                         <input type={item.type} 
                           name={item.label}
                           value={item.value}
@@ -482,7 +486,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
                   )
               :
               <div>
-                <h1 className='italic text-[1em]'>User did not input additional details.</h1>
+                <h1 className='italic text-[1em] xs:max-sm:text-[0.8em]'>User did not input additional details.</h1>
               </div>
             }
           {/* <div className='w-[33%]'>
@@ -520,7 +524,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
         <div className='relative bottom-[2%] top-[2%] mb-[2%] w-[100%]'>
           <hr className=' w-[100%] h-[1px] bg-black border-0'/>       
           <div className='flex justify-end mr-[3%] mt-[1%]'>
-            <button className='flex text-white text-[1.1em] bg-[#17A200] px-[2%] py-[0.5%] rounded-2xl xl:max-2xl:text-[0.8em]
+            <button className='flex text-white text-[1.1em] bg-[#17A200] px-[2%] py-[0.5%] rounded-2xl xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]
             hover:bg-[#117600]'
             onClick={updateRecord}
             >
@@ -528,7 +532,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
               ?
               <Spinner/>
               :
-              <AiFillSave className='mt-[2%] text-[1.2em] mr-[1%]'/>
+              <AiFillSave className='mt-[2%] text-[1.2em] mr-[2%]'/>
               }
               Save</button>
             
@@ -537,6 +541,7 @@ const EditModal:React.FC<EditModalProps> = (props) => {
 
         </>
         }
+        </div>
     </div>
   )
 }

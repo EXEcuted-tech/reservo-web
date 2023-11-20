@@ -25,7 +25,12 @@ export default function GeneralSettings() {
     const [arrTags, setArrTags]= useState<any>([])
     const [tagInput, setTagInput] = useState('');
     const tagsScroll = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState<Number|null>(null);
+    const [isHovered, setIsHovered] = useState<Number|null>(null);
+
+    //For Mobile
+    const [isMobile, setIsMobile] = useState(false);
+    const [isImageEditModalOpen, setIsImageEditModalOpen] = useState(false);
+  
     const openEditModal = () => {
       setIsEditModalOpen(true);
     };
@@ -38,6 +43,15 @@ export default function GeneralSettings() {
       setNewImageUrl(imageUrl);
       setIsEditModalOpen(false);
     };
+
+    //For Mobile
+    const openImageEditModal = () => {
+    setIsImageEditModalOpen(true);
+  };
+
+  const closeImageEditModal = () => {
+    setIsImageEditModalOpen(false);
+  };
 
      const merchID = Number(localStorage.getItem("merch_id"))
 
@@ -106,6 +120,20 @@ export default function GeneralSettings() {
       
       
      
+
+    //For Mobile
+    useEffect(() => {
+        const handleResize = () => {
+          setIsMobile(window.innerWidth >= 300 && window.innerWidth <= 640);
+        };
+    
+        window.addEventListener('resize', handleResize);
+        handleResize();
+    
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+      }, []);
 
     const fetchData = async ()=>{
         setLoad(true);
@@ -645,7 +673,7 @@ export default function GeneralSettings() {
                         <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
                                 Business Logo
                             </label>
-                            <input name="settings.logo" type="button" id="logoInput" onClick={openEditModal} className=''></input>
+                            <input name="settings.logo" type="button" id="logoInput" onClick={openImageEditModal} className=''></input>
                                 {isLoading? <><span className='ml-5'><GenSpinner/></span></> // if we are still getting data from DB
                                 :
                                 <label htmlFor="logoInput" className='relative cursor-pointer flex items-center justify-center'>
@@ -660,11 +688,16 @@ export default function GeneralSettings() {
                                     </div>                                  
                                 </label>}
 
-                                <ImageEditModal
-                                    isOpen={isEditModalOpen}
-                                    onClose={closeEditModal}
-                                    onSave={handleSaveImageUrl}
-                                />
+                                {isImageEditModalOpen && (
+                                    <ImageEditModal
+                                    isOpen={isImageEditModalOpen}
+                                    onClose={closeImageEditModal}
+                                    onSave={(newImageUrl) => {
+                                        // Handle saving new image URL
+                                        closeImageEditModal();
+                                    }}
+                                    />
+                                )}
                         </div>
                         <div className="m-2 flex flex-row ">
                             <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
@@ -751,7 +784,7 @@ export default function GeneralSettings() {
       disabled={isLoading}
       onChange={handleTagsChange}
       name="settings.tags"
-      className={`w-[8vw] text-sm p-2 flex rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] focus:ring-0 focus:outline-none ${isLoading ? 'animate-pulse cursor-not-allowed' : ''}`}
+      className={`w-[8vw] text-sm p-2 flex rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] xl:max-2xl:ml-[6rem] focus:ring-0 focus:outline-none ${isLoading ? 'animate-pulse cursor-not-allowed' : ''}`}
       onKeyDown={(e)=>{
         if (e.key === "Enter"){
             handleTagsChange(e)
@@ -799,7 +832,7 @@ export default function GeneralSettings() {
                                 value={isLoading? "Loading ..." : selectedRegion || ""}
                                 onChange={handleChange}
                                 disabled={isLoading}
-                                className={`m-2 p-2 ml-[1.1rem] text-gray-500 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[43vw]  xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500  ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
+                                className={`m-2 p-2 ml-[1.1rem] text-gray-500 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100%] xl:max-2xl:ml-[1rem] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500  ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
                                 required
                             >
                                 {!isLoading ? 

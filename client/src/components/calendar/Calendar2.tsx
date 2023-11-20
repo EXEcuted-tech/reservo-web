@@ -44,6 +44,8 @@ function Calendar2() {
     const [errTitle, setErrTitle] = useState('');
     const [reservationCounts, setReservationCounts] = useState({});
     const calendarDates = new Date();
+    // For Mobile
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
 
     const getDaysInMonth = (year:number, month: number) => {
         return new Date(year, month + 1, 0).getDate();
@@ -68,6 +70,7 @@ function Calendar2() {
 
     const months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const weekly = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const abbreviatedDays = ["S", "M", "T", "W", "TH", "F", "S"];
 
     const [length, setLength] = useState(numberOfDays(year, monthNdx));
     const [start, getStart] = useState(new Date(year, monthNdx, 1).getDay());
@@ -237,46 +240,74 @@ function Calendar2() {
         setIsLoading(false);
       };
       
-
-
     const styleToday = ' bg-[#f9dcc5]'
 
+    //For Mobile
+    useEffect(() => {
+        const handleResize = () => {
+          setIsMobile(window.innerWidth <= 640);
+        };
     
+        window.addEventListener('resize', handleResize);
+        handleResize();
+    
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+      }, []);
+
 
     return (
-        <div className='p-[3%]'>
+        <div className='p-[3%]  '>
         <div className='flex flex-col font-poppins w-[100%] h-[100%] p-[1%] bg-[#840705] rounded-3xl'>
             <div>
-                <div className='grid grid-cols-7 my-[1%]' >
+                <div className='flex justify-center my-[1%] mb-[2%]' >
                     <div></div>
                     <div></div>
-                    <div className='flex justify-center items-center'>
+                    <div className='flex justify-center items-center mr-[3%]'>
                         <button onClick={(event) => {
                             event.preventDefault();
-                            handleMonthChange("back");
-                        }} className='w-[2vw] h-[2vw] border-solid border-black border-2 flex justify-center bg-[white] items-center rounded-full duration-100 hover:border-[rgba(0,0,0,0.5)] '> <GrPrevious color='light' /></button>
-                        </div> 
+                            handleMonthChange("back");  
+                        }} className='w-[2vw] h-[2vw] border-solid border-black border-2 flex justify-center bg-[white] items-center rounded-full duration-100 hover:border-[rgba(0,0,0,0.5)]  xs:max-sm:w-[4vw] xs:max-sm:h-[3vh] '> 
+                        <GrPrevious color='light' className="xs:max-sm:text-[0.8em]" /></button>
+                    </div> 
 
-                        <div className='flex justify-center items-center text-[1.5rem] font-bold text-white'>
+                    <div className='flex justify-center items-center text-[1.5rem] font-bold text-white mr-[3%] xs:max-sm:text-[1.2rem] xl:max-2xl:text-[1.1em]'>
                         <span>{months[monthNdx]}</span>
                         <p> - </p>
                         <span>{String(year)}</span>
-                        </div>
+                    </div>
                     
-                        <div className='flex justify-center items-center '>
-                    <button onClick={(event) => {
+                    <div className='flex justify-center items-center'>
+                        <button onClick={(event) => {
                             event.preventDefault();
                             handleMonthChange("next");
-                        }} className='w-[2vw] h-[2vw] border-solid bg-[white] border-black border-2 flex justify-center items-center rounded-full duration-100 hover:border-[rgba(0,0,0,0.5)]'> <GrNext /></button>
-                        </div>
+                        }} className='w-[2vw] h-[2vw] border-solid bg-[white] border-black border-2 flex justify-center items-center rounded-full duration-100 hover:border-[rgba(0,0,0,0.5)]  xs:max-sm:w-[4vw] xs:max-sm:h-[3vh]'> 
+                        <GrNext className="xs:max-sm:text-[0.8em]" /></button>
+                    </div>
                         <div></div>
                     <div></div>
                 </div>
-                <div className='grid grid-cols-7 gap-4 mx-5 place-items-center' >
-                    {Array.from({ length: 7 }).map((_, indx) => {
+
+                <div className='grid grid-cols-7 gap-4 mx-5 place-items-center xs:max-sm:mx-3 xs:max-sm:my-3 xs:max-sm:gap-2' >
+                   {isMobile
+                    ? abbreviatedDays.map((day, index) => (
+                        <div
+                            className=' w-[7vw] text-center font-poppins rounded-lg bg-[#FFFFFF] border-solid border-black border-2 xs:max-sm:text-[2.5vw] xs:max-sm:w-[100%] xs:max-sm:h-[3vh] xl:max-2xl:text-[0.8em]'
+                            key={index}
+                        >
+                            {day}
+                        </div>
+                        ))
+                    : Array.from({ length: 7 }).map((_, indx) => {
                         const dayOfWeek = (indx + 1) % 7; // Adjusting for Sunday as the start of the week
                         return (
-                            <div className=' w-[7vw] text-center font-poppins rounded-lg bg-[#FFFFFF] border-solid border-black border-2' key={indx}>{weekly[dayOfWeek]}</div>
+                            <div
+                            className=' w-[7vw] text-center font-poppins rounded-lg bg-[#FFFFFF] border-solid border-black border-2 xl:max-2xl:text-[0.8em]'
+                            key={indx}
+                            >
+                            {weekly[dayOfWeek]}
+                            </div>
                         );
                     })}
                     {Array.from({ length: getFirstDayOfMonth(year, monthNdx) }).map((_, index) => (
@@ -288,8 +319,8 @@ function Calendar2() {
                     {cell.map((day) => (
                             <div
                                 key={day}
-                                className={`h-[5vw] w-[5vw] flex justify-center cursor-pointer p-2 rounded-xl border-black border-2 border-solid ${
-                                checkToday(day) === true ? styleToday : 'bg-[#FFFFFF]'
+                                className={`h-[5vw] w-[5vw] flex justify-center cursor-pointer p-2 rounded-xl border-black border-2 border-solid xs:max-sm:w-[100%] xs:max-sm:h-[100%] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.9em]
+                                ${checkToday(day) === true ? styleToday : 'bg-[#FFFFFF]'
                                 } hover:bg-slate-300 duration-300`}
                                 onClick={() => handleDayClick(day)}
                             >

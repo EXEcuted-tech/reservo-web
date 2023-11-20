@@ -64,7 +64,7 @@ const UserLogin = () => {
       {errMess !='' && <Danger message={errMess}/>}
       {/* Background Picture */}
       <img className='absolute h-screen w-full' src={background} />
-      <div className='absolute overflow-hidden shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 text-align w-[980px] -translate-x-2/4 -translate-y-2/4 xs:max-sm:w-[360px] xs:max-sm:h-[300px] xl:max-2xl:w-[650px]'>
+      <div className='absolute overflow-hidden shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 text-align w-[980px] -translate-x-2/4 -translate-y-2/4 xs:max-sm:w-[360px] xs:max-sm:h-[35%] xl:max-2xl:w-[650px]'>
         {/* Left Box */}
         <div className="leftBox w-[35%] h-[63vh] bg-[#DD2803] float-left text-center pt-[120px] pb-[78px] px-10 xs:max-sm:p-[15px] xs:max-sm:pt-[50px] xs:max-sm:h-[36vh] xl:max-2xl:p-[30px]">
                 <div className="imgBox flex justify-center"> 
@@ -85,7 +85,8 @@ const UserLogin = () => {
                 <div className="footHeader flex flex-col">
                     <span className='text-[1.17em] text-white font-bold xs:max-sm:text-[0.6rem] xl:max-2xl:text-[0.9em]'>Are You a Merchant?</span>
                     <Link to={'/adlogin'} className='bg-white font-bold text-center p-[0.7rem] rounded-full m-[0.5rem] text-[#DD2803] w-[20vh] ml-[3.5vh] 
-                        hover:bg-[#9a1a00] hover:text-white transition-colors delay-250 duration-[3000] ease-in xs:max-sm:text-[0.4em] xs:max-sm:w-[9vh] xs:max-sm:ml-[1vh] xs:max-sm:p-[0.4rem] xl:max-2xl:text-[0.7em] xl:max-2xl:ml-[3.5vh]'>Merchant Page</Link>
+                        hover:bg-[#9a1a00] hover:text-white transition-colors delay-250 duration-[3000] ease-in xs:max-sm:text-[0.4em] xs:max-sm:w-[9vh] xs:max-sm:ml-[15%] xs:max-sm:p-[0.4rem] xl:max-2xl:text-[0.7em] xl:max-2xl:ml-[3.5vh]'
+                        >Merchant Page</Link>
                 </div>
             </div>
 
