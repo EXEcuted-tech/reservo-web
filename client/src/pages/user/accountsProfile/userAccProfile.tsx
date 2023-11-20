@@ -8,6 +8,9 @@ import GenSpinner from '../../../components/loaders/genSpinner';
 import EditUsername from './modals/editUsername';
 
 import { Chip, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
+import { IoCameraSharp } from 'react-icons/io5';
+import DisplayEditModal from '../../../components/modals/profile-modal/displayEditModal';
+import EditProfile from './modals/editProfile';
 
 
 function UserProfilePage() {
@@ -17,6 +20,11 @@ function UserProfilePage() {
     const userID = userDetails ? JSON.parse(userDetails).userID : "0";
     const [isLoading, setIsLoading] = useState(false);
     const Navigate = useNavigate();
+    const [newImageUrl, setNewImageUrl] = useState('');
+
+    const userName = data?.account_name;
+    const [shortLet,setShortLet] = useState("");
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     //Table
     const [page, setPage] = useState(0);
@@ -71,7 +79,7 @@ function UserProfilePage() {
             setReservations(result.data.records);
             setIsLoading(false);
         } catch (error) {
-            console.log(error);
+            //PUT ERROR NOTIF 
         }
     }
 
@@ -84,11 +92,41 @@ function UserProfilePage() {
         fetchData(); // Call the async function to fetch data
     }, []);
 
-    const userName = data?.account_name;
+    useEffect(()=>{
+        if(userName){
+            getShortLetter(userName);
+        }
+    },[data])
+
+    const getShortLetter = (name:string) => {
+        const nameParts = name.split(' ');
+        if (nameParts.length === 1) {
+            setShortLet(nameParts[0].charAt(0).toUpperCase());
+        } else if (nameParts.length > 1) {
+            setShortLet(nameParts[0].charAt(0).toUpperCase() + nameParts[1].charAt(0).toUpperCase());
+        }
+    };
+
+    const closeEditModal = () => {
+        setIsEditModalOpen(false);
+    };
+
+    const handleSaveImageUrl = (imageUrl: string) => {
+        setNewImageUrl(imageUrl);
+        setIsEditModalOpen(false);
+        axios.post(`${config.API}/user/edit?userID=${userID}`, {
+            "profile_picture" : imageUrl,
+        });
+    };
 
     return (
         <div className="h-[100vh] bg-[#F9F2EA] ">
-
+            {isEditModalOpen && <div className='fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,0.5)] opacity-0.5 z-[100]'></div>}
+            <DisplayEditModal
+                isOpen={isEditModalOpen}
+                onClose={closeEditModal}
+                onSave={handleSaveImageUrl}
+            />
             <div className="mx-auto w-[90vw] border-b-[1px] border-black">
                 <p className="pt-10 text-[30pt] font-bold">User Information</p>
                 <p className="text-[#929090] text-[15pt] font-bold">Protect and Secure Your Account</p>
@@ -98,12 +136,29 @@ function UserProfilePage() {
 
                 <div>
 
-                    <div className="float-left border-r-[2px] border-black mt-[5vh]">
-                        <FaRegUserCircle className="text-[23vh] mx-[15vh] mt-[6vh]" />
+                    <div className="float-left border-r-[2px] border-black ml-[2%] mt-[7%]">
+                    
+                    <div className='flex justify-center'>
+                    {data?.profile_picture 
+                    ?
+                        <div className="relative inline-flex items-center justify-center w-60 h-60 overflow-hidden bg-[#DD2803] rounded-full dark:bg-gray-600 xs:max-sm:w-9 xs:max-sm:h-8">
+                               <img src={newImageUrl ? newImageUrl : data?.profile_picture} className="w-60 h-60 object-cover rounded-2xl xl:max-2xl:w-[7rem]" />                        
+                                <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 opacity-0 hover:opacity-80 hover:cursor-pointer bg-white'
+                                onClick={()=>{setIsEditModalOpen(true)}}>
+                                    <IoCameraSharp className='relative text-[50px] left-[22%] bottom-[5%] xl:max-2xl:text-[1.3em] xl:max-2xl:left-[43%]'/>
+                                    <p className='relative text-black font-bold text-[14px] top-[10%] right-[8%] xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.6em] xl:max-2xl:right-[4%]'>Change Image</p>
+                                </div>         
+                        </div>
+                    :
+                        <div className="relative inline-flex items-center justify-center w-60 h-60 overflow-hidden bg-[#DD2803] rounded-full dark:bg-gray-600 xs:max-sm:w-9 xs:max-sm:h-8">
+                            <span className="font-medium text-[4em] text-white dark:text-gray-300">{shortLet}</span>
+                        </div>
+                    }
+                    </div>
                         <br />
                         {data ? (
                             <>
-                                <h1 className="text-center font-bold text-[20pt]"><EditUsername userName={userName} userID={userID} /></h1>
+                                <h1 className="text-center flex flex-rows justify-center font-bold text-[20pt]"><span className='mr-2'>{userName}</span><EditProfile phoneData={data.contact_number}/></h1>
                                 <br />
                                 <br />
                                 <br />

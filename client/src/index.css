@@ -1,6 +1,30 @@
 @tailwind base;
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  /* scrollbar-color: var(--secondary) var(--primary); */
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+*::-webkit-scrollbar-track {
+  /*background: rgb(196, 196, 196);*/
+  border-radius: 20px;
+}
+
+*::-webkit-scrollbar-thumb {
+  /* background-color: var(--secondary); */
+  border-radius: 14px;
+  background-color: rgb(65, 64, 64);
+}
 @tailwind components;
 @tailwind utilities;
+
+
 
 body {
   margin: 0;
@@ -19,6 +43,11 @@ body {
   height:10vh;
   /* position: relative;
   bottom:0; */
+}
+@media (min-width: 300px) and (max-width: 640px){
+    .bg-footer{
+      height: 7vh;
+    }
 }
 
 .arrow {
@@ -39,4 +68,41 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   height: 88.5vh;
+}
+
+.animate-slide-right {
+  background-size: 400%;
+  animation: slide-right 3s ease infinite;
+}
+
+.animate-slide-left {
+  background-size: 400%;
+  animation: slide-left 20s ease;
+}
+
+@keyframes slide-left {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: -100% 50%;
+  }
+}
+
+@keyframes slide-right {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@media (min-width: 300px) {
+  @media not all and (min-width: 640px) {
+    .bg-logout {
+      height: 93vh;
+    }
+  }
 }

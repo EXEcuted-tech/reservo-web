@@ -32,16 +32,23 @@
     height: 18vh;
     border-top-left-radius: 2vh;
     border-top-right-radius: 2vh;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
 
 
 .CardButton{
     display: flex;
-    
     border-radius: 1vh;
     height: 2.5rem;
     transition: 0.5s;
     width: 6vw;
+}
+
+@media (min-width: 300px) and (max-width: 640px){
+    .CardButton{
+        width: 70vw;
+    }
 }
 
 .DetailsButton{

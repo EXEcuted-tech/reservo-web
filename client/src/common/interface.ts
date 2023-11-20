@@ -17,6 +17,7 @@ interface MerchCardProps {
     settings : Record<string,any> | null;
     sched_id: null;
     accounts: Record<string,any> | null;
+    trigger?: () => void;
 }
 
 interface ReserveCardProps {
@@ -52,11 +53,11 @@ interface PackageItem {
     package_name: string;
     package_desc: string;
     price: string;
-    tags: string[];
+    tags: any;
     date_start: Date;
     date_end: Date;
     visibility: string;
-    item_list: string[];
+    item_list: any;
     image_filepath: string;
     oneButton: boolean;
     time_start: string;
@@ -87,13 +88,16 @@ interface MerchData{
     contact_number: string;
     address: string;
     settings: string;
-    form_deets: string;
+    form_deets?: string;
     sched_id: number;
     accounts: string;
+    date_registered?: string;
+    merch_status?: string;
+    days_left?:number;
 }
 
 
-// interface Account{
+// interface MerchAcc{
 //     account_id:number;
 //     account_name:string;
 //     account_status:string;
