@@ -60,8 +60,8 @@ const AccountListComponent = () => {
     })
   }, []);
 
-  const HandleFilterChange = (e) => {
-    setFilter(e.target.value);
+  const HandleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilter(event.target.value);
   };
 
   const HandleSearchQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,7 +83,7 @@ const AccountListComponent = () => {
       <div className='bg-white font-medium font-poppins shadow-2xl mx-5 p-5 rounded-lg h-[87vh] overflow-y-auto overflow-x-hidden xl:max-2xl:h-full'>
 
       <label htmlFor="filterList" className='text-slate-600 xl:max-2xl:text-[0.9em]'>Filter by: </label>
-      <select id="filtersList" className='rounded-lg border bg-white border-black m-4 mr-80 py-1 px-5  xl:max-2xl:text-[0.9em]'>
+      <select id="filtersList" className='rounded-lg border bg-white border-black m-4 mr-80 py-1 px-5  xl:max-2xl:text-[0.9em]' value={filter} onChange={HandleFilterChange}>
         <option value="allAccounts">All Accounts</option>
         <option value="active">Status: Active</option>
         <option value="abolished">Status: Abolished</option>
@@ -92,7 +92,7 @@ const AccountListComponent = () => {
       </select>
 
       <label htmlFor="searchBar" className='ml-[35%] bg-white xs:max-sm:ml-0 xl:max-2xl:text-[0.9em] xl:max-2xl:ml-[20%] '>Search: </label><br className='hidden xs:max-sm:block'/>
-      <input type="text" placeholder='Input name or email' id='searchBar' className='bg-white rounded-lg border border-slate-500 px-3 py-1  xl:max-2xl:text-[0.9em]'/>
+      <input type="text" placeholder='Input name or email' id='searchBar' className='bg-white rounded-lg border border-slate-500 px-3 py-1  xl:max-2xl:text-[0.9em]' value={searchQuery} onChange={HandleSearchQuery}/>
 
       <div className='bg-white text-slate-500 font-semibold text-[1.2em] xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.9em]'>
           <h1 className='text-[#bbbbbb]'>{`As of ${date}`}</h1>
