@@ -76,7 +76,8 @@ function Calendar2() {
     const [start, getStart] = useState(new Date(year, monthNdx, 1).getDay());
 
     let count = 1;
-    const cell = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
+    const [cell, setCell] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31])
+
 
         const fetchData = async () => {
             try {
@@ -256,7 +257,30 @@ function Calendar2() {
         };
       }, []);
 
+      function getDaysInAMonth(year: number, month: number): number {
+        if (month < 1 || month > 12) {
+          return 31;
+        }
+      
+        // Create a Date object for the first day of the next month
+        const nextMonthFirstDay = new Date(year, month, 1);
+      
+        // Subtract one day to get the last day of the current month
+        nextMonthFirstDay.setDate(nextMonthFirstDay.getDate() - 1);
+      
+        // Return the day component, which gives the number of days in the month
+        return nextMonthFirstDay.getDate();
+      }
 
+      useEffect(()=>{
+        const dayCount:number = getDaysInAMonth(year, monthNdx+1);
+        var tempCells = []
+        for(var x:number = 1; x <= dayCount; x++){
+            tempCells.push(x);
+        }
+        setCell(tempCells)
+
+      }, [[monthNdx, year]])
     return (
         <div className='p-[3%]  '>
         <div className='flex flex-col font-poppins w-[100%] h-[100%] p-[1%] bg-[#840705] rounded-3xl'>
