@@ -19,12 +19,12 @@ function Notification({message, color}:{message:string, color:string}) {
   };
 
     return (
-      <div className='z-[100000]'>
+      <div className=''>
       <span className=''>
         {message &&
         <>
       <div
-        className={`animate-fade-in fixed top-0 right-0 m-4 p-4 w-[25%] text-center text-white rounded-lg xs:max-sm:bg-opacity-60 xs:max-sm:top-10 xs:max-sm:w-[90%] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em] ${
+        className={` z-50 animate-fade-in fixed top-0 right-0 m-4 p-4 w-[25%] text-center text-white rounded-lg xs:max-sm:bg-opacity-60 xs:max-sm:top-10 xs:max-sm:w-[90%] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em] ${
           visible
             ? `transition-opacity duration-300 opacity-100`
             : 'transition-opacity duration-300 opacity-0 pointer-events-none'

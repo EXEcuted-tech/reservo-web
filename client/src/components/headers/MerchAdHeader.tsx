@@ -73,7 +73,7 @@ const MerchAdHeader: React.FC<MerchAdHeaderProps> = ({ icon: Icon, title }) => {
         <div className='flex items-center w-[15%] xs:max-sm:w-[40%] '>
           {username 
             ?
-              <div className="relative inline-flex items-center justify-center w-10 mr-[2%] h-10 overflow-hidden bg-[#840705] 
+              <div className=" z-90 relative inline-flex items-center justify-center w-10 mr-[2%] h-10 overflow-hidden bg-[#840705] 
                 rounded-full dark:bg-gray-600 xs:max-sm:w-[1.4rem] xs:max-sm:h-[1.4rem] xl:max-2xl:w-8 xl:max-2xl:h-8">
                   <span className="font-medium text-white dark:text-gray-300 xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.8em]">{shortLet}</span>
               </div>
