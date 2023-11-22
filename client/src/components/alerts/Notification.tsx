@@ -33,7 +33,7 @@ function Notification({message, color}:{message:string, color:string}) {
       >
         {message}
       </div>
-      <div className={`animate-slide-left fixed top-[5.35%] right-0 rounded-b-lg m-4 w-[25%] h-[5px] xl:max-2xl:top-[9.3%] xs:max-sm:w-[40%] xs:max-sm:top-[13.1%] xs:max-sm:right-[10%]
+      <div className={`animate-slide-left fixed top-[6%] right-0 rounded-b-lg m-4 w-[25%] h-[5px] xl:max-2xl:top-[9.3%] xs:max-sm:w-[40%] xs:max-sm:top-[10%] xs:max-sm:right-[10%]
             ${visible}
             ? 'opacity-100 '
             : ' opacity-0'

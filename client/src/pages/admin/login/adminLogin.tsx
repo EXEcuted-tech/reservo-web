@@ -127,7 +127,8 @@ const AdminLogin = () => {
                     <div className="frgt text-right text-[12px] mb-[2rem] text-white  hover:text-black transition-colors delay-250 duration-[3000] ease-in xs:max-sm:text-[0.3em] xs:max-sm:mb-[1rem] xl:max-2xl:text-[0.6em]">
                       <Link to={'/forgpass'}>Forgot Password?</Link>
                     </div>
-                    <div className="buttons flex flex-col items-center space-y-5">
+
+                    <div className="buttons flex flex-col items-center space-y-5 mt-[5%]">
                         <button type='submit' className='flex items-center justify-center bg-white text-[#840705] p-[0.5em] w-[50%] rounded-full font-bold  
                             hover:text-[#DD2803]  transition-colors delay-250 duration-[3000] ease-in xs:max-sm:text-[0.4em] xs:max-sm:w-[9vh] xl:max-2xl:text-[0.7em]'>
                             {isLoading && <Spinner className='mr-[1%]'/>}
