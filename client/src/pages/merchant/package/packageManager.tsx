@@ -116,6 +116,18 @@ const PackageManager = () => {
       };
 
 
+  //filters
+  const sortPackages = (packages: PackageItem[], sortOption: string) => {
+    if (sortOption === 'package_name') {
+      return packages.sort((a, b) => a.package_name.localeCompare(b.package_name));
+    } 
+    if (sortOption === 'date_start') {
+      return packages.sort((a, b) => new Date(a.date_start).getTime() - new Date(b.date_start).getTime());
+    }
+    return packages;
+  };
+
+
 return (
 <div className={`bg-[#FFFFFF] h-[100vh] font-poppins overflow-y-auto overflow-x-hidden animate-fade-in`}>
     <div className="w-[80vw] xs:max-sm:w-full">
@@ -176,7 +188,7 @@ return (
             ) : packages.length === 0 ? (
               <p className="text-lg">No packages to show for now.</p>
             ) : (
-              packages.map((packageItem) => (
+              sortPackages(packages, sort).map((packageItem) => (
                 <Card
                   key={packageItem.package_id}
                   package_id={packageItem.package_id}
@@ -218,7 +230,7 @@ return (
             ) : unpublishedPackages.length === 0 ? (
               <p className="text-lg xs:max-sm:text-[0.9em] xs:max-sm:mt-[5%] xl:max-2xl:text-[0.8em]">No packages to show for now.</p>
             ) : (
-              unpublishedPackages.map((packageItem) => (
+              sortPackages(unpublishedPackages, sort).map((packageItem) => (
                 <Card
                   key={packageItem.package_id}
                   package_id={packageItem.package_id}
