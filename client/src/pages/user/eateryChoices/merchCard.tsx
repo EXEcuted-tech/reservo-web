@@ -68,21 +68,21 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
 
 
   return (
-    <div className='flex h-[25vh] xs:max-sm:h-[33vh] xs:max-sm:mb-[2%] xl:max-2xl:mb-[1%]'>
+    <div className='flex h-[27vh] xs:max-sm:h-auto xs:max-sm:mb-[2%] xs:max-sm:w-full xl:max-2xl:mb-[1%]'>
         <div>
             <img className='w-[262px] h-[219px] rounded-[50px] xs:max-sm:w-[300px] xs:max-sm:h-[100px] xs:max-sm:mt-[5%] xl:max-2xl:w-[182px] xl:max-2xl:h-[150px]' src={props.logo || ''}/>
         </div>
 
         <div className='ml-[3%] w-[80vw] xs:max-sm:w-[68vw]'>
-            <h1 className='font-bold text-[2em] xs:max-sm:text-[1.4em] xl:max-2xl:text-[1.4em]'>{props.merchant_name}</h1>
+            <h1 className='font-bold text-[2em] xs:max-sm:text-[1.2em] xl:max-2xl:text-[1.4em]'>{props.merchant_name}</h1>
             <div className='flex'>
                 {/* Left Side */}
                 <div>
                     <div className='flex'>
                         <Rating value={avg} className="xs:max-sm:scale-75 xs:max-sm:ml-[-10%] xs:max-sm:mr-[-8%] xl:max-2xl:scale-75 xl:max-2xl:ml-[-4%]" readOnly />
-                        <p className='ml-[1%] xs:max-sm:text-[0.8em] xs:max-sm:pt-1 xs:max-2xl:sm-[-2%] xl:max-2xl:text-[0.8em] xl:max-2xl:pt-1 xl:max-2xl:ml-[-2%]'>({ratingCount} Reviews)</p>
+                        <p className='ml-[1%] xs:max-sm:text-[0.6em] xs:max-sm:pt-1.5 xs:max-2xl:sm-[-2%] xl:max-2xl:text-[0.8em] xl:max-2xl:pt-1 xl:max-2xl:ml-[-2%]'>({ratingCount} Reviews)</p>
                     </div>
-                    <div className='flex items-center mt-[1%] text-[1.1em] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'>
+                    <div className='flex items-center mt-[1%] text-[1.1em] xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.8em]'>
                         <GrLocation className='text-[1.3em] mr-[0.5%] xs:max-sm:mt-[-10%] xl:max-2xl:text-[1em]'/>
                         {concAddress !== '' ? concAddress : "Coming Soon"}
                     </div>
@@ -93,7 +93,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                 </div>
 
                 {/* Right Side */}
-                <div className='ml-[5%] w-[20vw]'>
+                <div className='ml-[5%] w-[23vw] xs:max-sm:ml-0'>
                     <p className='text-[1.1em] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'><span className='font-bold mr-[0.5%]'>Price Range:</span>
                         <br className='hidden xs:max-sm:block'></br>
                             {"₱"+minPrice+" - "+"₱"+maxPrice}</p>
@@ -121,7 +121,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                         }}>
                         <AiOutlineFolderView className='text-[1.6em] mt-[-0.1rem]'/>View More
                     </button>
-                    <button className='w-[32%] flex items-center text-black bg-[#F4D147] px-[5%] py-[1.5%] rounded-2xl
+                    <button className='w-[35%] flex items-center text-black bg-[#F4D147] px-[5%] py-[4%] rounded-2xl
                         hover:bg-[#FFB800] font-medium transition-colors delay-450 duration-[3000] ease-in-out xl:max-2xl:text-[0.7em] xl:max-2xl:w-[34%]'
                         onClick={()=>{
                             if(storedAcc!=null){
@@ -145,7 +145,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                         }}>
                         <AiOutlineFolderView className='text-[1.6em] mt-[-0.1rem]'/>View More
                     </button>
-                    <button className='w-[15vh] flex items-center text-black bg-[#F4D147] px-[5%] py-[1.5%] rounded-2xl
+                    <button className='w-[15vh] flex items-center text-black bg-[#F4D147] px-[5%] pl-[7%] py-[1.5%] rounded-2xl
                         hover:bg-[#FFB800] font-medium transition-colors delay-450 duration-[3000] ease-in-out'
                         onClick={()=>{
                             
