@@ -124,14 +124,14 @@ return (
     
     <MerchAdHeader icon={BiPackage} title={'Package Manager'}/>
 
-    <div className="SortFilterSubheader flex mb-4 text-lg bg-[#f0e5d8] w-[85vw] xs:max-sm:w-full xs:max-sm:h-[7vh]">
-        <div className="flex align-middle w-3/6 items-center mx-32 ps-8 h-20 xs:max-sm:ps-2 xs:max-sm:mx-2 xs:max-sm:w-full xs:max-sm:h-16 xl:max-2xl:ps-2">
-        <label htmlFor="filterDropdown" className={`font-bold mx-2 w-[4vw] xs:max-sm:ml-[3%] xs:max-sm:text-[0.8em] xs:max-sm:w-[40%] xs:max-sm:mx-0 xl:max-2xl:text-[0.8em] xl:max-2xl:w-[5vw]`}>
+    <div className="SortFilterSubheader flex mb-4 text-lg bg-[#f0e5d8] w-[85vw] xs:max-sm:w-full xs:max-sm:h-[7vh] xl:max-2xl:h-[10vh]">
+        <div className="flex align-middle w-3/6 items-center mx-32 ps-8 h-20 xs:max-sm:ps-2 xs:max-sm:mx-2 xs:max-sm:w-full xs:max-sm:h-16 xl:max-2xl:ps-2 ">
+        <label htmlFor="filterDropdown" className={`font-bold mx-2 w-[4vw] xs:max-sm:ml-[3%] xs:max-sm:text-[0.8em] xs:max-sm:w-[40%] xs:max-sm:mx-0 xl:max-2xl:text-[0.8em] xl:max-2xl:w-[5vw] xl:max-2xl:pb-4`}>
           Sort By: </label>
                     <select 
                         id="sortDropdown" 
                         name="sortDropdown" 
-                        className={`bg-transparent rounded-md h-10 w-[20vw] xs:max-sm:text-[0.8em] xs:max-sm:w-full xl:max-2xl:text-[0.8em]  
+                        className={`bg-transparent rounded-md h-10 w-[17vw] xs:max-sm:text-[0.8em] xs:max-sm:w-full xl:max-2xl:text-[0.8em] xl:max-2xl:h-[5vh] xl:max-2xl:mb-[4%]
                         hover:bg-white transition duration-150 ease-out hover:ease-in`}
                         value={sort}
                         onChange={handleSortChange}
@@ -162,7 +162,7 @@ return (
             className="w-[6vw] h-[4vh] p-2 bg-[#1b6e1e] text-white text-lg flex justify-center items-center rounded-lg
             hover:bg-[#00962a] transition-colors delay-250 duration-[3000] ease-in xs:max-sm:w-[10vw] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em] xl:max-2xl:w-[6vw] xl:max-2xl:h-[5vh]"
           >{window.innerWidth <= 640 ? (
-            <BiRefresh className="flex items-center justify-center xs:max-sm:text-[3em] " />
+            <BiRefresh className="flex items-center justify-center xs:max-sm:text-[2em] " />
           ) : (
             "Refresh"
           )}
@@ -170,7 +170,7 @@ return (
     </div>
 
     </div>
-        <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl xs:max-sm:h-[50vh] xs:max-sm:p-2 xs:max-sm:mx-4 xl:max-2xl:h-[70vh] ">
+        <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl xs:max-sm:h-[60vh] xs:max-sm:p-2 xs:max-sm:mx-4 xl:max-2xl:h-[70vh] ">
         {isLoading ? (
               <GenSpinner/>
             ) : packages.length === 0 ? (

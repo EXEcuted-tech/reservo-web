@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import {RiDashboard3Line} from 'react-icons/ri'
+import {MdOutlineSwitchAccount} from 'react-icons/md'
+import {MdOutlineFiberSmartRecord} from 'react-icons/md'
 import {IoCalendarSharp} from 'react-icons/io5'
 import {GiJuggler} from 'react-icons/gi'
 import {AiFillCloseCircle} from 'react-icons/ai'
 import {MdGroups2} from 'react-icons/md'
+import {MdOutlineRestaurantMenu} from 'react-icons/md'
 import {MdRecentActors} from 'react-icons/md'
 import Chart from 'react-google-charts'
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
@@ -45,6 +48,8 @@ const MerchDashboard = () => {
   const [mess2,setMess2] = useState('')
   const [graphList, setgraphList] = useState([{}]);
   const [recentReservations, setRecentReservations] = useState<Array<{reservation: reservationList, clientName: String}>>([]);
+  const [merchRec, setMerchRec] = useState<any[]>([]);
+
   const fetchGraphInfo = async() => {
     try {
       const responseBooks = await axios.get(`${config.API}/reserve/retrievebooks`,{
@@ -164,64 +169,148 @@ const MerchDashboard = () => {
     }
   }
 
+  const formatLastLogin = (lastLogin: string | null) => {
+    if (lastLogin) {
+      const date = new Date(lastLogin);
+      const options: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+      };
+      return new Intl.DateTimeFormat('en-US', options).format(date);
+    }
+    return 'N/A';
+  }
+
   const getClient = async (id: number) => {
     try {
       const col = 'account_id';
       const val = id;
-      
       const response = await axios.get(`${config.API}/user/retrieve?col=${col}&val=${val}`);
-
-      if(response.data.status === 200) {
-        return response.data.users[0].account_name;
-      }
-      return '';
-    }catch (error){
-      //PUT ERROR NOTIF 
-      return '';
-    }
-  }
-
-    const fetchRecentReservations = async () => {
-      try {
-        const todayDate = getTodaysDate();
-        const col = 'merchant_id';
-        const val = merchant_id;
-        const resReservations = await axios.get(`${config.API}/reserve/retrieve?col=${col}&val=${val}`);
-        const reservationsData = resReservations.data.records;
-        const recentReservations = reservationsData;
-        const reservationsRec = [];
   
-        for (const reservation of recentReservations) {
-          const clientName = await getClient(reservation.account_id);
-          const location = reservation.res_location;
-
-           // Convert 24-hour time to 12-hour time
-          const timeParts = reservation.res_time.split(':');
-          const hours = parseInt(timeParts[0]);
-          const minutes = parseInt(timeParts[1]);
-          const ampm = hours >= 12 ? 'PM' : 'AM';
-          const formattedHours = hours % 12 || 12;
-          const formattedTime = `${formattedHours}:${minutes} ${ampm}`;
-
-         // Remove the time part from the date
-          const formattedDate = new Date(reservation.res_date).toLocaleDateString();
-
-          reservationsRec.push({
-            reservation: { ...reservation, location, res_time: formattedTime, res_date: formattedDate }, clientName,
-      });
-    }
-        setRecentReservations(reservationsRec);
-      } catch (error) {
-        // Handle error
+      if (response.data.status === 200) {
+        const userData = response.data.users[0];
+        return {
+          name: userData.account_name,
+          lastLogin: userData.last_login,
+        };
       }
-    };
+      return null;
+    } catch (error) {
+      // Handle errors or return default values
+      console.error('Error fetching client:', error);
+      return null;
+    }
+  };
 
+
+const fetchRecentReservations = async () => {
+  try {
+    const col = 'merchant_id';
+    const val = merchant_id;
+    const resReservations = await axios.get(`${config.API}/reserve/retrieve?col=${col}&val=${val}`);
+    const reservationsData = resReservations.data.records;
+    const reservationsRec = [];
+
+    for (const reservation of reservationsData) {
+      const clientData = await getClient(reservation.account_id);
+
+      if (clientData) {
+        const { name: clientName, lastLogin } = clientData;
+
+        const location = reservation.res_location;
+
+        // Convert 24-hour time to 12-hour time
+        const timeParts = reservation.res_time.split(':');
+        const hours = parseInt(timeParts[0]);
+        const minutes = parseInt(timeParts[1]);
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const formattedHours = hours % 12 || 12;
+        const formattedTime = `${formattedHours}:${minutes} ${ampm}`;
+
+        // Remove the time part from the date
+        const formattedDate = new Date(reservation.res_date).toLocaleDateString();
+
+        reservationsRec.push({
+          reservation: {
+            ...reservation,
+            location,
+            res_time: formattedTime,
+            res_date: formattedDate,
+          },
+          clientName,
+          lastLogin,
+        });
+      }
+    }
+    setRecentReservations(reservationsRec);
+  } catch (error) {
+    console.error('Error retrieving reservations:', error);
+  }
+};
+
+
+const fetchMerchantAccount = async () => {
+  try {
+    const col = 'merchant_id';
+    const val = merchant_id;
+    const response = await axios.get(`${config.API}/merchant/retrieve?col=${col}&val=${val}`);
+    const merchAccounts = response.data.accounts;
+
+    if (response.data.success) {
+      const newMerchRec = [];
+
+      for (const accountId in merchAccounts) {
+        const employeeData = merchAccounts[accountId];
+        const accountIdNumber = parseInt(accountId, 10);
+        const clientData = await getClient(accountIdNumber);
+
+        if (clientData) {
+          const { name: clientName, lastLogin } = clientData;
+
+          newMerchRec.push({
+            employee: {
+              id: accountIdNumber,
+              email: employeeData.email,
+              position: employeeData.position,
+              clientName,
+              lastLogin: formatLastLogin(lastLogin),
+            },
+          });
+        }
+      }
+
+      // Sort newMerchRec array in descending order based on lastLogin
+      newMerchRec.sort((a, b) => {
+        if (a.employee.lastLogin === 'N/A' && b.employee.lastLogin === 'N/A') return 0;
+        if (a.employee.lastLogin === 'N/A') return 1;
+        if (b.employee.lastLogin === 'N/A') return -1;
+      
+        // Compare timestamps if both are not NULL
+        if (a.employee.lastLogin > b.employee.lastLogin) return -1;
+        if (a.employee.lastLogin < b.employee.lastLogin) return 1;
+        return 0;
+      });
+
+      setMerchRec(newMerchRec);
+      console.log('Merchant Account:', newMerchRec);
+    } else {
+      console.error('Error retrieving merchant account:', response.data.error);
+    }
+  } catch (error) {
+    console.error('Error retrieving merchant account:', error);
+  }
+};
 
   useEffect(() => {
     setIsLoading(true);
     fetchInfo();
     fetchGraphInfo();
     fetchRecentReservations();
+    fetchMerchantAccount();
     setIsLoading(false);
   }, []);
   
@@ -304,11 +393,12 @@ const MerchDashboard = () => {
         </div>
         {/* Reservation Section */}
         <div className='bg-[#F3F3F3] h-[30vh] flex overflow-auto xs:max-sm:h-[35vh]'>
-            <div className='w-[75%] m-[1%] text-center bg-white rounded-3xl flex-col pt-0 p-[1%] overflow-auto'>
+            <div className='w-[50%] m-[1%] p-4 pt-2 text-center bg-white rounded-3xl flex-col overflow-auto'>
               <div className='text-left border-b-2 border-black'>
-              <p className='flex font-bold text-[1.5em] xs:max-sm:text-[1.2em] xl:max-2xl:text-[1.2em]'> Recent Reservations <br/></p>
+              <p className='flex font-bold text-[1.5em] xs:max-sm:text-[1.2em] xl:max-2xl:text-[1.2em]'> <MdOutlineFiberSmartRecord className="text-[1em] mr-[1%] mt-[1%]" />
+               Recent Reservations <br/></p>
               </div>
-              <table className='flex-col w-[100%] text-left bg-white rounded-3xl overflow-auto xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'>
+              <table className='flex-col w-[100%] text-left text-[1.1em] bg-white rounded-3xl overflow-auto xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'>
               <tr>
                 <th>Client Name</th>
                 <th>Location</th>
@@ -336,22 +426,45 @@ const MerchDashboard = () => {
               </table> 
             </div>
 
-            <div className='w-[35%] m-[1%] text-center bg-white rounded-3xl px-[1%]'>
-              <table className='flex-col w-[100%] text-center bg-white rounded-3xl'>
-                <tr className='border-b-2 border-black text-[1.5em] xs:max-sm:text-[0.85em] xl:max-2xl:text-[1.2em]'>
+            <div className='w-[50%] m-[1%] p-4 pt-2 text-left bg-white rounded-3xl px-[1%] flex-col overflow-auto'>
+              <div className='text-left border-b-2 border-black'>
+                <p className='flex font-bold text-[1.5em] xs:max-sm:text-[1.2em] xl:max-2xl:text-[1.2em]'> <MdOutlineSwitchAccount className="text-[1em] mr-[1%] mt-[1%]" />
+                Recent Logins <br/></p>
+                </div>
+
+              <table className='flex-col w-[100%] text-[1.1em] bg-white rounded-3xl  xl:max-2xl:text-[0.8em]'>
+                {/* <tr className='border-b-2 border-black text-[1.5em] xs:max-sm:text-[0.85em] xl:max-2xl:text-[1.2em]'>
                   <th>Time In</th>
                   <th>Time Out</th>
-                </tr>
-                <tr>
-                  <td className='h-[100%] border-black border-r-2 xs:max-sm:text-[0.85em]  xl:max-2xl:text-[0.8em]'>
+                </tr> */}
+
+                <tr className="font-bold">
+                  {/* <td className='h-[100%] border-black border-r-2 xs:max-sm:text-[0.85em]  xl:max-2xl:text-[0.8em]'>
                     Time In</td>
                   <td className='h-[100%] xs:max-sm:text-[0.85em] xl:max-2xl:text-[0.8em]'>
-                    Time Out</td>
+                    Time Out</td> */}
+
+                  <th>Name</th>
+                  <th>Position</th>
+                  <th>Email</th>
+                  <th>Time In</th>
                 </tr>
                 <tbody>
-                  {isLoading? <td colSpan={2} className='animate-pulse text-center mt-[5vh]'> Loading... </td>:
-                  <p>DATA LOADED</p>}
-                </tbody>
+                    {isLoading ? (
+                      <tr>
+                        <td colSpan={3} className='animate-pulse text-center mt-[5vh]'> Loading... </td>
+                      </tr>
+                    ) : (
+                      merchRec.map((employee, index) => (
+                        <tr key={index}>
+                          <td>{employee.employee.clientName}</td>
+                          <td>{employee.employee.position}</td>
+                          <td>{employee.employee.email}</td>
+                          <td>{employee.employee.lastLogin}</td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
               </table>
             </div> 
         </div>

@@ -240,10 +240,10 @@ const EditModal:React.FC<EditModalProps> = (props) => {
     })
   }
 
-
+  
   return (
-    <div className='bg-[rgba(0,0,0,0.6)] w-[100vw] h-[100vh] z-10 absolute top-0 left-0 duration-100 animate-fade-in overflow-hidden xs:max-sm:z-[1001] xs:max-sm:h-[110vh]'>
-    <div className="animate-slide-up font-poppins fixed top-[7%] left-[18%] right-0 bg-white z-[100] bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl xs:max-sm:w-[90%] xs:max-sm:left-[5%] xs:max-sm:z-[1001]">
+    <div className='bg-[rgba(0,0,0,0.6)] w-[100vw] h-[100vh] absolute top-0 left-0 duration-100 animate-fade-in overflow-hidden xs:max-sm:z-[1001] xs:max-sm:h-[110vh]'>
+    <div className="animate-slide-up font-poppins fixed top-[7%] left-[18%] right-0 bg-white z-[100] bg-[rgba(0, 0, 0, 0.5)] w-[70%] p-4 overflow-x-hidden overflow-y-auto h-[80%] drop-shadow rounded-3xl xs:max-sm:w-[90%] xs:max-sm:left-[5%] xs:max-sm:z-[1001] xs:max-sm:top-[7%]">
       {!isLoading 
        ?
         <div className='flex justify-center ml-[-2%] mt-[25%]'>
