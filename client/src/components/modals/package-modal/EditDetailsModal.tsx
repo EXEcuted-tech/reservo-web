@@ -250,7 +250,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   };
 
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value !== '') {
+   
       if (e.target.value.includes(',')) {
         const val = e.target.value.replaceAll(',', '');
         setEditedTags((prevTags) => [...prevTags, val]);
@@ -258,7 +258,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
       } else {
         setInputTag(e.target.value);
       }
-    }
+    
   };
   
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
