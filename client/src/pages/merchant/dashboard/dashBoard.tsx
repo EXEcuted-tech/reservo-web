@@ -275,7 +275,9 @@ const fetchMerchantAccount = async () => {
             employee: {
               id: accountIdNumber,
               email: employeeData.email,
-              position: employeeData.position,
+              position: employeeData.position
+              .toLowerCase()
+              .replace(/\b\w/g, (char: string) => char.toUpperCase()),
               clientName,
               lastLogin: formatLastLogin(lastLogin),
             },
