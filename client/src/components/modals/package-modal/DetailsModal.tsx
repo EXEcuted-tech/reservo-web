@@ -220,7 +220,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({onClose, openEditModal, erro
                 </div>
             </div>
                        
-            <div className="IMAGE_PLACEHOLDER block w-[90%] h-[90%] rounded-2xl xs:max-sm:w-[60%] xs:max-sm:h-[15%] xs:max-sm:ml-[40%] ">
+            <div className="IMAGE_PLACEHOLDER block h-[55vh] rounded-2xl xs:max-sm:w-[60%] xs:max-sm:h-[15%] xs:max-sm:ml-[40%] ">
             {window.innerWidth <= 400 ? null : (
               <img
                 src={image} // Use your image URL from the DB here
