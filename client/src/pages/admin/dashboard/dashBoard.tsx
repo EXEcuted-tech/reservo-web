@@ -6,7 +6,7 @@ import config from '../../../common/config'
 import axios from 'axios'
 
 const AdminDashboard = () => {
-  const [adgraphList, setadgraphList] = useState([{}])
+  const [adgraphList, setadgraphList] = useState([{signup_year: 0, signup_month:1, count_merchant: 1, count_user: 0}])
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchGraphInfo = async() => {
@@ -22,12 +22,12 @@ const AdminDashboard = () => {
     }
   }
 
-  // const formattedAccountsData = adgraphList.map(item => [new Date(item.signup_year,item.signup_month),item.count_merchant,item.count_user])
+  const formattedAccountsData = adgraphList.map(item => [new Date(item.signup_year,item.signup_month),item.count_merchant,item.count_user])
 
-  // const LineData = [
-  //   ['x', 'Merchants', 'Users'],
-  //   ...formattedAccountsData
-  // ]
+  const LineData = [
+    ['x', 'Merchants', 'Users'],
+    ...formattedAccountsData
+  ]
   const LineChartOptions = {
     chart: {
       title: 'Average Temperatures and Daylight in Iceland Throughout the Year'
