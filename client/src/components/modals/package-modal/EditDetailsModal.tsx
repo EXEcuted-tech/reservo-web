@@ -307,10 +307,9 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   return (
     <div className='overflow-hidden'>
         
-      <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh] backdrop-blur-sm animate-zoom-in overflow-hidden'>
-        
+      <div className='z-0 absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh] backdrop-blur-sm animate-zoom-in overflow-hidden xs:max-sm:h-[63rem]'>
         <div className='flex justify-center align-center my-20 xl:max-2xl:my-16 '>
-          <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl xl:max-2xl:h-[83vh]">
+          <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl xs:max-sm:p-6 xs:max-sm:w-[90vw] xs:max-sm:h-[70vh] xs:max-sm:overflow-x-auto xl:max-2xl:h-[83vh] xl:max-2xl:p-6">
           {deleteModal && (
         <DeleteConfirmationModal
           onClose={handleCloseDeleteModal}
@@ -320,38 +319,43 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
       )}
   
   <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'>
-      <div className='flex start items-center text-2xl mb-4 xl:max-2xl:text-xl'>
-            <LuPackage2 className="text-4xl mr-[2%] xl:max-2xl:text-2xl"/>
+      <div className='flex start items-center text-2xl mb-4 xs:max-sm:text-[1.2em] xs:max-sm:w-[60vw] xl:max-2xl:text-xl'>
+            <LuPackage2 className="text-4xl mr-[2%] xs:max-sm:text-[1.3em] xl:max-2xl:text-2xl"/>
             <p><b>Package ID: </b>{packageID}</p>
       </div>
     
       <div className='flex justify-end'>
-          <button onClick={onClose} className='flex items-center text-3xl mb-4 xl:max-2xl:text-2xl '><AiFillCloseCircle className='mx-2 detailsClose' /></button>
+          <button onClick={onClose} className='flex items-center text-3xl mb-4 xs:max-sm:text-[1.5em] xl:max-2xl:text-2xl '>
+            <AiFillCloseCircle className='mx-2 detailsClose' /></button>
       </div>
     </div>
     {(errorMessage !== '') && <Notification message={errorMessage} color='#840705'/>}
     {isLoading? 
-      <div className='h-[60vh] my-5 border flex justify-center pt-[5%]'><p className='text-center'><GenSpinner/></p><p className='pt-[5%] text-center animate-pulse'>Loading...</p></div>
+
+    <div className='h-[60vh] my-5 border flex justify-center pt-[5%]'>
+      <p className='text-center'>
+        <GenSpinner/></p><p className='pt-[5%] text-center animate-pulse'>Loading...</p>
+    </div>
       :    
-    <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000]">
+    <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000] xs:max-sm:h-[53vh] xl:max-2xl:my-[0]">
       <div>
-        <div className='h-[40vh] text-xl xl:max-2xl:text-[0.8em]'>
-        <p><span className='text-red-600 text-xs xl:max-2xl:text-[0.9em]'>Fields with * are required.</span></p>
-          <table className='border-separateborder-spacing-8'>
+        <div className='h-[40vh] text-xl xs:max-sm:text-[0.8em] xs:max-sm:h-[50vh] xl:max-2xl:text-[0.7em]'>
+        <p><span className='text-red-600 text-sm xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.9em]'>Fields with * are required.</span></p>
+          <table className='border-separate border-spacing-1 xl:max-2xl:border-spacing-[0.5]'>
             <tr><td><b>Package Name: <span className='text-red-600'>*</span></b></td>
-            <td><input onChange={handlePackageNameChange} type="text" value={editedPackageName} className="h-[4vh] my-2 p-2 border rounded-md mx-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500"/></td>
+            <td><input onChange={handlePackageNameChange} type="text" value={editedPackageName} className="h-[4vh] my-2 p-2 border rounded-md mx-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500 xs:max-sm:w-[25vw] xs:max-sm:h-[3vh] xs:max-sm:my-1 xs:max-sm:mx-2"/></td>
             </tr>
             <tr>
               <td><b>Total Price: <span className='text-red-600'>*</span></b></td>
-              <td><input type="text" value={editedPrice} onChange={handlePriceChange} className="h-[4vh] my-2 border p-2 rounded-md mx-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500"/></td>
+              <td><input type="text" value={editedPrice} onChange={handlePriceChange} className="h-[4vh] my-2 border p-2 rounded-md mx-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500 xs:max-sm:w-[25vw] xs:max-sm:h-[3vh] xs:max-sm:my-1 xs:max-sm:mx-2"/></td>
             </tr>
             <tr>
               <td>
               <b>Available From: <span className='text-red-600'>*</span></b>
               </td>
               <td>
-              <input type="date" value={editedDateStart} placeholder={editedDateStart} onChange={handleDateStartChange} className="h-[4vh] my-2 p-2 border rounded-md ml-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500"></input>
-              <input type="time" value={editedTimeStart} placeholder={editedTimeStart} onChange={handleTimeStartChange} className="h-[4vh] my-2 p-2 border rounded-md ml-2 pl-2 focus:outline-none focus:ring focus:ring-blue-500"></input>
+              <input type="date" value={editedDateStart} placeholder={editedDateStart} onChange={handleDateStartChange} className="h-[4vh] my-2 p-2 border rounded-md ml-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500 xs:max-sm:w-[25vw] xs:max-sm:h-[3vh] xs:max-sm:my-1 xs:max-sm:mx-2"></input>
+              <input type="time" value={editedTimeStart} placeholder={editedTimeStart} onChange={handleTimeStartChange} className="h-[4vh] my-2 p-2 border rounded-md ml-2 pl-2 focus:outline-none focus:ring focus:ring-blue-500 xs:max-sm:w-[25vw] xs:max-sm:h-[3vh] xs:max-sm:my-1 xs:max-sm:mx-2"></input>
               </td>
             </tr>
             <tr>
@@ -359,8 +363,8 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
               <b>Expiry Date:</b>
               </td>
               <td>
-              <input type="date" value={editedDateEnd} placeholder={editedDateEnd} onChange={handleDateEndChange} className="h-[4vh] my-2 p-2 border rounded-md ml-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500"></input>
-              <input type="time" value={editedTimeEnd} placeholder={editedTimeEnd} onChange={handleTimeEndChange} className="h-[4vh] my-2 p-2 border rounded-md ml-2 pl-2 focus:outline-none focus:ring focus:ring-blue-500"></input>
+              <input type="date" value={editedDateEnd} placeholder={editedDateEnd} onChange={handleDateEndChange} className="h-[4vh] my-2 p-2 border rounded-md ml-4 pl-2 focus:outline-none focus:ring focus:ring-blue-500 xs:max-sm:w-[25vw] xs:max-sm:h-[3vh] xs:max-sm:my-1 xs:max-sm:mx-2"></input>
+              <input type="time" value={editedTimeEnd} placeholder={editedTimeEnd} onChange={handleTimeEndChange} className="h-[4vh] my-2 p-2 border rounded-md ml-2 pl-2 focus:outline-none focus:ring focus:ring-blue-500 xs:max-sm:w-[25vw] xs:max-sm:h-[3vh] xs:max-sm:my-1 xs:max-sm:mx-2"></input>
               <button className='duration-200 ml-2 rounded-full hover:ring-2 hover:ring-blue-400' 
               onClick={()=>{
                 setEditedTimeEnd('')
@@ -375,7 +379,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
               <td>
                 <div className='ml-3 flex flex-row items-center w-[20vw] h-[6vh] overflow-y-hidden overflow-x-hidden hover:overflow-x-auto border p-4 rounded-lg' ref={tagsScroll}>
                   {editedTags.length > 0? editedTags.map((element, index) => (
-                  <button className=' h-5 p-1 flex border rounded-lg mx-1 items-center text-sm hover:border-1 hover:border-red-300'
+                  <button className=' h-5 p-1 flex border rounded-lg mx-1 items-center text-[0.9em] hover:border-1 hover:border-red-300  xl:max-2xl:text-[0.8em]'
                   onClick={()=>{
                     const newTags = [...editedTags]
                     newTags.splice(index, 1)
@@ -385,14 +389,15 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
                   onMouseLeave={() => setIsHovered(null)}
                   >{element} {isHovered === index && <AiFillCloseCircle className='ml-2 animate-fade-in duration-100' />}</button>
                 )):<></>}
-  <input
-  onChange={handleTagsChange}
-  onKeyDown={handleKeyPress}
-  type="text"
-  placeholder="Separated by comma"
-  value={inputTag}
-  className="h-[2vh] w-[10vw] my-2 text-sm border-none rounded-md mx-4 pl-2 focus:outline-none"
-/>
+
+          <input
+          onChange={handleTagsChange}
+          onKeyDown={handleKeyPress}
+          type="text"
+          placeholder="Separated by comma"
+          value={inputTag}
+          className="h-[2vh] w-[10vw] my-2 text-sm border-none rounded-md mx-4 pl-2 focus:outline-none xs:max-sm:text-[0.9em]  xl:max-2xl:text-[0.7em]"
+        />
 
               </div>
               </td>
@@ -402,7 +407,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
               <b>Visibility: <span className='text-red-600'>*</span></b>
               </td>
               <td>
-              <select id="sortDropdown" name="sortDropdown" className={`h-[3vh] w-[10vw] my-2 border focus:outline-none focus:ring focus:ring-blue-500 rounded-2xl mx-4 pl-2 text-center ${editedVisibility === 'PUBLISHED'? 'bg-green-600 text-white':'bg-blue-200 text-blue-500'}`}
+              <select id="sortDropdown" name="sortDropdown" className={`h-[4.5vh] w-[10vw] my-2 text-[0.9em] border focus:outline-none focus:ring focus:ring-blue-500 rounded-2xl mx-4 font-bold text-center xs:max-sm:w-[25vw] ${editedVisibility === 'PUBLISHED'? 'bg-green-600 text-white':'bg-blue-200 text-blue-500'}`}
                 onChange={handleVisibilityChange}
                 placeholder={editedVisibility}
                 value={editedVisibility}>
@@ -413,12 +418,13 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
             </tr>
           </table>
             <p><b>Description: <span className='text-red-600'>*</span></b></p>
-                <textarea onChange={handleDescriptionChange} className="text-sm mt-[2%] w-[80%] h-[35%] focus:outline-none focus:ring focus:ring-blue-500 border p-2 overflow-y-auto rounded-md resize-none" value={editedDescription}></textarea>
+                <textarea onChange={handleDescriptionChange} className="text-[0.9em] mt-[2%] w-[80%] h-[29%] focus:outline-none focus:ring focus:ring-blue-500 border p-2 overflow-y-auto rounded-md resize-none xs:max-sm:w-[75vw] xs:max-sm:h-[8vh] xs:max-sm:my-1 xs:max-sm:mx-2 xl:max-2xl:text-[1em] xl:max-2xl:h-[15%]" 
+                value={editedDescription}></textarea>
         </div>
       </div>
     
-    <div className='flex flex-col w-[100%] h-[100%]'>
-        <div className='IMAGE_PLACEHOLDER block w-[45%] h-[45%] rounded-2xl text-xl'>
+    <div className='flex flex-col w-[100%] h-[100%] xl:max-2xl:mt-[3%]'>
+        <div className='IMAGE_PLACEHOLDER block w-[45%] h-[45%] rounded-2xl text-xl xs:max-sm:w-[30vw] xs:max-sm:h-[10vh] xs:max-sm:ml-[20%]'>
             <img
               src={editedFilePath} // Use your image URL from the DB here
               alt="Package Image"
@@ -430,12 +436,14 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
               className="w-full h-full object-cover rounded-2xl"
             />
           <div className="mt-[3%]">
-              <label htmlFor="packageImage" className="p-2 text-xl xl:max-2xl:text-[0.7em]">Paste Image Link Here: <span className='text-red-600 font-bold '>*</span></label>
-                <input className="focus:outline-none focus:ring focus:ring-blue-500 text-sm h-[4vh] my-2 w-[100%] px-2 ml-[4%] rounded-lg border xl:max-2xl:text-[0.55em]" value={editedFilePath} onChange={handleFilePathChange} type="text" name="packageImage" placeholder='Paste Link Here'/>
+              <label htmlFor="packageImage" className="p-2 text-xl xs:max-sm:text-[0.8em] xs:max-sm:ml-[10%] xl:max-2xl:text-[0.6em]">
+                Upload Image Here: <span className='text-red-600 font-bold '>*</span></label>
+                <input className="focus:outline-none focus:ring focus:ring-blue-500 text-[0.8em] h-[4vh] my-2 w-[100%] px-2 ml-[4%] rounded-lg border xs:max-sm:w-[90%] xs:max-sm:h-[3vh] xs:max-sm:my-1 xs:max-sm:mx-2 xs:max-sm:text-[0.8em] xs:max-sm:ml-[10%] xl:max-2xl:text-[0.55em]" 
+                value={editedFilePath} onChange={handleFilePathChange} type="text" name="packageImage" placeholder='Paste Link Here'/>
           </div>
         </div>
 
-                <div className='block text-xl mt-[7vh] xl:max-2xl:text-[0.8em] border p-2 rounded-lg'>
+        <div className='block text-xl mt-[7vh] border p-2 rounded-lg xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.7em] '>
                   <b>Items: <span className='text-red-600'>*</span></b>
                   <div className='p-2 overflow-y-auto h-[8vh] mb-6 xl:max-2xl:mb-2'>
                     {editedItems && Array.isArray(editedItems) && editedItems.length > 0 ?
@@ -449,23 +457,27 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
                           console.log("Removed: ", newItems);
                           setItemName('');
                         }}
-                        ><AiOutlineCloseCircle/></button><span className='text-sm'>{element}</span></li></div>
+                        ><AiOutlineCloseCircle className="xl:max-2xl:text-[0.8em]"/></button><span className='text-[0.9em] xl:max-2xl:text-[1em]'>{element}</span></li></div>
                       ))}
                     </ul>
-                    : <p className=' italic text-sm'>No items in list</p>}
+                    : <p className=' italic text-[0.9em]'>No items in list</p>}
                   </div>
                   <div className='flex flex-row items-center'>
                     <button
                       onClick={handleAddItemClick}
-                      className="w-[20%] h-[4vh] rounded-md text-[1.1rem] text-white bg-[#1f8022] flex items-center justify-center xl:max-2xl:text-[0.8em]
+                      className="w-[20%] h-[4vh] rounded-md text-[1.1rem] text-white bg-[#1f8022] flex items-center justify-center xs:max-sm:text-[0.9em] xs:max-sm:h-[3vh] xs:max-sm:mt-[3%] xs:max-sm:p-2 xl:max-2xl:text-[0.9em]
                       hover:bg-[#00962a] transition-colors delay-250 duration-[3000] ease-in">
-                      <IoMdAddCircleOutline className="mr-[3%]"/>Add Item
+                       {window.innerWidth <= 640 ? (
+                        <IoMdAddCircleOutline className="flex items-center justify-center xs:max-sm:text-[1.2em]" />
+                      ) : (
+                        "Add Item"
+                      )}
                     </button>
                     <input
                       type="text"
                       value={itemName}
                       onChange={(e) => setItemName(e.target.value)}
-                      className="h-[4vh] border border-blue-300 focus:outline-none focus:ring focus:ring-blue-500 rounded-md mx-4 px-2"
+                      className="h-[4vh] border text-[0.8em] border-blue-300 focus:outline-none focus:ring focus:ring-blue-500 rounded-md mx-4 px-2 xs:max-sm:text-[0.7em] xs:max-sm:w-[70%]"
                     />
                   </div>
                 </div>
@@ -473,12 +485,12 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
               </div>
             </div>
               }
-            <div className='flex justify-end items-center h-[3vh]'>
-              <button className='w-[8vw] h-[4vh] mx-3 rounded-md text-[1.1rem] bg-[#e14f4c] flex items-center justify-center xl:max-2xl:text-[0.8em]
+            <div className='flex justify-end items-center h-[3vh] xl:max-2xl:mt-[3%]'>
+              <button className='w-[8vw] h-[4vh] mx-3 rounded-md text-[1.1rem] bg-[#e14f4c] flex items-center justify-center xs:max-sm:text-[0.9em] xs:max-sm:w-[20vw] xs:max-sm:mx-2 xl:max-2xl:text-[0.8em]
               hover:bg-[#ff5d5b] transition-colors delay-250 duration-[3000] ease-in'
                 onClick={handleDeleteClick}><AiFillDelete className="mr-[3%]"/>Delete</button>
               <button
-                    className='w-[8vw] h-[4vh] mx-3 text-[1.1rem] bg-[#1f8022] text-white rounded-md flex items-center justify-center xl:max-2xl:text-[0.8em]
+                    className='w-[8vw] h-[4vh] mx-3 text-[1.1rem] bg-[#1f8022] text-white rounded-md flex items-center justify-center xs:max-sm:text-[0.9em] xs:max-sm:w-[20vw] xs:max-sm:mx-2 xl:max-2xl:text-[0.8em]
                     hover:bg-[#00962a] transition-colors delay-250 duration-[3000] ease-in'
                     disabled={isLoading}
                     onClick={editInfo}

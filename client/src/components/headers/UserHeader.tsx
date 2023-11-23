@@ -48,7 +48,7 @@ const UserHeader = () => {
   };
 
   return (
-    <div className='font-poppins flex bg-white text-white h-[6rem] xs:max-sm:h-[5rem] xl:max-2xl:h-[5.5rem]'>
+    <div className='font-poppins flex bg-white text-white h-[6rem] xs:max-sm:h-[5rem] xs:max-sm:w-full xl:max-2xl:h-[5.5rem]'>
         <div className='w-[63%] flex items-center xs:max-sm:w-[30%] xl:max-2xl:w-[60%]'>
           <img src={logo} alt='Reservo Logo' className='ml-[5%] w-[15%] xs:max-sm:ml-[10%] xs:max-sm:w-[70%]'/>
         </div>
@@ -69,7 +69,7 @@ const UserHeader = () => {
         </div>
 
 
-        <div className='flex items-center relative'>
+        <div className='flex items-center relative mr-[2%]'>
           {username ?
           ( profPic ? (
               <div className="relative inline-flex items-center justify-center w-11 h-11 overflow-hidden bg-[#DD2803] rounded-full dark:bg-gray-600 xs:max-sm:w-9 xs:max-sm:h-8">
@@ -86,7 +86,7 @@ const UserHeader = () => {
           <AiOutlineDown className='text-black mt-[6%] ml-[6%] text-[1.3em] hover:cursor-pointer hover:text-[#DD2803] xs:max-sm:ml-0 xl:max-2xl:text-[1em]'
            onClick={()=>{setShowMenu(!showMenu)}}/>
           {showMenu && 
-            <div className={`absolute ${username ? 'h-[15vh]' : 'h-[11vh]'}  w-[6vw] left-0 z-50 bg-white text-black block top-[100%] animate-slide-down xs:max-sm:top-[80%] xs:max-sm:w-[15vw] xl:max-2xl:top-[80%]`}>
+            <div className={`absolute ${username ? 'h-auto' : 'h-auto'}  w-[6vw] left-0 z-50 bg-white text-black block top-[100%] animate-slide-down xs:max-sm:top-[80%] xs:max-sm:w-[15vw] xl:max-2xl:top-[80%]`}>
               <ul className='list-none pl-[15%] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.7em]'>
                 <li><hr className="w-[85px] pt-[10%] xs:max-sm:w-[60px] xl:max-2xl:w-[60px]"/></li>
                 {username

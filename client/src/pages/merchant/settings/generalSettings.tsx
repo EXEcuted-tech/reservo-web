@@ -659,7 +659,7 @@ export default function GeneralSettings() {
         (
             <>
             {(notification !== '') && <Notification message={notification} color={color}/>}
-            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in xs:max-sm:w-[130%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
+            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in xs:max-sm:w-[120%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
                 <div className='flex flex-row mr-5 ml-5'>
                     <PiBinoculars className="text-4xl xs:max-sm:text-[1.3em] xs:max-sm:mt-[0.5rem] xl:max-2xl:text-[1.5em]" />
                     <h3 className='text-2xl mb-2 p-1 xs:max-sm:text-[1.1rem] xl:max-2xl:text-lg'><strong>Business Overview</strong></h3>
@@ -748,7 +748,7 @@ export default function GeneralSettings() {
   <div className={` w-[58.2vw] hover:overflow-x-auto overflow-x-hidden overflow-y-hidden flex flex-row items-center m-2 ml-[6.5rem] p-2 h-[7vh] border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 rounded-md`}>
     {arrTags && arrTags.length > 0 ? arrTags.map((element: any, index: any) => (
       <div key={index}> {/* Add a unique key for each tag */}
-        <button className='w-auto h-5 p-1 flex border rounded-lg mx-1 items-center text-sm hover:border-1 hover:border-red-300 bg-blue-200'
+        <button className='w-auto h-5 p-4 flex border rounded-lg mx-1 items-center text-[0.9em]  hover:border-1 hover:border-red-300 bg-blue-200 xl:max-2xl:text-[0.6em]'
           onClick={() => {
             
             setData((prevData:any) => {
@@ -781,7 +781,8 @@ export default function GeneralSettings() {
       disabled={isLoading}
       onChange={handleTagsChange}
       name="settings.tags"
-      className={`w-[8vw] text-sm p-2 flex rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] xl:max-2xl:ml-[6rem] focus:ring-0 focus:outline-none ${isLoading ? 'animate-pulse cursor-not-allowed' : ''}`}
+      className={`w-[9vw] text-[0.9em] p-2 flex rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.6em] xl:max-2xl:w-[10vw] focus:ring-0 focus:outline-none 
+      ${isLoading ? 'animate-pulse cursor-not-allowed' : ''}`}
       onKeyDown={(e)=>{
         if (e.key === "Enter"){
             handleTagsChange(e)
@@ -792,13 +793,13 @@ export default function GeneralSettings() {
   </div>
 </div>
 
-                        <div className='m-4 flow-root'>
+<div className='m-4 flow-root'>
                            
                         </div>
                 </form>
             </div>
 
-            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg xs:max-sm:w-[130%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
+            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg xs:max-sm:w-[120%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
                 <div className='flex flex-row mr-5 ml-5'>
                     <IoLocation className="text-4xl xs:max-sm:text-[1.3em] xs:max-sm:mt-[0.5rem] xl:max-2xl:text-[1.5em]" />
                     <h3 className='text-2xl mb-2 p-1 xs:max-sm:text-[1.1rem] xl:max-2xl:text-lg '><strong>Business Address</strong></h3>
@@ -924,7 +925,7 @@ export default function GeneralSettings() {
                 </form>
             </div>
 
-            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg xs:max-sm:w-[130%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
+            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg xs:max-sm:w-[120%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
                 <div className='flex flex-row mr-5 ml-5'>
                     <MdPhone className="text-4xl xs:max-sm:text-[1.3em] xs:max-sm:mt-[0.5rem] xl:max-2xl:text-[1.5em]" />
                     <h3 className='text-2xl mb-2 p-1 xs:max-sm:text-[1.1rem] xl:max-2xl:text-lg'><strong>Contact Details</strong></h3>

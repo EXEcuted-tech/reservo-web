@@ -145,7 +145,7 @@ useEffect(() => {
                             {reservation.status}</button></td>
                         <td className="flex flex-col items-center justify-center space-y-2 text-[0.8em] py-4">
 
-                            <div className='w-full flex justify-center items-center font-semibold'>
+                            <div className='w-full flex justify-center items-center'>
                             <button
                                 className="flex justify-center items-center w-[80%] bg-[#ffbb38] py-[3%] px-[15%] rounded-3xl xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.9em] xl:max-2xl:mb-[3%]
                                 hover:bg-[#ffe7ba] transition-colors delay-450 duration-[3000] ease-in-out"
@@ -158,9 +158,9 @@ useEffect(() => {
                                 View
                             </button>
                             </div>
-                            <div className='w-full flex justify-center items-center font-semibold text-[1em] xs:max-sm:font-medium'>
+                            <div className='w-full flex justify-center items-center text-[1em] xs:max-sm:font-medium'>
                             <button
-                                className="flex justify-center items-center w-[80%] bg-[#ff8e4f] py-[3%] px-[18%] rounded-3xl xs:max-sm:text-[0.9em] xl:max-2xl:text-[1.1em] xl:max-2xl:mb-[7%] xl:max-2xl:px-[19%]
+                                className="flex justify-center items-center w-[80%] bg-[#ff8e4f] py-[3%] px-[18%] rounded-3xl xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.9em] xl:max-2xl:mb-[7%] xl:max-2xl:px-[19%]
                                 hover:bg-[#ffbe9b] transition-colors delay-450 duration-[3000] ease-in-out"
                                 onClick={() => {
                                   sessionStorage.setItem('res_id', reservation.reservation_id);

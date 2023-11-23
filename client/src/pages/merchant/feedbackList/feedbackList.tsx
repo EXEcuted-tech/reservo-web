@@ -114,7 +114,7 @@ const FeedbackList = () => {
             <p>No feedback available.</p>
           )}
 
-      <div className="mt-[5%] xs:max-sm:mt-[15%] xl:max-2xl:mt-[5%]">
+      <div className="mt-[5%] xs:max-sm:mt-[5%] xl:max-2xl:mt-[5%]">
           <div className="flex justify-center w-[100%] h-[7%] ">
             <ThemeProvider theme={theme}>
               <Pagination
