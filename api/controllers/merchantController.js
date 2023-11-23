@@ -106,7 +106,7 @@ const updateMerchant = (req,res)=>{
     const values = Object.values(updatedMerchant);
 
     const setClause = columns.map((column) => `${column} = ?`).join(', ');
-    console.log("setClause",setClause,"Values: ",values);
+    // console.log("setClause",setClause,"Values: ",values);
     db.query(`UPDATE merchant SET ${setClause} WHERE merchant_id = ?`, [...values, merchantId],
     (error, result) => {
         if(error){

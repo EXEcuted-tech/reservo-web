@@ -17,7 +17,7 @@ interface details {
 
 const ReserveCalendar = () => {
   return (
-    <div className = "animate-fade-in overflow-y-auto">
+    <div className = "animate-fade-in">
       <Calendar2 />
     </div>
   )

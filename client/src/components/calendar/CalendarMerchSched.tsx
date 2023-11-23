@@ -6,8 +6,8 @@ import axios from 'axios';
 import config from '../../common/config'
 import { PiMoneyThin } from 'react-icons/pi';
 import colors from '../../common/colors';
-import Tile from './Tile';
-import ReservationsList from './ReservationsList';
+import TileMerchSched from './TileMerchSched';
+import MerchSchedList from './MerchSchedList';
 import ViewModal from '../modals/reserveModal/viewModal';
 import EditModal from '../modals/reserveModal/editModal';
 import { GrNext, GrPrevious } from 'react-icons/gr';
@@ -25,7 +25,7 @@ interface details {
     remarks: string;
 };
 
-function Calendar2() {
+function CalendarMerchSched() {
     const [isLoading, setIsLoading] = useState(false);
     const [selectedDay ,setSelectedDay] = useState(1);
     const [openModalView,setOpenModalView] = useState(false);
@@ -349,7 +349,7 @@ function Calendar2() {
                                 onClick={() => handleDayClick(day)}
                             >
                                 <div onClick={() => updateSelected(year, monthNdx, day)}>
-                                <Tile
+                                <TileMerchSched
                                     showReservations={currentReservations}
                                     year={year}
                                     day={day}
@@ -362,7 +362,7 @@ function Calendar2() {
                             </div>
                             ))}
 
-                    {showReservations? <ReservationsList year={selected.year} month={selected.month} day={selected.day} count={selected.count} close={currentReservations} openView={setOpenModalView} openEdit={setOpenModalEdit}/>: <></>}
+                    {showReservations? <MerchSchedList year={selected.year} month={selected.month} day={selected.day} count={selected.count} close={currentReservations} openView={setOpenModalView} openEdit={setOpenModalEdit}/>: <></>}
                     {(openModalView || openModalEdit) &&
                         <>
                         <div className='fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,0.5)] opacity-0.5 z-100'></div>
@@ -378,4 +378,4 @@ function Calendar2() {
     )
 }
 
-export default Calendar2
+export default CalendarMerchSched

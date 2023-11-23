@@ -29,6 +29,9 @@ const MerchantApplications = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
+  //filter
+  const [filter, setFilter] = useState('all');
+
   const fetchMerchInfo = async() => {
     try {
         setLoading(true)
@@ -51,10 +54,11 @@ const MerchantApplications = () => {
               account.logo = merchant.logo;
               account.days_left = merchant.days_left;
               account.merchant_id = merchant.merchant_id;
+              account.merch_status = merchant.merch_status;
             }
           }
         }
-
+        //console.log("Accounts List: ",accountsList);
         setmerchAccounts(accountsList); 
         setLoading(false)
     } catch (error) {
@@ -70,12 +74,15 @@ const MerchantApplications = () => {
   const endIndex = startIndex + itemsPerPage;
   
   const currentData: any[] = [];
+  const resultData: any[] = [];
   if(merchAccounts){
     merchAccounts.forEach(accountEntry => {
       const filteredAccounts: any = {};
       for (const id in accountEntry) {
-        if (id === "merchant_name" || id === "logo" || id === "days_left" || id === "merchant_id") {
+        if (id === "merchant_name" || id === "logo" || id === "days_left" || id === "merchant_id" || id === "merch_status") {
+          //console.log("1- AE", accountEntry[id],"\n",id);
           filteredAccounts[id] = accountEntry[id];
+          // console.log("2- FA",filteredAccounts);
         } else if (accountEntry[id].status === 'Pending') {
           filteredAccounts[id] = accountEntry[id];
         }
@@ -83,17 +90,64 @@ const MerchantApplications = () => {
     
       if (Object.keys(filteredAccounts).length > 0) {
         const keys = Object.keys(filteredAccounts);
-        const condition =  (keys.length === 4 && keys.includes("merchant_name") && keys.includes("logo") && 
-                            keys.includes("days_left") && keys.includes("merchant_id"))
+        const condition =  (keys.length === 5 && keys.includes("merchant_name") && keys.includes("logo") && 
+                            keys.includes("days_left") && keys.includes("merchant_id") && keys.includes("merch_status"))
+        
         if(!condition){
           currentData.push(filteredAccounts);
         }
       }
     });
+
+    //console.log("Current Data: ", currentData);
+
+    currentData.forEach((entry) => {
+      const keys = Object.keys(entry);
+
+      const extraKeys = keys.filter(key => !["days_left", "logo", "merchant_id", "merchant_name","merch_status"].includes(key));
+
+      //If Expired Na
+      if(entry["days_left"] < 1 && entry["merch_status"]!="Active"){
+        extraKeys.forEach((key)=>{
+          axios.post(`${config.API}/user/delete?user_id=${key}`)
+        })
+        axios.post(`${config.API}/merchant/delete`,{merch_id:entry["merchant_id"]})
+      }else{
+        if (extraKeys.length > 1) {
+          const extraKeysObject: any = {};
+          extraKeys.forEach((key) => {
+              extraKeysObject[key] = entry[key];
+              delete entry[key];
+          });
+
+          const newArray: any[] = [];
+          extraKeys.forEach((key) => {
+              const newObject: any = {};
+                newObject[key] = extraKeysObject[key];
+                newObject["merchant_name"] = entry["merchant_name"];
+                newObject["logo"] = entry["logo"];
+                newObject["days_left"] = entry["days_left"];
+                newObject["merchant_id"] = entry["merchant_id"];
+                newObject["merch_status"] = entry["merch_status"];
+
+                if(key){
+                  newArray.push(newObject);
+                }
+          });
+
+          resultData.push(...newArray);
+        }else{
+          //console.log("WENT IN HERE: ", entry);
+          resultData.push(entry);
+        } 
+      }
+    });
+
+    console.log("Result Data: ", resultData);
   }
 
 
-  const slicedData = currentData.slice(startIndex, endIndex);
+  const slicedData = resultData.slice(startIndex, endIndex);
 
   const fetchAccount = async (id:string) => {
     try {
@@ -111,13 +165,14 @@ const MerchantApplications = () => {
   
   const fetchDataForSlicedData = async () => {
     const newData: { [key: string]: any } = {};
-    for (const data of slicedData) {
+    for (const data of resultData) {
       if (data && data[Object.keys(data)[0]]) {
         const id = Object.keys(data)[0];
         const result = await fetchAccount(id);
         newData[id] = result;
       }
     }
+    console.log("Fetch New Data: ",newData);
     setAccountData(newData);
   };
 
@@ -137,17 +192,22 @@ const MerchantApplications = () => {
       merchRecord.accounts = accounts;
       merchRecord.address = JSON.parse(merchRecord.address);
       merchRecord.settings = JSON.parse(merchRecord.settings);
-      merchRecord.form_deets = res.data.formDeets;
-
+      merchRecord.form_deets = res.data?.formDeets;
+      merchRecord.merch_status = "Active";
       axios.post(`${config.API}/merchant/update`,{
         merchant:merchRecord,
         address: merchRecord.address,
         settings: merchRecord.settings,
         accounts: merchRecord.accounts,
-        formDeets: merchRecord.form_deets
+        form_deets: merchRecord.form_deets
       })
       .then((res)=>{
-
+        if(res.data.success== true){
+          setNotif('Approved Applicant!')
+          setColor('#26580F')
+          fetchMerchInfo();
+          fetchDataForSlicedData();
+        }
       })
     })
   }
@@ -164,34 +224,59 @@ const MerchantApplications = () => {
 
       merchRecord.accounts = accounts;
       merchRecord.form_deets = res.data?.formDeets;
-      console.log("Accounts: ",accounts);
+      //console.log("Accounts: ",accounts);
       if(Object.keys(accounts).length == 0){
-        console.log("Went in here>");
+        //console.log("Went in here>");
         //Only deletes Teams nga wa pa jud ni exist sa other tables sa db ha
         axios.post(`${config.API}/merchant/delete`,{merch_id:merch_id})
       }else{
-        console.log("Merchant Rec: ",merchRecord)
         axios.post(`${config.API}/merchant/update`, {
           merchant: merchRecord,
-          address: merchRecord.address,
-          settings: merchRecord.settings,
+          address: JSON.parse(merchRecord.address),
+          settings: JSON.parse(merchRecord.settings),
           accounts: merchRecord.accounts,
-          formDeets: merchRecord.form_deets
+          form_deets: merchRecord.form_deets
         })
       }
 
+      const updatedID = Number(user_id);
       //Delete Account dayon!
-      setNotif('Denied Applicant!')
-      setColor('#660605')
-      fetchDataForSlicedData();
+      //console.log("Updated ID: ",updatedID)
+      axios.post(`${config.API}/user/delete?user_id=${updatedID}`)
+      .then((res)=>{
+        if(res.data.success== true){
+          setNotif('Denied Applicant!')
+          setColor('#660605')
+          fetchMerchInfo();
+          fetchDataForSlicedData();
+        }
+      })
+
+
     })
     .catch((error) => {
-      
+      console.log("Error: ",error);
     });
   }
 
   const handlePageChange = (event:any, newPage:any) => {
     setCurrentPage(newPage);
+  };
+
+  //filters
+  const filteredData = slicedData.filter((data) =>{
+    switch (filter) {
+      case 'pending': 
+        return data[Object.keys(data)[0]].status === 'Pending';
+      case 'approved': 
+        return data[Object.keys(data)[0]].status === 'Approved';
+      default:
+        return true; // All Applications
+    }
+  });
+
+  const HandleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilter(event.target.value);
   };
 
   useEffect(()=>{
@@ -208,29 +293,31 @@ const MerchantApplications = () => {
             <div className='flex items-center py-[0.9%] border-[#F3F3F3] border-b-2'>
               <p className='ml-[2%] text-gray-500 mr-[0.8%]'>Filter by:</p>
               <select id="filterDropdown" name="filterDropdown"
-                      className={`bg-transparent rounded-md h-8 w-[9vw] border border-black hover:bg-white transition duration-150 ease-out hover:ease-in`}>
-                        <option value="option1">All Applications</option>
-                        <option value="option2">Pending</option>
-                        <option value="option3">Approved</option>
+                      className={`bg-transparent rounded-md h-8 w-[9vw] border border-black hover:bg-white transition duration-150 ease-out hover:ease-in`} value={filter} onChange={HandleFilterChange}>
+                        <option value="all">All Applications</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
                 </select>
             </div>
           {/* {merchTeam.filter(data => data.merch_status === 'Pending').map((data,i) => ( */}
           {slicedData.map((data, i) => (
-          <div className='bg-white h-[180px] flex-row py-[1%] px-[2%] text-[#838383] border-[#F3F3F3] border-b-2 p-[1%] flex' key={i}>
-          <div className='mr-[2%] pl-[3%] flex'>
-            <img src={data.logo!=null ? data.logo : 'https://imgur.com/ujJv4Jw.jpg'} className='w-[150px] h-[150px] object-cover rounded-[50px]' alt="Logo"/>
+          <div className='bg-white h-[172.1px] flex-row py-[0.5%] px-[2%] text-[#838383] border-[#F3F3F3] border-b-2 flex' key={i}>
+          <div className='mr-[2%] pl-[3%] pt-[0.5%] flex'>
+            <img src={data.logo!=null ? data.logo : 'https://imgur.com/ujJv4Jw.jpg'} className='w-[140px] h-[140px] object-cover rounded-[50px]' alt="Logo"/>
           </div>
-          <div className='w-[55%] justify-center items-left py-[2%] flex flex-col'>
+          <div className='w-[55%] justify-center items-left pb-[0.5%] flex flex-col'>
             <p className='text-[1.5em] text-black font-bold'>{data.merchant_name}<br/></p>
             <p className='text-[1.2em] text-black'>{accountData[Object.keys(data)[0]] && accountData[Object.keys(data)[0]].account_name}<br/></p>
             <p className='text-[1.2em] text-[#838383] flex capitalize'>{data[Object.keys(data)[0]].position}</p>
             <div className='flex'>
-              <p className='text-[1em] text-[#838383] flex mr-[1%]'>{data.days_left} days to go • </p>
+              <p className={`text-[1em] text-[#838383] flex mr-[1%] ${(data.days_left < 2 && data.merch_status == "Pending") && 'animate-pulse text-red-500'}`}>
+                {data.days_left > 1 ? data.days_left + ' days to go' : (data.days_left <= 1 && data.merch_status == "Pending" ? 'Expiring anytime now' : 'Merchant On Record')} • </p>
               <p className={`text-[1em] flex ${data[Object.keys(data)[0]].status === 'Approved' ? 'text-[#238700]' : 'text-[#FFB800]'}`}>{data[Object.keys(data)[0]].status}</p>
             </div>
           </div>
-          <div className='w-[25%] flex flex-col p-[1%] justify-center items-center'>
-            <div className='h-[33%] bg-[#FFB800] text-center m-[2%] w-[50%] text-black rounded-xl hover:cursor-pointer'>
+          <div className='w-[25%] flex flex-col p-[1%] pb-[1.5%] ml-[3%] justify-center items-center'>
+            <div className='h-[33%] bg-[#FFB800] text-center m-[2%] w-[50%] text-black rounded-xl hover:cursor-pointer'
+              onClick={()=>{ }}>
               <div className='flex justify-center p-[1%] m-[2%]'>
                 <BiSearchAlt className='text-[1.2em] mt-[1%]'/>View More
               </div >
@@ -250,10 +337,11 @@ const MerchantApplications = () => {
           </div>
           </div>
           ))}
+
             <div className="flex justify-center w-[78%] absolute bottom-1">
               <ThemeProvider theme={theme}>
                 <Pagination
-                  count={Math.ceil(merchAccounts.length / itemsPerPage)}
+                  count={Math.ceil(resultData.length / itemsPerPage)}
                   page={currentPage}
                   onChange={handlePageChange}
                   showFirstButton
