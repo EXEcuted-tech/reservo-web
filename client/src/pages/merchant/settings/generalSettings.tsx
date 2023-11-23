@@ -3,9 +3,6 @@ import {IoLocation, IoCameraSharp} from 'react-icons/io5'
 import { AiFillCloseCircle } from "react-icons/ai";
 import {PiBinoculars} from 'react-icons/pi'
 import {MdPhone} from 'react-icons/md'
-import {FiEdit} from 'react-icons/fi'
-import colors from '../../../common/colors'
-import jjlogo from "../../../assets/jjlogo.png"
 import axios from 'axios'
 import GenSpinner from '../../../components/loaders/genSpinner'
 import config from '../../../common/config'
@@ -25,7 +22,12 @@ export default function GeneralSettings() {
     const [arrTags, setArrTags]= useState<any>([])
     const [tagInput, setTagInput] = useState('');
     const tagsScroll = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState<Number|null>(null);
+    const [isHovered, setIsHovered] = useState<Number|null>(null);
+
+    //For Mobile
+    const [isMobile, setIsMobile] = useState(false);
+    const [isImageEditModalOpen, setIsImageEditModalOpen] = useState(false);
+  
     const openEditModal = () => {
       setIsEditModalOpen(true);
     };
@@ -38,6 +40,15 @@ export default function GeneralSettings() {
       setNewImageUrl(imageUrl);
       setIsEditModalOpen(false);
     };
+
+    //For Mobile
+    const openImageEditModal = () => {
+    setIsImageEditModalOpen(true);
+  };
+
+  const closeImageEditModal = () => {
+    setIsImageEditModalOpen(false);
+  };
 
      const merchID = Number(localStorage.getItem("merch_id"))
 
@@ -106,6 +117,20 @@ export default function GeneralSettings() {
       
       
      
+
+    //For Mobile
+    useEffect(() => {
+        const handleResize = () => {
+          setIsMobile(window.innerWidth >= 300 && window.innerWidth <= 640);
+        };
+    
+        window.addEventListener('resize', handleResize);
+        handleResize();
+    
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+      }, []);
 
     const fetchData = async ()=>{
         setLoad(true);
@@ -634,7 +659,7 @@ export default function GeneralSettings() {
         (
             <>
             {(notification !== '') && <Notification message={notification} color={color}/>}
-            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in xs:max-sm:w-[130%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
+            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in xs:max-sm:w-[120%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
                 <div className='flex flex-row mr-5 ml-5'>
                     <PiBinoculars className="text-4xl xs:max-sm:text-[1.3em] xs:max-sm:mt-[0.5rem] xl:max-2xl:text-[1.5em]" />
                     <h3 className='text-2xl mb-2 p-1 xs:max-sm:text-[1.1rem] xl:max-2xl:text-lg'><strong>Business Overview</strong></h3>
@@ -645,7 +670,7 @@ export default function GeneralSettings() {
                         <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
                                 Business Logo
                             </label>
-                            <input name="settings.logo" type="button" id="logoInput" onClick={openEditModal} className=''></input>
+                            <input name="settings.logo" type="button" id="logoInput" onClick={openImageEditModal} className=''></input>
                                 {isLoading? <><span className='ml-5'><GenSpinner/></span></> // if we are still getting data from DB
                                 :
                                 <label htmlFor="logoInput" className='relative cursor-pointer flex items-center justify-center'>
@@ -660,11 +685,16 @@ export default function GeneralSettings() {
                                     </div>                                  
                                 </label>}
 
-                                <ImageEditModal
-                                    isOpen={isEditModalOpen}
-                                    onClose={closeEditModal}
-                                    onSave={handleSaveImageUrl}
-                                />
+                                {isImageEditModalOpen && (
+                                    <ImageEditModal
+                                    isOpen={isImageEditModalOpen}
+                                    onClose={closeImageEditModal}
+                                    onSave={(newImageUrl) => {
+                                        // Handle saving new image URL
+                                        closeImageEditModal();
+                                    }}
+                                    />
+                                )}
                         </div>
                         <div className="m-2 flex flex-row ">
                             <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
@@ -718,7 +748,7 @@ export default function GeneralSettings() {
   <div className={` w-[58.2vw] hover:overflow-x-auto overflow-x-hidden overflow-y-hidden flex flex-row items-center m-2 ml-[6.5rem] p-2 h-[7vh] border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 rounded-md`}>
     {arrTags && arrTags.length > 0 ? arrTags.map((element: any, index: any) => (
       <div key={index}> {/* Add a unique key for each tag */}
-        <button className='w-auto h-5 p-1 flex border rounded-lg mx-1 items-center text-sm hover:border-1 hover:border-red-300 bg-blue-200'
+        <button className='w-auto h-5 p-4 flex border rounded-lg mx-1 items-center text-[0.9em]  hover:border-1 hover:border-red-300 bg-blue-200 xl:max-2xl:text-[0.6em]'
           onClick={() => {
             
             setData((prevData:any) => {
@@ -751,7 +781,8 @@ export default function GeneralSettings() {
       disabled={isLoading}
       onChange={handleTagsChange}
       name="settings.tags"
-      className={`w-[8vw] text-sm p-2 flex rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] focus:ring-0 focus:outline-none ${isLoading ? 'animate-pulse cursor-not-allowed' : ''}`}
+      className={`w-[9vw] text-[0.9em] p-2 flex rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.6em] xl:max-2xl:w-[10vw] focus:ring-0 focus:outline-none 
+      ${isLoading ? 'animate-pulse cursor-not-allowed' : ''}`}
       onKeyDown={(e)=>{
         if (e.key === "Enter"){
             handleTagsChange(e)
@@ -762,13 +793,13 @@ export default function GeneralSettings() {
   </div>
 </div>
 
-                        <div className='m-4 flow-root'>
+<div className='m-4 flow-root'>
                            
                         </div>
                 </form>
             </div>
 
-            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg xs:max-sm:w-[130%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
+            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg xs:max-sm:w-[120%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
                 <div className='flex flex-row mr-5 ml-5'>
                     <IoLocation className="text-4xl xs:max-sm:text-[1.3em] xs:max-sm:mt-[0.5rem] xl:max-2xl:text-[1.5em]" />
                     <h3 className='text-2xl mb-2 p-1 xs:max-sm:text-[1.1rem] xl:max-2xl:text-lg '><strong>Business Address</strong></h3>
@@ -799,7 +830,7 @@ export default function GeneralSettings() {
                                 value={isLoading? "Loading ..." : selectedRegion || ""}
                                 onChange={handleChange}
                                 disabled={isLoading}
-                                className={`m-2 p-2 ml-[1.1rem] text-gray-500 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[43vw]  xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500  ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
+                                className={`m-2 p-2 ml-[1.1rem] text-gray-500 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100%] xl:max-2xl:ml-[1rem] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500  ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
                                 required
                             >
                                 {!isLoading ? 
@@ -894,7 +925,7 @@ export default function GeneralSettings() {
                 </form>
             </div>
 
-            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg xs:max-sm:w-[130%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
+            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg xs:max-sm:w-[120%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
                 <div className='flex flex-row mr-5 ml-5'>
                     <MdPhone className="text-4xl xs:max-sm:text-[1.3em] xs:max-sm:mt-[0.5rem] xl:max-2xl:text-[1.5em]" />
                     <h3 className='text-2xl mb-2 p-1 xs:max-sm:text-[1.1rem] xl:max-2xl:text-lg'><strong>Contact Details</strong></h3>

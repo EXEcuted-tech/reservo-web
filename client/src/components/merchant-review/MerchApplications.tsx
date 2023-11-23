@@ -29,6 +29,9 @@ const MerchantApplications = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
+  //filter
+  const [filter, setFilter] = useState('all');
+
   const fetchMerchInfo = async() => {
     try {
         setLoading(true)
@@ -260,6 +263,22 @@ const MerchantApplications = () => {
     setCurrentPage(newPage);
   };
 
+  //filters
+  const filteredData = slicedData.filter((data) =>{
+    switch (filter) {
+      case 'pending': 
+        return data[Object.keys(data)[0]].status === 'Pending';
+      case 'approved': 
+        return data[Object.keys(data)[0]].status === 'Approved';
+      default:
+        return true; // All Applications
+    }
+  });
+
+  const HandleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilter(event.target.value);
+  };
+
   useEffect(()=>{
     setTimeout(()=>{
         setNotif('');
@@ -274,10 +293,10 @@ const MerchantApplications = () => {
             <div className='flex items-center py-[0.9%] border-[#F3F3F3] border-b-2'>
               <p className='ml-[2%] text-gray-500 mr-[0.8%]'>Filter by:</p>
               <select id="filterDropdown" name="filterDropdown"
-                      className={`bg-transparent rounded-md h-8 w-[9vw] border border-black hover:bg-white transition duration-150 ease-out hover:ease-in`}>
-                        <option value="option1">All Applications</option>
-                        <option value="option2">Pending</option>
-                        <option value="option3">Approved</option>
+                      className={`bg-transparent rounded-md h-8 w-[9vw] border border-black hover:bg-white transition duration-150 ease-out hover:ease-in`} value={filter} onChange={HandleFilterChange}>
+                        <option value="all">All Applications</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
                 </select>
             </div>
           {/* {merchTeam.filter(data => data.merch_status === 'Pending').map((data,i) => ( */}

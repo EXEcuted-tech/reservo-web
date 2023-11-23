@@ -10,7 +10,7 @@ import colors from '../../common/colors';
 import { LiaSearchSolid } from 'react-icons/lia';
 import { GoPencil } from 'react-icons/go';
 
-function ReservationsList(props:{
+function MerchSchedList(props:{
     year:number,
     month:number,
     day:number,
@@ -102,8 +102,8 @@ useEffect(() => {
             <div className='flex items-center w-[96%] mt-[0.5%]'>
                 <RiNewspaperFill className='text-[2.8em] ml-[1%] mr-[1%] xs:max-sm:text-[2em] xl:max-2xl:text-[2em]'/>
                 <div>
-                    <h1 className='font-bold text-[1.5em] xs:max-sm:text-[1.2em] xl:max-2xl:text-[1.2em]'>Reservations List</h1>   
-                    <p className='mt-[-1%] text-[1.2em] xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.9em]'>Count: {data.length}</p>
+                    <h1 className='font-bold text-[1.5em] xs:max-sm:text-[1.2em] xl:max-2xl:text-[1.2em]'>Merchant Schedule</h1>   
+                    <p className='mt-[-1%] text-[1.2em] xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.9em]'>Events: {data.length}</p>
                 </div>
             </div>
             <div className='mt-[0.5%]'>
@@ -145,7 +145,7 @@ useEffect(() => {
                             {reservation.status}</button></td>
                         <td className="flex flex-col items-center justify-center space-y-2 text-[0.8em] py-4">
 
-                            <div className='w-full flex justify-center items-center'>
+                            <div className='w-full flex justify-center items-center font-semibold'>
                             <button
                                 className="flex justify-center items-center w-[80%] bg-[#ffbb38] py-[3%] px-[15%] rounded-3xl xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.9em] xl:max-2xl:mb-[3%]
                                 hover:bg-[#ffe7ba] transition-colors delay-450 duration-[3000] ease-in-out"
@@ -158,9 +158,9 @@ useEffect(() => {
                                 View
                             </button>
                             </div>
-                            <div className='w-full flex justify-center items-center text-[1em] xs:max-sm:font-medium'>
+                            <div className='w-full flex justify-center items-center font-semibold text-[1em] xs:max-sm:font-medium'>
                             <button
-                                className="flex justify-center items-center w-[80%] bg-[#ff8e4f] py-[3%] px-[18%] rounded-3xl xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.9em] xl:max-2xl:mb-[7%] xl:max-2xl:px-[19%]
+                                className="flex justify-center items-center w-[80%] bg-[#ff8e4f] py-[3%] px-[18%] rounded-3xl xs:max-sm:text-[0.9em] xl:max-2xl:text-[1.1em] xl:max-2xl:mb-[7%] xl:max-2xl:px-[19%]
                                 hover:bg-[#ffbe9b] transition-colors delay-450 duration-[3000] ease-in-out"
                                 onClick={() => {
                                   sessionStorage.setItem('res_id', reservation.reservation_id);
@@ -202,6 +202,6 @@ useEffect(() => {
   )
 }
 
-ReservationsList.propTypes = {}
+MerchSchedList.propTypes = {}
 
-export default ReservationsList
+export default MerchSchedList

@@ -8,6 +8,7 @@ const reserveRoutes = require('./routes/reserveRoutes')
 const userRoutes = require('./routes/userRoutes')
 const authenticationRoutes = require('./routes/authenticationRoutes')
 const merchantRoutes = require('./routes/merchantRoutes')
+const merchantSchedRoutes = require('./routes/merchantSchedRoutes')
 const inventoryRoutes = require('./routes/inventoryRoutes')
 const paymentRoutes = require('./routes/paymentRoutes')
 const packageRoutes = require('./routes/packageRoutes')
@@ -43,6 +44,7 @@ app.use(express.json());
 app.use('/',authenticationRoutes); //authentication
 app.use('/user',userRoutes);  
 app.use('/merchant',merchantRoutes);
+app.use('/merchantsched',merchantSchedRoutes)
 app.use('/reserve',reserveRoutes);
 app.use('/inventory',inventoryRoutes);
 app.use('/payment',paymentRoutes);

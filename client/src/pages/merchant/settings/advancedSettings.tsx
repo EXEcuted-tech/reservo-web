@@ -32,7 +32,7 @@ export default function AdvancedSettings(){
     }
     
     return(
-        <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in xs:max-sm:w-[130%] xs:max-sm:p-2 xs:max-sm:ml-[-2%] xs:max-sm:mt-[5%]">
+        <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in xs:max-sm:w-[120%] xs:max-sm:p-2 xs:max-sm:ml-[-2%] xs:max-sm:mt-[5%]">
                 <h1 className='text-2xl mr-5 ml-5 mb-2  xs:max-sm:text-[0.8em] xs:max-sm:mb-1 xl:max-2xl:text-[0.9em]'><strong>Account Deletion or Deactivation</strong></h1>
                 <hr/>
                 <div className="m-5 text-lg text-gray-500 flex flex-row xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.7em]">

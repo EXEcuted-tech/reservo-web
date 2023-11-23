@@ -124,7 +124,7 @@ const retrieveCountByParams = (req, res) => {
   const retrieveCountByAccountType = (req, res) => {
     const { year } = req.query
 
-    const retrieveAccountCount = 'SELECT YEAR(date_signedup) AS signup_year , MONTH(date_signedup) AS signup_month, SUM(CASE WHEN account_type = 1 THEN 1 ELSE 0 END) AS count_user, SUM(CASE WHEN account_type = 10 THEN 1 ELSE 0 END) AS count_merchant FROM account WHERE YEAR(date_signedup) = ? AND account_status =  "active" GROUP BY MONTH(date_signedup);'
+    const retrieveAccountCount = 'SELECT YEAR(date_signedup) AS signup_year , MONTH(date_signedup) AS signup_month, SUM(CASE WHEN account_type = 1 THEN 1 ELSE 0 END) AS count_user, SUM(CASE WHEN account_type = 10 THEN 1 ELSE 0 END) AS count_merchant FROM account WHERE YEAR(date_signedup) = ? AND account_status = "active" GROUP BY MONTH(date_signedup);'
 
     db.query(retrieveAccountCount, [year], (err, accounts) => {
         if (err) {
