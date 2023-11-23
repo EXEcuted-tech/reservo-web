@@ -189,11 +189,11 @@ function UserProfilePage() {
                                 <Table style={{ textAlign: 'center', fontFamily: 'poppins'}}>
                                     <TableHead style={{ background: "grey", textAlign: 'center'}}>
                                         <TableRow>
-                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 2 }}>Date</TableCell>
-                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 2 }}>Time</TableCell>
-                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 2 }}>Location</TableCell>
-                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 2 }}>Event Size</TableCell>
-                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 2 }}>Status</TableCell>
+                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 0 }}>Date</TableCell>
+                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 0 }}>Time</TableCell>
+                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 0 }}>Location</TableCell>
+                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 0 }}>Event Size</TableCell>
+                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 0 }}>Status</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -202,11 +202,11 @@ function UserProfilePage() {
                                                 {reservations && reservations.length > 0 ? (
                                                     reservations.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((reservation: any, index: number) => (
                                                         <TableRow key={index} >
-                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12 }}>{getDate(reservation.res_date)}</TableCell>
-                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12 }}>{reservation.res_time}</TableCell>
-                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12 }}>{reservation.res_location}</TableCell>
-                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12 }}>{reservation.party_size}</TableCell>
-                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12 }}>
+                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 3 }}>{getDate(reservation.res_date)}</TableCell>
+                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 3 }}>{reservation.res_time}</TableCell>
+                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 3 }}>{reservation.res_location}</TableCell>
+                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 3 }}>{reservation.party_size}</TableCell>
+                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 3 }}>
                                                                 {reservStats(reservation.status)}
                                                             </TableCell>
                                                         </TableRow>
