@@ -21,6 +21,7 @@ const MerchSignUp = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errMessage,setErrMessage] = useState('')
+  const [file, setFile] = useState<File | null>(null);
   const [success,setSuccess] = useState('')
   const [isLoading,setIsLoading] = useState(false);
 
@@ -29,26 +30,32 @@ const MerchSignUp = () => {
   useEffect(() => {
     
   }, []);
-
-  const handleSubmit = (event: FormEvent) =>{
+  
+  const handleSubmit = async (event: FormEvent) =>{
     event.preventDefault();
     setIsLoading(true);
     if(password === confirmPassword){
+      const file_id = await fileUpload();
+      console.log("File_ID: ",file_id);
       axios.post(`${config.API}/signup`,{
         account_name: username,
         account_email: email,
         password: password,
         contact_number: contactNum,
-        account_type: 10
+        account_type: 10,
+        file_id: file_id != 0 ? file_id : null
       }).then((res)=>{
         if(res.data.success===true){
+          console.log("Here1? ")
           setErrMessage('');
           merchSignUp(res.data.data.insertId);
         }else{
+          console.log("Here2? ")
           setTimeout(()=>{setIsLoading(false)},800);
           setErrMessage(res.data.error)
         }
       }).catch((err)=>{
+        console.log("ERROR1: ",err);
         setIsLoading(false);
         setErrMessage("Failed to sign up successfully. Try again!")
         
@@ -73,11 +80,38 @@ const MerchSignUp = () => {
       alert("Registered Successfully!");
       navigate('/adlogin');
     }).catch((err)=>{
+      console.log("ERROR: ",err);
       setIsLoading(false);
       setErrMessage("Failed to sign up successfully. Try again!")
       
     })
   }
+
+  const fileUpload = () => {
+    return new Promise((resolve, reject) => {
+      const formData = new FormData();
+      if (file) {
+        formData.append('file', file);
+        axios.post(`${config.API}/file/upload`, formData)
+          .then((res) => {
+            console.log("File upload Response: ", res);
+            if (res.data.success === true) {
+              console.log("Went in here!");
+              const retVal = res.data.data.insertId;
+              console.log("Retval inside", retVal);
+              resolve(retVal);
+            } else {
+              reject("File upload failed");
+            }
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      } else {
+        reject("No file provided");
+      }
+    });
+  };
 
   return (
     <div className='animate-fade-in'>
@@ -132,7 +166,10 @@ const MerchSignUp = () => {
                   
                   <label className='group flex cursor-pointer mt-2.5 ml-7 bg-white text-white text-centerpy-2 px-4 rounded-lg shadow-md float-left align-middle w-[75%]  '>
                     <BsFillImageFill className='float-left text-[50px] mr-[10px] text-[#840705] group-hover:text-black ml-2 transition-colors delay-250 duration-[3000] ease-in'/>
-                    <input type="file" id="fileInput" accept="image/*" className='float-left cursor-pointer mt-[13px] text-[#840705] group-hover:text-black inline-block border-solid border-[#ccc] file:hidden transition-colors delay-250 duration-[3000] ease-in'></input>
+                    <input type="file" id="fileInput" 
+                    onChange={(e)=>{setFile(e.target.files && e.target.files.length > 0 ? e.target.files[0] : null)}} 
+                    className='float-left cursor-pointer mt-[13px] text-[#840705] group-hover:text-black inline-block border-solid border-[#ccc] file:hidden transition-colors delay-250 duration-[3000] ease-in'>
+                    </input>
                   </label>
                 </div>
               
