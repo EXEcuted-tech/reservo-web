@@ -80,7 +80,7 @@ const AdminLogin = () => {
       {errMess !='' && <Danger message={errMess}/>}
       {/* Background Picture */}
       <img className='absolute h-screen w-full' src={background} />
-      <div className='absolute overflow-hidden shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 text-align w-[980px] -translate-x-2/4 -translate-y-2/4 xs:max-sm:w-[360px] xs:max-sm:h-[300px] xl:max-2xl:w-[650px]'>
+      <div className='absolute overflow-hidden shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 text-align w-[980px] -translate-x-2/4 -translate-y-2/4 xs:max-sm:w-[360px] xs:max-sm:h-[35%] xl:max-2xl:w-[650px]'>
         {/* Left Box */}
             <div className="leftBox w-[35%] h-[63vh] bg-white float-left text-center pt-[70px] pb-[78px] px-10 xs:max-sm:p-[15px] xs:max-sm:pt-[50px] xs:max-sm:h-[36vh] xl:max-2xl:p-[30px]">
                 <div className="imgBox flex justify-center"> 
@@ -101,7 +101,8 @@ const AdminLogin = () => {
                 <div className="footHeader flex flex-col ">
                     <span className='text-[18px] font-bold text-black xs:max-sm:text-[0.6rem] xl:max-2xl:text-[0.9em]'>Not a Merchant?</span>
                     <Link to={'/uslogin'} className='bg-[#840705] font-bold text-center p-[0.7rem] rounded-full m-[0.5rem] text-white w-[20vh] ml-[3.5vh] 
-                        hover:bg-[#DD2803] transition-colors delay-250 duration-[3000] ease-in xs:max-sm:text-[0.4em] xs:max-sm:w-[9vh] xs:max-sm:ml-[1vh] xs:max-sm:p-[0.4rem] xl:max-2xl:text-[0.7em] xl:max-2xl:ml-[3.5vh]'>User Page</Link>
+                        hover:bg-[#DD2803] transition-colors delay-250 duration-[3000] ease-in xs:max-sm:text-[0.4em] xs:max-sm:w-[9vh] xs:max-sm:ml-[15%] xs:max-sm:p-[0.4rem] xl:max-2xl:text-[0.7em] xl:max-2xl:ml-[3.5vh]'>
+                            User Page</Link>
                 </div>
             </div>
 
@@ -126,7 +127,8 @@ const AdminLogin = () => {
                     <div className="frgt text-right text-[12px] mb-[2rem] text-white  hover:text-black transition-colors delay-250 duration-[3000] ease-in xs:max-sm:text-[0.3em] xs:max-sm:mb-[1rem] xl:max-2xl:text-[0.6em]">
                       <Link to={'/forgpass'}>Forgot Password?</Link>
                     </div>
-                    <div className="buttons flex flex-col items-center space-y-5">
+
+                    <div className="buttons flex flex-col items-center space-y-5 mt-[5%]">
                         <button type='submit' className='flex items-center justify-center bg-white text-[#840705] p-[0.5em] w-[50%] rounded-full font-bold  
                             hover:text-[#DD2803]  transition-colors delay-250 duration-[3000] ease-in xs:max-sm:text-[0.4em] xs:max-sm:w-[9vh] xl:max-2xl:text-[0.7em]'>
                             {isLoading && <Spinner className='mr-[1%]'/>}
