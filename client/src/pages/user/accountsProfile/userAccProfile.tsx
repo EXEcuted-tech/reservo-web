@@ -132,29 +132,29 @@ function UserProfilePage() {
                 <p className="text-[#929090] text-[15pt] font-bold">Protect and Secure Your Account</p>
             </div>
 
-            <div className="m-auto h-[80vh] w-[90vw] mt-7 mb-10 mr-[-5] rounded-3xl bg-white">
+            <div className="m-auto h-[80vh] w-[95vw] mt-7 mb-10 mr-[-5] rounded-3xl bg-white">
 
                 <div>
 
-                    <div className="float-left border-r-[2px] border-black ml-[2%] mt-[7%]">
+                    <div className="float-left border-r-[2px] border-black ml-[2%] mt-[7%] xs:max-sm:h-auto xs:max-sm:ml-0">
                     
-                    <div className='flex justify-center'>
-                    {data?.profile_picture 
-                    ?
-                        <div className="relative inline-flex items-center justify-center w-60 h-60 overflow-hidden bg-[#DD2803] rounded-full dark:bg-gray-600 xs:max-sm:w-9 xs:max-sm:h-8">
-                               <img src={newImageUrl ? newImageUrl : data?.profile_picture} className="w-60 h-60 object-cover rounded-2xl xl:max-2xl:w-[7rem]" />                        
-                                <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 opacity-0 hover:opacity-80 hover:cursor-pointer bg-white'
-                                onClick={()=>{setIsEditModalOpen(true)}}>
-                                    <IoCameraSharp className='relative text-[50px] left-[22%] bottom-[5%] xl:max-2xl:text-[1.3em] xl:max-2xl:left-[43%]'/>
-                                    <p className='relative text-black font-bold text-[14px] top-[10%] right-[8%] xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.6em] xl:max-2xl:right-[4%]'>Change Image</p>
-                                </div>         
+                        <div className='flex justify-center'>
+                        {data?.profile_picture 
+                            ?
+                                <div className="relative inline-flex items-center justify-center w-60 h-60 overflow-hidden bg-[#DD2803] rounded-full dark:bg-gray-600 xs:max-sm:w-9 xs:max-sm:h-8">
+                                    <img src={newImageUrl ? newImageUrl : data?.profile_picture} className="w-60 h-60 object-cover rounded-2xl xs:max-sm:w-[7rem] xl:max-2xl:w-[7rem]" />                        
+                                        <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 opacity-0 hover:opacity-80 hover:cursor-pointer bg-white'
+                                        onClick={()=>{setIsEditModalOpen(true)}}>
+                                            <IoCameraSharp className='relative text-[50px] left-[22%] bottom-[5%] xl:max-2xl:text-[1.3em] xl:max-2xl:left-[43%]'/>
+                                            <p className='relative text-black font-bold text-[14px] top-[10%] right-[8%] xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.6em] xl:max-2xl:right-[4%]'>Change Image</p>
+                                        </div>         
+                                </div>
+                            :
+                                <div className="relative inline-flex items-center justify-center w-60 h-60 overflow-hidden bg-[#DD2803] rounded-full dark:bg-gray-600 xs:max-sm:w-40 xs:max-sm:h-40">
+                                    <span className="font-medium text-[4em] text-white dark:text-gray-300">{shortLet}</span>
+                                </div>
+                            }
                         </div>
-                    :
-                        <div className="relative inline-flex items-center justify-center w-60 h-60 overflow-hidden bg-[#DD2803] rounded-full dark:bg-gray-600 xs:max-sm:w-9 xs:max-sm:h-8">
-                            <span className="font-medium text-[4em] text-white dark:text-gray-300">{shortLet}</span>
-                        </div>
-                    }
-                    </div>
                         <br />
                         {data ? (
                             <>
@@ -183,9 +183,58 @@ function UserProfilePage() {
                             <p>Loading...</p>
                         )}
 
+                        <div className='float-center w-full hidden xs:max-sm:block overscroll-x-auto'>
+                            <h1 className="text-center font-bold text-[22pt] pt-[0.75cm]">Reservation History</h1>
+                            <TableContainer style={{width:"100%",height:"auto" ,borderRadius:'0.5em'}}>
+                                <Table style={{ textAlign: 'center', fontFamily: 'poppins'}}>
+                                    <TableHead style={{ background: "grey", textAlign: 'center'}}>
+                                        <TableRow>
+                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 2 }}>Date</TableCell>
+                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 2 }}>Time</TableCell>
+                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 2 }}>Location</TableCell>
+                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 2 }}>Event Size</TableCell>
+                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 2 }}>Status</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {isLoading == true ? <tr><td colSpan={5}><GenSpinner /></td></tr> :
+                                            <>
+                                                {reservations && reservations.length > 0 ? (
+                                                    reservations.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((reservation: any, index: number) => (
+                                                        <TableRow key={index} >
+                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12 }}>{getDate(reservation.res_date)}</TableCell>
+                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12 }}>{reservation.res_time}</TableCell>
+                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12 }}>{reservation.res_location}</TableCell>
+                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12 }}>{reservation.party_size}</TableCell>
+                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12 }}>
+                                                                {reservStats(reservation.status)}
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))
+                                                ) : (
+                                                    <TableRow >
+                                                        <TableCell style={{textAlign:"center",fontFamily: 'poppins' } } colSpan={5}>No reservations found</TableCell>
+                                                    </TableRow>
+
+                                                )}</>
+                                        }
+
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <TablePagination
+                                component="div"
+                                count={10}
+                                page={page}
+                                onPageChange={handleChangePage}
+                                rowsPerPage={rowsPerPage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            />
+
+                        </div>
                     </div>
 
-                    <div className='float-right w-[60vw] pr-[50pt]'>
+                    <div className='float-right w-[60vw] pr-[50pt] xs:max-sm:hidden'>
                         <h1 className="text-center font-bold text-[22pt] pt-[0.75cm]">Reservation History</h1>
                         <TableContainer style={{width:"100%",height:"60vh" ,borderRadius:'0.5em'}}>
                             <Table style={{ textAlign: 'center', fontFamily: 'poppins'}}>

@@ -82,7 +82,7 @@ const ChoicePage = () => {
   );
 
   return (
-    <div className={`font-poppins bg-[#F9F2EA] h-[80vh] animate-fade-in`}>
+    <div className={`font-poppins bg-[#F9F2EA] h-[80vh] animate-fade-in overscroll-y-none`}>
         {notif &&
           <UserNotification
             icon={<BsExclamationCircle/>}

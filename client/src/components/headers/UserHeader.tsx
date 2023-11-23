@@ -48,7 +48,7 @@ const UserHeader = () => {
   };
 
   return (
-    <div className='font-poppins flex bg-white text-white h-[6rem] xs:max-sm:h-[5rem] xs:max-sm:w-full xl:max-2xl:h-[5.5rem]'>
+    <div className='font-poppins flex bg-white text-white h-[6rem] xs:max-sm:h-[5rem] xs:max-sm:w-auto xl:max-2xl:h-[5.5rem]'>
         <div className='w-[63%] flex items-center xs:max-sm:w-[30%] xl:max-2xl:w-[60%]'>
           <img src={logo} alt='Reservo Logo' className='ml-[5%] w-[15%] xs:max-sm:ml-[10%] xs:max-sm:w-[70%]'/>
         </div>
@@ -68,7 +68,7 @@ const UserHeader = () => {
           </nav>
         </div>
 
-
+    
         <div className='flex items-center relative mr-[2%]'>
           {username ?
           ( profPic ? (
@@ -88,7 +88,7 @@ const UserHeader = () => {
           {showMenu && 
             <div className={`absolute ${username ? 'h-auto' : 'h-auto'}  w-[6vw] left-0 z-50 bg-white text-black block top-[100%] animate-slide-down xs:max-sm:top-[80%] xs:max-sm:w-[15vw] xl:max-2xl:top-[80%]`}>
               <ul className='list-none pl-[15%] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.7em]'>
-                <li><hr className="w-[85px] pt-[10%] xs:max-sm:w-[60px] xl:max-2xl:w-[60px]"/></li>
+                <li><hr className="w-[85px] pt-[10%] xs:max-sm:w-[50px] xl:max-2xl:w-[60px]"/></li>
                 {username
                 ?
                  <li className='pb-[10%]'>Hi, {truncatedUsername}!</li>
@@ -96,7 +96,7 @@ const UserHeader = () => {
                   <li className='pb-[10%]'>Hi, Guest!</li>
                 }
                 
-                <li><hr className="w-[85px] pt-[10%]  xl:max-2xl:w-[60px]"/></li>
+                <li><hr className="w-auto pt-[10%] xs:max-sm:w-[50px] xl:max-2xl:w-[60px]"/></li>
                 {/* <li className='hover:text-[#DD2803] cursor-pointer'>About Us</li> */}
 
                 {username

@@ -17,7 +17,7 @@ const Footer = () => {
             <p className='text-[1.1em] mt-[-3%] xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.7em]'>Cebu City, Philippines</p>
         </div>
         <div className='ml-[5%]'>
-            <b className='font-extrabold text-[1.4em] xs:max-sm:text-[0.1em] xl:max-2xl:text-[1em]'>Opening Hours</b>
+            <b className='font-extrabold text-[1.4em] xs:max-sm:text-[0.8em] xl:max-2xl:text-[1em]'>Opening Hours</b>
             <p className='text-[1.1em] mt-[-3%] xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.7em]'>Mon - Fri 8:00 AM - 5:00 PM</p>
             <p className='text-[1.1em] mt-[-3%] xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.7em]'>Sat - 8:00 AM - 5:00 PM</p>
         </div>
