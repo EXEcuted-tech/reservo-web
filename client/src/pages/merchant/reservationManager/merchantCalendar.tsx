@@ -8,7 +8,7 @@ import { GrNext, GrPrevious } from 'react-icons/gr';
 import Button from './Component/Button';
 import ReservationList from '../../../components/calendar/ReservationDetail';
 import ReservationsList from '../../../components/calendar/ReservationsList';
-import Calendar2 from '../../../components/calendar/Calendar2';
+import CalendarMerchSched from '../../../components/calendar/CalendarMerchSched';
 
 
 const CalendarMerchant = () => {
@@ -142,7 +142,7 @@ const merchantCalendar = () => {
     <div className="animate-fade-in">
       <div className="h-[90vh] font-poppins bg-[#F3F3F3] p-8">
         {/* <CalendarMerchant /> */}
-        <Calendar2 />
+        <CalendarMerchSched />
 
       </div>
     </div>
