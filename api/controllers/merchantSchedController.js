@@ -27,7 +27,7 @@ const retrieveAll = (req,res)=>{
         }
     })
 }
-
+    
 module.exports = {
     retrieveAll,
 }

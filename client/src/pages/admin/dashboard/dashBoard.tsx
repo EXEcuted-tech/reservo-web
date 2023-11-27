@@ -99,7 +99,7 @@ const AdminDashboard = () => {
           height={'100%'}
           chartType="LineChart"
           loader={<div>Loading Chart</div>}
-          // data={LineData}
+          data={LineData}
           options={LineChartOptions}
           rootProps={{ 'data-testid': '2' }}
           />
