@@ -7,7 +7,7 @@ function Notification({message, color}:{message:string, color:string}) {
     //console.log("NOTIFIED!",message);
     const timer = setTimeout(() => {
       setVisible(false);
-    }, 5000); 
+    }, 5300); 
 
     return () => {
       clearTimeout(timer);
