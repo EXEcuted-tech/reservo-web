@@ -9,6 +9,7 @@ import config from '../../common/config'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Pagination from '@mui/material/Pagination';
 import Notification from '../alerts/Notification'
+import EmployeeModal from '../modals/merchReviewModal/employeeModal'
 
 const theme = createTheme({
   palette: {
@@ -28,6 +29,7 @@ const MerchantApplications = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
+  const [openEmpModal,setOpenEmpModal] = useState(false);
 
   //filter
   const [filter, setFilter] = useState('all');
@@ -286,9 +288,16 @@ const MerchantApplications = () => {
     }, 5200)
 }, [notif]);
 
+  const openApplicantModal=(userID:string,merch_id:number) =>{
+     setOpenEmpModal(true);
+     sessionStorage.setItem('employee_idtoView', userID);
+     sessionStorage.setItem('company_id', merch_id.toString());
+  }
+
     return (
         <div className='font-poppins w-[100%] bg-white h-[90%] mt-[1%] rounded-ss-2xl flex-row align-center overflow-y-auto'>
            {(notif !== '') && <Notification message={notif} color={color}/>}
+           {openEmpModal && <EmployeeModal setOpenEmpModal={setOpenEmpModal}/>}
           <div>
             <div className='flex items-center py-[0.9%] border-[#F3F3F3] border-b-2'>
               <p className='ml-[2%] text-gray-500 mr-[0.8%]'>Filter by:</p>
@@ -317,7 +326,7 @@ const MerchantApplications = () => {
           </div>
           <div className='w-[25%] flex flex-col p-[1%] pb-[1.5%] ml-[3%] justify-center items-center'>
             <div className='h-[33%] bg-[#FFB800] text-center m-[2%] w-[50%] text-black rounded-xl hover:cursor-pointer'
-              onClick={()=>{ }}>
+              onClick={()=>{ openApplicantModal(Object.keys(data)[0],data.merchant_id)}}>
               <div className='flex justify-center p-[1%] m-[2%]'>
                 <BiSearchAlt className='text-[1.2em] mt-[1%]'/>View More
               </div >
