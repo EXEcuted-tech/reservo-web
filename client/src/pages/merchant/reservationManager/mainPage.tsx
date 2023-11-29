@@ -3,8 +3,9 @@ import { RiReservedFill } from 'react-icons/ri'
 import MerchAdHeader from '../../../components/headers/MerchAdHeader';
 import ToggleHeader from '../../../components/headers/toggleHeader.tsx';
 import ReservationManager from './reservationManager';
-import MerchantCalendar from './MerchantCalendar.tsx';
+// import MerchantCalendar from './MerchantCalendar';
 import SetMerchantScheduleModal from '../../../components/modals/merchantCalendarModal/SetMerchantScheduleModal.tsx';
+import MerchantCalendar from './merchantCalendar.tsx';
 
 
 const ReserveManager = () => {
