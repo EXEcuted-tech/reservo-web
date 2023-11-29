@@ -98,6 +98,7 @@ export default function EditProfile(props: { phoneData: String }) {
         userProfile.email = email;
 
         localStorage.setItem('userDetails', JSON.stringify(userProfile));
+        alert("Successfully Updated");
         window.location.reload()
       }
       else {
