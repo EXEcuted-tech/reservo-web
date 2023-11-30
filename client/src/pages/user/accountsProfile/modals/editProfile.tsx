@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import config from "../../../../common/config"
 
 import Box from '@mui/material/Box';
@@ -59,15 +59,21 @@ function ProfilePicture(props: { userProfile: any }) {
   );
 }
 
-export default function EditProfile(props: { phoneData: String }) {
+export default function EditProfile(props: { phoneData: String, updating: React.Dispatch<React.SetStateAction<boolean>> }) {
 
   const defaultUser = { userID: 0, user: "UNDEFINED", email: "UNDEFINED", type: "0", pic: "NULL" }
+
+
   const str = localStorage.getItem('userDetails');
   const userProfile = str ? JSON.parse(str) : defaultUser
+  // const defaultAccount = props.defaultAcc;
+
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  // const [updateSuccess, updating] = useState(false);
 
 
   const ID = userProfile.userID;
@@ -98,8 +104,11 @@ export default function EditProfile(props: { phoneData: String }) {
         userProfile.email = email;
 
         localStorage.setItem('userDetails', JSON.stringify(userProfile));
-        alert("Successfully Updated");
-        window.location.reload()
+        setTimeout(() => {
+          props.updating(true);
+        }, 5000);
+        handleClose();
+        // window.location.reload();
       }
       else {
         alert("Unable to update profile");
@@ -112,6 +121,8 @@ export default function EditProfile(props: { phoneData: String }) {
 
 
   }
+
+
 
   const closing = () => {
     setName(userProfile.user)
