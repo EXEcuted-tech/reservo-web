@@ -3,6 +3,7 @@ import GenSpinner from '../../loaders/genSpinner';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { FaIdCard } from "react-icons/fa6";
 import { PiUserSquareDuotone } from "react-icons/pi";
+import { FaDownload } from "react-icons/fa";
 import axios from 'axios';
 import config from '../../../common/config';
 
@@ -14,21 +15,17 @@ const EmployeeModal = (props: { setOpenEmpModal: any; }) => {
     const [dateSigned,setDateSigned]=useState('')
     const [dp,setDp] = useState('')
     const [merchRec,setMerchRec] = useState<any>()
+
     const [fileID,setfileID] = useState();
+    const [fileURL, setFileURL] = useState('');
+    const [fileName,setFileName] =useState('')
+
     const {setOpenEmpModal} = props;
     const emp=sessionStorage.getItem('employee_idtoView');
     const merch=sessionStorage.getItem('company_id');
     const empID = Number(emp);
     const merchID = Number(merch);
 
-    // useEffect(()=>{
-    //   const current=sessionStorage.getItem('res_id');
-    //   if(current!==null){
-    //     const currentId = parseInt(current,10);
-    //     setResId(currentId);
-    //   }
-    // },[])
-  
     useEffect(() => {
       const timer = setTimeout(() => {getEmpInfo()}, 500);
       return () => clearTimeout(timer);
@@ -36,10 +33,18 @@ const EmployeeModal = (props: { setOpenEmpModal: any; }) => {
   
     useEffect(() => {
       const timer = setTimeout(() => {getMerchDeets();}, 500);
-      console.log("Merchant REc:", merchRec);
       return () => clearTimeout(timer);
     }, []);
   
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        if (fileID !== undefined) {
+          getFile(fileID);
+        }
+      }, 500);
+  
+      return () => clearTimeout(timer);
+    }, [fileID]);
   
     const getMerchDeets = () => {
       setIsLoading(false);
@@ -72,6 +77,7 @@ const EmployeeModal = (props: { setOpenEmpModal: any; }) => {
       .then((res)=>{
          if(res.status === 200){
           const user = res.data.users[0];
+          setfileID(user?.file_id ? user.file_id : 0);
           setName(user?.account_name);
           setEmail(user?.email_address);
           setContactNo(user?.contact_number);
@@ -85,6 +91,32 @@ const EmployeeModal = (props: { setOpenEmpModal: any; }) => {
          setTimeout(()=>{setIsLoading(true)},2500);
       })
     }
+
+    const getFile = async (file_id:number) => {
+      try {
+        if(file_id!=0 || file_id!=undefined){
+          await axios.get(`${config.API}/file/retrieve?col=file_id&val=${file_id}`)
+          .then(async (res)=>{
+            console.log("Hellaur? ",res);
+            if(res.data.success == true && res.data.filedata){
+              setFileName(res.data.filedata.filename);
+              console.log(`${config.API}/file/fetch?pathfile=${encodeURIComponent(res.data.filedata.path)}`);
+              const response = await axios.get(`${config.API}/file/fetch?pathfile=${encodeURIComponent(res.data.filedata.path)}`, {
+                responseType: 'arraybuffer',
+              });
+        
+              const url = URL.createObjectURL(new Blob([response.data]));
+              console.log("URL: ", url);
+              setFileURL(url);
+            }
+          }).catch((err)=>{
+            console.log("File ERr? ", err);
+          })
+        }
+      } catch (error) {
+        console.error('Error fetching file:', error);
+      }
+    };
     
     return (
       <div className='bg-[rgba(0,0,0,0.6)] w-[100vw] h-[100vh] absolute top-0 left-0 duration-100 animate-fade-in overflow-hidden xs:max-sm:z-[1001] xs:max-sm:h-[110vh]'>
@@ -166,8 +198,18 @@ const EmployeeModal = (props: { setOpenEmpModal: any; }) => {
                 <span className='font-bold'>Position: </span>
                 {merchRec.position ? merchRec.position : 'Data cannot be retrieved.'}
               </p>
-              <p className='my-[2.5%]'>
+              <p className={`my-[2.5%]`}>
                 <span className='font-bold'>Proof of Employment: </span>
+                <span className={`${fileID == 0 && 'italic text-gray-500'}`}> 
+                  {/* {fileURL ? fileURL : 'No Proof Provided.'} */}
+                  <a className='text-white text-[0.8em] w-[24%] bg-blue-700 hover:bg-blue-800 focus:ring-4 
+                  focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 
+                  py-2.5 text-center justify-center ml-[1%] inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 
+                  dark:focus:ring-blue-800'
+                  href={fileURL} download={fileName}>
+                      <FaDownload className='mr-[1%]'/> Download File
+                  </a>
+                </span>
               </p>
             </div>
           </div>

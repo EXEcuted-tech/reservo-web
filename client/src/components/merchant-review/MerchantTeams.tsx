@@ -20,7 +20,7 @@ sessionStorage.setItem('viewDetails', 'false')
 
 const MerchantTeams = () => {
     const [buttonStatus, setbuttonStatus] = useState(false)
-    const [merchTeam , setmerchantTeam ] = useState([{}])
+    const [merchTeam , setmerchantTeam ] = useState<any[]>([{}])
     const [merchAddress, setmerchAddress] = useState([{}])
     const [merchAccounts, setmerchAccounts] = useState([{}])
 
@@ -36,9 +36,11 @@ const MerchantTeams = () => {
         try {
             setLoading(true)
             const responseMerchInfo = await axios.get(`${config.API}/merchant/retrieve_all`)
-            setmerchantTeam(responseMerchInfo.data.merchant)
-            setmerchAddress(responseMerchInfo.data.address)
-            setmerchAccounts(responseMerchInfo.data.accounts)
+            .then((res)=>{
+                if(res.data.success == true){
+                    console.log("RESPONZE IN MERCH: ",res);
+                }
+            })
             setLoading(false)
         } catch (error) {
             console.log(error)
@@ -47,7 +49,7 @@ const MerchantTeams = () => {
 
     useEffect(() => {
         fetchMerchInfo();
-        console.log("Current Pages: ",currentPage);
+        console.log("Current Pages: ",currentData);
       }, []);
 
     const handlePageChange = (event: any, newPage:any) => {
@@ -56,7 +58,7 @@ const MerchantTeams = () => {
 
     const lastIndex = currentPage * recordsPerPage
     const firstIndex = lastIndex - recordsPerPage
-    const currentPages = merchTeam.slice(firstIndex,lastIndex)
+    const currentData = merchTeam.slice(firstIndex,lastIndex)
 
     const handleMoreDetailsClick = (merchantID:any) => {
     sessionStorage.setItem('viewDetails', 'true');
@@ -67,7 +69,7 @@ const MerchantTeams = () => {
         <div className='h-[100%] py-[1%] font-poppins relative'>
             { sessionStorage.getItem('viewDetails') === 'false' ?    
             <div> 
-            {currentPages.map((data,i) => (
+            {currentData.map((data,i) => (
                 <div className='bg-white h-[180px] flex-row py-[1%] px-[2%] text-[#838383] border-[#F3F3F3] border-b-2 p-[1%] flex rounded-xl'
                 key={i}>
                     {/* <div className='w-[20%] p-[0.5%] pl-[3%] flex'>
@@ -107,7 +109,7 @@ const MerchantTeams = () => {
             </div>
             <MerchantPagination 
             dataPerPage={recordsPerPage} 
-            totalData={currentPages.length} 
+            totalData={currentData.length} 
             paginate={paginate}/>
             </div> 
             : <MerchantTeamDeets merchantID={selectedMerchantID}/>
