@@ -250,7 +250,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   };
 
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value !== '') {
+   
       if (e.target.value.includes(',')) {
         const val = e.target.value.replaceAll(',', '');
         setEditedTags((prevTags) => [...prevTags, val]);
@@ -258,7 +258,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
       } else {
         setInputTag(e.target.value);
       }
-    }
+    
   };
   
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -424,7 +424,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
       </div>
     
     <div className='flex flex-col w-[100%] h-[100%] xl:max-2xl:mt-[3%]'>
-        <div className='IMAGE_PLACEHOLDER block w-[45%] h-[45%] rounded-2xl text-xl xs:max-sm:w-[30vw] xs:max-sm:h-[10vh] xs:max-sm:ml-[20%]'>
+        <div className='IMAGE_PLACEHOLDER block h-[30vh] rounded-2xl text-xl xs:max-sm:w-[30vw] xs:max-sm:h-[10vh] xs:max-sm:ml-[20%]'>
             <img
               src={editedFilePath} // Use your image URL from the DB here
               alt="Package Image"
@@ -438,12 +438,12 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
           <div className="mt-[3%]">
               <label htmlFor="packageImage" className="p-2 text-xl xs:max-sm:text-[0.8em] xs:max-sm:ml-[10%] xl:max-2xl:text-[0.6em]">
                 Upload Image Here: <span className='text-red-600 font-bold '>*</span></label>
-                <input className="focus:outline-none focus:ring focus:ring-blue-500 text-[0.8em] h-[4vh] my-2 w-[100%] px-2 ml-[4%] rounded-lg border xs:max-sm:w-[90%] xs:max-sm:h-[3vh] xs:max-sm:my-1 xs:max-sm:mx-2 xs:max-sm:text-[0.8em] xs:max-sm:ml-[10%] xl:max-2xl:text-[0.55em]" 
+                <input className="focus:outline-none focus:ring focus:ring-blue-500 text-[0.8em] h-[4vh] my-2 w-[22vw] px-2 ml-[4%] rounded-lg border xs:max-sm:w-[90%] xs:max-sm:h-[3vh] xs:max-sm:my-1 xs:max-sm:mx-2 xs:max-sm:text-[0.8em] xs:max-sm:ml-[10%] xl:max-2xl:text-[0.55em]" 
                 value={editedFilePath} onChange={handleFilePathChange} type="text" name="packageImage" placeholder='Paste Link Here'/>
           </div>
         </div>
 
-        <div className='block text-xl mt-[7vh] border p-2 rounded-lg xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.7em] '>
+        <div className='block text-xl mt-[9vh] border p-2 rounded-lg xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.7em]'>
                   <b>Items: <span className='text-red-600'>*</span></b>
                   <div className='p-2 overflow-y-auto h-[8vh] mb-6 xl:max-2xl:mb-2'>
                     {editedItems && Array.isArray(editedItems) && editedItems.length > 0 ?
@@ -457,7 +457,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
                           console.log("Removed: ", newItems);
                           setItemName('');
                         }}
-                        ><AiOutlineCloseCircle className="xl:max-2xl:text-[0.8em]"/></button><span className='text-[0.9em] xl:max-2xl:text-[1em]'>{element}</span></li></div>
+                        ><AiOutlineCloseCircle className="xl:max-2xl:text-[0.8em]"/></button><span className='text-sm xl:max-2xl:text-[1em]'>{element}</span></li></div>
                       ))}
                     </ul>
                     : <p className=' italic text-[0.9em]'>No items in list</p>}

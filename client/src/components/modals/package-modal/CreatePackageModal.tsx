@@ -326,7 +326,7 @@ interface CreatePackageModal{
             </div>
             <div>
 
-    <div className='IMAGE_PLACEHOLDER bg-slate-600 w-[50%] h-[50%] mb-5 rounded-2xl xs:max-sm:w-[35vw] xs:max-sm:h-[15vh] xs:max-sm:ml-[9%] xl:max-2xl:mb-1'>
+    <div className='IMAGE_PLACEHOLDER bg-slate-600 h-[30vh] mb-5 rounded-2xl xs:max-sm:w-[35vw] xs:max-sm:h-[15vh] xs:max-sm:ml-[9%] xl:max-2xl:mb-1'>
     {filePath? <img
               src={filePath} // Use your image URL from the DB here
               alt="Package Image"
@@ -362,7 +362,7 @@ interface CreatePackageModal{
                   setItemName('');
                 }}
                 ><AiOutlineCloseCircle className="xl:max-2xl:text-[0.8em]"/></button>
-                {item}</li>
+                <span className=' text-sm'>{item}</span></li>
               ))}
             </ul>
           </div>

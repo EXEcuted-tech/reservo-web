@@ -5,11 +5,12 @@ const bcrypt = require('bcrypt');
 
 const createAccount = async (req, res) => {
     try {
-        const { account_name, account_email, password, account_type, contact_number } = req.body;
+        const { account_name, account_email, password, account_type, file_id, contact_number } = req.body;
 
-        const sql = "INSERT INTO account (account_name, email_address, passwd, account_type, contact_number) VALUES (?, ?, ?, ?, ?)";
+        const sql = "INSERT INTO account (account_name, email_address, passwd, account_type, file_id,contact_number) VALUES (?, ?, ?, ?, ?,?)";
         const hashedpassword = await bcrypt.hash(password, saltRounds)
-        const values = [account_name, account_email, hashedpassword, account_type, contact_number];
+        const values = [account_name, account_email, hashedpassword, account_type, file_id,contact_number];
+
         db.query(sql, values, (err, result) => {
             if (err) {
                 res.status(404).json({

@@ -3,9 +3,6 @@ import {IoLocation, IoCameraSharp} from 'react-icons/io5'
 import { AiFillCloseCircle } from "react-icons/ai";
 import {PiBinoculars} from 'react-icons/pi'
 import {MdPhone} from 'react-icons/md'
-import {FiEdit} from 'react-icons/fi'
-import colors from '../../../common/colors'
-import jjlogo from "../../../assets/jjlogo.png"
 import axios from 'axios'
 import GenSpinner from '../../../components/loaders/genSpinner'
 import config from '../../../common/config'
