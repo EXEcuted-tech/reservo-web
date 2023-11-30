@@ -414,7 +414,7 @@ const MerchantApplications = () => {
           </div>
           ))}
 
-            <div className="flex justify-center w-[78%] absolute bottom-1">
+            <div className="flex justify-center w-[75%] absolute bottom-1">
               <ThemeProvider theme={theme}>
                 <Pagination
                   count={filter == 'pending' ? Math.ceil(resultData.length / itemsPerPage) : filter == 'approved' ? Math.ceil(resultApprovedData.length / itemsPerPage): Math.ceil(combinedData.length / itemsPerPage)}

@@ -137,7 +137,7 @@ const updateMerchant = (req,res)=>{
 
 
 const retrieveAll = (req,res)=>{
-    db.query('SELECT * , DATEDIFF(DATE_ADD(date_registered, INTERVAL 30 DAY), CURDATE()) AS days_left FROM merchant', (error, results) => {
+    db.query(`SELECT * , DATEDIFF(DATE_ADD(date_registered, INTERVAL 30 DAY), CURDATE()) AS days_left FROM merchant WHERE merch_status='Active'`, (error, results) => {
         if(error){
 
             res.status(500).json({error: 'Internal server error'})
@@ -169,16 +169,16 @@ const retrieveAll = (req,res)=>{
 
 const retrieveByParams = (req,res)=>{
     const { col, val } = req.query;
-
+    console.log(`SELECT * FROM merchant WHERE ${col} = ${val}`)
     db.query('SELECT * FROM merchant WHERE ?? = ?', [col, val], (error, result) => {
         if(error){
             res.status(500).json({error: 'Error retrieving data'})
         }
         else{
-            const parsedAddress = result[0].address && JSON.parse(result[0].address);
-            const parsedSettings = result[0].settings && JSON.parse(result[0].settings);
-            const parsedAccounts = result[0].accounts && JSON.parse(result[0].accounts);
-            const parsedForm = result[0].form_deets && JSON.parse(result[0].form_deets);
+            const parsedAddress = result[0].address ? JSON.parse(result[0].address) : null;
+            const parsedSettings = result[0].settings ? JSON.parse(result[0].settings) : null;
+            const parsedAccounts = result[0].accounts ? JSON.parse(result[0].accounts) : null;
+            const parsedForm = result[0].form_deets ? JSON.parse(result[0].form_deets) : null;
 
             return res.status(200).json({
                 status: 200,
