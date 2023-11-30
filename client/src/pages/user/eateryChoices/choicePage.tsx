@@ -143,7 +143,7 @@ const ChoicePage = () => {
               </div>
               
               {/* List of Merchants */}
-              <div className='overflow-y-scroll h-[100%] z-10'>
+              <div className='overflow-y-scroll snap-y h-[100%] z-10'>
                 {filteredMerchants.map((merchant, index) => (
                   <div className='px-[2%]'>
                     <MerchCard key={index} {...merchant} trigger={triggerNotification} />

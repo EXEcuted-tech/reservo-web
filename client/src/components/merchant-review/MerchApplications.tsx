@@ -287,13 +287,14 @@ const MerchantApplications = () => {
 }, [notif]);
 
     return (
-        <div className='font-poppins w-[100%] bg-white h-[90%] mt-[1%] rounded-ss-2xl flex-row align-center overflow-y-auto'>
+        <div className='font-poppins w-[100%] bg-white h-[80vh] mt-[1%] rounded-ss-2xl flex-row align-center overflow-y-auto'>
            {(notif !== '') && <Notification message={notif} color={color}/>}
           <div>
-            <div className='flex items-center py-[0.9%] border-[#F3F3F3] border-b-2'>
-              <p className='ml-[2%] text-gray-500 mr-[0.8%]'>Filter by:</p>
+            <div className='flex items-center py-[0.9%] border-[#F3F3F3] border-b-2 '>
+              <p className='ml-[2%] text-gray-500 mr-[0.8%] xl:max-2xl:text-[0.7em]'>Filter by:</p>
               <select id="filterDropdown" name="filterDropdown"
-                      className={`bg-transparent rounded-md h-8 w-[9vw] border border-black hover:bg-white transition duration-150 ease-out hover:ease-in`} value={filter} onChange={HandleFilterChange}>
+                      className={`bg-transparent rounded-md h-8 w-[9vw] border border-black hover:bg-white transition duration-150 ease-out hover:ease-in xl:max-2xl:text-[0.6em]`} 
+                      value={filter} onChange={HandleFilterChange}>
                         <option value="all">All Applications</option>
                         <option value="pending">Pending</option>
                         <option value="approved">Approved</option>
@@ -338,7 +339,7 @@ const MerchantApplications = () => {
           </div>
           ))}
 
-            <div className="flex justify-center w-[78%] absolute bottom-1">
+            <div className="flex justify-center w-[78%] left-[18%] absolute bottom-8 xl:max-2xl:left-[18%]">
               <ThemeProvider theme={theme}>
                 <Pagination
                   count={Math.ceil(resultData.length / itemsPerPage)}
