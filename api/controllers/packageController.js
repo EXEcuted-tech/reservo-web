@@ -238,6 +238,7 @@ const retrieveByTwoParams = (req,res)=>{
 }
 
 const deletePackage = (req,res)=>{
+  const{ package_id } = req.body
   refreshDeadline()
 
     const deleteQuery = `UPDATE package SET visibility='DELETED' WHERE package_id = ?`;
