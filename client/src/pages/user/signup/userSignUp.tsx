@@ -26,6 +26,19 @@ const SignupPage = () => {
   const signUp = (event:FormEvent) =>{
     event.preventDefault();
     setIsLoading(true);
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailAdd)) {
+      setError("Please enter a valid Email Address");
+      return;
+    }
+
+    const numberRegex = /^\d+$/;
+    if (!numberRegex.test(contactNum)) {
+      setError(" Please input a valid Contact Number");
+      return;
+    }
+
     axios.post(`${config.API}/signup`,{
         account_name:  accName, 
         account_email: emailAdd,
