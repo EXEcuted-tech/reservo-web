@@ -120,10 +120,10 @@ const localUpdatePackage = (req) => {
   });
 };
 
-const refreshDeadline = () => {
+const refreshDeadline = (req,res) => {
   db.query('SELECT * FROM package', (err, rows) => {
     if (err) {
-      return res.status(500).json({ message: "Failed to get data!" })
+      return res.json({ status: 500, message: "Failed to get data!" })
     } else {
       rows.forEach(element => {
         var dateNow = new Date();
