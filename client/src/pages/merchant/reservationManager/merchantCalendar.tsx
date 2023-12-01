@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Fragment, useRef, useState } from "react";
+import { useEffect, useState } from 'react'
+import { Fragment, useRef } from "react";
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
 import { RiReservedFill } from 'react-icons/ri'
 import MerchantLayout from '../../../components/layout/MerchantLayout';
@@ -10,6 +10,8 @@ import ReservationList from '../../../components/calendar/ReservationDetail';
 import ReservationsList from '../../../components/calendar/ReservationsList';
 import CalendarMerchSched from '../../../components/calendar/CalendarMerchSched';
 
+type ValuePiece = Date | null;
+type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const CalendarMerchant = () => {
 
@@ -50,7 +52,7 @@ const CalendarMerchant = () => {
     return retval
   }
 
-  day.current = 1;
+ 
   useEffect(() => {
 
     setStart(getFirstDayOfMonth(year, ndx));
@@ -59,6 +61,8 @@ const CalendarMerchant = () => {
 
   }, [ndx])
 
+  console.log("year: " + year + " monthNDX: " + ndx);
+  console.log("startDate: " + dStart + "endDate:" + dEnd)
 
   return (
     <>
@@ -129,25 +133,84 @@ const CalendarMerchant = () => {
 
           </div>
         </div>
-
-
-
       </div>
     </>
   )
 }
 
-const merchantCalendar = () => {
+const MerchantCalendar = () => {
+
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [valuedate, onChange] = useState<Value>(new Date());
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const [selectedDate, setSelectedDate] = useState<Value>(new Date());
+  const [selectedTime, setSelectedTime] = useState<string>('');
+
+  const handleDateChange = (date: Date | null) => {
+    if (date) {
+      setSelectedDate(date);
+    }
+  };
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedTime(e.target.value);
+  };
+
   return (
     <div className="animate-fade-in">
       <div className="h-[90vh] font-poppins bg-[#F3F3F3] p-8">
         {/* <CalendarMerchant /> */}
-        <CalendarMerchSched />
-
+        <div className='flex justify-end'>
+          <button onClick={handleOpenModal} className='bg-red-700 text-white py-2 px-4 rounded'>Set Schedule</button>
+          {isModalOpen && (
+            <div>
+            <div className='fixed top-0 left-0 w-full h-full bg-black opacity-50'></div>
+            <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center'>
+              <div className='bg-white p-8 rounded shadow-lg'>
+                <div className='my-4'>
+                  <p className='text-2xl font-bold'>Select date range for unavailability.</p>
+                  <div className='p-1'>
+                    <label>Date Start:</label>
+                    <input type="date" onChange={(e) => handleDateChange(new Date(e.target.value))} />
+                  </div>
+                  <div className='p-1'>
+                    <label>Date End:</label>
+                    <input type="date" onChange={(e) => handleDateChange(new Date(e.target.value))} />
+                  </div>
+                </div>
+                <div className='mb-2'>
+                  <p className='text-2xl font-bold'>Select time range for unavailability.</p>
+                  <div className='p-1'>
+                    <label>Time Start:</label>
+                    <input type="time" value={selectedTime} onChange={handleTimeChange} />
+                  </div>
+                  <div className='p-1'>
+                    <label>Time End:</label>
+                    <input type="time" value={selectedTime} onChange={handleTimeChange} />
+                  </div>
+                </div>
+                <div className='flex justify-end col-span-2'>
+                  <button className='mt-4 mr-2 bg-blue-500 text-white py-2 px-4 rounded'>Save</button>
+                  <button onClick={handleCloseModal} className='mt-4 bg-red-500 text-white py-2 px-4 rounded'>Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )} 
+      </div>
+      <CalendarMerchSched />
       </div>
     </div>
 
   )
 }
 
-export default merchantCalendar
+export default MerchantCalendar

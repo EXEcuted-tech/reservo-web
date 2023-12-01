@@ -197,6 +197,9 @@ const ChangePass: React.FC<ChangePassProps> = (props) => {
     const [newPass,setNewPass]=useState('')
     const [conNewPass,setConNewPass]=useState('');
 
+    const [passwordsMatch, setPasswordsMatch] = useState(true);
+    const [allFieldsFilled, setAllFieldsFilled] = useState(true);
+
     useEffect(()=>{
         const col = "email_address";
         const val = props.email;
@@ -213,6 +216,22 @@ const ChangePass: React.FC<ChangePassProps> = (props) => {
         props.setErrMess('');
         event?.preventDefault();
         setIsLoading(true)
+
+        if (!newPass || !conNewPass) {
+            setAllFieldsFilled(false);
+            setPasswordsMatch(true); 
+            return;
+        }
+    
+        if (newPass !== conNewPass) {
+            setPasswordsMatch(false);
+            setAllFieldsFilled(true);
+            return;
+        }
+    
+        setAllFieldsFilled(true);
+        setPasswordsMatch(true);
+
         if(newPass.length < 4 || conNewPass.length < 4 || newPass === '' || conNewPass === ''){
             props.setErrMess('New Password must be more than 4 characters');
             setTimeout(()=>{
@@ -277,7 +296,13 @@ const ChangePass: React.FC<ChangePassProps> = (props) => {
             <MdPassword className='h-[100px] w-[120px] relative ml-[35%] xs:max-sm:h-[40px] xs:max-sm:w-[50px] xl:max-2xl:h-[70px] xl:max-2xl:w-[100px]' />
             <h1 className='text-[30px] mt-[5px] mb-[15px] font-extrabold text-3xl xs:max-sm:text-sm xl:max-2xl:text-xl'>Forgot Your Password?</h1>
             <p className='text-center xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.7em]'>No worries! You may now change it right now. </p>
-            <div className='flex items-center mt-[8%]'>
+            {!allFieldsFilled && (
+                <p className="text-red-500 text-s mt-[2%]">Please fill out all fields.</p>
+            )}
+            {!passwordsMatch && (
+                <p className="text-red-500 text-s mt-[2%]">Passwords do not match. Please try again.</p>
+            )}
+            <div className='flex items-center mt-[3%]'>
                 <PiPasswordDuotone className='h-[20px] w-[20px] xs:max-sm:w-[7px] xl:max-2xl:w-[13px]' />
                 <p className='ml-[5px] xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.7em]'>Current Password</p>
             </div>
