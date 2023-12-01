@@ -280,7 +280,7 @@ function Calendar2() {
         }
         setCell(tempCells)
 
-      }, [[monthNdx, year]])
+      }, [monthNdx, year])
     return (
         <div className='p-[3%]  '>
         <div className='flex flex-col font-poppins w-[100%] h-[100%] p-[1%] bg-[#840705] rounded-3xl'>
