@@ -1,11 +1,12 @@
 const express=require('express');
 const router = express.Router();
 const createMerchantValidator=require('../validations/merchantValidator')
-const { createMerchant,updateMerchant,retrieveByParams,retrieveAll, deleteMerchant,retrieveCountByParams, retrieveMerchAccountById } = require('../controllers/merchantController');
+const { createMerchant,updateMerchant,retrieveByParams, retrieveMultipleByParams,retrieveAll, deleteMerchant,retrieveCountByParams, retrieveMerchAccountById } = require('../controllers/merchantController');
 
 router.post('/create',createMerchant);
 router.post('/update', updateMerchant);
 router.get('/retrieve',retrieveByParams);
+router.get('/retrieve_many',retrieveMultipleByParams);
 router.get('/retrieve_all',retrieveAll);
 router.post('/delete',deleteMerchant);
 router.get('/retrieve_count',retrieveCountByParams);
