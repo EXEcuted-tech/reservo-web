@@ -62,7 +62,9 @@ const MerchantApplications = () => {
         }
         //console.log("Accounts List: ",accountsList);
         setmerchAccounts(accountsList); 
-        setLoading(false)
+        setTimeout(()=>{
+          setLoading(false)
+        },800)
     } catch (error) {
         console.log(error)
     }

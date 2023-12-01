@@ -6,7 +6,9 @@ import Logo from '../../assets/jjlogo.png'
 import axios from 'axios'
 import config from '../../common/config'
 import Pagination from '@mui/material/Pagination';
+import Notification from '../alerts/Notification'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 
 const theme = createTheme({
   palette: {
@@ -22,6 +24,9 @@ const MerchantTeamDeets = (props :any) => {
     const [merchAddress, setmerchAddress] = useState<any>()
     const [merchAccounts, setmerchAccounts] = useState<any>({})
     const [accNames, setaccNames] = useState<any[]>([]); 
+
+    const [notif,setNotif] = useState('')
+    const [color,setColor] = useState('');
 
     const [currentPage, setCurrentPage] = useState(1)
     const merchRet = sessionStorage.getItem('merchTeam_id')
@@ -106,18 +111,6 @@ const MerchantTeamDeets = (props :any) => {
   const delAccount = (userID : number) => {
     if(Object.keys(merchAccounts).length ==1){
       axios.post(`${config.API}/merchant/delete`,{merch_id:merchantID})
-      .then((res)=>{
-        if(res.data.success == true){
-          axios.post(`${config.API}/user/delete?user_id=${userID}`)
-          .then((res)=>{
-            if(res.data.success== true){
-              setNotif('Denied Applicant!')
-              setColor('#660605')
-              fetchMerchAccounts();
-            }
-          })
-        }
-      })
     }else{
       const merchRecord: MerchData = merchData;
       if(merchAccounts[userID]) {
@@ -133,11 +126,24 @@ const MerchantTeamDeets = (props :any) => {
         form_deets: merchRecord.form_deets
       })
     }
+
+    axios.post(`${config.API}/user/delete?user_id=${userID}`)
+    .then((res)=>{
+      if(res.data.success== true){
+        setNotif('Deleted Employee!')
+        setColor('#660605')
+        fetchMerchAccounts();
+
+        if(Object.keys(merchAccounts).length ==1){
+          window.location.reload()
+        }
+      }
+    })
   }
 
     return (
-        <div className='w-[100%] bg-white h-auto rounded-3xl flex-row align-center overflow-y-auto animate-fade-in xs:max-sm:w-[180%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]'>
-          {/* Dummy Conten 1 */}
+        <div className='w-[100%] z-[50] bg-white h-auto rounded-3xl flex-row align-center overflow-y-auto animate-fade-in xs:max-sm:w-[180%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]'>
+            {(notif !== '') && <Notification message={notif} color={color}/>}
           <div className='bg-white h-[10%] flex-row rounded-ss-2xl py-[1%] px-[2%] text-black border-[#F3F3F3] border-b-2 flex font-bold text-[1.4em] items-center hover:cursor-pointer xs:max-sm:text-[1em]'>
           <AiOutlineArrowLeft className='text-[1.4em] text-[#838383] mr-[1%] xs:max-sm:text-[0.9em]' 
               onClick={()=>{
@@ -164,7 +170,10 @@ const MerchantTeamDeets = (props :any) => {
                     <div className='hover:cursor-pointer w-auto h-auto text-right'>
                        <p className='text-[#838383] text-[1.2em] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.9em]'>Applied Since</p>
                        <p className='text-[1.1em] xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.8em]'> {merchData?.date_registered && new Date(merchData?.date_registered).toLocaleDateString()}</p>
-                       <p className='group flex text-[1.2em] mt-[2%] hover:text-[#840705] hover:underline hover:underline-offset-4 transition-colors delay-250 duration-[3000] ease-in xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'>
+                       <p className='group flex text-[1.2em] mt-[2%] hover:text-[#840705] hover:underline hover:underline-offset-4 transition-colors delay-250 duration-[3000] ease-in xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'
+                                               onClick={()=>{
+                                                props.setOpenDocModal(true)
+                                            }}>
                         <BsFolder className='group text-[1.2em] text-[#838383] mr-[2%] hover:text-[#840705] transition-colors delay-250 duration-[3000] ease-in xs:max-sm:text-[1em] xs:max-sm:mt-[5%] xl:max-2xl:text-[1.1em] xl:max-2xl:mt-[4%]'/>
                         Documents</p>
                     </div>

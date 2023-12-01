@@ -16,6 +16,9 @@ const EmployeeModal = (props: { setOpenEmpModal: any; }) => {
     const [dp,setDp] = useState('')
     const [merchRec,setMerchRec] = useState<any>()
 
+    const [notif,setNotif] = useState('');
+    const [color,setColor] = useState('');
+
     const [fileID,setfileID] = useState();
     const [fileURL, setFileURL] = useState('');
     const [fileName,setFileName] =useState('')
@@ -200,8 +203,9 @@ const EmployeeModal = (props: { setOpenEmpModal: any; }) => {
               </p>
               <p className={`my-[2.5%]`}>
                 <span className='font-bold'>Proof of Employment: </span>
-                <span className={`${fileID == 0 && 'italic text-gray-500'}`}> 
-                  {/* {fileURL ? fileURL : 'No Proof Provided.'} */}
+                <span className={`${!fileURL && 'italic text-gray-500'}`}> 
+                  {fileURL 
+                  ? 
                   <a className='text-white text-[0.8em] w-[24%] bg-blue-700 hover:bg-blue-800 focus:ring-4 
                   focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 
                   py-2.5 text-center justify-center ml-[1%] inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 
@@ -209,6 +213,7 @@ const EmployeeModal = (props: { setOpenEmpModal: any; }) => {
                   href={fileURL} download={fileName}>
                       <FaDownload className='mr-[1%]'/> Download File
                   </a>
+                  : 'No Proof Provided.'}
                 </span>
               </p>
             </div>

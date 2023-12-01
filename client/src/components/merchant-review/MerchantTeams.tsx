@@ -7,6 +7,7 @@ import config from '../../common/config'
 import MerchantPagination from './MerchantPagination'
 import Pagination from '@mui/material/Pagination';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import DocumentsModal from '../modals/merchReviewModal/documentsModal'
 
 const theme = createTheme({
     palette: {
@@ -23,6 +24,7 @@ const MerchantTeams = () => {
     const [merchAddress, setmerchAddress] = useState<any[]>([{}])
     const [merchAccounts, setmerchAccounts] = useState<any[]>([{}])
 
+    const [openDocModal,setOpenDocModal] = useState(false);
     const [loading, setLoading] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [recordsPerPage] = useState(3)
@@ -36,7 +38,7 @@ const MerchantTeams = () => {
         try {
             setLoading(true)
             const val = "Active"
-            await axios.get(`${config.API}/merchant/retrieve_all`)
+            await axios.get(`${config.API}/merchant/retrieve_many?col=merch_status&val=${val}`)
             .then((res)=>{
                 console.log("Response MerchTeams: ",res);
                 if(res.data.success == true){
@@ -68,7 +70,7 @@ const MerchantTeams = () => {
 
     const handleMoreDetailsClick = (merchantID:any) => {
         //sessionStorage.setItem('viewDetails', 'true');
-        const newButtonStatusArray = [...buttonStatusArray];
+        const newButtonStatusArray = new Array(buttonStatusArray.length).fill(false);
         setButtonStatusArray(newButtonStatusArray);
         sessionStorage.setItem('merchTeam_id', merchantID);
         console.log("Merchant ID: ",merchantID);
@@ -76,11 +78,14 @@ const MerchantTeams = () => {
     };
 
     return (
+        <div>
+          {openDocModal && <DocumentsModal setOpenDocModal={setOpenDocModal}/>}
+
         <div className='h-[96.5%] py-[1%] font-poppins relative'>
             { viewDetails === false ?    
             <div> 
             {currentData.map((data,i) => (
-                <div className='bg-white h-[200px] flex-row py-[1%] shadow-md my-[2%] px-[2%] text-[#838383] flex rounded-3xl'
+                <div className='bg-white h-[200px] flex-row pt-[1.5%] pb-[1%] shadow-md my-[2%] px-[2%] text-[#838383] flex rounded-3xl'
                 key={i}>
                         <div className='w-[15%] p-[0.5%] pl-[3%] flex'>
                         <img src={data.logo!=null ? data.logo : 'https://imgur.com/ujJv4Jw.jpg'} className='w-[140px] h-[140px] object-cover rounded-[50px]' alt="Logo"/>
@@ -139,9 +144,10 @@ const MerchantTeams = () => {
             </div> 
             : 
             <>
-                <MerchantTeamDeets setViewDetails={setViewDetails}/>
+                <MerchantTeamDeets setViewDetails={setViewDetails} setOpenDocModal={setOpenDocModal}/>
             </>
             }
+        </div>
         </div>
     )
 }

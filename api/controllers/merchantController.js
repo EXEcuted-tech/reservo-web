@@ -137,7 +137,7 @@ const updateMerchant = (req,res)=>{
 
 
 const retrieveAll = (req,res)=>{
-    db.query(`SELECT * , DATEDIFF(DATE_ADD(date_registered, INTERVAL 30 DAY), CURDATE()) AS days_left FROM merchant WHERE merch_status='Active'`, (error, results) => {
+    db.query(`SELECT * , DATEDIFF(DATE_ADD(date_registered, INTERVAL 30 DAY), CURDATE()) AS days_left FROM merchant`, (error, results) => {
         if(error){
 
             res.status(500).json({error: 'Internal server error'})
@@ -167,6 +167,7 @@ const retrieveAll = (req,res)=>{
     })
 }
 
+//Only retrieves singular record (Wa lang nako gi-ilisan kay daghan nag naka-depend ani nga function)
 const retrieveByParams = (req,res)=>{
     const { col, val } = req.query;
     console.log(`SELECT * FROM merchant WHERE ${col} = ${val}`)
@@ -191,6 +192,39 @@ const retrieveByParams = (req,res)=>{
             })
         }
     })
+}
+
+//Retrieves multiple records (Wa lang nako gi-ilisan kay daghan nag naka-depend ani nga function)
+const retrieveMultipleByParams = (req,res)=>{
+  const { col, val } = req.query;
+  console.log(`SELECT * FROM merchant WHERE ${col} = ${val}`)
+  db.query('SELECT * FROM merchant WHERE ?? = ?', [col, val], (error, results) => {
+      if(error){
+          res.status(500).json({error: 'Error retrieving data'})
+      }
+      else{
+            //extracting objects
+            const parsedAddressArray = [];
+            const parsedSettingsArray = [];
+            const parsedAccountsArray = [];
+            for(const result of results){
+                const parsedAddress = JSON.parse(result.address);
+                const parsedSettings = JSON.parse(result.settings);
+                const parsedAccounts = result.accounts && JSON.parse(result.accounts);
+                parsedSettingsArray.push(parsedSettings);
+                parsedAddressArray.push(parsedAddress);
+                parsedAccountsArray.push(parsedAccounts);
+            }
+
+            return res.json({
+                success:true,
+                merchant: results,
+                address: parsedAddressArray,
+                settings: parsedSettingsArray,
+                accounts: parsedAccountsArray,
+            })
+      }
+  })
 }
 
 const deleteMerchant = (req,res)=>{
@@ -276,6 +310,7 @@ module.exports = {
     updateMerchant,
     retrieveAll,
     retrieveByParams,
+    retrieveMultipleByParams,
     deleteMerchant,
     retrieveCountByParams,
     retrieveMerchAccountById
