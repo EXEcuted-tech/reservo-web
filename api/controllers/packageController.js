@@ -42,7 +42,6 @@ const createPackage = (req,res)=>{
 }
 
 const updatePackage = (req, res) => {
-  refreshDeadline
   const inputData = req.body; // Use the JSON object directly
   console.log("INPUT BEH==>", inputData);
 
@@ -61,7 +60,7 @@ const updatePackage = (req, res) => {
   data.push(inputData.package_id);
 
   const update = `UPDATE package SET ${setClauses} WHERE package_id = ?`;
-
+  console.log(update);
   db.query(update, data, (err, result) => {
     if (err) {
       console.error('Error updating data:', err);
@@ -70,6 +69,7 @@ const updatePackage = (req, res) => {
 
     if (result.affectedRows > 0) {
       console.log(result)
+      refreshDeadline()
       return res.status(200).json({
         status: 200,
         success: true,

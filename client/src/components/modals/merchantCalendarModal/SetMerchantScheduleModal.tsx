@@ -85,7 +85,7 @@ const SetMerchantScheduleModal = (props:any) =>{
                   {Object.keys(dow).map((day, index) => (
                     <button
                       key={index}
-                      className={`${dow[day as keyof typeof dow] === true? 'bg-green-400': 'bg-red-800 text-white'} w-[4vw] text-center mx-[1vw] border p-[1%] rounded-md hover:bg-slate-300 duration-200`}
+                      className={`${dow[day as keyof typeof dow] === true? 'bg-green-400': 'bg-red-800 text-white'} w-[4vw] text-center mx-[1vw] border p-[1%] rounded-md  duration-75`}
                       onClick={() => {
                         console.log("DOW ==>",day, " : ", dow[day as keyof typeof dow])
                         setDow((prevDow) => ({

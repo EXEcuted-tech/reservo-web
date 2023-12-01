@@ -27,7 +27,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
   const [editedPackageName, setEditedPackageName] = useState('');
   const [editedPrice, setEditedPrice] = useState('');
   const [editedDateStart, setEditedDateStart] = useState('')
-  const [editedDateEnd, setEditedDateEnd] = useState<string|undefined>('')
+  const [editedDateEnd, setEditedDateEnd] = useState<string|undefined>()
   const [editedTimeStart, setEditedTimeStart] = useState('');
   const [editedTimeEnd, setEditedTimeEnd] = useState('');
   const [editedTags, setEditedTags] = useState<string[]>([]);
@@ -81,12 +81,18 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
             image_filepath: editedFilePath,
             item_list: preformatItems,
         }
-    //  console.log(request)
-        await axios.post(`${config.API}/package/update`, request);
-        errorMsg('Successfully Updated!');
+      console.log(request)
+        const res = await axios.post(`${config.API}/package/update`, request);
+        if (res.status === 200){
+          errorMsg('Successfully Updated!');
+        }else{
+          errorMsg('Failed to Update!');
+        }
+        
         refresh()
     }catch(error){
         //PUT ERROR NOTIF 
+        errorMsg('Failed to Update!');
     }
      setIsLoading(false);
      refresh();
@@ -159,7 +165,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
             setEditedFilePath(data.image_filepath)
             
            
-            console.log("TIMESA==>", editedTimeStart)
+            //console.log("TIMESA==>", editedTimeStart)
             setIsLoading(false);
           }  
           catch(error:any){
@@ -217,7 +223,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
       setEditedItems((prevItems) => [...prevItems, itemName.trim()]);
       // Clear the input field
       setItemName('');
-      console.log("ADDED ITEMS: ", editedItems)
+      //console.log("ADDED ITEMS: ", editedItems)
     }
   };
 
@@ -294,7 +300,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({
 
   // Use a useEffect to log the updated state
   useEffect(() => {
-    console.log("ITEMS KO BEH", editedItems);
+    // console.log("ITEMS KO BEH", editedItems);
   }, [editedItems]);
 
   useEffect(() => {
