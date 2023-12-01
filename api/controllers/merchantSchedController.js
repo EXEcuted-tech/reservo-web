@@ -57,9 +57,9 @@ const updateSchedule = (req, res)=>{
 }
 
 const retrieveByParams = (req, res) => {
-    const {col, val} = req.query;
-    sql = `SELECT * FROM merchant_sched WHERE ?? = ?`
-    db.query(sql, [col, val], (err, response)=>{
+    const {col} = req.query;
+    sql = `SELECT * FROM merchant_sched, merchant WHERE merchant.merchant_id = ? AND merchant_sched.sched_id = merchant.sched_id`
+    db.query(sql, [col], (err, response)=>{
         if (err){
             return res.status(200).json({success:true,  status: 500,  message: `Failed to Retrieve Schedule! at ${col} with value ${val}`});
         }else{
@@ -70,7 +70,7 @@ const retrieveByParams = (req, res) => {
 
 const retrieveByTwoParams = (req, res) => {
     const {col1, val1, col2, val2} = req.query;
-    sql = `SELECT * FROM merchant_sched WHERE ?? = ? AND ?? = ?`
+    sql = `SELECT * FROM merchant_sched, merchant WHERE ?? = ? AND ?? = ?`
     db.query(sql, [col1, val1, col2, val2], (err, response)=>{
         if (err){
             return res.status(200).json({success:false,  status: 500,  message: `Failed to Retrieve Schedule! at ${col1} = ${val1} and ${col2} = ${val2}`});
@@ -83,7 +83,7 @@ const retrieveByTwoParams = (req, res) => {
 
 const deleteSchedByID = (req, res)=> {
     const schedID = req.body.schedID? req.body.schedID: 0;
-    sql = `DELETE FROM merchant_sched WHERE sched_id = ?`;
+    sql = `DELETE FROM merchant_sched, merchant WHERE sched_id = ?`;
     db.query(sql, schedID, (err, response)=>{
         if (err){
             return res.status(200).json({success:false,  status: 500,  message: `Failed to Delete! Schedule: ${schedID}`});
@@ -95,7 +95,7 @@ const deleteSchedByID = (req, res)=> {
 
 const deleteSchedByParams = (req, res)=> {
     const {col, val} = req.body;
-    sql = `DELETE FROM merchant_sched WHERE ?? = ?`;
+    sql = `DELETE FROM merchant_sched, merchant WHERE ?? = ?`;
     db.query(sql, [col, val], (err, response)=>{
         if (err){
             return res.status(200).json({success:true,  status: 500,  message: `Failed to Delete! Schedule: ${col} = ${val}`});

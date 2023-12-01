@@ -324,7 +324,7 @@ function Calendar2() {
                         </div>
                         ))
                     : Array.from({ length: 7 }).map((_, indx) => {
-                        const dayOfWeek = (indx + 1) % 7; // Adjusting for Sunday as the start of the week
+                        const dayOfWeek = (indx) % 7; // Adjusting for Sunday as the start of the week
                         return (
                             <div
                             className=' w-[7vw] text-center font-poppins rounded-lg bg-[#FFFFFF] border-solid border-black border-2 xl:max-2xl:text-[0.8em]'
@@ -334,9 +334,7 @@ function Calendar2() {
                             </div>
                         );
                     })}
-                    {Array.from({ length: getFirstDayOfMonth(year, monthNdx) }).map((_, index) => (
-                        <div key={index}></div>
-                    ))}
+                    
                     {Array.from({ length: getFirstDayOfMonth(year, monthNdx) }).map((_, index) => (
                         <div key={index}></div>
                     ))}

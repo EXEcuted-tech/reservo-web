@@ -76,8 +76,8 @@ function Tile(props:{
           ${count > 0? 'bg-yellow-400 hover:bg-yellow-300': ''}`}>
             {count > 0 ? <BiSearchAlt className="xs:max-sm:hidden" /> : <></>}
           </div>
-           {count > 0 ? <div className={`relative duration-200 items-center w-[1.5rem] h-[1.5rem] mt-[-3.7rem] rounded-full bg-[#840705] xs:max-sm:mt-[5%] xs:max-sm:bg-yellow-400 xs:max-sm:w-[4vw] xs:max-sm:h-[2.5vh] xl:max-2xl:w-[1rem] xl:max-2xl:h-[1rem] xl:max-2xl:mt-[-2rem]`}>
-           <p className='text-white text-center xs:max-sm:text-[2.5vw] xs:max-sm:font-semibold xs:max-sm:text-[#840705] xs:max-sm:mt-[10%] xl:max-2xl:text-[0.6em] xl:max-2xl:pt-[10%]'>
+           {count > 0 ? <div className={`z-0 relative duration-200 items-center w-[1.5rem] h-[1.5rem] mt-[-3.7rem] rounded-full bg-[#840705] xs:max-sm:mt-[5%] xs:max-sm:bg-yellow-400 xs:max-sm:w-[4vw] xs:max-sm:h-[2.5vh] xl:max-2xl:w-[1rem] xl:max-2xl:h-[1rem] xl:max-2xl:mt-[-2rem]`}>
+           <p className=' z-0 text-white text-center xs:max-sm:text-[2.5vw] xs:max-sm:font-semibold xs:max-sm:text-[#840705] xs:max-sm:mt-[10%] xl:max-2xl:text-[0.6em] xl:max-2xl:pt-[10%]'>
             {count}</p>
             </div>:<></>
             }

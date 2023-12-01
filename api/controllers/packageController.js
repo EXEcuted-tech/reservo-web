@@ -129,6 +129,7 @@ const refreshDeadline = () => {
         var dateNow = new Date();
 
         // Check date_end and time_end for setting visibility to NOT PUBLISHED
+        if (element.visibility !== 'DELETED'){
         if (element.date_end && dateNow >= element.date_end) {
           if (element.visibility === "PUBLISHED") {
             var body = { ...element, visibility: "NOT PUBLISHED" };
@@ -148,9 +149,11 @@ const refreshDeadline = () => {
             } else {
               console.log("Package", element.package_name, "is Active");
             }
+            
           } else {
             console.log("Package", element.package_name, "is Active");
           }
+        }
 
           // Check date_start and time_start for setting visibility to PUBLISHED
           if (element.date_start && dateNow >= element.date_start && element.time_start) {
@@ -237,18 +240,17 @@ const retrieveByTwoParams = (req,res)=>{
 const deletePackage = (req,res)=>{
   refreshDeadline()
 
-    const {package_id} = req.body;
-
-    const deleteQuery = 'DELETE FROM package WHERE package_id = ?';
-  
+    const deleteQuery = `UPDATE package SET visibility='DELETED' WHERE package_id = ?`;
     db.query(deleteQuery, package_id,(err, result) => {
       if (err) {
         console.error('Error deleting record:', err);
-        return res.status(500).json({ status: 500, success:false,error: 'Error deleting records' });
+        return res.status(500).json({ status: 500, success:false,error: 'Error deleting records', message: 'Failed to delete.' });
       }else{
+        
         return res.status(200).json({
           status: 200,
           success: true,
+          message: 'Deleted Package Successfully!',
           data: result,
         });
       }
