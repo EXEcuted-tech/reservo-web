@@ -79,7 +79,7 @@ const ReservationManager = () => {
 
     const newField = { label: data?.label ?? "", type: data?.type ?? "", value: "" };
 
-    const isDuplicate = existingList.some(item => item.label === newField.label && item.type === newField.type);
+    const isDuplicate = existingList?.some(item => item.label === newField.label && item.type === newField.type);
 
     if (!isDuplicate) {
       const updatedExistingList = [...existingList || [], newField];
@@ -180,35 +180,35 @@ const ReservationManager = () => {
           </div>
 
           <div className="flex flex-col text-xl text-black w-full h-full bg-[#F0E5D8] rounded-3xl mt-5 xl:max-2xl:mt-2">
-          <h1 className='font-black ml-[3%] mt-[3%] text-[1.7em] text-[#840705] xs:max-sm:text-[1em] xl:max-2xl:text-[1.3em] underline'>
+          <h1 className='font-bold ml-[3%] mt-[3%] text-[1.7em] text-[#840705] xs:max-sm:text-[1em] xl:max-2xl:text-[1.3em] underline'>
             GENERAL SECTION</h1>
             <div className="flex px-10 pb-10 xs:max-sm:p-5 xs:max-sm:flex-col pt-5">
               <div className="flex flex-col gap-5 w-1/2 font-bold xs:max-sm:mr-[10%] xs:max-sm:w-[100%]">
                 <div className="flex items-center gap-1">
                   <IoCalendarOutline className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.1em] xl:max-2xl:text-[1.1em]"/> 
                   <h3 className="xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Date: 
-                    <span className="text-[20px] ml-[5%] text-[#363636] font-extralight xs:max-sm:text-[0.9em]  xl:max-2xl:text-[1em]
+                    <span className="text-[20px] ml-[5%] text-[#363636] font-normal xs:max-sm:text-[0.9em]  xl:max-2xl:text-[1em]
                     ">YYYY/MM/DD</span>
                   </h3>
                 </div>
                 <div className="flex items-center gap-1">
                   <FiClock className="mr-[0.5rem] xs:max-sm:text-[1.1em] xl:max-2xl:text-[1.1em]" /> 
                   <h3 className="xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Time:
-                  <span className="text-[20px] ml-[5%] text-[#363636] font-extralight xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
+                  <span className="text-[20px] ml-[5%] text-[#363636]  font-normal xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
                   ">mm:hh:ss</span>
                   </h3>
                 </div>
                 <div className="flex items-center">
                   <BsPerson className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.6em] xl:max-2xl:text-[1.1em]"/> 
                   <h3 className="w-full xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Client Name:
-                    <span className="text-[20px] ml-[1%] text-[#363636] font-extralight xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
+                    <span className="text-[20px] ml-[1%] text-[#363636]  font-normal xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
                     ">John Doe</span>
                   </h3>
                 </div>
                 <div className="flex items-center">
                   <LiaCommentSolid className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.6em] xs:max-sm:mb-[2rem] xl:max-2xl:text-[1.1em] "/>
                   <h3 className="w-full xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]"> Remarks:
-                    <span className="text-[20px] ml-[1%] text-[#363636] font-extralight xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
+                    <span className="text-[20px] ml-[1%] text-[#363636]  font-normal xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
                     ">The service was swift and great!</span>
                   </h3>
                 </div>
@@ -217,39 +217,39 @@ const ReservationManager = () => {
                 <div className="flex items-center">
                   <MdFormatListNumbered className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.6em] xl:max-2xl:text-[1.1em]"/>
                   <h3 className="w-full xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Event Size:
-                   <span className="text-[20px] ml-[1%] text-[#363636] font-extralight xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
+                   <span className="text-[20px] ml-[1%] text-[#363636] font-normal xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
                    ">100</span>
                   </h3>
                 </div>
                 <div className="flex items-center">
                   <HiOutlineMail className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.1em] xl:max-2xl:text-[1.1em]"/> 
                   <h3 className="xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Email:
-                  <span className="text-[20px] ml-[3%] text-[#363636] font-extralight xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
+                  <span className="text-[20px] ml-[3%] text-[#363636]  font-normal xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
                   ">john@abc.com</span>
                   </h3>
                 </div>
                 <div className="flex items-center">
                   <AiOutlinePhone className="text-[22px] mr-[0.5rem] xs:max-sm:text-[1.4em] xs:max-sm:mb-[2rem] xl:max-2xl:text-[1.1em]"/> 
                   <h3 className="w-full xs:max-sm:text-[0.9em] xl:max-2xl:text-[0.8em]">Contact Number:
-                  <span className="text-[20px] ml-[1%] text-[#363636] font-extralight xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
+                  <span className="text-[20px] ml-[1%] text-[#363636] font-normal xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em]
                   ">09123456789</span>
                   </h3>
                 </div>
               </div>
             </div>
-            <h1 className='font-black ml-[3%] mb-[2%] text-[1.7em] text-[#840705]  xs:max-sm:text-[1em] xl:max-2xl:text-[1.3em] underline'>
+            <h1 className='font-bold  ml-[3%] mb-[2%] text-[1.7em] text-[#840705]  xs:max-sm:text-[1em] xl:max-2xl:text-[1.3em] xs:max-sm:mb-[4%] underline'>
               ADDITIONAL SECTION</h1>
             
             
             {pageMode === PAGE_MODE.READ &&
                   existingList?.length > 0 && (
-                    <div className="flex flex-wrap">
+                <div className="flex flex-wrap">
                   {existingList?.map((item: any, index: number) => (
                     <Fragment key={index}>
                       <div className="w-1/2 pb-5 px-10">
-                        <div className="flex items-center gap-1">
-                          <h3 className="font-bold xl:max-2xl:text-[0.8em]">{`${item.label}:`} 
-                            <span className="text-[20px] ml-[5%] text-[#363636] font-extralight">{`${item.value}`} </span>
+                        <div className="flex flex-wrap items-center gap-1">
+                          <h3 className="font-bold w-[50%] xl:max-2xl:text-[0.8em]">{`${item.label}:`} 
+                            <span className="text-[20px] ml-[1%] text-[#363636]  font-normal">{`${item.value}`} </span>
                           </h3>
                         </div>
                       </div>
@@ -275,7 +275,7 @@ const ReservationManager = () => {
                   onClick={() => {
                     saveForm();
                   }}
-                  className="flex justify-center items-center p-3 text-[1em] ml-[1%] bg-[#f78d02] text-white rounded-3xl  xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
+                  className="flex justify-center items-center p-3 text-[1em] ml-[1%] bg-[#f78d02] text-white rounded-3xl xs:max-sm:text-[0.8em]  xs:max-sm:p-2 xl:max-2xl:text-[0.7em] xl:max-2xl:p-2
                     hover:bg-[#d17802] transition-colors delay-250 duration-[3000] ease-in"
                 >
                   <IoIosSave className="mr-[2%]"/>

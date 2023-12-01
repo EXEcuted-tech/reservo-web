@@ -1,6 +1,30 @@
 @tailwind base;
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  /* scrollbar-color: var(--secondary) var(--primary); */
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+*::-webkit-scrollbar-track {
+  /*background: rgb(196, 196, 196);*/
+  border-radius: 20px;
+}
+
+*::-webkit-scrollbar-thumb {
+  /* background-color: var(--secondary); */
+  border-radius: 14px;
+  background-color: rgb(65, 64, 64);
+}
 @tailwind components;
 @tailwind utilities;
+
+
 
 body {
   margin: 0;
@@ -48,12 +72,21 @@ body {
 
 .animate-slide-right {
   background-size: 400%;
-
   animation: slide-right 3s ease infinite;
-  /* animation: slide-right 5s linear infinite;
-  background-image: linear-gradient(to right, #660605 0%, #9a1a00 100%);
-  background-size: 200% 100%;
-  background-position: 100% 0; */
+}
+
+.animate-slide-left {
+  background-size: 400%;
+  animation: slide-left 20s ease;
+}
+
+@keyframes slide-left {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: -100% 50%;
+  }
 }
 
 @keyframes slide-right {

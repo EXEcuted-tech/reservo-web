@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {IoLocation, IoCameraSharp} from 'react-icons/io5'
+import { AiFillCloseCircle } from "react-icons/ai";
 import {PiBinoculars} from 'react-icons/pi'
 import {MdPhone} from 'react-icons/md'
-import {FiEdit} from 'react-icons/fi'
-import colors from '../../../common/colors'
-import jjlogo from "../../../assets/jjlogo.png"
 import axios from 'axios'
 import GenSpinner from '../../../components/loaders/genSpinner'
 import config from '../../../common/config'
@@ -20,6 +18,15 @@ export default function GeneralSettings() {
     const [selectedCountry, setSelectedCountry] = useState('');
     const [notification, setNotification] = useState('');
     const [color, setColor] = useState('#660605');
+    const [formDeets,setFormDeets] = useState<any>(null);
+    const [arrTags, setArrTags]= useState<any>([])
+    const [tagInput, setTagInput] = useState('');
+    const tagsScroll = useRef<HTMLDivElement>(null);
+    const [isHovered, setIsHovered] = useState<Number|null>(null);
+
+    //For Mobile
+    const [isMobile, setIsMobile] = useState(false);
+    const [isImageEditModalOpen, setIsImageEditModalOpen] = useState(false);
   
     const openEditModal = () => {
       setIsEditModalOpen(true);
@@ -33,6 +40,15 @@ export default function GeneralSettings() {
       setNewImageUrl(imageUrl);
       setIsEditModalOpen(false);
     };
+
+    //For Mobile
+    const openImageEditModal = () => {
+    setIsImageEditModalOpen(true);
+  };
+
+  const closeImageEditModal = () => {
+    setIsImageEditModalOpen(false);
+  };
 
      const merchID = Number(localStorage.getItem("merch_id"))
 
@@ -63,12 +79,12 @@ export default function GeneralSettings() {
 
     const [data, setData] = useState({
         merchant: {
-            merchant_id: "", //to be changed
+            merchant_id: "",
             merchant_name: "",
             email_address: "",
             logo: "",
             contact_number: '',
-            sched_id: ""
+            sched_id: "",
         },
         address: {
             country: "",  
@@ -80,11 +96,14 @@ export default function GeneralSettings() {
         settings: {
             branch: "",
             description: "",
-            tags: "",
+            tags: {arrTags},
         },
         accounts: {
             email: "",
             position: "",
+        },
+        form_deets: {
+            form: []
         }
     });
 
@@ -97,46 +116,21 @@ export default function GeneralSettings() {
 
       
       
-      useEffect(() => {
-        setIsLoading(true)
-        fetchData();
-        setIsLoading(false)
-    }, [merchID]);
+     
 
-
+    //For Mobile
     useEffect(() => {
-        setIsLoading(true)
-        loadRegions();
-        setIsLoading(false)
-    }, [data, selectedCountry]);
-
-    useEffect(()=>{
-        setIsLoading(true)
-        loadProvinces();
-        setIsLoading(false)
-    }, [selectedProvince, selectedRegionId])
-
-    useEffect(()=>{
-        setIsLoading(true)
-        loadMunicipality();
-        setIsLoading(false)
-    }, [selectedMunicipality, selectedProvinceId])
-
-    useEffect(()=>{
-        
-        if (selectedMunicipalityId) {
-            setIsLoading(true)
-            loadBarangay();
-            setIsLoading(false)
-        }
-    }, [selectedMunicipalityId])
-
-    useEffect(()=>{
-        setTimeout(()=>{
-            setNotification('');
-            setColor('#660605')
-        }, 5200)
-    }, [notification]);
+        const handleResize = () => {
+          setIsMobile(window.innerWidth >= 300 && window.innerWidth <= 640);
+        };
+    
+        window.addEventListener('resize', handleResize);
+        handleResize();
+    
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+      }, []);
 
     const fetchData = async ()=>{
         setLoad(true);
@@ -151,15 +145,17 @@ export default function GeneralSettings() {
                 }
                 
                 setData(tempResponse);
+                setFormDeets(tempResponse.formDeets);
                 setSelectedCountry (response.address.country);
                 setSelectedRegion(response.address.region);
                 setSelectedProvince(response.address.province);
                 setSelectedMunicipality(response.address.municipality);
                 setSelectedBarangay(response.address.barangay);
+                setArrTags(data.settings.tags)
                 setTimeout(()=>{
                     setLoad(false);
                 },1800)
-                //console.log("DATAAAAa => ", data);
+                //console.log("DATAAAAaa => ", arrTags);
             })
         }catch(error){
             setColor('#660605')
@@ -197,6 +193,10 @@ export default function GeneralSettings() {
     else{
         setRegionNames([]);
     }
+    }
+
+    const refreshTags = async ()=>{
+        await setArrTags(data.settings.tags)
     }
 
     const loadProvinces = async ()=>{
@@ -285,6 +285,32 @@ export default function GeneralSettings() {
                 setRequiredFields(true);
             }
     }
+
+    const handleTagsChange = (e: any) => {
+        console.log("DATA ==> ", data.settings.tags);
+      
+        if (e.key === 'Enter' || e.target.value.indexOf(",") > 0) {
+          e.preventDefault();
+      
+          const val = e.target.value.indexOf(",") > 0 ? e.target.value.replaceAll(',', '') : e.target.value;
+      
+          setData((prevData:any) => {
+            const newTags = [...prevData.settings.tags, val];
+            return {
+              ...prevData,
+              settings: {
+                ...prevData.settings,
+                tags: newTags,
+              },
+            };
+          });
+      
+          setTagInput('');
+        } else {
+          setTagInput(e.target.value);
+        }
+      };
+      
 
     const handleChange = async (e:any) => {
         const { name, value } = e.target;
@@ -558,12 +584,11 @@ export default function GeneralSettings() {
         e.preventDefault();
         data.merchant.logo = newImageUrl ? newImageUrl: data.merchant.logo;
 
+        data.form_deets = formDeets;
         const formData = data;
-        
 
         axios.post(`${config.API}/merchant/update`, formData)
         .then(function(response){
-        
           if (response.data.success === true){
             setNotification("Successfully Saved!");
           }else{
@@ -571,14 +596,59 @@ export default function GeneralSettings() {
           }
         })
         .catch(function(error){
-            
             setNotification("Error with code "+ error.request.status);
         })
         setTimeout(() => {
             setIsLoading(false);
         }, 500);
     }
-    
+
+
+    useEffect(() => {
+        setIsLoading(true)
+        fetchData();
+        setIsLoading(false)
+    }, [merchID]);
+
+
+    useEffect(() => {
+        setIsLoading(true)
+        loadRegions();
+        setIsLoading(false)
+    }, [data, selectedCountry]);
+
+    useEffect(()=>{
+        setIsLoading(true)
+        loadProvinces();
+        setIsLoading(false)
+    }, [selectedProvince, selectedRegionId])
+
+    useEffect(()=>{
+        setIsLoading(true)
+        loadMunicipality();
+        setIsLoading(false)
+    }, [selectedMunicipality, selectedProvinceId])
+
+    useEffect(()=>{
+        
+        if (selectedMunicipalityId) {
+            setIsLoading(true)
+            loadBarangay();
+            setIsLoading(false)
+        }
+    }, [selectedMunicipalityId])
+
+    useEffect(()=>{
+        setTimeout(()=>{
+            setNotification('');
+            setColor('#660605')
+        }, 5200)
+    }, [notification]);
+
+    useEffect(()=>{
+        refreshTags()
+    }, [data.settings.tags])
+
     return (
         <>
         {load ?
@@ -588,8 +658,8 @@ export default function GeneralSettings() {
         :
         (
             <>
-            {(notification === '')? <></>:  <Notification message={notification} color={color}/>}
-            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in xs:max-sm:w-[130%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
+            {(notification !== '') && <Notification message={notification} color={color}/>}
+            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg animate-fade-in xs:max-sm:w-[120%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
                 <div className='flex flex-row mr-5 ml-5'>
                     <PiBinoculars className="text-4xl xs:max-sm:text-[1.3em] xs:max-sm:mt-[0.5rem] xl:max-2xl:text-[1.5em]" />
                     <h3 className='text-2xl mb-2 p-1 xs:max-sm:text-[1.1rem] xl:max-2xl:text-lg'><strong>Business Overview</strong></h3>
@@ -600,7 +670,7 @@ export default function GeneralSettings() {
                         <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
                                 Business Logo
                             </label>
-                            <input name="settings.logo" type="button" id="logoInput" onClick={openEditModal} className=''></input>
+                            <input name="settings.logo" type="button" id="logoInput" onClick={openImageEditModal} className=''></input>
                                 {isLoading? <><span className='ml-5'><GenSpinner/></span></> // if we are still getting data from DB
                                 :
                                 <label htmlFor="logoInput" className='relative cursor-pointer flex items-center justify-center'>
@@ -615,11 +685,16 @@ export default function GeneralSettings() {
                                     </div>                                  
                                 </label>}
 
-                                <ImageEditModal
-                                    isOpen={isEditModalOpen}
-                                    onClose={closeEditModal}
-                                    onSave={handleSaveImageUrl}
-                                />
+                                {isImageEditModalOpen && (
+                                    <ImageEditModal
+                                    isOpen={isImageEditModalOpen}
+                                    onClose={closeImageEditModal}
+                                    onSave={(newImageUrl) => {
+                                        // Handle saving new image URL
+                                        closeImageEditModal();
+                                    }}
+                                    />
+                                )}
                         </div>
                         <div className="m-2 flex flex-row ">
                             <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
@@ -664,13 +739,67 @@ export default function GeneralSettings() {
                                 className={`m-2 p-2 text w-full flex border border-gray-300 rounded-md resize-none xs:max-sm:h-[15vh] xs:max-sm:text-[0.6em] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''}`}
                             />
                         </div>
-                        <div className='m-4 flow-root'>
+
+                        <div className="m-2 flex flex-row">
+  <label className="text-lg p-2 w-auto flex-shrink-0 font-semibold text-black xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]" style={{ lineHeight: '3.0rem' }}>
+    Tags
+  </label>
+
+  <div className={` w-[58.2vw] hover:overflow-x-auto overflow-x-hidden overflow-y-hidden flex flex-row items-center m-2 ml-[6.5rem] p-2 h-[7vh] border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 rounded-md`}>
+    {arrTags && arrTags.length > 0 ? arrTags.map((element: any, index: any) => (
+      <div key={index}> {/* Add a unique key for each tag */}
+        <button className='w-auto h-5 p-4 flex border rounded-lg mx-1 items-center text-[0.9em]  hover:border-1 hover:border-red-300 bg-blue-200 xl:max-2xl:text-[0.6em]'
+          onClick={() => {
+            
+            setData((prevData:any) => {
+                const newTags = [...arrTags];
+                newTags.splice(index, 1);
+                setArrTags(newTags);
+                return {
+                  ...prevData,
+                  settings: {
+                    ...prevData.settings,
+                    tags: newTags,
+                  },
+                };
+                
+              })
+          }}
+          onMouseEnter={() => setIsHovered(index)}
+          onMouseLeave={() => setIsHovered(null)}
+        >
+          <div className='grid grid-cols-2 '></div>
+          <div className='w-auto'><p className='text-ellipsis w-[100%] whitespace-nowrap'>{element}</p></div>
+          <div className='w-[1vw]'>{<AiFillCloseCircle className='animate-fade-in duration-100' />}</div>
+        </button>
+      </div>
+    )) : <></>}
+    <input
+      type="text"
+      placeholder={isLoading ? "Loading..." : "Enter Tags Here"}
+      value={tagInput}
+      disabled={isLoading}
+      onChange={handleTagsChange}
+      name="settings.tags"
+      className={`w-[9vw] text-[0.9em] p-2 flex rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.6em] xl:max-2xl:w-[10vw] focus:ring-0 focus:outline-none 
+      ${isLoading ? 'animate-pulse cursor-not-allowed' : ''}`}
+      onKeyDown={(e)=>{
+        if (e.key === "Enter"){
+            handleTagsChange(e)
+        }
+      }}
+      
+    />
+  </div>
+</div>
+
+<div className='m-4 flow-root'>
                            
                         </div>
                 </form>
             </div>
 
-            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg xs:max-sm:w-[130%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
+            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg xs:max-sm:w-[120%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
                 <div className='flex flex-row mr-5 ml-5'>
                     <IoLocation className="text-4xl xs:max-sm:text-[1.3em] xs:max-sm:mt-[0.5rem] xl:max-2xl:text-[1.5em]" />
                     <h3 className='text-2xl mb-2 p-1 xs:max-sm:text-[1.1rem] xl:max-2xl:text-lg '><strong>Business Address</strong></h3>
@@ -701,7 +830,7 @@ export default function GeneralSettings() {
                                 value={isLoading? "Loading ..." : selectedRegion || ""}
                                 onChange={handleChange}
                                 disabled={isLoading}
-                                className={`m-2 p-2 ml-[1.1rem] text-gray-500 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[43vw]  xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500  ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
+                                className={`m-2 p-2 ml-[1.1rem] text-gray-500 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100%] xl:max-2xl:ml-[1rem] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500  ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
                                 required
                             >
                                 {!isLoading ? 
@@ -773,7 +902,7 @@ export default function GeneralSettings() {
                             </label>
                             <select
                                 name="address.barangay"
-                                value={selectedBarangay}
+                                value={selectedBarangay}    
                                 onChange={handleChange}
                                 disabled={isLoading}
                                 className={`m-2 p-2 ml-2 text-gray-500 w-full flex border border-gray-300 rounded-md xs:max-sm:text-[0.7em] xs:max-sm:w-[100vw] xl:max-2xl:text-[0.7em] focus:outline-none focus:ring focus:ring-blue-500 ${isLoading? 'animate-pulse cursor-not-allowed':''} `}
@@ -796,7 +925,7 @@ export default function GeneralSettings() {
                 </form>
             </div>
 
-            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg xs:max-sm:w-[130%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
+            <div style={{fontFamily: 'Poppins, sans-serif'}} className="w-auto h-auto bg-white m-8 p-5 rounded-lg xs:max-sm:w-[120%] xs:max-sm:p-2 xs:max-sm:ml-[-2%]">
                 <div className='flex flex-row mr-5 ml-5'>
                     <MdPhone className="text-4xl xs:max-sm:text-[1.3em] xs:max-sm:mt-[0.5rem] xl:max-2xl:text-[1.5em]" />
                     <h3 className='text-2xl mb-2 p-1 xs:max-sm:text-[1.1rem] xl:max-2xl:text-lg'><strong>Contact Details</strong></h3>
