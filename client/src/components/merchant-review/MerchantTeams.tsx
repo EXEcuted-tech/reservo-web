@@ -26,8 +26,9 @@ const MerchantTeams = () => {
     const [loading, setLoading] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [recordsPerPage] = useState(3)
+    const [viewDetails,setViewDetails] = useState(false);
 
-    const [selectedMerchantID, setSelectedMerchantID] = useState(null);
+    //const [selectedMerchantID, setSelectedMerchantID] = useState(null);
 
     const paginate = (pageNumbers: any) => setCurrentPage(pageNumbers)
 
@@ -66,14 +67,17 @@ const MerchantTeams = () => {
     const [buttonStatusArray, setButtonStatusArray] = useState(Array(currentData.length).fill(false));
 
     const handleMoreDetailsClick = (merchantID:any) => {
-        // sessionStorage.setItem('viewDetails', 'true');
+        //sessionStorage.setItem('viewDetails', 'true');
+        const newButtonStatusArray = [...buttonStatusArray];
+        setButtonStatusArray(newButtonStatusArray);
+        sessionStorage.setItem('merchTeam_id', merchantID);
         console.log("Merchant ID: ",merchantID);
-        setSelectedMerchantID(merchantID);
+        setViewDetails(true);
     };
 
     return (
         <div className='h-[96.5%] py-[1%] font-poppins relative'>
-            { sessionStorage.getItem('viewDetails') === 'false' ?    
+            { viewDetails === false ?    
             <div> 
             {currentData.map((data,i) => (
                 <div className='bg-white h-[200px] flex-row py-[1%] shadow-md my-[2%] px-[2%] text-[#838383] flex rounded-3xl'
@@ -135,7 +139,7 @@ const MerchantTeams = () => {
             </div> 
             : 
             <>
-            {/* <MerchantTeamDeets merchantID={selectedMerchantID}/> */}
+                <MerchantTeamDeets setViewDetails={setViewDetails}/>
             </>
             }
         </div>

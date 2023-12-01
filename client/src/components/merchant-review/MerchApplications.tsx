@@ -309,8 +309,6 @@ const MerchantApplications = () => {
           fetchDataForSlicedData();
         }
       })
-
-
     })
     .catch((error) => {
       console.log("Error: ",error);
