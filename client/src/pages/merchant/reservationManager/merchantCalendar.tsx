@@ -22,7 +22,9 @@ const MerchantCalendar = () => {
     }
   }
 
-  // useEffect
+  useEffect(() => {
+    retrieveSchedule()
+  }, []);
   return (
     
     <div className="animate-fade-in">

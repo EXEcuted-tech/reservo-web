@@ -22,7 +22,7 @@ const retrieveAll = (req,res)=>{
             return res.json({
                 success:true,
                 merchant: results,
-                // settings: parsedSettings,
+                settings: parsedSettings,
             })
         }
     })
