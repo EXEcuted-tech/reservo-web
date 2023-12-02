@@ -14,7 +14,6 @@ const retrieveParamsValidator = (req, res, next)=>{
     switch(req.query.col){
         case 'sched_id':
         case 'settings':
-        case 'sched_status':
         case 'time_open':
         case 'time_closed':
             if (req.query.val1 && req.query.val2){
@@ -31,7 +30,6 @@ const retrieveTwoParamsValidator = (req, res, next)=>{
     switch(req.query.col1){
         case 'sched_id':
         case 'settings':
-        case 'sched_status':
         case 'time_open':
         case 'time_closed':
             break;
@@ -41,7 +39,6 @@ const retrieveTwoParamsValidator = (req, res, next)=>{
     switch(req.query.col2){
         case 'sched_id':
         case 'settings':
-        case 'sched_status':
         case 'time_open':
         case 'time_closed':
             break;
@@ -58,7 +55,6 @@ const deleteParamsValidator = (req, res, next)=>{
     switch(req.body.col){
         case 'sched_id':
         case 'settings':
-        case 'sched_status':
         case 'time_open':
         case 'time_closed':
             break;

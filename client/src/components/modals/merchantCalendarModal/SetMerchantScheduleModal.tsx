@@ -43,6 +43,7 @@ const SetMerchantScheduleModal = (props:any) =>{
       Sat: 'Saturday',
     };
     const trueDowEntries = Object.entries(dow).filter(([day, value]) => value)
+    const falseDowEntries = Object.entries(dow).filter(([day, value]) => !value)
     const settingsObject = {
         merchsched: {
           merchID: null, // You need to provide the ID here
@@ -51,10 +52,8 @@ const SetMerchantScheduleModal = (props:any) =>{
               {
                 Type: 'Default',
                 SpecifiedDate: null,
-                DoW: trueDowEntries.map(([day]) => day).join(', '),
-                TimeOpen: '8 AM',
-                TimeClose: '8 PM',
-                Freq: 'Once',
+                Available_DoW: trueDowEntries.map(([day]) => day).join(', '),
+                Unavailable_DoW: falseDowEntries.map(([day]) => day).join(', '),
               },
             ],
           },
@@ -68,16 +67,17 @@ const SetMerchantScheduleModal = (props:any) =>{
       if(timeOpen =='' || timeClose=='' ){
         setErrMess("Please fill in all the details.")
     }
+      console.log(timeOpen)
+      console.log(timeClose)
       const formated_open = formatTimeOpen()
       const formated_close = formatTimeClose()
       const formated_settings = JSON.stringify(settingsObject, null, 2)
       try {
         const data = {
-          merch_ID: 2,
+          merchID: Number(localStorage.getItem('merch_id')),
           settings: formated_settings,
           timeOpen: formated_open,
           timeClose: formated_close,
-          schedStatus,
         };
   
         await axios.post(`${config.API}/merchantsched/create_sched`, data).then((sched) => {
@@ -96,7 +96,7 @@ const SetMerchantScheduleModal = (props:any) =>{
     function formatTimeOpen() {
       const [hours, minutes] = timeOpen.split(':');
       const formattedTime = new Date();
-      formattedTime.setHours(parseInt(hours, 10));
+      formattedTime.setHours(parseInt(hours, 10) - 16);
       formattedTime.setMinutes(parseInt(minutes, 10));
       formattedTime.setSeconds(0);
     
@@ -106,34 +106,12 @@ const SetMerchantScheduleModal = (props:any) =>{
     function formatTimeClose() {
       const [hours, minutes] = timeClose.split(':');
       const formattedTime = new Date();
-      formattedTime.setHours(parseInt(hours, 10));
+      formattedTime.setHours(parseInt(hours, 10)- 16);
       formattedTime.setMinutes(parseInt(minutes, 10));
       formattedTime.setSeconds(0);
     
       return formattedTime.toISOString().slice(0, 19).replace('T', ' ');
     }
-
-    function formated_settings(){
-
-    }
-
-    const retrieveSchedule = async () => {
-      try {
-        const schedule = await axios.get(`${config.API}/merchantsched/retrieve_sched`, {
-          params: {
-            merchID: merch_ID
-          }
-        })
-        return schedule.data.merchant
-      }catch (error){
-        console.error('Error fetching schedule:', error)
-        return []
-      }
-    }
-
-    useEffect(() => {
-      retrieveSchedule()
-    }, []);
 
   return (
   <div className=' z-[2000] absolute w-[100vw] h-[100vh] top-0 left-0 bg-[rgba(0,0,0,0.5)] backdrop-blur-sm'>
@@ -189,7 +167,7 @@ const SetMerchantScheduleModal = (props:any) =>{
             <label>
                     <input
                       type="checkbox"
-                      value="yes"
+                      value="no"
                       checked={is24Hour}
                       onChange={() => {
                         setIs24Hour(!is24Hour);
@@ -218,13 +196,11 @@ const SetMerchantScheduleModal = (props:any) =>{
                         }))
                       }
                       }
-                      // onFocus={e}
                     >
                       {day}
                     </button>
                   ))}
                 </p>
-            <p className='my-[1%]'><span className='font-bold'>Status: </span><input type="text" className='h-[4vh] w-[15vw] ml-[0.9vw] border rounded-md p-[1%] text-sm'/></p>
           </div>
         </div>
         <div className='fixed bottom-[2%] ml-[-1%] w-[100%]'>
