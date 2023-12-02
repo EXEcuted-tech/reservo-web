@@ -1,5 +1,5 @@
-import React, { useEffect, useContext } from 'react'
-import { Fragment, useRef, useState } from "react";
+import { useEffect, useState, useContext } from 'react'
+import { Fragment, useRef } from "react";
 import MerchAdHeader from '../../../components/headers/MerchAdHeader'
 import { RiReservedFill } from 'react-icons/ri'
 import MerchantLayout from '../../../components/layout/MerchantLayout';
@@ -12,14 +12,13 @@ import CalendarMerchSched from '../../../components/calendar/CalendarMerchSched'
 import SetMerchantScheduleModal from '../../../components/modals/merchantCalendarModal/SetMerchantScheduleModal';
 import {mainContext} from './mainPage'
 
-
-
-
 const MerchantCalendar = () => {
-  const [showSetMerchSchedModal, setShowSetMerchSchedModal]:any = useContext(mainContext); //this is not working when clicking the button
+  const [showSetMerchSchedModal, setShowSetMerchSchedModal]:any = useContext(mainContext); 
     
   return (
+
     
+
     <div className="animate-fade-in">
       <div className="h-[90vh] font-poppins bg-[#F3F3F3] p-8">
 
@@ -34,9 +33,8 @@ const MerchantCalendar = () => {
       
       </button>
       
-        {/* <CalendarMerchant /> */}
-        <CalendarMerchSched />
-
+       
+      <CalendarMerchSched />
       </div>
     </div>
     
