@@ -9,6 +9,28 @@ const AdminDashboard = () => {
   const [adgraphList, setadgraphList] = useState([{signup_year: 0, signup_month:1, count_merchant: 1, count_user: 0}])
   const [isLoading, setIsLoading] = useState(false);
 
+  const userDetails = localStorage.getItem('admerchDetails');
+  const userName = userDetails ? JSON.parse(userDetails).user: "UNDEFINED";
+
+  const [merchCount,setMerchCount] = useState(0);
+  const [userCount,setUserCount] = useState(0);
+  const [activeCount,setActiveCount] = useState(0)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {getMerchCount();}, 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {getUserCount();}, 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {getActiveCount();}, 500);
+    return () => clearTimeout(timer);
+  }, []);
+
   const fetchGraphInfo = async() => {
     try {
       const responseAccounts = await axios.get(`${config.API}/user/retrieve_accounts`,{
@@ -57,6 +79,34 @@ const AdminDashboard = () => {
     fetchGraphInfo();
     setIsLoading(false);
   }, []);
+
+  const getMerchCount = () =>{
+      axios.get(`${config.API}/merchant/retrieve_count?col=merch_status&val=Active`)
+      .then((res)=>{
+         if(res.data.success === true){
+          setMerchCount(res.data.merchCount);
+         }
+      })
+  }
+
+  const getUserCount = () =>{
+    axios.get(`${config.API}/user/retrieve_count?col=account_type&val=1`)
+    .then((res)=>{
+       if(res.data.success === true){
+        setUserCount(res.data.acctCount);
+       }
+    })
+  }
+
+  const getActiveCount = () =>{
+    axios.get(`${config.API}/user/retrieve_count?col=account_status&val=active`)
+    .then((res)=>{
+       if(res.data.success === true){
+        setActiveCount(res.data.acctCount);
+       }
+    })
+  }
+
   return (
     <div className='flex-col animate-fade-in overflow-y-auto overflow-x-hidden'>
       {/* Header Section */}
@@ -64,26 +114,28 @@ const AdminDashboard = () => {
         {/* Welcome Section */}
         <div className='bg-[#F3F3F3] h-[30vh] flex overflow-y-auto overflow-x-hidden xs:max-sm:mt-[3%] xs:max-sm:mb-[3%]'>
            <div className='w-[35%] p-[1%] items-center xs:max-sm:w-[40%] xs:max-sm:p-[0.5%]'>
-              <div className='align-center text-left p-[3%] h-[100%] rounded-3xl bg-gradient-to-b from-[#EC0000] to-black pl-10 pt-7 xs:max-sm:p-6'>
-                <h1 className='text-[1.8em] text-white xs:max-sm:text-[1em] xl:max-2xl:text-[1.3em]'>
-                  Welcome, Kathea Marie!
+           <div className='animate-slide-right align-center text-center p-[3%] h-[100%] rounded-3xl bg-gradient-to-r from-[#660605] via-[#ae1313] to-[#9a1a00] xs:max-sm:overflow-y-auto'>
+                <h1 className='animate-up-down text-[2.5em] font-extrabold text-white xs:max-sm:text-[1.3em] xl:max-2xl:text-[1.5em]'>
+                  Welcome, {userName}!
                 </h1>
-                <p className='text-[1.3em] text-white xs:max-sm:text-[0.9em] xl:max-2xl:text-[1em'>
-                  <br/>Lorem ipsum dolor sit amet, <br/>consectetur adipiscing elit!</p>
+                <p className='font-extralight text-[1.3em] mt-[-3%] text-white xs:max-sm:text-[0.7em] xl:max-2xl:text-[1em]'>
+                  <br/>System is currently running, <br/>time to go back to work!</p>
+                <p className='hover:animate-shake hover:cursor-pointer mt-[5%] italic font-light text-[1em] text-white xs:max-sm:text-[0.7em] xs:max-sm:mt-[5%]'>
+                  Check further updates now!</p>
               </div>
             </div>
             <div className='w-[65%] p-[1%] text-center'>
               <div className='p-[3%] h-[100%] rounded-3xl bg-gradient-to-t from-[#930a08] to-[#600403] grid-cols-2 grid-rows-2 gap-1 flex'>
                 <div className='w-[33%] mt-[-1%] xs:max-sm:w-[50%] xs:max-sm:h-[35%] xs:max-sm:mt-[13%] xl:max-2xl:mt-[1%]'>
-                <p className='text-white mt-[-5%] text-[8em] font-bold flex-col xs:max-sm:text-[3em]  xl:max-2xl:text-[4em]'>35</p>
+                <p className='text-white mt-[-5%] text-[8em] font-bold flex-col xs:max-sm:text-[3em]  xl:max-2xl:text-[4em]'>{merchCount}</p>
                     <p className='text-white text-[2em] flex-col mt-[-10%] xs:max-sm:text-[0.9em] xs:max-sm:ml-[2%] xl:max-2xl:text-[2em]'>Merchants</p>
                 </div>
                 <div className='w-[33%] mt-[-1%] xs:max-sm:w-[50%] xs:max-sm:h-[35%] xs:max-sm:mt-[13%] xl:max-2xl:mt-[1%]'>
-                <p className='text-white mt-[-5%] text-[8em] font-bold flex-col xs:max-sm:text-[3em]  xl:max-2xl:text-[4em]'>100</p>
+                <p className='text-white mt-[-5%] text-[8em] font-bold flex-col xs:max-sm:text-[3em]  xl:max-2xl:text-[4em]'>{userCount}</p>
                     <p className='text-white text-[2em] flex-col mt-[-10%] xs:max-sm:text-[0.9em] xs:max-sm:ml-[20%] xl:max-2xl:text-[2em]'>Users</p>
                 </div>
                 <div className='w-[33%] mt-[-1%] xs:max-sm:w-[50%] xs:max-sm:h-[35%] xs:max-sm:mt-[55%] xs:max-sm:ml-[-80%]'>
-                <p className='text-white mt-[-5%] text-[8em] font-bold flex-col xs:max-sm:text-[3em] xl:max-2xl:text-[4em]'>120</p>
+                <p className='text-white mt-[-5%] text-[8em] font-bold flex-col xs:max-sm:text-[3em] xl:max-2xl:text-[4em]'>{activeCount}</p>
                     <p className='text-white text-[2em] flex-col mt-[-10%] xs:max-sm:text-[0.9em] xs:max-sm:ml-[2%] xl:max-2xl:text-[2em]'>Active</p>
                 </div>
               </div>
