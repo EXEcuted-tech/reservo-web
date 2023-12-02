@@ -47,6 +47,8 @@ function CalendarMerchSched() {
     // For Mobile
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
 
+    const [showHoverMessage, setShowHoverMessage] = useState('');
+
     const getDaysInMonth = (year: number, month: number) => {
         return new Date(year, month + 1, 0).getDate();
     };
@@ -195,17 +197,17 @@ function CalendarMerchSched() {
 
     const availableDate = (dOw: any[], day: number) => {
         const date = new Date(year, monthNdx, day);
-        console.log("1-Date ", date);
+        //console.log("1-Date ", date);
         const dayOfWeek = date.getDay();
     
         const dayOfWeekName = weekly[dayOfWeek];
-        console.log("2-DayOfWeek ", dayOfWeekName);
+        //console.log("2-DayOfWeek ", dayOfWeekName);
 
-        console.log("Year ", year, "Day ", day, "Month", monthNdx, "Day of the week", dayOfWeekName);
+        //console.log("Year ", year, "Day ", day, "Month", monthNdx, "Day of the week", dayOfWeekName);
     
         const notAvailable = dOw;
         const retval = notAvailable.includes(dayOfWeekName);
-        console.log("4- Retval ",retval);
+        //console.log("4- Retval ",retval);
         return retval;
     };
 
@@ -299,7 +301,7 @@ function CalendarMerchSched() {
 
 
     return (
-        <div className='p-[3%]  '>
+        <div className='px-[3%] pb-[3%] pt-[1.5%] '>
             <div className='flex flex-col font-poppins w-[100%] h-[100%] p-[1%] bg-[#840705] rounded-3xl'>
                 <div>
                     <div className='flex justify-center my-[1%] mb-[2%]' >
@@ -363,7 +365,8 @@ function CalendarMerchSched() {
                                 hover:bg-slate-300 duration-300`}
                                 onClick={() => handleDayClick(day)}
                             >
-                                <div onClick={() => updateSelected(year, monthNdx, day)}>
+                                <div 
+                                    onClick={() => updateSelected(year, monthNdx, day)}>
                                     <TileMerchSched
                                         showReservations={currentReservations}
                                         year={year}
