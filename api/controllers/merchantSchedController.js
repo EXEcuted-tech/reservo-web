@@ -69,12 +69,15 @@ const updateSchedule = (req, res)=>{
 
 const retrieveByParams = (req, res) => {
     const {col} = req.query;
-    sql = `SELECT * FROM merchant_sched, merchant WHERE merchant.merchant_id = ? AND merchant_sched.sched_id = merchant.sched_id`
+    const sql = `SELECT merchant_sched.*, merchant.*, merchant_sched.settings AS merchant_sched_settings
+    FROM merchant_sched
+    JOIN merchant ON merchant.merchant_id = ? AND merchant_sched.sched_id = merchant.sched_id;`
+    console.log("SQL: ",sql);
     db.query(sql, [col], (err, response)=>{
         if (err){
-            return res.status(200).json({success:true,  status: 500,  message: `Failed to Retrieve Schedule! at ${col} with value ${val}`});
+            return res.status(200).json({success:false,  status: 500,  message: `Failed to Retrieve Schedule! at ${col} with value ${val}`});
         }else{
-            return res.status(200).json({success:false, status: 200, message: response });
+            return res.status(200).json({success:true, status: 200, message: response });
         }
     })
 }
