@@ -226,10 +226,4 @@ const MerchantTeamDeets = (props :any) => {
 
 export default MerchantTeamDeets
 
-function setNotif(arg0: string) {
-  throw new Error('Function not implemented.')
-}
-function setColor(arg0: string) {
-  throw new Error('Function not implemented.')
-}
 
