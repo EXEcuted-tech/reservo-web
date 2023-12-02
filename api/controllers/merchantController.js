@@ -139,7 +139,6 @@ const updateMerchant = (req,res)=>{
 const retrieveAll = (req,res)=>{
     db.query(`SELECT * , DATEDIFF(DATE_ADD(date_registered, INTERVAL 30 DAY), CURDATE()) AS days_left FROM merchant`, (error, results) => {
         if(error){
-
             res.status(500).json({error: 'Internal server error'})
         }
         else{
@@ -260,7 +259,6 @@ const retrieveCountByParams = (req, res) => {
           return res.status(500).json({ status: 500, success: false, error: 'Error retrieving records' });
       } else {
           const recordCount = row[0].record_count;
-
           return res.status(200).json({
               status: 200,
               success: true,

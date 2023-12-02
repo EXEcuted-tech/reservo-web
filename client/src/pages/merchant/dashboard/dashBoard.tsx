@@ -52,10 +52,12 @@ const MerchDashboard = () => {
 
   const fetchGraphInfo = async() => {
     try {
+      const currentYear = new Date().getFullYear();
+
       const responseBooks = await axios.get(`${config.API}/reserve/retrievebooks`,{
         params: {
-          year: "2023",
-          merchID: Number(localStorage.getItem('merch_ID'))
+          year: currentYear,
+          merchID: Number(localStorage.getItem('merch_id'))
         }
       })
      
