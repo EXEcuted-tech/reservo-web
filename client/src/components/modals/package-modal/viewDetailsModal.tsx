@@ -55,7 +55,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
     <div>
     <div className='z-[100] fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100%] h-[100%] backdrop-blur-sm animate-zoom-in overflow-y-hidden '>
     <div className='flex justify-center align-center my-20'>
-          <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl">
+          <div className="w-[75vw] h-[80vh] bg-white p-10 rounded-xl xs:max-sm:p-5">
             <div className='grid grid-cols-2 h-[5vh] border-b-2 border-black'> {/*this is the header for the modal*/}
                 <div className='flex start items-center text-2xl mb-4 xl:max-2xl:text-xl'>
                   <LuPackage2 className="text-4xl mr-[2%] xl:max-2xl:text-2xl"/>
@@ -66,7 +66,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
             <div className="grid grid-cols-2 h-[60vh] my-5 border-b-2 border-solid border-[#000000] xs:max-sm:grid-cols-1">
             <div>
             <div className='h-[40vh] text-xl xs:max-sm:text-[0.9em] xs:max-sm:h-[30vh] xl:max-2xl:text-[0.9em] pr-4'>
-              <table className='border-separate border-spacing-x-8 border-spacing-y-2 text-left'>
+              <table className='border-separate border-spacing-x-8 border-spacing-y-2 text-left xs:max-sm:border-spacing-x-0'>
                 <tr>
                   <td className=' w-1/4'>
                   <p><b>Package Name: </b></p>
@@ -89,11 +89,9 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
                   </td>
                   <td>
                     <div className='w-[7vw] inline-block'>
-                  {parsedStartDate} 
-                  </div>
-                  <button className=' bg-green-200 px-4 rounded-2xl ml-4 w-[8vw]'><MdAccessTime className=' inline-block'/> {time_start}</button> 
-
-                  
+                      {parsedStartDate} 
+                      </div>
+                    <button className=' bg-green-200 px-4 rounded-2xl ml-4 w-[40%] xs:max-sm:hidden'><MdAccessTime className=' inline-block mt-[-2%]'/> {time_start}</button> 
                   </td>
                 </tr>
                 <tr>
@@ -154,7 +152,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, packageID, package
                     </p>
                 </div>
             </div>
-            <div className='IMAGE_PLACEHOLDER bg-slate-600 block w-[90%] h-[90%] ml-4  rounded-2xl xs:max-sm:w-[100%] xs:max-sm:h-[50%]'>
+            <div className='IMAGE_PLACEHOLDER bg-slate-600 block w-[90%] h-[90%] ml-4  rounded-2xl xs:max-sm:w-[100%] xs:max-sm:h-[50%] xs:max-sm:ml-0'>
             <img
                 src={filePath} // Use your image URL from the DB here
                 alt="Package Image"

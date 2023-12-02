@@ -2,8 +2,8 @@ const express = require('express');
 const db = require('./a_db'); 
 
 const retrieveAll = (req,res)=>{
-    const merchID = req.query
-    db.query('SELECT merchant_sched.settings, merchant_sched.sched_status, merchant_sched.time_open, merchant_sched.time_closed FROM merchant, merchant_sched WHERE merchant.merchant_id = ? AND merchant.sched_id = merchant_sched.sched_id',[merchID], (error, results) => {
+    const {merchID} = req.query
+    db.query('SELECT merchant_sched.settings, merchant_sched.sched_status, TIME(merchant_sched.time_open) as open_time, TIME(merchant_sched.time_closed) as close_time FROM merchant, merchant_sched WHERE merchant.merchant_id = ? AND merchant.sched_id = merchant_sched.sched_id',[merchID], (error, results) => {
         if(error){
             res.status(500).json({
                 status: 500,
@@ -28,19 +28,30 @@ const retrieveAll = (req,res)=>{
     })
 }
 
-const createSchedule = (req, res)=>{
-    const {settings, schedStatus, timeOpen, timeClose} = req.body;
-    sql = `INSERT INTO merchant_sched (settings, sched_status, time_open, time_closed) VALUES (?, ?, ?, ?)`;
-    db.query(sql, [settings, schedStatus, timeOpen, timeClose], (err, response)=>{
-        console.log("ERROR", err)
-        if (err){
-            return res.status(200).json({success:false,  status: 500,  message: 'Failed to Add Schedule!'});
-        }else{
-            return res.status(200).json({success:true, status: 200, message: 'Added Schedule!' });
+const createSchedule = (req, res) => {
+    const { settings, timeOpen, timeClose, merchID } = req.body;
+    const insertQuery = `INSERT INTO merchant_sched (settings, time_open, time_closed) VALUES (?, ?, ?)`;
+
+    db.query(insertQuery, [settings, timeOpen, timeClose], (err, result) => {
+        if (err) {
+            console.log("ERROR", err);
+            return res.status(500).json({ success: false, status: 500, message: 'Failed to Add Schedule!' });
         }
-        
-    })
-}
+
+        const schedID = result.insertId;
+
+        const updateQuery = `UPDATE merchant SET sched_id = ? WHERE merchant_id = ?`;
+
+        db.query(updateQuery, [schedID, merchID], (err, response) => {
+            if (err) {
+                console.log("ERROR", err);
+                return res.status(500).json({ success: false, status: 500, message: 'Failed to Update Merchant Schedule ID!' });
+            }
+
+            return res.status(200).json({ success: true, status: 200, message: 'Added Schedule!', sched: response });
+        });
+    });
+};
 
 const updateSchedule = (req, res)=>{
     const {schedID, settings, schedStatus, timeOpen, timeClose} = req.body;
@@ -57,20 +68,23 @@ const updateSchedule = (req, res)=>{
 }
 
 const retrieveByParams = (req, res) => {
-    const {col, val} = req.query;
-    sql = `SELECT * FROM merchant_sched WHERE ?? = ?`
-    db.query(sql, [col, val], (err, response)=>{
+    const {col} = req.query;
+    const sql = `SELECT merchant_sched.*, merchant.*, merchant_sched.settings AS merchant_sched_settings
+    FROM merchant_sched
+    JOIN merchant ON merchant.merchant_id = ? AND merchant_sched.sched_id = merchant.sched_id;`
+    console.log("SQL: ",sql);
+    db.query(sql, [col], (err, response)=>{
         if (err){
-            return res.status(200).json({success:true,  status: 500,  message: `Failed to Retrieve Schedule! at ${col} with value ${val}`});
+            return res.status(200).json({success:false,  status: 500,  message: `Failed to Retrieve Schedule! at ${col} with value ${val}`});
         }else{
-            return res.status(200).json({success:false, status: 200, message: response });
+            return res.status(200).json({success:true, status: 200, message: response });
         }
     })
 }
 
 const retrieveByTwoParams = (req, res) => {
     const {col1, val1, col2, val2} = req.query;
-    sql = `SELECT * FROM merchant_sched WHERE ?? = ? AND ?? = ?`
+    sql = `SELECT * FROM merchant_sched, merchant WHERE ?? = ? AND ?? = ?`
     db.query(sql, [col1, val1, col2, val2], (err, response)=>{
         if (err){
             return res.status(200).json({success:false,  status: 500,  message: `Failed to Retrieve Schedule! at ${col1} = ${val1} and ${col2} = ${val2}`});
@@ -83,7 +97,7 @@ const retrieveByTwoParams = (req, res) => {
 
 const deleteSchedByID = (req, res)=> {
     const schedID = req.body.schedID? req.body.schedID: 0;
-    sql = `DELETE FROM merchant_sched WHERE sched_id = ?`;
+    sql = `DELETE FROM merchant_sched, merchant WHERE sched_id = ?`;
     db.query(sql, schedID, (err, response)=>{
         if (err){
             return res.status(200).json({success:false,  status: 500,  message: `Failed to Delete! Schedule: ${schedID}`});
@@ -95,7 +109,7 @@ const deleteSchedByID = (req, res)=> {
 
 const deleteSchedByParams = (req, res)=> {
     const {col, val} = req.body;
-    sql = `DELETE FROM merchant_sched WHERE ?? = ?`;
+    sql = `DELETE FROM merchant_sched, merchant WHERE ?? = ?`;
     db.query(sql, [col, val], (err, response)=>{
         if (err){
             return res.status(200).json({success:true,  status: 500,  message: `Failed to Delete! Schedule: ${col} = ${val}`});

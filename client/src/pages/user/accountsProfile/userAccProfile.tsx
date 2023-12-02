@@ -157,7 +157,7 @@ function UserProfilePage() {
                 <p className="text-[#929090] text-[15pt] font-bold">Protect and Secure Your Account</p>
             </div>
 
-            <div className="m-auto h-[80vh] w-[90vw] mt-7 mb-10 mr-[-5] rounded-3xl bg-white">
+            <div className="m-auto h-[80vh] w-[95vw] mt-7 mb-10 mr-[-5] rounded-3xl bg-white">
 
                 <div>
 
@@ -209,9 +209,58 @@ function UserProfilePage() {
                             <p>Loading...</p>
                         )}
 
+                        <div className='float-center w-full hidden xs:max-sm:block overscroll-x-auto'>
+                            <h1 className="text-center font-bold text-[22pt] pt-[0.75cm]">Reservation History</h1>
+                            <TableContainer style={{width:"100%",height:"auto" ,borderRadius:'0.5em'}}>
+                                <Table style={{ textAlign: 'center', fontFamily: 'poppins'}}>
+                                    <TableHead style={{ background: "grey", textAlign: 'center'}}>
+                                        <TableRow>
+                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 0 }}>Date</TableCell>
+                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 0 }}>Time</TableCell>
+                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 0 }}>Location</TableCell>
+                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 0 }}>Event Size</TableCell>
+                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 0 }}>Status</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {isLoading == true ? <tr><td colSpan={5}><GenSpinner /></td></tr> :
+                                            <>
+                                                {reservations && reservations.length > 0 ? (
+                                                    reservations.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((reservation: any, index: number) => (
+                                                        <TableRow key={index} >
+                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 3 }}>{getDate(reservation.res_date)}</TableCell>
+                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 3 }}>{reservation.res_time}</TableCell>
+                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 3 }}>{reservation.res_location}</TableCell>
+                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 3 }}>{reservation.party_size}</TableCell>
+                                                            <TableCell style={{ textAlign: 'center', fontFamily: 'poppins', fontSize: 12, padding: 3 }}>
+                                                                {reservStats(reservation.status)}
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))
+                                                ) : (
+                                                    <TableRow >
+                                                        <TableCell style={{textAlign:"center",fontFamily: 'poppins' } } colSpan={5}>No reservations found</TableCell>
+                                                    </TableRow>
+
+                                                )}</>
+                                        }
+
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <TablePagination
+                                component="div"
+                                count={10}
+                                page={page}
+                                onPageChange={handleChangePage}
+                                rowsPerPage={rowsPerPage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            />
+
+                        </div>
                     </div>
 
-                    <div className='float-right w-[60vw] pr-[50pt]'>
+                    <div className='float-right w-[60vw] pr-[50pt] xs:max-sm:hidden'>
                         <h1 className="text-center font-bold text-[22pt] pt-[0.75cm]">Reservation History</h1>
                         <TableContainer style={{ width: "100%", height: "60vh", borderRadius: '0.5em' }}>
                             <Table style={{ textAlign: 'center', fontFamily: 'poppins' }}>

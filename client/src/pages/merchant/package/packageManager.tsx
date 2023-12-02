@@ -182,7 +182,7 @@ return (
     </div>
 
     </div>
-        <div className="PackageGallery flex flex-row  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl xs:max-sm:h-[60vh] xs:max-sm:p-2 xs:max-sm:mx-4 xl:max-2xl:h-[70vh] ">
+        <div className="PackageGallery flex flex-row snap-x  overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl xs:max-sm:h-[60vh] xs:max-sm:p-2 xs:max-sm:mx-4 xl:max-2xl:h-[70vh] ">
         {isLoading ? (
               <GenSpinner/>
             ) : packages.length === 0 ? (

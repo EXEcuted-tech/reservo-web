@@ -5,6 +5,7 @@ const createReserveValidator = (req,res,next)=>{
 
     const errors = {};
 
+    console.log(isValidDate('Mon Dec 11 2023 00:00:00 GMT+0800 (Philippine Standard Time)'));
     if (!date || !isValidDate(date)) {
         errors.date = 'Date is required and must be a valid date (YYYY-MM-DD)';
     }
