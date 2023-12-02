@@ -47,7 +47,7 @@ function CalendarMerchSched() {
     // For Mobile
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
 
-    const [showHoverMessage, setShowHoverMessage] = useState('');
+    const [unavailableDoW,setUnavailableDoW] = useState<any[]>([]);
 
     const getDaysInMonth = (year: number, month: number) => {
         return new Date(year, month + 1, 0).getDate();
@@ -195,21 +195,68 @@ function CalendarMerchSched() {
         return retval
     }
 
+    useEffect(() => {
+        const timer = setTimeout(() => {getUnavailableDays()}, 500);
+        return () => clearTimeout(timer);
+      }, [year, monthNdx, window.location.pathname]);
+
     const availableDate = (dOw: any[], day: number) => {
+        console.log("DOW: ",dOw);
+        let retval;
         const date = new Date(year, monthNdx, day);
-        //console.log("1-Date ", date);
         const dayOfWeek = date.getDay();
     
         const dayOfWeekName = weekly[dayOfWeek];
-        //console.log("2-DayOfWeek ", dayOfWeekName);
-
-        //console.log("Year ", year, "Day ", day, "Month", monthNdx, "Day of the week", dayOfWeekName);
     
-        const notAvailable = dOw;
-        const retval = notAvailable.includes(dayOfWeekName);
-        //console.log("4- Retval ",retval);
+        if(dOw!=undefined){
+            const notAvailable = mapAbbreviatedToFull(dOw);
+            console.log("Not Available: ",notAvailable);
+            retval = notAvailable.includes(dayOfWeekName);
+        }else{
+            retval=false;
+        }
+        console.log("Retval: ",retval);
         return retval;
     };
+
+    const mapAbbreviatedToFull = (daysOfWeek: any[]) => {
+        console.log("Hello?!",daysOfWeek);
+        const dayMapping:any = {
+          Mon: 'Monday',
+          Tue: 'Tuesday',
+          Wed: 'Wednesday',
+          Thu: 'Thursday',
+          Fri: 'Friday',
+          Sat: 'Saturday',
+          Sun: 'Sunday',
+        };
+      
+        console.log("Here",daysOfWeek.map((abbreviatedDay) => dayMapping[abbreviatedDay]))
+        return daysOfWeek.map((abbreviatedDay) => dayMapping[abbreviatedDay]);
+      };
+
+    const getUnavailableDays = () =>{
+        axios.get(`${config.API}/merchantsched/retrieve?col=${merchant_id}`)
+        .then((res)=>{
+            if(res.data.success==true){
+                if (res.data.message[0]?.merchant_sched_settings) {
+                    const merchantSchedSettings = JSON.parse(res.data.message[0]?.merchant_sched_settings);
+                
+                    if (merchantSchedSettings && merchantSchedSettings.merchsched.settings.cases) {
+                        const newSettings = merchantSchedSettings.merchsched.settings;
+                        const unavailableDoW = newSettings?.cases
+                            .map((caseItem: { Unavailable_DoW: any }) => caseItem.Unavailable_DoW)
+                            .flatMap((dayString: string) => dayString.split(',').map((day) => day.trim()));
+                
+                        console.log(unavailableDoW);
+                        setUnavailableDoW(unavailableDoW);
+                    }
+                } else {
+                    setUnavailableDoW([]);
+                }
+            }
+        })
+    }
 
     const updateSelected = async (year: number, month: number, day: number) => {
         let retval = -1; // Assign a default value
@@ -361,7 +408,7 @@ function CalendarMerchSched() {
                             <div
                                 key={day}
                                 className={`h-[5vw] w-[5vw] flex justify-center cursor-pointer p-2 rounded-xl border-black border-2 border-solid xs:max-sm:w-[100%] xs:max-sm:h-[100%] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.9em]
-                                ${checkToday(day) === true ? styleToday : availableDate(["Sunday","Saturday"],day) == true ? 'bg-[#FA8072]':'bg-white'} 
+                                ${checkToday(day) === true ? styleToday : availableDate(unavailableDoW,day) == true ? 'bg-[#FA8072]':'bg-white'} 
                                 hover:bg-slate-300 duration-300`}
                                 onClick={() => handleDayClick(day)}
                             >

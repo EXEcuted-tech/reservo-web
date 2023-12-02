@@ -46,7 +46,7 @@ const SetMerchantScheduleModal = (props:any) =>{
     const falseDowEntries = Object.entries(dow).filter(([day, value]) => !value)
     const settingsObject = {
         merchsched: {
-          merchID: null, // You need to provide the ID here
+          merchID: Number(localStorage.getItem('merch_id')), // You need to provide the ID here
           settings: {
             cases: [
               {

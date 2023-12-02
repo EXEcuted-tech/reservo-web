@@ -6,7 +6,7 @@ const [ createSchedValidator, retrieveParamsValidator, retrieveTwoParamsValidato
 router.get('/retrieve_sched',retrieveAll);
 router.post('/create_sched', createSchedValidator, createSchedule);
 router.post('/update_sched', createSchedValidator, updateSchedule);
-router.get('/retrieve', retrieveParamsValidator, retrieveByParams);
+router.get('/retrieve', retrieveByParams);
 router.get('/retrieve_params', retrieveTwoParamsValidator, retrieveByTwoParams);
 router.post('/delete',deleteSchedByID);
 router.post('/delete_params', deleteParamsValidator, deleteSchedByParams)
