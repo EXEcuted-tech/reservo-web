@@ -2,27 +2,19 @@ const express = require('express');
 const db = require('./a_db'); 
 
 const retrieveAll = (req,res)=>{
-    const {merchID} = req.query
-    db.query('SELECT merchant_sched.settings, merchant_sched.sched_status, TIME(merchant_sched.time_open) as open_time, TIME(merchant_sched.time_closed) as close_time FROM merchant, merchant_sched WHERE merchant.merchant_id = ? AND merchant.sched_id = merchant_sched.sched_id',[merchID], (error, results) => {
+    const {col} = req.query
+    db.query('SELECT merchant_sched.settings, TIME(merchant_sched.time_open) as open_time, TIME(merchant_sched.time_closed) as close_time FROM merchant_sched JOIN merchant ON merchant.merchant_id = 1 AND merchant_sched.sched_id = merchant.sched_id',[col], (error, results) => {
         if(error){
             res.status(500).json({
                 status: 500,
                 success: false,
                 error: 'Internal server error'
             })
-        }
-        else{
-            //extracting objects
+        }else{
             const parsedSettingsArray = [];
-            for(const result of results){
-                const parsedSettings = JSON.parse(result.settings);
-                parsedSettingsArray.push(parsedSettings)
-            }
-
             return res.json({
                 success:true,
                 merchant: results,
-                settings: parsedSettings,
             })
         }
     })
