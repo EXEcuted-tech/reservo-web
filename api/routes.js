@@ -29,7 +29,7 @@ app.use((req, res, next) => {
     next();
 });
 
-const allowedOrigins = [process.env.CORS_ORIGIN];
+const allowedOrigins = process.env.CORS_ORIGIN.split(',');
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
