@@ -11,6 +11,7 @@ import config from '../../../common/config'
 import axios from 'axios'
 import GenSpinner from '../../loaders/genSpinner';
 import Notification from '../../alerts/Notification';
+import './../../../assets/css/package.css'
 
 interface CreatePackageModal{
     onClose: ()=>void;
@@ -37,7 +38,7 @@ interface CreatePackageModal{
     const [items, setItems] = useState<string[]>([]);
     const [packageName, setPackageName] = useState('');
     const [packageDesc, setPackageDesc] = useState('');
-    const [price, setPrice] = useState<any|undefined>('');
+    const [price, setPrice] = useState('');
     const [dateStart, setDateStart] = useState(getCurrentDate);
     const [dateEnd, setDateEnd] = useState<any>(null);
     const [timeStart, setTimeStart] = useState<any>('00:00:00');
@@ -60,7 +61,11 @@ interface CreatePackageModal{
     };
   
     const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newPrice = parseFloat(e.target.value);
+      const newPrice = e.target.value;
+      if(newPrice === '' || newPrice === null || newPrice === undefined){
+
+      }
+      // const newPrice = parseFloat(e.target.value);
       setPrice(newPrice);
       
     };
@@ -241,7 +246,7 @@ interface CreatePackageModal{
                   <b>Total Price:<span className='text-red-600'>*</span> </b>
                   </td>
                   <td>
-                  <input type="text" value= {price} onChange={handlePriceChange} className="focus:outline-none w-[15vw] h-[4vh] my-2 p-2 border rounded-md mx-4 xs:max-sm:w-[25vw] xs:max-sm:h-[3vh] xs:max-sm:my-1 xs:max-sm:mx-2 focus:ring focus:ring-blue-500"></input>
+                  <input type="number" value= {price} onChange={handlePriceChange} className="no-spinner focus:outline-none w-[15vw] h-[4vh] my-2 p-2 border rounded-md mx-4 xs:max-sm:w-[25vw] xs:max-sm:h-[3vh] xs:max-sm:my-1 xs:max-sm:mx-2 focus:ring focus:ring-blue-500"></input>
                   </td>
                 </tr>
                 <tr>
@@ -250,7 +255,7 @@ interface CreatePackageModal{
                   </td>
                   <td>
                   <input type="date" value={dateStart} onChange={handleDateStartChange} className="focus:outline-none h-[4vh] my-2 p-2 border rounded-md mx-4 xs:max-sm:w-[25vw] xs:max-sm:h-[3vh] xs:max-sm:my-1 xs:max-sm:mx-2 focus:ring focus:ring-blue-500"></input>
-                  <input type="time" value={timeStart} onChange={handleTimeStartChange} className="focus:outline-none h-[4vh] my-2 p-2 border rounded-md xs:max-sm:w-[25vw] xs:max-sm:h-[3vh] xs:max-sm:my-1 xs:max-sm:mx-2 focus:ring focus:ring-blue-500"></input>
+                  <input type="time" value={timeStart} onChange={handleTimeStartChange} className="remove-arr focus:outline-none h-[4vh] my-2 p-2 border rounded-md xs:max-sm:w-[25vw] xs:max-sm:h-[3vh] xs:max-sm:my-1 xs:max-sm:mx-2 focus:ring focus:ring-blue-500"></input>
                   <button className='duration-200 ml-2 rounded-full hover:ring-2 hover:ring-blue-400' 
               onClick={()=>{
                 setDateStart(getCurrentDate)
