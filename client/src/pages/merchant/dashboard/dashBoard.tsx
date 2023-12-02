@@ -55,7 +55,7 @@ const MerchDashboard = () => {
       const responseBooks = await axios.get(`${config.API}/reserve/retrievebooks`,{
         params: {
           year: "2023",
-          merchID: Number(localStorage.getItem('merch_ID'))
+          merchID: Number(localStorage.getItem('merch_id'))
         }
       })
      
