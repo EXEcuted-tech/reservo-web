@@ -6,7 +6,13 @@ import axios from 'axios'
 const AllBookings: React.FC<ReserveProps> = (props) => {
   const openModal = props;
   const [reservations, setReservations] = useState<ReserveCardProps[]>([]);
+  const [date, setDate] = useState<Date | null>(null);
+  
   const merchID = Number(localStorage.getItem('merch_id'));
+
+  useEffect(() => {
+    setDate(new Date());
+  }, []);
 
   useEffect(() => {
     const col = "merchant_id";
@@ -28,11 +34,34 @@ const AllBookings: React.FC<ReserveProps> = (props) => {
   return (
     <div className='h-[82.5vh] overflow-y-auto animate-fade-in'>
       <div className='font-poppins mx-[3%] mt-[1%] mb-[1%]'>
-          <ReserveCard 
-            bookings={reservations} openModal={openModal} />
+      <h1 className='text-[1.3em] mb-4 text-[#797979] italic font-light xs:max-sm:text-[0.65em] xs:max-sm:mt-2 xs:max-sm:mb-4 xl:max-2xl:text-[0.9em]'>{`As of ${date}`}</h1>
+        {/* Group reservations by date */}
+        {groupReservationsByDate(reservations).map((group, index) => (
+          <ReserveCard key={index} bookings={group} openModal={openModal} res_date={group[0].res_date} />
+        ))}
       </div>
     </div>
   )
 }
+
+const groupReservationsByDate = (reservations: ReserveCardProps[]) => {
+  const groupedByDate: { [key: string]: ReserveCardProps[] } = {};
+
+  reservations.forEach((booking) => {
+
+    const dateKey = new Date(booking.res_date).toISOString().split('T')[0]; // Using ISO format
+
+    if (!groupedByDate[dateKey]) {
+      groupedByDate[dateKey] = [];
+    }
+
+    groupedByDate[dateKey].push(booking);
+  });
+
+  const sortedGroups = Object.keys(groupedByDate).sort();
+
+  return sortedGroups.map((key) => groupedByDate[key]);
+};
+
 
 export default AllBookings

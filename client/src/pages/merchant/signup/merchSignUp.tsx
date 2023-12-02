@@ -33,6 +33,29 @@ const MerchSignUp = () => {
   
   const handleSubmit = async (event: FormEvent) =>{
     event.preventDefault();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setErrMessage("Please enter a valid Email Address");
+      return;
+    }
+
+    const numberRegex = /^\d+$/;
+    if (!numberRegex.test(contactNum)) {
+      setErrMessage("Please input a valid Contact Number");
+      return;
+    }
+
+    if (!file) {
+      setErrMessage("Please upload Proof of Employment");
+      return;
+    }
+
+    if (!username || !business || !position || !email || !contactNum || !password || !confirmPassword) {
+      setErrMessage("All fields are required");
+      return;
+    }
+
     setIsLoading(true);
     if(password === confirmPassword){
       const file_id = await fileUpload();

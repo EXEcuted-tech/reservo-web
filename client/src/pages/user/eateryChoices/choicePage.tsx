@@ -14,6 +14,7 @@ const ChoicePage = () => {
   const [merchantData,setMerchantData]= useState<MerchCardProps[]>([]);
   const [notif,setNotif] = useState(false);
   const [searchQuery,setSearchQuery] = useState('');
+  const [filter, setFilter] = useState('option1');
 
   useEffect(()=>{
     retrieveMerchants();
@@ -77,9 +78,24 @@ const ChoicePage = () => {
     setSearchQuery(e.target.value);
   }
 
+  const HandleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilter(event.target.value);
+  };
+
   const filteredMerchants = merchantData.filter((merchant) =>
     merchant.merchant_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const sortedMerchants = [...filteredMerchants];
+
+  if(filter === 'option1'){
+    sortedMerchants.sort((a,b) => a.merchant_name.localeCompare(b.merchant_name));
+  }
+  else if(filter === 'option2'){
+    sortedMerchants.sort((a,b) => b.merchant_name.localeCompare(a.merchant_name));
+  }
+
+
 
   return (
     <div className={`font-poppins bg-[#F9F2EA] h-[80vh] animate-fade-in overscroll-y-none`}>
@@ -135,7 +151,7 @@ const ChoicePage = () => {
                   out of {"5"} businesses
                 </div>
                 <div className='mr-[4%]'>
-                  <select className='border border-slate-300 rounded-2xl px-[3%] text-[#969696] xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.7em]'>
+                  <select className='border border-slate-300 rounded-2xl px-[3%] text-[#969696] xs:max-sm:text-[0.7em] xl:max-2xl:text-[0.7em]' value={filter} onChange={HandleFilter}>
                     <option value='option1'>Sort by A-Z</option>
                     <option value='option2'>Sort by Z-A</option>
                   </select>
@@ -144,7 +160,7 @@ const ChoicePage = () => {
               
               {/* List of Merchants */}
               <div className='overflow-y-scroll snap-y h-[100%] z-10'>
-                {filteredMerchants.map((merchant, index) => (
+                {sortedMerchants.map((merchant, index) => (
                   <div className='px-[2%]'>
                     <MerchCard key={index} {...merchant} trigger={triggerNotification} />
                     <hr className='pb-[1%]'/>
