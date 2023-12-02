@@ -68,6 +68,8 @@ const ReserveForm = () => {
   }>
   >([]); 
 
+  const [unavailableDoW,setUnavailableDoW] = useState<any[]>([]);
+
   useEffect (()=>{
     retrieveMerchant();
     if(storedAcc){
@@ -225,9 +227,54 @@ const ReserveForm = () => {
 //     setExistingList(newExistingList);
 //   };
 
+    useEffect(() => {
+        const timer = setTimeout(() => {getUnavailableDays()}, 500);
+        return () => clearTimeout(timer);
+    }, [name]);
+
+const mapAbbreviatedToFull = (daysOfWeek: any[]) => {
+    console.log("Hello?!",daysOfWeek);
+    const dayMapping:any = {
+      Mon: 1,
+      Tue: 2,
+      Wed: 3,
+      Thu: 4,
+      Fri: 5,
+      Sat: 6,
+      Sun: 7,
+    };
+  
+    return daysOfWeek.map((abbreviatedDay) => dayMapping[abbreviatedDay]);
+  };
+
+const getUnavailableDays = () =>{
+    axios.get(`${config.API}/merchantsched/retrieve?col=${merchantId}`)
+    .then((res)=>{
+        if(res.data.success==true){
+            if (res.data.message[0]?.merchant_sched_settings) {
+                const merchantSchedSettings = JSON.parse(res.data.message[0]?.merchant_sched_settings);
+            
+                if (merchantSchedSettings && merchantSchedSettings.merchsched.settings.cases) {
+                    const newSettings = merchantSchedSettings.merchsched.settings;
+                    const unavailableDoW = newSettings?.cases
+                        .map((caseItem: { Unavailable_DoW: any }) => caseItem.Unavailable_DoW)
+                        .flatMap((dayString: string) => dayString.split(',').map((day) => day.trim()));
+            
+                    console.log(unavailableDoW);
+                    setUnavailableDoW(unavailableDoW);
+                }
+            } else {
+                setUnavailableDoW([]);
+            }
+        }
+    })
+}
+
   const isDisabledDay = (date: { getDay: () => any }) => {
+    const notAvailable = mapAbbreviatedToFull(unavailableDoW);
+    console.log("Not Available:" , notAvailable);
     const dayOfWeek = date.getDay();
-    return dayOfWeek === 1 || dayOfWeek === 6; // 1 represents Monday, 6 represents Saturday
+    return !notAvailable.includes(dayOfWeek);
   };
 
   return (
