@@ -83,7 +83,7 @@ const retrieveByParams = (req,res)=>{
   const orderValue = orderVal ? orderVal : col;
   const orderBy = order ? order : 'ASC';
 
-  const retrieveSpecific = `SELECT * FROM reservation WHERE ?? = ? ORDER BY ${orderValue} ${orderBy} LIMIT 10`;
+  const retrieveSpecific = `SELECT * FROM reservation WHERE ?? = ? ORDER BY ${orderValue} ${orderBy}`;
 
   db.query(retrieveSpecific, [col,val],(err, row) => {
     if (err) {

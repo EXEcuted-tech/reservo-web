@@ -9,6 +9,7 @@ import config from '../../common/config'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Pagination from '@mui/material/Pagination';
 import Notification from '../alerts/Notification'
+import EmployeeModal from '../modals/merchReviewModal/employeeModal'
 
 const theme = createTheme({
   palette: {
@@ -24,10 +25,11 @@ const MerchantApplications = () => {
   // const [merchAddress, setmerchAddress] = useState([{}])
   const [loading, setLoading] = useState(false)
   const [notif,setNotif] = useState('');
-  const [color,setColor] = useState('')
+  const [color,setColor] = useState('');
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
+  const [openEmpModal,setOpenEmpModal] = useState(false);
 
   //filter
   const [filter, setFilter] = useState('all');
@@ -60,7 +62,9 @@ const MerchantApplications = () => {
         }
         //console.log("Accounts List: ",accountsList);
         setmerchAccounts(accountsList); 
-        setLoading(false)
+        setTimeout(()=>{
+          setLoading(false)
+        },800)
     } catch (error) {
         console.log(error)
     }
@@ -74,17 +78,24 @@ const MerchantApplications = () => {
   const endIndex = startIndex + itemsPerPage;
   
   const currentData: any[] = [];
+  const approvedData: any[] = [];
   const resultData: any[] = [];
+  const resultApprovedData: any[] = [];
+
   if(merchAccounts){
     merchAccounts.forEach(accountEntry => {
       const filteredAccounts: any = {};
+      const filteredApproveAccounts: any = {};
       for (const id in accountEntry) {
         if (id === "merchant_name" || id === "logo" || id === "days_left" || id === "merchant_id" || id === "merch_status") {
           //console.log("1- AE", accountEntry[id],"\n",id);
           filteredAccounts[id] = accountEntry[id];
+          filteredApproveAccounts[id] = accountEntry[id];
           // console.log("2- FA",filteredAccounts);
         } else if (accountEntry[id].status === 'Pending') {
           filteredAccounts[id] = accountEntry[id];
+        }else if (accountEntry[id].status === 'Approved') {
+          filteredApproveAccounts[id] = accountEntry[id];
         }
       }
     
@@ -96,6 +107,10 @@ const MerchantApplications = () => {
         if(!condition){
           currentData.push(filteredAccounts);
         }
+      }
+
+      if (Object.keys(filteredApproveAccounts).length > 0) {
+        approvedData.push(filteredApproveAccounts);
       }
     });
 
@@ -136,18 +151,53 @@ const MerchantApplications = () => {
           });
 
           resultData.push(...newArray);
-        }else{
+        }else if(extraKeys.length == 1){
           //console.log("WENT IN HERE: ", entry);
           resultData.push(entry);
         } 
       }
     });
 
-    console.log("Result Data: ", resultData);
+    approvedData.forEach((entry) => {
+      console.log("APPROB: ",entry);
+      const keys = Object.keys(entry);
+
+      const extraKeys = keys.filter(key => !["days_left", "logo", "merchant_id", "merchant_name","merch_status"].includes(key));
+
+      console.log("Extra? ",extraKeys);
+      if (extraKeys.length > 1) {
+        const extraKeysObject: any = {};
+        extraKeys.forEach((key) => {
+            extraKeysObject[key] = entry[key];
+            delete entry[key];
+        });
+
+        const newArray: any[] = [];
+        extraKeys.forEach((key) => {
+            const newObject: any = {};
+              newObject[key] = extraKeysObject[key];
+              newObject["merchant_name"] = entry["merchant_name"];
+              newObject["logo"] = entry["logo"];
+              newObject["days_left"] = entry["days_left"];
+              newObject["merchant_id"] = entry["merchant_id"];
+              newObject["merch_status"] = entry["merch_status"];
+
+              if(key){
+                newArray.push(newObject);
+              }
+        });
+        resultApprovedData.push(...newArray);
+      }else if(extraKeys.length == 1){
+        resultApprovedData.push(entry);
+      } 
+    });
   }
 
-
+  //console.log("Approved DataSets: ",resultApprovedData);
+  const combinedData = resultData.concat(resultApprovedData);
   const slicedData = resultData.slice(startIndex, endIndex);
+  const slicedApproveData = resultApprovedData.slice(startIndex, endIndex);
+  const slicedCombineData = combinedData.slice(startIndex,endIndex);
 
   const fetchAccount = async (id:string) => {
     try {
@@ -165,6 +215,7 @@ const MerchantApplications = () => {
   
   const fetchDataForSlicedData = async () => {
     const newData: { [key: string]: any } = {};
+
     for (const data of resultData) {
       if (data && data[Object.keys(data)[0]]) {
         const id = Object.keys(data)[0];
@@ -172,7 +223,16 @@ const MerchantApplications = () => {
         newData[id] = result;
       }
     }
-    console.log("Fetch New Data: ",newData);
+
+    for (const data of resultApprovedData) {
+      if (data && data[Object.keys(data)[0]]) {
+        const id = Object.keys(data)[0];
+        const result = await fetchAccount(id);
+        newData[id] = result;
+      }
+    }
+
+    //console.log("Fetch New Data: ",newData);
     setAccountData(newData);
   };
 
@@ -251,8 +311,6 @@ const MerchantApplications = () => {
           fetchDataForSlicedData();
         }
       })
-
-
     })
     .catch((error) => {
       console.log("Error: ",error);
@@ -264,18 +322,25 @@ const MerchantApplications = () => {
   };
 
   //filters
-  const filteredData = slicedData.filter((data) =>{
+  const filterRecords = () => {
+    console.log("Merchant Accounts: ", merchAccounts);
+    console.log("Sliced Data: ", slicedData);
+    console.log("Sliced Approve Data: ", slicedApproveData);
+
     switch (filter) {
-      case 'pending': 
-        return data[Object.keys(data)[0]].status === 'Pending';
-      case 'approved': 
-        return data[Object.keys(data)[0]].status === 'Approved';
+      case 'pending':
+        return slicedData;
+      case 'approved':
+        return slicedApproveData;
       default:
-        return true; // All Applications
+        return slicedCombineData;
     }
-  });
+  };
+  
+  const filteredData = filterRecords();
 
   const HandleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCurrentPage(1);
     setFilter(event.target.value);
   };
 
@@ -286,9 +351,16 @@ const MerchantApplications = () => {
     }, 5200)
 }, [notif]);
 
+  const openApplicantModal=(userID:string,merch_id:number) =>{
+     setOpenEmpModal(true);
+     sessionStorage.setItem('employee_idtoView', userID);
+     sessionStorage.setItem('company_id', merch_id.toString());
+  }
+
     return (
-        <div className='font-poppins w-[100%] bg-white h-[90%] mt-[1%] rounded-ss-2xl flex-row align-center overflow-y-auto'>
+        <div className='font-poppins w-[100%] bg-white h-[90%] mt-[1%] rounded-2xl flex-row align-center overflow-y-auto'>
            {(notif !== '') && <Notification message={notif} color={color}/>}
+           {openEmpModal && <EmployeeModal setOpenEmpModal={setOpenEmpModal}/>}
           <div>
             <div className='flex items-center py-[0.9%] border-[#F3F3F3] border-b-2'>
               <p className='ml-[2%] text-gray-500 mr-[0.8%]'>Filter by:</p>
@@ -300,8 +372,8 @@ const MerchantApplications = () => {
                 </select>
             </div>
           {/* {merchTeam.filter(data => data.merch_status === 'Pending').map((data,i) => ( */}
-          {slicedData.map((data, i) => (
-          <div className='bg-white h-[172.1px] flex-row py-[0.5%] px-[2%] text-[#838383] border-[#F3F3F3] border-b-2 flex' key={i}>
+          {filteredData.map((data, i) => (
+          <div className='bg-white h-[172px] flex-row py-[0.5%] px-[2%] text-[#838383] border-[#F3F3F3] border-b-2 flex' key={i}>
           <div className='mr-[2%] pl-[3%] pt-[0.5%] flex'>
             <img src={data.logo!=null ? data.logo : 'https://imgur.com/ujJv4Jw.jpg'} className='w-[140px] h-[140px] object-cover rounded-[50px]' alt="Logo"/>
           </div>
@@ -317,11 +389,13 @@ const MerchantApplications = () => {
           </div>
           <div className='w-[25%] flex flex-col p-[1%] pb-[1.5%] ml-[3%] justify-center items-center'>
             <div className='h-[33%] bg-[#FFB800] text-center m-[2%] w-[50%] text-black rounded-xl hover:cursor-pointer'
-              onClick={()=>{ }}>
-              <div className='flex justify-center p-[1%] m-[2%]'>
-                <BiSearchAlt className='text-[1.2em] mt-[1%]'/>View More
+              onClick={()=>{ openApplicantModal(Object.keys(data)[0],data.merchant_id)}}>
+              <div className={`${data[Object.keys(data)[0]].status == 'Pending' ? 'flex justify-center p-[1%] m-[2%]' : 'flex justify-center p-[2.2%] m-[2%]'} `}>
+                <BiSearchAlt className={`text-[1.2em] mt-[1%]`}/>View More
               </div >
             </div>
+            {data[Object.keys(data)[0]].status == 'Pending' &&
+            <>
             <div className='h-[33%] bg-[#3B9C00] text-center m-[2%] w-[50%] text-white rounded-xl hover:cursor-pointer'
               onClick={() => approveApplicant(Object.keys(data)[0],data.merchant_id)}>
               <div className='flex justify-center p-[1%] m-[2%]'>
@@ -334,14 +408,16 @@ const MerchantApplications = () => {
                 <RxCross2 className='text-[1.2em] mt-[1%]'/>Deny
               </div >
             </div>
+            </>
+            }
           </div>
           </div>
           ))}
 
-            <div className="flex justify-center w-[78%] absolute bottom-1">
+            <div className="flex justify-center w-[75%] absolute bottom-1">
               <ThemeProvider theme={theme}>
                 <Pagination
-                  count={Math.ceil(resultData.length / itemsPerPage)}
+                  count={filter == 'pending' ? Math.ceil(resultData.length / itemsPerPage) : filter == 'approved' ? Math.ceil(resultApprovedData.length / itemsPerPage): Math.ceil(combinedData.length / itemsPerPage)}
                   page={currentPage}
                   onChange={handlePageChange}
                   showFirstButton

@@ -18,8 +18,10 @@ const MerchantReview = () => {
       <div className='bg-[#F3F3F3] h-[90vh] px-[3%] py-[1%]'>
         {/* Navigation Section */}
         <ul className='overflow-hidden text-[1.2em] font-bold'>
-          <li className='float-left border-[#660605] pb-[0.5%] border-b-4 mr-[5%] hover:cursor-pointer hover:translate-y-[-0.1em] transition-all' onClick={() => setActive(false)}>Merchant Applications</li>
-          <li className='hover:cursor-pointer hover:translate-y-[-0.1em] transition-all' onClick={() => setActive(true)}>Merchant Teams</li>
+          <li className={`${active==false && 'border-[#660605] border-b-4 '} float-left pb-[0.5%] mr-[5%] hover:cursor-pointer hover:translate-y-[-0.1em] transition-all`} 
+          onClick={() => setActive(false)}>Merchant Applications</li>
+          <li className={`${active==true && 'border-[#660605] border-b-4 '} float-left pb-[0.5%] mr-[5%] hover:cursor-pointer hover:translate-y-[-0.1em] transition-all`}
+          onClick={() => setActive(true)}>Merchant Teams</li>
           <hr className='border-black w-full'/>
         </ul>
         {/* Content Section */}
