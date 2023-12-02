@@ -229,15 +229,15 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                             <p className='mt-[1%] text-[1.1em] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'><span className='font-bold mr-[0.5%]'>Description:</span>
                             {merchantData?.settings ? merchantData?.settings?.description : "Coming Soon!"}</p>
                         </div>
-                        <div className='w-[30vw] xs:max-sm:w-[65vw]'>
-                        <p className='mt-[2%] text-[1.1em] xs:max-sm:text-[1em] xl:max-2xl:text-[0.8em]'>
+                        <div className='w-[40vw] xs:max-sm:w-[65vw]'>
+                            <p className='flex w-[60vw] mt-[1%] text-[1.1em] whitespace-nowrap snap-x hover:overflow-x-auto overflow-x-hidden xs:max-sm:text-[1em] xl:max-2xl:text-[0.8em]'>
                             <span className='font-bold mr-[0.8%]'>Tags:</span>
-                            {merchantData?.settings?.tags.map((tag:string, index:number) => (
-                                <span key={index} 
-                                 className='rounded-3xl bg-[#D9EFFF] border border-[#06F] text-[#06F] ml-[0.5%] mr-[1.5%]
-                                            text-[0.9em] py-[0.5%] px-[1%] xs:max-sm:mx-[1%] xl:max-2xl:mx-[1%]'>
-                                    {tag}
-                                </span>
+                                {merchantData?.settings?.tags.map((tag:string, index:number) => (
+                                    <span key={index} 
+                                    className='rounded-3xl bg-[#D9EFFF] border border-[#06F] text-[#06F] ml-[1%] snap-center
+                                                text-[0.9em] py-[0.5%] px-[1%] xs:max-sm:mx-[1%] xl:max-2xl:mx-[1%]'>
+                                        {tag}
+                                    </span>
                             ))}
                         </p>
                     </div>
@@ -306,7 +306,7 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
             <h1 className='text-[2em] font-bold xl:max-2xl:text-[1.3em]'>MENU AND PACKAGES</h1>
             <p className='text-[1.1em] xl:max-2xl:text-[0.8em]'><span className='font-bold mr-[0.5%]'>Price Range:</span>{"₱ "+minPrice+" - "+"₱ "+maxPrice}</p>
             <div className='PublishedPackages mt-[-2%]'>
-            <div className="PackageGallery flex flex-row overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl xs:max-sm:flex-col xs:max-sm:overflow-y-scroll xs:max-sm:overscroll-x-hidden xs:max-sm:mx-10 xs:max-sm:my-10 xs:max-sm:w-[80%] xl:max-2xl:h-[66vh]">
+            <div className="PackageGallery snap-x flex flex-row overflow-x-scroll overflow-y-hidden h-[60vh] mx-20 p-8 rounded-xl xs:max-sm:flex-col xs:max-sm:overflow-y-scroll xs:max-sm:overscroll-x-hidden xs:max-sm:mx-10 xs:max-sm:my-10 xs:max-sm:w-[80%] xl:max-2xl:h-[66vh]">
                 
              {packages.map((packageItem)=>(
                 <Card
@@ -336,7 +336,7 @@ const MerchDeetsBack: React.FC<MerchDeetsBackProps> = (props) => {
                 <h1 className='text-[2em] font-bold xl:max-2xl:text-[1.3em]'>CUSTOMER REVIEWS</h1>
                 <p className='text-[1.1em] xl:max-2xl:text-[0.8em]'><span className='font-bold mr-[0.5%]'>Average Rating:</span>{avg} Stars</p>
                 <p className='text-[1.1em] xl:max-2xl:text-[0.8em]'><span className='font-bold mr-[0.5%]'>Total Reviews:</span>{ratingCount} Total</p>
-                <div className='max-h-[82vh] my-[1.1%] w-[85%] ml-[5%] overflow-auto'>
+                <div className='max-h-[82vh] my-[1.1%] w-[85%] ml-[5%] snap-x overflow-auto'>
                 {feedback.map((review,index)=>(
                     <div className={`my-[1%] ${openRatingMod ? 'opacity-0.5 z-[-1]' : 'z-1'}`} >
                         <CommentSec key={index} {...review}/>

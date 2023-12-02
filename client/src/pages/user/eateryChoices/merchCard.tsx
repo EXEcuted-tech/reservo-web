@@ -68,7 +68,7 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
 
 
   return (
-    <div className='flex h-[27vh] xs:max-sm:h-auto xs:max-sm:mb-[2%] xs:max-sm:w-full xl:max-2xl:mb-[1%]'>
+    <div className='flex snap-center h-[27vh] xs:max-sm:h-auto xs:max-sm:mb-[2%] xs:max-sm:w-full xl:max-2xl:mb-[1%]'>
         <div>
             <img className='w-[262px] h-[219px] rounded-[50px] xs:max-sm:w-[300px] xs:max-sm:h-[100px] xs:max-sm:mt-[5%] xl:max-2xl:w-[182px] xl:max-2xl:h-[150px]' src={props.logo || ''}/>
         </div>
@@ -97,13 +97,13 @@ const MerchCard: React.FC<MerchCardProps> = (props) => {
                     <p className='text-[1.1em] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'><span className='font-bold mr-[0.5%]'>Price Range:</span>
                         <br className='hidden xs:max-sm:block'></br>
                             {"₱"+minPrice+" - "+"₱"+maxPrice}</p>
-                    <div className='w-[30vw] xs:max-sm:w-[24.8vw]'>
-                        <p className='mt-[1.5%] text-[1.1em] xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'>
-                            <span className='font-bold mr-[0.5%]'>Tags:</span>
+                    <div className='w-[24.5vw]  xs:max-sm:w-[24.8vw]'>
+                    <span className='font-bold mr-[0.5%]'>Tags:</span>
+                        <p className='flex mt-[1.5%] text-[1.1em] whitespace-nowrap snap-x hover:overflow-x-auto overflow-x-hidden xs:max-sm:text-[0.8em] xl:max-2xl:text-[0.8em]'>
                             {props.settings?.tags.map((tag:string, index:number) => (
                                 <span key={index} 
-                                 className='rounded-3xl bg-[#D9EFFF] border border-[#06F] text-[#06F] mr-[0.5%]
-                                            text-[0.8em] py-[0.5%] px-[1%] xs:max-sm:mx-[1%] xs:max-sm:break-inside-avoid-column xl:max-2xl:mx-[1%]'>
+                                 className='rounded-3xl bg-[#D9EFFF] border border-[#06F] text-[#06F] mr-[1%] mb-[2%] mt-[1.5%] snap-center
+                                            text-[0.8em] py-[0.5%] px-[2%] break-inside-avoid-column xs:max-sm:mx-[1%] xs:max-sm:break-inside-avoid-column xl:max-2xl:mx-[1%]'>
                                     {tag}
                                     <br className='hidden xs:max-sm:block'></br>
                                 </span>

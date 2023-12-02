@@ -98,7 +98,7 @@ const ChoicePage = () => {
 
 
   return (
-    <div className={`font-poppins bg-[#F9F2EA] h-[80vh] animate-fade-in`}>
+    <div className={`font-poppins bg-[#F9F2EA] h-[80vh] animate-fade-in overscroll-y-none`}>
         {notif &&
           <UserNotification
             icon={<BsExclamationCircle/>}
@@ -159,7 +159,7 @@ const ChoicePage = () => {
               </div>
               
               {/* List of Merchants */}
-              <div className='overflow-y-scroll h-[100%] z-10'>
+              <div className='overflow-y-scroll snap-y h-[100%] z-10'>
                 {sortedMerchants.map((merchant, index) => (
                   <div className='px-[2%]'>
                     <MerchCard key={index} {...merchant} trigger={triggerNotification} />

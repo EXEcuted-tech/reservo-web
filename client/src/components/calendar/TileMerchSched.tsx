@@ -14,7 +14,6 @@ function Tile(props:{
     showReservations: Function,
     setIsLoading: Function,
     isLoading: boolean,
-
 }) {
 
     const [count, setCount] = useState(0);
