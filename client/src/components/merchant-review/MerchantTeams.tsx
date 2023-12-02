@@ -128,7 +128,16 @@ const MerchantTeams = () => {
                         </div>  
                 </div>  
             ))}
-            <div className="flex justify-center w-full absolute bottom-8">
+            <MerchantPagination 
+            dataPerPage={recordsPerPage} 
+            totalData={currentPages.length} 
+            paginate={paginate}/>
+            </div> 
+            : <MerchantTeamDeets merchantID={selectedMerchantID}/>
+            }
+        </div>
+
+        <div className="flex justify-center w-[78%] absolute bottom-8 left-[18%]">
                 <ThemeProvider theme={theme}>
                     <Pagination
                         count={Math.ceil(merchTeam.length / recordsPerPage)}
