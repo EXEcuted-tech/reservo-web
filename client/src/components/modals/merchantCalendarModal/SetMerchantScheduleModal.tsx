@@ -114,7 +114,7 @@ const SetMerchantScheduleModal = (props:any) =>{
     }
 
     function formated_settings(){
-      
+
     }
 
     const retrieveSchedule = async () => {

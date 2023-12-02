@@ -13,7 +13,7 @@ import SetMerchantScheduleModal from '../../../components/modals/merchantCalenda
 import {mainContext} from './mainPage'
 
 const MerchantCalendar = () => {
-  const [showSetMerchSchedModal, setShowSetMerchSchedModal]:any = useContext(mainContext); //this is not working when clicking the button
+  const [showSetMerchSchedModal, setShowSetMerchSchedModal]:any = useContext(mainContext); 
     
   return (
     
