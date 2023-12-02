@@ -8,23 +8,26 @@ import config from '../../../common/config';
 
 const MerchantCalendar = () => {
   const [showSetMerchSchedModal, setShowSetMerchSchedModal]:any = useContext(mainContext); 
+  const [defaultSched, setDefaultSched] = useState([{
+          open_time: "",
+          close_time: "",
+    }])
   const retrieveSchedule = async () => {
     try {
       const schedule = await axios.get(`${config.API}/merchantsched/retrieve_sched`, {
         params: {
-          merchID: Number(localStorage.getItem('merch_id'))
+          col: Number(localStorage.getItem('merch_id'))
         }
       })
-      return schedule.data.merchant
+      setDefaultSched(schedule.data.merchant);
     }catch (error){
       console.error('Error fetching schedule:', error)
-      return []
     }
   }
 
   useEffect(() => {
     retrieveSchedule()
-  }, []);
+  }, [defaultSched]);
   return (
     
     <div className="animate-fade-in">
@@ -42,7 +45,9 @@ const MerchantCalendar = () => {
         </div>
 
         <div className='w-[65%]'>
-          {/* Insert content here sa set schedule nga chuchu*/}
+          <p>
+            <strong>Opens</strong> at <strong>{defaultSched[0].open_time}</strong> to <strong>{defaultSched[0].close_time}</strong>.
+          </p>
         </div>
 
 
