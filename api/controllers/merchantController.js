@@ -175,10 +175,10 @@ const retrieveByParams = (req,res)=>{
             res.status(500).json({error: 'Error retrieving data'})
         }
         else{
-            const parsedAddress = result[0].address ? JSON.parse(result[0].address) : null;
-            const parsedSettings = result[0].settings ? JSON.parse(result[0].settings) : null;
-            const parsedAccounts = result[0].accounts ? JSON.parse(result[0].accounts) : null;
-            const parsedForm = result[0].form_deets ? JSON.parse(result[0].form_deets) : null;
+            const parsedAddress = result[0]?.address ? JSON.parse(result[0].address) : null;
+            const parsedSettings = result[0]?.settings ? JSON.parse(result[0].settings) : null;
+            const parsedAccounts = result[0]?.accounts ? JSON.parse(result[0].accounts) : null;
+            const parsedForm = result[0]?.form_deets ? JSON.parse(result[0].form_deets) : null;
 
             return res.status(200).json({
                 status: 200,
