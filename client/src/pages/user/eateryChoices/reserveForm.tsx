@@ -10,6 +10,8 @@ import DangerReserve from '../../../components/box/dangerReserve'
 import { convertTime } from '../../../common/functions'
 import Spinner from '@material-tailwind/react/components/Spinner'
 import RatingModal from '../../../components/modals/ratingModal/RatingModal'
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const ReserveForm = () => {
   const navigate = useNavigate();
@@ -65,6 +67,8 @@ const ReserveForm = () => {
     value: string;
   }>
   >([]); 
+
+  const [unavailableDoW,setUnavailableDoW] = useState<any[]>([]);
 
   useEffect (()=>{
     retrieveMerchant();
@@ -147,6 +151,7 @@ const ReserveForm = () => {
   const submitReservation = async (event: { preventDefault: () => void }) =>{
     event.preventDefault();
     setIsLoading(true);
+    
     if(date=='' || timestart=='' || location == '' || size==0 || email=='' || payment==0 || packId==0 ){
         setErrMess("Please fill in all the details.")
     }
@@ -155,8 +160,9 @@ const ReserveForm = () => {
         await createPayment();
         await createInventory();
         const formattedTime = convertTime(timestart);
+        const formattedDate = formatToYYYYMMDD(date);
         await axios.post(`${config.API}/reserve/create`, {
-            date: date,
+            date: formattedDate,
             timestart: formattedTime,
             location: location,
             size: size,
@@ -195,6 +201,14 @@ const ReserveForm = () => {
     }
   }
 
+  function formatToYYYYMMDD(dateString: string | number | Date) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   const handleAdditionalChange = ({ event, fieldIndex }: { event: any; fieldIndex: number }) =>{
     const modifiedList = existingList.map((item, index) => {
         return index === fieldIndex ? { ...item, value: event.target.value } : item;
@@ -212,6 +226,56 @@ const ReserveForm = () => {
   
 //     setExistingList(newExistingList);
 //   };
+
+    useEffect(() => {
+        const timer = setTimeout(() => {getUnavailableDays()}, 500);
+        return () => clearTimeout(timer);
+    }, [name]);
+
+const mapAbbreviatedToFull = (daysOfWeek: any[]) => {
+    console.log("Hello?!",daysOfWeek);
+    const dayMapping:any = {
+      Mon: 1,
+      Tue: 2,
+      Wed: 3,
+      Thu: 4,
+      Fri: 5,
+      Sat: 6,
+      Sun: 7,
+    };
+  
+    return daysOfWeek.map((abbreviatedDay) => dayMapping[abbreviatedDay]);
+  };
+
+const getUnavailableDays = () =>{
+    axios.get(`${config.API}/merchantsched/retrieve?col=${merchantId}`)
+    .then((res)=>{
+        if(res.data.success==true){
+            if (res.data.message[0]?.merchant_sched_settings) {
+                const merchantSchedSettings = JSON.parse(res.data.message[0]?.merchant_sched_settings);
+            
+                if (merchantSchedSettings && merchantSchedSettings.merchsched.settings.cases) {
+                    const newSettings = merchantSchedSettings.merchsched.settings;
+                    const unavailableDoW = newSettings?.cases
+                        .map((caseItem: { Unavailable_DoW: any }) => caseItem.Unavailable_DoW)
+                        .flatMap((dayString: string) => dayString.split(',').map((day) => day.trim()));
+            
+                    console.log(unavailableDoW);
+                    setUnavailableDoW(unavailableDoW);
+                }
+            } else {
+                setUnavailableDoW([]);
+            }
+        }
+    })
+}
+
+  const isDisabledDay = (date: { getDay: () => any }) => {
+    const notAvailable = mapAbbreviatedToFull(unavailableDoW);
+    console.log("Not Available:" , notAvailable);
+    const dayOfWeek = date.getDay();
+    return !notAvailable.includes(dayOfWeek);
+  };
 
   return (
     <div className=' animate-fade-in font-poppins bg-[#F9F2EA] h-[100%]'>
@@ -253,7 +317,21 @@ const ReserveForm = () => {
          <div className='flex px-[4%] py-[2%] xs:max-sm:flex-col xs:max-sm:py-[7%] xs:max-sm:pb-0'>
             <div className='w-[20%] pl-[0.5%] mr-[6%] xs:max-sm:w-[95%]'>
                 {clickOne && <label className='animate-slide-up absolute mt-[-1%] text-[#838383] xs:max-sm:mt-[-5%]'>Date</label>}
-                <input 
+                <DatePicker
+                    selected={date ? new Date(date) : null}
+                    value={date}
+                    onChange={(date:any) => setDate(date)}
+                    placeholderText='Date'
+                    dateFormat='yyyy-MM-dd'
+                    onFocus={(e) => {
+                        e.target.style.outline = 'none';
+                        setClickOne(true)
+                    }}
+                    filterDate={isDisabledDay}
+                    className='text-[#B7B7B7] text-[1.1em] w-[155%] border-b-2 border-[#B7B7B7] xs:max-sm:mb-[0%] xl:max-2xl:text-[0.9em] mb-[3%]'
+                />
+                
+                {/* <input 
                 className='text-[#B7B7B7] text-[1.1em] w-[100%] border-b-2 border-[#B7B7B7] xs:max-sm:mb-[0%] xl:max-2xl:text-[0.9em]
                 mb-[3%] '
                 type="text"
@@ -265,7 +343,7 @@ const ReserveForm = () => {
                     e.target.style.outline = 'none';
                     setClickOne(true)
                 }}
-                />
+                /> */}
             </div>
             <br/>
             <div className='w-[20%] pl-[0.5%] mr-[6%] xs:max-sm:w-[95%] xs:max-sm:mt-[2%]'>

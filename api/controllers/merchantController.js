@@ -271,10 +271,10 @@ const retrieveCountByParams = (req, res) => {
 };
 
 const retrieveMerchAccountById = (req, res) => {
-  const { merchid } = req.query
+  const { merchID } = req.query
 
   const retrieveMerchAccs = 'SELECT accounts AS merchant_accounts FROM merchant WHERE merchant_id = ?'
-  db.query(retrieveMerchAccs, [merchid], (err,acc) => {
+  db.query(retrieveMerchAccs, [merchID], (err,acc) => {
     if (err){
       console.error('Error retrieve accounts:', err)
       return res.status(500).json({
