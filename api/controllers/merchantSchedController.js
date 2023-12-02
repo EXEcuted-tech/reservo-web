@@ -13,11 +13,11 @@ const retrieveAll = (req,res)=>{
         }
         else{
             //extracting objects
-            // const parsedSettingsArray = [];
-            // for(const result of results){
-            //     const parsedSettings = JSON.parse(result.settings);
-            //     parsedSettingsArray.push(parsedSettings)
-            // }
+            const parsedSettingsArray = [];
+            for(const result of results){
+                const parsedSettings = JSON.parse(result.settings);
+                parsedSettingsArray.push(parsedSettings)
+            }
 
             return res.json({
                 success:true,
@@ -29,10 +29,10 @@ const retrieveAll = (req,res)=>{
 }
 
 const createSchedule = (req, res) => {
-    const { settings, schedStatus, timeOpen, timeClose, merchID } = req.body;
-    const insertQuery = `INSERT INTO merchant_sched (settings, sched_status, time_open, time_closed) VALUES (?, ?, ?, ?)`;
+    const { settings, timeOpen, timeClose, merchID } = req.body;
+    const insertQuery = `INSERT INTO merchant_sched (settings, time_open, time_closed) VALUES (?, ?, ?)`;
 
-    db.query(insertQuery, [settings, schedStatus, timeOpen, timeClose], (err, result) => {
+    db.query(insertQuery, [settings, timeOpen, timeClose], (err, result) => {
         if (err) {
             console.log("ERROR", err);
             return res.status(500).json({ success: false, status: 500, message: 'Failed to Add Schedule!' });

@@ -1,20 +1,28 @@
 import React, { useEffect, useContext } from 'react'
 import { Fragment, useRef, useState } from "react";
-import MerchAdHeader from '../../../components/headers/MerchAdHeader'
-import { RiReservedFill } from 'react-icons/ri'
-import MerchantLayout from '../../../components/layout/MerchantLayout';
-import ButtonC from '../../../components/calendar/ButtonC';
-import { GrNext, GrPrevious } from 'react-icons/gr';
-import Button from './Component/Button';
-import ReservationList from '../../../components/calendar/ReservationDetail';
-import ReservationsList from '../../../components/calendar/ReservationsList';
 import CalendarMerchSched from '../../../components/calendar/CalendarMerchSched';
-import SetMerchantScheduleModal from '../../../components/modals/merchantCalendarModal/SetMerchantScheduleModal';
 import {mainContext} from './mainPage'
+import axios from 'axios';
+import config from '../../../common/config';
+
 
 const MerchantCalendar = () => {
   const [showSetMerchSchedModal, setShowSetMerchSchedModal]:any = useContext(mainContext); 
-    
+  const retrieveSchedule = async () => {
+    try {
+      const schedule = await axios.get(`${config.API}/merchantsched/retrieve_sched`, {
+        params: {
+          merchID: Number(localStorage.getItem('merch_id'))
+        }
+      })
+      return schedule.data.merchant
+    }catch (error){
+      console.error('Error fetching schedule:', error)
+      return []
+    }
+  }
+
+  // useEffect
   return (
     
     <div className="animate-fade-in">
