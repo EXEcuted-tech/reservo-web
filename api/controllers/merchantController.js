@@ -167,14 +167,22 @@ const retrieveAll = (req,res)=>{
 }
 
 //Only retrieves singular record (Wa lang nako gi-ilisan kay daghan nag naka-depend ani nga function)
-const retrieveByParams = (req,res)=>{
+const retrieveByParams = (req, res) => {
     const { col, val } = req.query;
     console.log(`SELECT * FROM merchant WHERE ${col} = ${val}`)
     db.query('SELECT * FROM merchant WHERE ?? = ?', [col, val], (error, result) => {
-        if(error){
-            res.status(500).json({error: 'Error retrieving data'})
-        }
-        else{
+        if (error) {
+            res.status(500).json({ error: 'Error retrieving data' })
+        } else {
+            if (result.length === 0) {
+                // Handle the case where no results were found
+                return res.status(404).json({
+                    status: 404,
+                    success: false,
+                    message: 'Error retrieving data'
+                });
+            }
+
             const parsedAddress = result[0]?.address ? JSON.parse(result[0].address) : null;
             const parsedSettings = result[0]?.settings ? JSON.parse(result[0].settings) : null;
             const parsedAccounts = result[0]?.accounts ? JSON.parse(result[0].accounts) : null;
@@ -192,6 +200,7 @@ const retrieveByParams = (req,res)=>{
         }
     })
 }
+
 
 //Retrieves multiple records (Wa lang nako gi-ilisan kay daghan nag naka-depend ani nga function)
 const retrieveMultipleByParams = (req,res)=>{
