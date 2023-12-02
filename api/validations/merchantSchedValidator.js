@@ -1,3 +1,6 @@
+const express = require('express');
+const app = express();
+
 const createSchedValidator = (req,res,next)=>{
     console.log("REQUEST PAYLOAD: \n", req.body)
 

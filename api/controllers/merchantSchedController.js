@@ -2,8 +2,8 @@ const express = require('express');
 const db = require('./a_db'); 
 
 const retrieveAll = (req,res)=>{
-    const merchID = req.query
-    db.query('SELECT merchant_sched.settings, merchant_sched.sched_status, merchant_sched.time_open, merchant_sched.time_closed FROM merchant, merchant_sched WHERE merchant.merchant_id = ? AND merchant.sched_id = merchant_sched.sched_id',[merchID], (error, results) => {
+    const {merchID} = req.query
+    db.query('SELECT merchant_sched.settings, merchant_sched.sched_status, TIME(merchant_sched.time_open) as open_time, TIME(merchant_sched.time_closed) as close_time FROM merchant, merchant_sched WHERE merchant.merchant_id = ? AND merchant.sched_id = merchant_sched.sched_id',[merchID], (error, results) => {
         if(error){
             res.status(500).json({
                 status: 500,
@@ -13,34 +13,45 @@ const retrieveAll = (req,res)=>{
         }
         else{
             //extracting objects
-            const parsedSettingsArray = [];
-            for(const result of results){
-                const parsedSettings = JSON.parse(result.settings);
-                parsedSettingsArray.push(parsedSettings)
-            }
+            // const parsedSettingsArray = [];
+            // for(const result of results){
+            //     const parsedSettings = JSON.parse(result.settings);
+            //     parsedSettingsArray.push(parsedSettings)
+            // }
 
             return res.json({
                 success:true,
                 merchant: results,
-                settings: parsedSettings,
+                // settings: parsedSettings,
             })
         }
     })
 }
 
-const createSchedule = (req, res)=>{
-    const {settings, schedStatus, timeOpen, timeClose} = req.body;
-    sql = `INSERT INTO merchant_sched (settings, sched_status, time_open, time_closed) VALUES (?, ?, ?, ?)`;
-    db.query(sql, [settings, schedStatus, timeOpen, timeClose], (err, response)=>{
-        console.log("ERROR", err)
-        if (err){
-            return res.status(200).json({success:false,  status: 500,  message: 'Failed to Add Schedule!'});
-        }else{
-            return res.status(200).json({success:true, status: 200, message: 'Added Schedule!' });
+const createSchedule = (req, res) => {
+    const { settings, schedStatus, timeOpen, timeClose, merchID } = req.body;
+    const insertQuery = `INSERT INTO merchant_sched (settings, sched_status, time_open, time_closed) VALUES (?, ?, ?, ?)`;
+
+    db.query(insertQuery, [settings, schedStatus, timeOpen, timeClose], (err, result) => {
+        if (err) {
+            console.log("ERROR", err);
+            return res.status(500).json({ success: false, status: 500, message: 'Failed to Add Schedule!' });
         }
-        
-    })
-}
+
+        const schedID = result.insertId;
+
+        const updateQuery = `UPDATE merchant SET sched_id = ? WHERE merchant_id = ?`;
+
+        db.query(updateQuery, [schedID, merchID], (err, response) => {
+            if (err) {
+                console.log("ERROR", err);
+                return res.status(500).json({ success: false, status: 500, message: 'Failed to Update Merchant Schedule ID!' });
+            }
+
+            return res.status(200).json({ success: true, status: 200, message: 'Added Schedule!', sched: response });
+        });
+    });
+};
 
 const updateSchedule = (req, res)=>{
     const {schedID, settings, schedStatus, timeOpen, timeClose} = req.body;

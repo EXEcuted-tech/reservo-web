@@ -12,9 +12,6 @@ import CalendarMerchSched from '../../../components/calendar/CalendarMerchSched'
 import SetMerchantScheduleModal from '../../../components/modals/merchantCalendarModal/SetMerchantScheduleModal';
 import {mainContext} from './mainPage'
 
-
-
-
 const MerchantCalendar = () => {
   const [showSetMerchSchedModal, setShowSetMerchSchedModal]:any = useContext(mainContext); //this is not working when clicking the button
     
@@ -22,11 +19,24 @@ const MerchantCalendar = () => {
     
     <div className="animate-fade-in">
       <div className="h-[90vh] font-poppins bg-[#F3F3F3] p-8">
+
+      <button className=' border-black border-solid border w-[10vw] bg-slate-50 z-[100] text-black rounded-lg hover:bg-red-100'
+      onClick={()=>{
+        setShowSetMerchSchedModal(true)
+        console.log(showSetMerchSchedModal)
+      }
+      
+    }
+      >Set Schedule 
+      
+      </button>
+      
         {/* <CalendarMerchant /> */}
         <CalendarMerchSched />
 
       </div>
     </div>
+    
 
   )
 }
