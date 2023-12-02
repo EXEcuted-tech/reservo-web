@@ -6,19 +6,25 @@ import config from '../../../../common/config'
 import axios from 'axios'
 
 const ReserveCard: 
-    React.FC<{bookings: ReserveCardProps[],openModal: ReserveProps}> =  ({bookings, openModal}) => {
+    React.FC<{bookings: ReserveCardProps[],openModal: ReserveProps,res_date:string}> =  ({bookings, openModal,res_date}) => {
   
     const {setOpenModalEdit,setOpenModalView, openModalEdit, openModalView} = openModal;
-    const [date, setDate] = useState<Date | null>(null);
+
     const [newRecs, setNewRecs] = useState<Array<{ booking: ReserveCardProps; clientName: string }>>([]);
 
     useEffect(() => {
-      setDate(new Date());
-    }, []);
-
-    useEffect(() => {
+      //console.log("Reservation Date: ",res_date);
       getNewRecs();
     }, [bookings]);
+
+    const formattedDateParts = new Date(res_date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      weekday: 'long',
+    }).split(', ');
+  
+    const formattedDate = `${formattedDateParts[1]}, ${formattedDateParts[2]}, ${formattedDateParts[0]}`;
   
     const getNewRecs = async () => {
       const updatedNewRecs = [];
@@ -50,8 +56,8 @@ const ReserveCard:
 
     return (
     <div>
-        <h1 className='text-[1.3em] mb-4 text-[#797979] font-bold xs:max-sm:text-[0.65em] xs:max-sm:mt-2 xs:max-sm:mb-4 xl:max-2xl:text-[0.9em]'>{`As of ${date}`}</h1>
-        <div className={`px-[1%] bg-white rounded-lg drop-shadow opacity-0.5 xs:max-sm:w-[150%]`}
+      <h1 className='text-[1.3em] mb-[0.5%] mt-[1.5%] text-[#797979] font-bold xs:max-sm:text-[0.65em] xs:max-sm:mt-2 xs:max-sm:mb-4 xl:max-2xl:text-[0.9em]'>{formattedDate}</h1>
+        <div className={`px-[1%] bg-white rounded-lg drop-shadow opacity-0.5 mb-[5%] xs:max-sm:w-[150%]`}
             style={{opacity: openModalView || openModalEdit ? 0.25 : 1}}>
         <table className='w-[100%] mt-[0.8%]'>
         <thead className='text-[1.2em] xs:max-sm:text-[0.9em]  xl:max-2xl:text-[0.9em]'>
