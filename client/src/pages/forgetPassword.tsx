@@ -13,7 +13,7 @@ import {RiLockPasswordFill} from 'react-icons/ri'
 import {MdPassword} from 'react-icons/md'
 import {PiPasswordDuotone} from 'react-icons/pi'
 import {IoKeySharp, IoKeyOutline} from 'react-icons/io5'
-import {AiFillCheckCircle} from 'react-icons/ai'
+import {AiFillCheckCircle,AiFillExclamationCircle} from 'react-icons/ai'
 import UserNotification from '../components/alerts/UserNotification';
 import bcrypt from 'bcryptjs';
 
@@ -92,6 +92,10 @@ const ForgetPassword = () => {
         };
       }, [countdown]);
 
+      useEffect(() => {
+        console.log("Error Message: " ,errMess)
+      }, [errMess]);
+
       const triggerNotification = () =>{
         
         setTimeout(() => {
@@ -113,7 +117,14 @@ const ForgetPassword = () => {
                 message="You may now log in with your newly changed password."
             />
             }
-            {errMess !='' && <Danger message={errMess}/>}
+            {errMess !='' && 
+                    <UserNotification
+                    icon={<AiFillExclamationCircle/>}
+                    logocolor='#ff0000'
+                    title="Error!"
+                    message={errMess}
+                />
+            }
             <img className='absolute z-10 h-screen w-full' src={background} alt='background' />
             {confirmMessage ? (<div className='bg-white z-50 w-[53%] h-[65%] absolute -translate-x-2/4 -translate-y-2/4 flex items-center shadow-[4px_15px_10px_4px_gray] rounded-[7px_7px_7px_7px] left-2/4 top-2/4 xs:max-sm:w-[80%] xs:max-sm:h-[38%] xl:max-2xl:w-[50%] xl:max-2xl:h-[68%]'>
                 <div className='w-[35%] h-full bg-[rgb(221,40,3)] flex flex-col p-[40px] pt-[70px] rounded-[7px_0px_0px_7px] xs:max-sm:w-[40%] xs:max-sm:p-[10px] xs:max-sm:pt-[3rem] xl:max-2xl:w-[40%]'>
@@ -239,29 +250,27 @@ const ChangePass: React.FC<ChangePassProps> = (props) => {
             },800)
             return;
         }else{
-            const passwordMatch = await bcrypt.compare(currPass, storedPass);
-            
-            if(newPass == conNewPass && passwordMatch){
+            if(newPass == conNewPass){
                 axios.post(`${config.API}/user/edit?userID=${ID}`,{
                     passwd: newPass,
                   }).then((res)=>{
                     
                     if(res.data.success==true){
                       setChanged(true);
-                      setCurrPass('');
                       setNewPass('');
                       setConNewPass('');
                       setTimeout(()=>{
                         setIsLoading(false);
                     },800)
                       props.trigger?.()
+                    }else{
+                        props.setErrMess("Changed Password Is Not Applicable.")
+                        setTimeout(()=>{setIsLoading(false);},800)
                     }
                   }).catch((err)=>{
-                    //PUT ERROR NOTIF 
+                    props.setErrMess("Changed Password Is Not Applicable.")
+                    setTimeout(()=>{setIsLoading(false);},800)
                   })
-            }else{
-                props.setErrMess("Current Password Incorrect!")
-                setTimeout(()=>{setIsLoading(false);},800)
             }
         }
     }
@@ -302,16 +311,6 @@ const ChangePass: React.FC<ChangePassProps> = (props) => {
             {!passwordsMatch && (
                 <p className="text-red-500 text-s mt-[2%]">Passwords do not match. Please try again.</p>
             )}
-            <div className='flex items-center mt-[3%]'>
-                <PiPasswordDuotone className='h-[20px] w-[20px] xs:max-sm:w-[7px] xl:max-2xl:w-[13px]' />
-                <p className='ml-[5px] xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.7em]'>Current Password</p>
-            </div>
-            <input
-                type="password"
-                className='w-full inline-block border rounded box-border bg-[#EDF5F3] mx-0 my-2 px-5 py-2 border-solid border-[#ccc] xs:max-sm:h-[7%] xs:max-sm:my-1 xl:max-2xl:h-[13%]'
-                value={currPass}
-                onChange={(e) => setCurrPass(e.target.value)}
-            />
             <div className='flex items-center mt-[2%]'>
                 <IoKeySharp className='h-[20px] w-[20px] xs:max-sm:w-[7px] xl:max-2xl:w-[13px]' />
                 <p className='ml-[5px] xs:max-sm:text-[0.4em] xl:max-2xl:text-[0.7em]'>New Password</p>
